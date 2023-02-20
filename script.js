@@ -5,8 +5,22 @@ const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
 const displayArea = document.querySelector('#display-area');
 
-wordInput.focus(); // give focus to the input field when the page loads
+wordInput.focus(); // Give focus to the input field when the page loads
 
+
+// WORK IN PROGRESS
+// Check typed chars against real-time constraints: 
+//   1. Alpha letters only (don't let non-alpha chars be displayed at all)
+//   2. Stay within targetLength (else display 'too many letters' error)
+input.addEventListener('input', function(event) {
+  return;
+});
+
+// WORK IN PROGRESS
+// Check submitted chars against post-submission constraints:
+//   1. Stay within targetLength (else display 'too many letters' error)
+//   2. Word contains trigram (else display 'doesn't contain [trigram]' error)
+//   3. Word exists in dictionary (else display 'word not found' error)
 form.addEventListener('submit', (event) => {
   // Prevent the form from refreshing page upon submission
   event.preventDefault(); 
@@ -22,8 +36,6 @@ form.addEventListener('submit', (event) => {
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
   wordInput.focus();
-
-  // displayArea.textContent += word+"   "; // add text to output div
 });
 
 
