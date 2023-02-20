@@ -11,10 +11,28 @@ div.page-section {
     padding: 1em;
 }
 
-span.letter {
-    width: 1em;
-    height: 1em;
+div#display-area {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-direction: column-reverse;
+}
+
+div.word {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: darkred;
+    margin-bottom: 0.6em;
+}
+
+div.letter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0.1em;
     background-color: darkslategray;
     color: white;
-    margin: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
