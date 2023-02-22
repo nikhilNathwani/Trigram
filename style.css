@@ -11,6 +11,15 @@ div.page-section {
     padding: 1em;
 }
 
+div#constraint-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+div.constraint {
+    border: 1px black solid;
+}
+
 div#display-area {
     display: flex;
     flex-flow: column nowrap;
