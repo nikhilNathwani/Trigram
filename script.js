@@ -1,5 +1,5 @@
 const trigram= "cat";
-const targetLength= 5;
+var targetLength= 5;
 
 const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
@@ -30,6 +30,7 @@ form.addEventListener('submit', (event) => {
   const word = wordInput.value.trim(); //ignore whitespace at start/end
   if(checkWord(word)) {
       addWordtoDisplayArea(word);
+      incrementTargetLength();
   }
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
@@ -40,6 +41,7 @@ form.addEventListener('submit', (event) => {
 function checkWord(word) {
   const correctLength= word.length == targetLength;
   const includesTrigram= word.includes(trigram);
+  console.log(targetLength,correctLength,trigram,includesTrigram,"Both:",correctLength && word.includes(trigram))
   return correctLength && word.includes(trigram);
 }
 
@@ -56,4 +58,15 @@ function addWordtoDisplayArea(word) {
     rowDiv.appendChild(letterDiv);
   }
   displayArea.appendChild(rowDiv);
+}
+
+function incrementTargetLength() {
+  //Increment value on backend
+  targetLength++; 
+  //Increment value on frontend
+  const targetLengthUI= document.querySelector('#targetLength');
+  targetLengthUI.innerText= parseInt(targetLengthUI.innerText)+1 
+  //^may want to add error handling. E.g. if targetLengthUI is 
+  //changed to a non-integer value in dev tools. Or change it 
+  //from a <p> to an immutable svg
 }
