@@ -20,6 +20,10 @@ div#inputSection > div#constraintArea > div.constraint {
     border: 1px black solid;
 }
 
+div#errorAlertArea > p {
+    color: red;
+}
+
 div#displayArea {
     display: flex;
     flex-flow: column nowrap;

@@ -5,11 +5,6 @@ const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
 const displayArea = document.querySelector('#displayArea');
 
-const errorMessageDict= {
-  "WRONG-LENGTH": `Word must be ${targetLength} letters long.`,  
-  "TRIGRAM-MISSING": `Word must contain ${trigram.toUpperCase()}.`,
-  "NOT-FOUND": "Word not found.",
-}
 
 wordInput.focus(); // Give focus to the input field when the page loads
 
@@ -32,15 +27,18 @@ form.addEventListener('submit', (event) => {
   // Prevent the form from refreshing page upon submission
   event.preventDefault(); 
 
+  // Clear any existing error messages
+  clearExistingErrors();
+
   // Get the user's inputted text and confirm it meets constraints
   const word = wordInput.value.trim(); //ignore whitespace at start/end
   const [meetsConstraints, errors]= checkWord(word); 
   if (meetsConstraints) {
-      addWordtoDisplayArea(word, word.indexOf(trigram));
+      addWordToDisplayArea(word, word.indexOf(trigram));
       incrementTargetLength();
   }
   else {
-    errors.forEach(item => console.log(errorMessageDict[item]));
+    errors.forEach(errorCode => addErrorToErrorDisplayArea(errorCode));
   }
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
@@ -69,7 +67,34 @@ function checkWord(word) {
   return [correctLength && includesTrigram, errorCodes];
 }
 
-function addWordtoDisplayArea(word, trigramPosition) {
+function addErrorToErrorDisplayArea(errorCode) {
+  const errorArea = document.querySelector('#errorAlertArea');
+  const errorString = document.createElement('p');
+  errorString.textContent= createErrorString(errorCode);
+  errorString.classList.add('error');
+  errorArea.appendChild(errorString)
+  return;
+}
+
+function createErrorString(errorCode) {
+  switch (errorCode) {
+    case "WRONG-LENGTH": 
+      return `Word must be ${targetLength} letters long.`;
+    case "TRIGRAM-MISSING":
+      return `Word must contain ${trigram.toUpperCase()}.`;
+    case "NOT-FOUND":
+      return "Word not found.";
+    default:
+      return "An error occurred.";
+  }
+}
+
+function clearExistingErrors() {
+  const errorArea = document.querySelector('#errorAlertArea');
+  errorArea.innerHTML= "";
+}
+
+function addWordToDisplayArea(word, trigramPosition) {
   //Create row div
   const rowDiv = document.createElement('div');
   rowDiv.classList.add('word');
