@@ -3,7 +3,13 @@ var targetLength= 5;
 
 const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
-const displayArea = document.querySelector('#display-area');
+const displayArea = document.querySelector('#displayArea');
+
+const errorMessageDict= {
+  "WRONG-LENGTH": `Word must be ${targetLength} letters long.`,  
+  "TRIGRAM-MISSING": `Word must contain ${trigram.toUpperCase()}.`,
+  "NOT-FOUND": "Word not found.",
+}
 
 wordInput.focus(); // Give focus to the input field when the page loads
 
@@ -28,23 +34,39 @@ form.addEventListener('submit', (event) => {
 
   // Get the user's inputted text and confirm it meets constraints
   const word = wordInput.value.trim(); //ignore whitespace at start/end
-  const [meetsConstraints, status]= checkWord(word); 
-  if(meetsConstraints) {
-      const trigramPosition= status; //for readability
-      addWordtoDisplayArea(word, trigramPosition);
+  const [meetsConstraints, errors]= checkWord(word); 
+  if (meetsConstraints) {
+      addWordtoDisplayArea(word, word.indexOf(trigram));
       incrementTargetLength();
+  }
+  else {
+    errors.forEach(item => console.log(errorMessageDict[item]));
   }
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
   wordInput.focus();
 });
 
-//Add checks for constraints here 
+// Checks whether the inputted word meets the constraints:
+//    1. Word must be {targetLength} letters long
+//    2. Word must contain {trigram}
+//    3. Word must be in dictionary <-- NOT implemented yet
+// Returns [x,[y]] where:
+//    -x is true/false indicating whether the inputted word meets the constraints
+//    -y is an array of strings indicating which error messages to display 
 function checkWord(word) {
-  const correctLength= word.length == targetLength;
-  const includesTrigram= word.includes(trigram);
+  var errorCodes= [];
+  var correctLength= word.length == targetLength;
+  var includesTrigram= word.includes(trigram);
+  //Add error codes
+  if (!correctLength) {
+    errorCodes.push("WRONG-LENGTH");
+  }
+  if (!includesTrigram) {
+    errorCodes.push("TRIGRAM-MISSING")
+  }
   console.log(targetLength,correctLength,trigram,includesTrigram,"Both:",correctLength && word.includes(trigram))
-  return [correctLength && word.includes(trigram), word.indexOf(trigram)];
+  return [correctLength && includesTrigram, errorCodes];
 }
 
 function addWordtoDisplayArea(word, trigramPosition) {
@@ -57,6 +79,7 @@ function addWordtoDisplayArea(word, trigramPosition) {
     const letterDiv = document.createElement('div');
     letterDiv.textContent = word[i];
     letterDiv.classList.add('letter');
+    //If it's a trigram letter, apply trigram styling
     if (i>=trigramPosition && i<=trigramPosition+2) {
       letterDiv.classList.add('trigramLetter');
     }

@@ -11,28 +11,28 @@ div.page-section {
     padding: 1em;
 }
 
-div#constraint-area {
+div#inputSection > #constraintArea {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
-div.constraint {
+div#inputSection > div#constraintArea > div.constraint {
     border: 1px black solid;
 }
 
-div#display-area {
+div#displayArea {
     display: flex;
     flex-flow: column nowrap;
     flex-direction: column-reverse;
 }
 
-div.word {
+div#displayArea > div.word {
     display: flex;
     flex-flow: row nowrap;
     margin-bottom: 0.6em;
 }
 
-div.letter {
+div#displayArea > div.word > div.letter {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,11 +40,12 @@ div.letter {
     height: 1.5em;
     margin: 0.1em;
     background-color: darkslategray;
+    border: solid darkslategray 1px;
     color: white;
     text-transform: uppercase;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-div.trigramLetter {
+div#displayArea > div.word > div.trigramLetter {
     background-color: darkgoldenrod;
 }

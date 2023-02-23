@@ -3,8 +3,8 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="input-section" class="page-section"> 
-            <div id="constraint-area">
+        <div class="page-section" id="inputSection"> 
+            <div id="constraintArea">
                 <div class="constraint">
                     <h3 class="constraint-header">Today's Trigram:</h3>
                     <p class="constraint-content" id="trigram">CAT</p>
@@ -14,16 +14,17 @@
                     <p class="constraint-content" id="targetLength">5</p>
                 </div>
             </div>
-            <div id="text-input">
+            <div id="textInputArea">
                 <form>
                     <label for="wordInput">Enter word:</label>
-                    <input type="text" id="wordInput" name="wordInput">
+                    <input type="text" name="wordInput" id="wordInput">
                     <button type="submit">Enter</button>
                 </form>
             </div>
+            <div id="errorAlertArea"></div>
         </div>
-        <div id="output-section" class="page-section"> 
-            <div id="display-area"></div>
+        <div class="page-section" id="outputSection"> 
+            <div id="displayArea"></div>
         </div>    
         <script src="script.js"></script>
     </body>
