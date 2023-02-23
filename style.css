@@ -29,7 +29,6 @@ div#display-area {
 div.word {
     display: flex;
     flex-flow: row nowrap;
-    background-color: darkred;
     margin-bottom: 0.6em;
 }
 
@@ -44,4 +43,8 @@ div.letter {
     color: white;
     text-transform: uppercase;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+div.trigramLetter {
+    background-color: darkgoldenrod;
 }

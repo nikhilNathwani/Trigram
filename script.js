@@ -28,8 +28,10 @@ form.addEventListener('submit', (event) => {
 
   // Get the user's inputted text and confirm it meets constraints
   const word = wordInput.value.trim(); //ignore whitespace at start/end
-  if(checkWord(word)) {
-      addWordtoDisplayArea(word);
+  const [meetsConstraints, status]= checkWord(word); 
+  if(meetsConstraints) {
+      const trigramPosition= status; //for readability
+      addWordtoDisplayArea(word, trigramPosition);
       incrementTargetLength();
   }
   //Clear input field and return keyboard focus to it
@@ -42,10 +44,10 @@ function checkWord(word) {
   const correctLength= word.length == targetLength;
   const includesTrigram= word.includes(trigram);
   console.log(targetLength,correctLength,trigram,includesTrigram,"Both:",correctLength && word.includes(trigram))
-  return correctLength && word.includes(trigram);
+  return [correctLength && word.includes(trigram), word.indexOf(trigram)];
 }
 
-function addWordtoDisplayArea(word) {
+function addWordtoDisplayArea(word, trigramPosition) {
   //Create row div
   const rowDiv = document.createElement('div');
   rowDiv.classList.add('word');
@@ -55,6 +57,9 @@ function addWordtoDisplayArea(word) {
     const letterDiv = document.createElement('div');
     letterDiv.textContent = word[i];
     letterDiv.classList.add('letter');
+    if (i>=trigramPosition && i<=trigramPosition+2) {
+      letterDiv.classList.add('trigramLetter');
+    }
     rowDiv.appendChild(letterDiv);
   }
   displayArea.appendChild(rowDiv);
