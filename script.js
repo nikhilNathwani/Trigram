@@ -5,24 +5,22 @@ const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
 const displayArea = document.querySelector('#displayArea');
 
-
 wordInput.focus(); // Give focus to the input field when the page loads
-
 
 // WORK IN PROGRESS
 // Check typed chars against real-time constraints: 
-//   1. Alpha letters only (don't let non-alpha chars be displayed at all)
-//   2. Stay within targetLength (else display 'too many letters' error)
-//   3. Don't allow copy/paste
+//   1. [PENDING] Alpha letters only (don't let non-alpha chars be displayed at all)
+//   2. [PENDING] Stay within targetLength (else display 'too many letters' error)
+//   3. [PENDING] Don't allow copy/paste
 form.addEventListener('input', function(event) {
   return;
 });
 
 // WORK IN PROGRESS
 // Check submitted chars against post-submission constraints:
-//   1. Stay within targetLength (else display 'too many letters' error)
-//   2. Word contains trigram (else display 'doesn't contain [trigram]' error)
-//   3. Word exists in dictionary (else display 'word not found' error)
+//   1. [DONE] Stay within targetLength (else display 'too many letters' error)
+//   2. [DONE] Word contains trigram (else display 'doesn't contain [trigram]' error)
+//   3. [PENDING] Word exists in dictionary (else display 'word not found' error)
 form.addEventListener('submit', (event) => {
   // Prevent the form from refreshing page upon submission
   event.preventDefault(); 
@@ -30,7 +28,7 @@ form.addEventListener('submit', (event) => {
   // Clear any existing error messages
   clearExistingErrors();
 
-  // Get the user's inputted text and confirm it meets constraints
+  // Get the user's inputted text and check if it meets constraints
   const word = wordInput.value.trim(); //ignore whitespace at start/end
   const [meetsConstraints, errors]= checkWord(word); 
   if (meetsConstraints) {
@@ -40,15 +38,16 @@ form.addEventListener('submit', (event) => {
   else {
     errors.forEach(errorCode => addErrorToErrorDisplayArea(errorCode));
   }
+
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
   wordInput.focus();
 });
 
 // Checks whether the inputted word meets the constraints:
-//    1. Word must be {targetLength} letters long
-//    2. Word must contain {trigram}
-//    3. Word must be in dictionary <-- NOT implemented yet
+//    1. [DONE] Word must be {targetLength} letters long
+//    2. [DONE] Word must contain {trigram}
+//    3. [PENDING] Word must be in dictionary
 // Returns [x,[y]] where:
 //    -x is true/false indicating whether the inputted word meets the constraints
 //    -y is an array of strings indicating which error messages to display 
@@ -63,20 +62,19 @@ function checkWord(word) {
   if (!includesTrigram) {
     errorCodes.push("TRIGRAM-MISSING")
   }
-  console.log(targetLength,correctLength,trigram,includesTrigram,"Both:",correctLength && word.includes(trigram))
   return [correctLength && includesTrigram, errorCodes];
 }
 
 function addErrorToErrorDisplayArea(errorCode) {
   const errorArea = document.querySelector('#errorAlertArea');
   const errorString = document.createElement('p');
-  errorString.textContent= createErrorString(errorCode);
+  errorString.textContent= lookupErrorString(errorCode);
   errorString.classList.add('error');
   errorArea.appendChild(errorString)
   return;
 }
 
-function createErrorString(errorCode) {
+function lookupErrorString(errorCode) {
   switch (errorCode) {
     case "WRONG-LENGTH": 
       return `Word must be ${targetLength} letters long.`;
