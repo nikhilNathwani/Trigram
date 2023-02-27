@@ -1,16 +1,26 @@
-const keys = document.querySelectorAll(".key");
-const input = document.querySelector(".input");
+const keys = document.querySelectorAll(".keyboard-key");
+const inputs = document.querySelectorAll(".input input");
 
 keys.forEach(key => {
   key.addEventListener("click", () => {
-    input.value += key.dataset.letter;
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].value === "") {
+        inputs[i].value = key.dataset.letter;
+        break;
+      }
+    }
   });
 });
 
 document.addEventListener("keydown", e => {
   const key = e.key.toUpperCase();
-  const matchingKey = document.querySelector(`.key[data-letter="${key}"]`);
+  const matchingKey = document.querySelector(`.keyboard-key[data-letter="${key}"]`);
   if (matchingKey) {
-    input.value += key;
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].value === "") {
+        inputs[i].value = key;
+        break;
+      }
+    }
   }
 });

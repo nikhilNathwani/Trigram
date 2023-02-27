@@ -54,19 +54,19 @@ div#displayArea > div.word > div.trigramLetter {
     background-color: darkgoldenrod;
 }
 
-.keyboard {
+div.keyboard {
     display: flex;
     flex-direction: column;
     margin: 10px 0;
-  }
-  
-  .row {
+}
+
+div.keyboard > div.keyboard-row {
     display: flex;
     justify-content: center;
     margin-bottom: 5px;
-  }
-  
-  .key {
+}
+
+div.keyboard > div.keyboard-row > div.keyboard-key {
     width: 50px;
     height: 50px;
     margin: 0 5px;
@@ -76,13 +76,13 @@ div#displayArea > div.word > div.trigramLetter {
     background-color: white;
     color: black;
     cursor: pointer;
-  }
-  
-  .key:hover {
+}
+
+div.keyboard > div.keyboard-row > div.keyboard-key:hover {
     background-color: lightgray;
-  }
-  
-  .input {
+}
+
+.input {
     width: 200px;
     height: 30px;
     margin-top: 10px;
@@ -90,5 +90,4 @@ div#displayArea > div.word > div.trigramLetter {
     border: 1px solid black;
     border-radius: 5px;
     padding: 5px;
-  }
-  
+}
