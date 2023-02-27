@@ -1,26 +1,21 @@
-const trigram= "cat";
+const trigram= "CAT";
 var targetLength= 5;
 
-const form = document.querySelector('form.old');
-const wordInput = document.querySelector('#wordInput');
+const form = document.querySelector('form.new');
 const displayArea = document.querySelector('#displayArea');
 
-wordInput.focus(); // Give focus to the input field when the page loads
+// wordInput.focus(); // Give focus to the input field when the page loads
 
-// WORK IN PROGRESS
-// Check typed chars against real-time constraints: 
-//   1. [PENDING] Alpha letters only (don't let non-alpha chars be displayed at all)
-//   2. [PENDING] Stay within targetLength (else display 'too many letters' error)
-//   3. [PENDING] Don't allow copy/paste
-form.addEventListener('input', function(event) {
-  return;
-});
+function getWord() {
+    var word= "";
+    for (let i = 0; i < inputs.length; i++) {
+        word += inputs[i].value;
+    }
+    console.log(word);
+    return word;
+}
 
-// WORK IN PROGRESS
 // Check submitted chars against post-submission constraints:
-//   1. [DONE] Stay within targetLength (else display 'too many letters' error)
-//   2. [DONE] Word contains trigram (else display 'doesn't contain [trigram]' error)
-//   3. [PENDING] Word exists in dictionary (else display 'word not found' error)
 form.addEventListener('submit', (event) => {
   // Prevent the form from refreshing page upon submission
   event.preventDefault(); 
@@ -29,7 +24,7 @@ form.addEventListener('submit', (event) => {
   clearExistingErrors();
 
   // Get the user's inputted text and check if it meets constraints
-  const word = wordInput.value.trim(); //ignore whitespace at start/end
+  const word = getWord();
   const [meetsConstraints, errors]= checkWord(word); 
   if (meetsConstraints) {
       addWordToDisplayArea(word, word.indexOf(trigram));
@@ -62,6 +57,7 @@ function checkWord(word) {
   if (!includesTrigram) {
     errorCodes.push("TRIGRAM-MISSING")
   }
+  console.log(word, word.length, trigram, word.includes(trigram), correctLength, includesTrigram)
   return [correctLength && includesTrigram, errorCodes];
 }
 
@@ -79,7 +75,7 @@ function lookupErrorString(errorCode) {
     case "WRONG-LENGTH": 
       return `Word must be ${targetLength} letters long.`;
     case "TRIGRAM-MISSING":
-      return `Word must contain ${trigram.toUpperCase()}.`;
+      return `Word must contain ${trigram}.`;
     case "NOT-FOUND":
       return "Word not found.";
     default:

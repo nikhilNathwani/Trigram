@@ -15,13 +15,24 @@
                 </div>
             </div>
             <div id="textInputArea">
-                <form>
+                <form class="old">
                     <label for="wordInput">Enter word:</label>
                     <input type="text" name="wordInput" id="wordInput">
                     <button type="submit">Enter</button>
                 </form>
             </div>
             <div id="errorAlertArea"></div>
+            <div class="input">
+                <form class="new">
+                    <input type="text" maxlength="1" size="1" readonly>
+                    <input type="text" maxlength="1" size="1" readonly>
+                    <input type="text" maxlength="1" size="1" readonly>
+                    <input type="text" maxlength="1" size="1" readonly>
+                    <input type="text" maxlength="1" size="1" readonly>
+                    <input type="text" maxlength="1" size="1" readonly>
+                    <button type="submit">Enter *new*</button>
+                </form>
+              </div>
             <div class="keyboard">
                 <div class="keyboard-row">
                   <button class="keyboard-key" data-letter="Q">Q</button>
@@ -57,22 +68,12 @@
                 </div>
               </div>
               
-              <!-- <input type="text" class="input" readonly> -->
-              <div class="input">
-                <input type="text" maxlength="1" size="1" readonly>
-                <input type="text" maxlength="1" size="1" readonly>
-                <input type="text" maxlength="1" size="1" readonly>
-                <input type="text" maxlength="1" size="1" readonly>
-                <input type="text" maxlength="1" size="1" readonly>
-                <input type="text" maxlength="1" size="1" readonly>
-              </div>
-              
               
         </div>
         <div class="page-section" id="outputSection"> 
             <div id="displayArea"></div>
         </div>    
-        <script src="script.js"></script>
+        <script src="scriptRedesign.js"></script>
         <script src="keyboard.js"></script>
     </body>
 </html>
