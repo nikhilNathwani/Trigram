@@ -1,4 +1,4 @@
-const trigram= "cat";
+const trigram= "CAT";
 var targetLength= 5;
 
 const form = document.querySelector('form');
@@ -63,7 +63,7 @@ function lookupErrorString(errorCode) {
     case "WRONG-LENGTH": 
       return `Word must be ${targetLength} letters long.`;
     case "TRIGRAM-MISSING":
-      return `Word must contain ${trigram.toUpperCase()}.`;
+      return `Word must contain ${trigram}.`;
     case "NOT-FOUND":
       return "Word not found.";
     default:
