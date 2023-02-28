@@ -5,8 +5,6 @@ const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
 const displayArea = document.querySelector('#displayArea');
 
-wordInput.focus(); // Give focus to the input field when the page loads
-
 // WORK IN PROGRESS
 // Check typed chars against real-time constraints: 
 //   1. [PENDING] Alpha letters only (don't let non-alpha chars be displayed at all)
@@ -41,7 +39,6 @@ form.addEventListener('submit', (event) => {
 
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
-  wordInput.focus();
 });
 
 // Checks whether the inputted word meets the constraints:
