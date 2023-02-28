@@ -5,20 +5,7 @@ const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
 const displayArea = document.querySelector('#displayArea');
 
-// WORK IN PROGRESS
-// Check typed chars against real-time constraints: 
-//   1. [PENDING] Alpha letters only (don't let non-alpha chars be displayed at all)
-//   2. [PENDING] Stay within targetLength (else display 'too many letters' error)
-//   3. [PENDING] Don't allow copy/paste
-form.addEventListener('input', function(event) {
-  return;
-});
-
-// WORK IN PROGRESS
 // Check submitted chars against post-submission constraints:
-//   1. [DONE] Stay within targetLength (else display 'too many letters' error)
-//   2. [DONE] Word contains trigram (else display 'doesn't contain [trigram]' error)
-//   3. [PENDING] Word exists in dictionary (else display 'word not found' error)
 form.addEventListener('submit', (event) => {
   // Prevent the form from refreshing page upon submission
   event.preventDefault(); 
