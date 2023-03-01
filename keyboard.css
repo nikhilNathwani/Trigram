@@ -1,0 +1,27 @@
+div.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    /* background-color: azure; */
+}
+
+div.keyboard > div.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.25em;
+}
+
+div.keyboard > div.keyboard-row > button.keyboard-key {
+    min-width: 1.75em;
+    min-height: 2em;
+    border: transparent;
+    border-radius: 4px;
+    background-color: #999;
+    font-size: 0.75em;
+    color: white;
+    cursor: pointer;
+}
+
+div.keyboard > div.keyboard-row > button.keyboard-key:hover {
+    background-color: #666;
+}
