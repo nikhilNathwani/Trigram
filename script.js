@@ -5,11 +5,7 @@ const form = document.querySelector('form');
 const wordInput = document.querySelector('#wordInput');
 const displayArea = document.querySelector('#displayArea');
 
-// Check submitted chars against post-submission constraints:
-form.addEventListener('submit', (event) => {
-  // Prevent the form from refreshing page upon submission
-  event.preventDefault(); 
-
+function submitWord() {
   // Clear any existing error messages
   clearExistingErrors();
 
@@ -26,7 +22,7 @@ form.addEventListener('submit', (event) => {
 
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
-});
+}
 
 // Checks whether the inputted word meets the constraints:
 //    1. [DONE] Word must be {targetLength} letters long

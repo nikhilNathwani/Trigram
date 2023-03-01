@@ -10,7 +10,7 @@ keys.forEach(key => {
 document.addEventListener("keydown", e => {
   //If key is 'Enter', treat as a Submit action
   if (e.key === "Enter") {
-    return;
+    submitWord();
   }
   //If key is 'Backspace', delete last char (if there is one)
   if (e.key === "Backspace") {
