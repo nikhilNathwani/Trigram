@@ -1,29 +1,43 @@
 const keys = document.querySelectorAll(".keyboard-key");
 const input = document.querySelector("input");
 
+//Event listeners for clicking on the on-screen keyboard
 keys.forEach(key => {
   key.addEventListener("click", () => { 
-    input.value += key.dataset.letter; 
+    console.log("Click event:",key);
+    if(key.id=="enterKey") { 
+      handleKeyPress("Enter");
+    }
+    else if(key.id=="backspaceKey") { 
+      handleKeyPress("Backspace"); 
+    }
+    else {
+      handleKeyPress(key.dataset.letter);
+    }
   });
 });
 
+//Event listener for typing on physical keyboard
 document.addEventListener("keydown", e => {
+  console.log("Keydown event:", e);
+  handleKeyPress(e.key);
+});
+
+function handleKeyPress(key) {
   //If key is 'Enter', treat as a Submit action
-  if (e.key === "Enter") {
+  if (key === "Enter") {
     submitWord();
-  }
-  //If key is 'Backspace', delete last char (if there is one)
-  if (e.key === "Backspace") {
+  } 
+  else if (key === "Backspace") {
     if (input.value.length>0) {
-      input.value= input.value.slice(0,-1);
+      input.value = input.value.slice(0,-1);
+    }
+  } 
+  else {
+    const letter = key.toUpperCase();
+    const matchingKey = document.querySelector(`.keyboard-key[data-letter="${letter}"]`);
+    if (matchingKey) {
+      input.value += letter;
     }
   }
-
-  const key = e.key.toUpperCase();
-  console.log(e,e.key,e.key.toUpperCase());
-  const matchingKey = document.querySelector(`.keyboard-key[data-letter="${key}"]`);
-  // console.log(matchingKey);
-  if (matchingKey) {
-    input.value += key;
-  }
-});
+}
