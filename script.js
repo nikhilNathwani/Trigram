@@ -8,7 +8,6 @@ const displayArea = document.querySelector('#displayArea');
 function submitWord() {
   // Clear any existing error messages
   clearExistingErrors();
-
   // Get the user's inputted text and check if it meets constraints
   const word = wordInput.value.trim(); //ignore whitespace at start/end
   const [meetsConstraints, errors]= checkWord(word); 
@@ -19,15 +18,10 @@ function submitWord() {
   else {
     errors.forEach(errorCode => addErrorToErrorDisplayArea(errorCode));
   }
-
   //Clear input field and return keyboard focus to it
   wordInput.value = '';
 }
 
-// Checks whether the inputted word meets the constraints:
-//    1. [DONE] Word must be {targetLength} letters long
-//    2. [DONE] Word must contain {trigram}
-//    3. [PENDING] Word must be in dictionary
 // Returns [x,[y]] where:
 //    -x is true/false indicating whether the inputted word meets the constraints
 //    -y is an array of strings indicating which error messages to display 
@@ -76,7 +70,6 @@ function addWordToDisplayArea(word, trigramPosition) {
   //Create row div
   const rowDiv = document.createElement('div');
   rowDiv.classList.add('word');
-
   //Create letter divs for each letter in the word
   for (let i = 0; i < word.length; i++) {
     const letterDiv = document.createElement('div');
