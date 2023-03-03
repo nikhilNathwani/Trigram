@@ -14,7 +14,7 @@ body {
 
 div#pageContainer {
 	display: grid;
-	grid-template-rows: 1.75em 3.5em 1.75em 1fr min-content;
+	grid-template-rows: 1.75em min-content 1.75em 1fr min-content;
 	height: 100vh;
 	min-width: 16.5em;
 	max-width: 30em;
@@ -24,6 +24,7 @@ div#pageContainer {
 div#header {
 	background-color: brown;
 	display: flex;
+	font-size: 0.75rem;
 }
 
 div#header > p {
@@ -31,13 +32,9 @@ div#header > p {
 }
 
 div#constraintArea {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
 	background-color: lightblue;
-}
-
-div#constraintArea > div.constraint {
-	border: 1px black solid;
+	text-align: center;
+	font-size: 0.75rem;
 }
 
 div#errorAlertArea > p {
@@ -90,7 +87,7 @@ div#inputArea > div#textField {
 }
 
 div#inputArea > div#textField > input::placeholder {
-	font-size: 0.75em;
+	font-size: 0.75rem;
 	font-style: italic;
 	text-align: center;
 }
