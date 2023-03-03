@@ -14,7 +14,7 @@ body {
 
 div#pageContainer {
 	display: grid;
-	grid-template-rows: 1.75em 1fr min-content;
+	grid-template-rows: 1.75em 3.5em 1.75em 1fr min-content;
 	height: 100vh;
 	min-width: 16.5em;
 	max-width: 30em;
@@ -28,10 +28,6 @@ div#header {
 
 div#header > p {
 	margin: auto;
-}
-
-div#gameArea {
-	background-color: midnightblue;
 }
 
 div#constraintArea {
@@ -52,6 +48,8 @@ div#displayArea {
 	display: flex;
 	flex-flow: column nowrap;
 	flex-direction: column-reverse;
+	background-color: midnightblue;
+	overflow-y: scroll;
 }
 
 div#displayArea > div.word {
