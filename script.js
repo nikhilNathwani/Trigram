@@ -86,9 +86,10 @@ function addWordToDisplayArea(word, trigramPosition) {
 function incrementTargetLength() {
 	//Increment value on backend
 	targetLength++;
-	//Increment value on frontend
-	const targetLengthUI = document.querySelector("#targetLength");
-	targetLengthUI.innerText = parseInt(targetLengthUI.innerText) + 1;
+
+	//Increment value on frontend (TEMPORARILY REMOVED)
+	// const targetLengthUI = document.querySelector("#targetLength");
+	// targetLengthUI.innerText = parseInt(targetLengthUI.innerText) + 1;
 	//^may want to add error handling. E.g. if targetLengthUI is
 	//changed to a non-integer value in dev tools. Or change it
 	//from a <p> to an immutable svg
