@@ -81,9 +81,16 @@ div#inputArea {
 	margin-inline: auto;
 	display: flex;
 	flex-flow: column nowrap;
-	gap: 1em;
+	gap: 0.375em;
+	padding: 0.375em;
 }
 
 div#inputArea > div#textField {
 	margin: auto;
+}
+
+div#inputArea > div#textField > input::placeholder {
+	font-size: 0.75em;
+	font-style: italic;
+	text-align: center;
 }
