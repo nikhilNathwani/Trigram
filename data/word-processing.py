@@ -3,7 +3,7 @@
 # 1) Choose a min word length for the game, call it m
 # 2) Find longest word in word list, call its length M
 # 3) Create 'words_length_N' tables for N= m to M
-# 4) Add each word W from word list into 'words_length_[len(W)]'
+# 4) Add each word W from word list into 'words_length_[len(W)]' IF len(W)>=m
 # 5) Create 'trigrams' table w/ columns called 'run_start', 'run_length',
 #    'used_in_game', and 'num_words_length_N' for each N= m to M
 # 6) Do Step (7) for each N from m to M
