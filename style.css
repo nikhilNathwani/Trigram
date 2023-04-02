@@ -4,55 +4,53 @@ body {
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
 		Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
 		sans-serif;
+	background-color: #390065;
+	color: white;
 }
-
-/* Blocks of page:
-1) Header
-2) Game Area (comprised of Constraint Area then Display Area)
-3) Input Area 
-*/
 
 div#pageContainer {
 	display: grid;
-	grid-template-rows: 1.75em min-content 1.75em 1fr min-content;
+	grid-template-rows: min-content 1fr min-content;
 	height: 100vh;
-	min-width: 16.5em;
-	max-width: 30em;
+	width: 100vw;
 	margin: auto;
 }
 
 div#header {
-	background-color: brown;
+	background-color: #390065;
 	display: flex;
-	font-size: 0.75rem;
+	font-size: 2rem;
 }
 
 div#header > p {
 	margin: auto;
 }
 
-div#constraintArea {
-	background-color: lightblue;
-	text-align: center;
-	font-size: 0.75rem;
+div#gameArea {
+	display: grid;
+	grid-template-rows: min-content 1fr min-content;
+	height: 100%;
+	margin: auto;
 }
 
-div#errorAlertArea > p {
-	color: red;
+div#constraintArea {
+	background-color: #614673;
+	text-align: center;
+	font-size: 1.5rem;
 }
 
 div#displayArea {
 	display: flex;
 	flex-flow: column nowrap;
 	flex-direction: column-reverse;
-	background-color: midnightblue;
+	background-color: #ffe9ff;
 	overflow-y: scroll;
 }
 
 div#displayArea > div.word {
 	display: flex;
 	flex-flow: row nowrap;
-	margin-inline: auto;
+	/* margin-inline: auto; */
 	margin-bottom: 0.6em;
 }
 
@@ -60,11 +58,12 @@ div#displayArea > div.word > div.letter {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 1.5em;
-	height: 1.5em;
+	width: 3rem;
+	height: 3rem;
 	margin: 0.1em;
 	background-color: darkslategray;
 	border: solid darkslategray 1px;
+	font-size: 2rem;
 	color: white;
 	text-transform: uppercase;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -72,6 +71,10 @@ div#displayArea > div.word > div.letter {
 
 div#displayArea > div.word > div.trigramLetter {
 	background-color: darkgoldenrod;
+}
+
+div#errorAlertArea > p {
+	color: red;
 }
 
 div#inputArea {
