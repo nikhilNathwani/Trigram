@@ -38,10 +38,14 @@ function getInputWord() {
 }
 
 function handleValidWord(word) {
-	acceptWord(word);
+	clearExistingErrors();
+	addWordToDisplayArea(word, word.indexOf(trigram));
+	clearInput();
+
 	if (isLongestPossibleWord(word)) {
 		return; //Come back to this
 	} else {
+		incrementTargetLength();
 		introduceNextRound();
 	}
 }
@@ -50,6 +54,10 @@ function deleteLetter() {
 	if (input.value.length > 0) {
 		input.value = input.value.slice(0, -1);
 	}
+}
+
+function clearInput() {
+	wordInput.value = "";
 }
 
 function addLetter(letter) {
@@ -66,15 +74,6 @@ function isLetterFromOnscreenKeyboard(key) {
 
 function displayError() {
 	return;
-}
-
-function acceptWord(word) {
-	// Clear any existing error messages
-	clearExistingErrors();
-	addWordToDisplayArea(word, word.indexOf(trigram));
-	incrementTargetLength();
-	//Clear input field and return keyboard focus to it
-	wordInput.value = "";
 }
 
 function introduceNextRound() {
