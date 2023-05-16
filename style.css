@@ -88,9 +88,9 @@ div#inputArea {
 	padding: 0.375em;
 }
 
-div#inputArea > div#textField {
-	/* margin: auto; */
-}
+/* div#inputArea > div#textField {
+	   margin: auto; 
+} */
 
 div#inputArea > div#textField > input::placeholder {
 	font-size: 0.75rem;
