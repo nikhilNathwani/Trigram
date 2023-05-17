@@ -16,12 +16,15 @@ document.addEventListener("keydown", (e) => {
 });
 
 function handleKeyPress(key) {
-	if (key === "Enter") {
+	if (key === "Backspace") {
+		deleteLetter();
+	} else if (key === "Enter") {
 		if (getInputWord().length > 0) {
 			handleInputWord();
 		}
-	} else if (key === "Backspace") {
-		deleteLetter();
+	} else if (isTargetLengthReached()) {
+		//~
+		handleInputWord();
 	} else {
 		[isLetter, letter] = isLetterFromOnscreenKeyboard(key);
 		if (isLetter) {
@@ -32,6 +35,8 @@ function handleKeyPress(key) {
 		}
 	}
 }
+//~ case where user had just gotten an error for a target-length word,
+//  then typed another char before deleting one
 
 /* -----  HELPER FUNCTIONS  ------------------------------------------------ */
 
