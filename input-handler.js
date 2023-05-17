@@ -19,9 +19,7 @@ function handleKeyPress(key) {
 	if (key === "Backspace") {
 		deleteLetter();
 	} else if (key === "Enter") {
-		if (getInputWord().length > 0) {
-			handleInputWord();
-		}
+		handleInputWord();
 	} else if (isTargetLengthReached()) {
 		//~
 		handleInputWord();
@@ -60,6 +58,9 @@ function isWordValid() {
 }
 
 function handleInputWord() {
+	if (getInputWord().length == 0) {
+		return;
+	}
 	var [word, isValid, errorReason] = isWordValid();
 	if (isValid) {
 		handleValidWord(word);
