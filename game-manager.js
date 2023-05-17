@@ -5,22 +5,6 @@ const form = document.querySelector("form");
 const wordInput = document.querySelector("#wordInput");
 const displayArea = document.querySelector("#displayArea");
 
-function submitWord() {
-	// Clear any existing error messages
-	clearExistingErrors();
-	// Get the user's inputted text and check if it meets constraints
-	const word = wordInput.value.trim(); //ignore whitespace at start/end
-	const [meetsConstraints, errors] = checkWord(word);
-	if (meetsConstraints) {
-		addWordToDisplayArea(word, word.indexOf(trigram));
-		incrementTargetLength();
-	} else {
-		errors.forEach((errorCode) => addErrorToErrorDisplayArea(errorCode));
-	}
-	//Clear input field and return keyboard focus to it
-	wordInput.value = "";
-}
-
 // Returns [x,[y]] where:
 //    -x is true/false indicating whether the inputted word meets the constraints
 //    -y is an array of strings indicating which error messages to display

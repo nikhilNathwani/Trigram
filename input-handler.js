@@ -17,7 +17,9 @@ document.addEventListener("keydown", (e) => {
 
 function handleKeyPress(key) {
 	if (key === "Enter") {
-		handleInputWord();
+		if (getInputWord().length > 0) {
+			handleInputWord();
+		}
 	} else if (key === "Backspace") {
 		deleteLetter();
 	} else {
