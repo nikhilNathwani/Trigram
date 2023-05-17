@@ -2,7 +2,6 @@ const trigram = "CAT";
 var targetLength = 5;
 
 const form = document.querySelector("form");
-const wordInput = document.querySelector("#wordInput");
 const displayArea = document.querySelector("#displayArea");
 
 // Returns [x,[y]] where:

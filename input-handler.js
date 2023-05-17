@@ -36,11 +36,11 @@ function handleKeyPress(key) {
 /* -----  HELPER FUNCTIONS  ------------------------------------------------ */
 
 function getInputWord() {
-	return wordInput.value.trim(); //trim() ignores whitespace at start/end
+	return input.value.trim(); //trim() ignores whitespace at start/end
 }
 
 function isTargetLengthReached() {
-	return targetLength == wordInput.value.trim().length;
+	return targetLength == input.value.trim().length;
 }
 
 function isWordValid() {
@@ -80,7 +80,7 @@ function deleteLetter() {
 }
 
 function clearInput() {
-	wordInput.value = "";
+	input.value = "";
 }
 
 function addLetter(letter) {
