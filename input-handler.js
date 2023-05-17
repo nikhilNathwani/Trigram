@@ -35,8 +35,10 @@ function handleKeyPress(key) {
 		}
 	}
 }
-//~ case where user had just gotten an error for a target-length word,
-//  then typed another char before deleting one
+//~ this is the case where the user had just gotten an error for a word that
+//  was of target length, then typed another char before deleting one. Need to
+//  eat that char and continue to display the previous error (user will need
+//  to recognize that they need to delete chars and try again).
 
 /* -----  HELPER FUNCTIONS  ------------------------------------------------ */
 
