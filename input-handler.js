@@ -44,40 +44,16 @@ function getInputWord() {
 	return input.value.trim(); //trim() ignores whitespace at start/end
 }
 
-function isTargetLengthReached() {
-	return targetLength == input.value.trim().length;
-}
-
-function isWordValid() {
-	var word = getInputWord();
-	const [meetsConstraints, errors] = checkWord(word);
-	if (!meetsConstraints) {
-		errors.forEach((errorCode) => addErrorToErrorDisplayArea(errorCode));
-	}
-	return [word, meetsConstraints, ""];
-}
-
 function handleInputWord() {
-	if (getInputWord().length == 0) {
+	var word = getInputWord();
+	if (word.length == 0) {
 		return;
 	}
-	var [word, isValid, errorReason] = isWordValid();
+	var [isValid, errorReason] = validateWord();
 	if (isValid) {
 		handleValidWord(word);
 	} else {
 		displayError(errorReason);
-	}
-}
-
-function handleValidWord(word) {
-	clearExistingErrors();
-	addWordToDisplayArea(word, word.indexOf(trigram));
-	clearInput();
-	if (isLongestPossibleWord(word)) {
-		return; //Come back to this
-	} else {
-		incrementTargetLength();
-		introduceNextRound();
 	}
 }
 

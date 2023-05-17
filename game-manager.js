@@ -4,48 +4,16 @@ var targetLength = 5;
 const form = document.querySelector("form");
 const displayArea = document.querySelector("#displayArea");
 
-// Returns [x,[y]] where:
-//    -x is true/false indicating whether the inputted word meets the constraints
-//    -y is an array of strings indicating which error messages to display
-function checkWord(word) {
-	var errorCodes = [];
-	var correctLength = word.length == targetLength;
-	var includesTrigram = word.includes(trigram);
-	//Add error codes
-	if (!correctLength) {
-		errorCodes.push("WRONG-LENGTH");
+function handleValidWord(word) {
+	clearExistingErrors();
+	addWordToDisplayArea(word, word.indexOf(trigram));
+	clearInput();
+	if (isLongestPossibleWord(word)) {
+		return; //Come back to this
+	} else {
+		incrementTargetLength();
+		introduceNextRound();
 	}
-	if (!includesTrigram) {
-		errorCodes.push("TRIGRAM-MISSING");
-	}
-	return [correctLength && includesTrigram, errorCodes];
-}
-
-function addErrorToErrorDisplayArea(errorCode) {
-	const errorArea = document.querySelector("#errorAlertArea");
-	const errorString = document.createElement("p");
-	errorString.textContent = lookupErrorString(errorCode);
-	errorString.classList.add("error");
-	errorArea.appendChild(errorString);
-	return;
-}
-
-function lookupErrorString(errorCode) {
-	switch (errorCode) {
-		case "WRONG-LENGTH":
-			return `Word must be ${targetLength} letters long.`;
-		case "TRIGRAM-MISSING":
-			return `Word must contain ${trigram}.`;
-		case "NOT-FOUND":
-			return "Word not found.";
-		default:
-			return "An error occurred.";
-	}
-}
-
-function clearExistingErrors() {
-	const errorArea = document.querySelector("#errorAlertArea");
-	errorArea.innerHTML = "";
 }
 
 function addWordToDisplayArea(word, trigramPosition) {
