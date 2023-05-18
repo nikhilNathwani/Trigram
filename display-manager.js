@@ -1,3 +1,4 @@
+const gameArea = document.querySelector("#gameArea");
 const errorDialog = document.querySelector("#errorString");
 
 function displayError(errorReason) {
@@ -12,4 +13,6 @@ function introduceNextRound() {
 	return;
 }
 
-//
+function scrollDisplayToBottom() {
+	gameArea.scrollTop = gameArea.scrollHeight;
+}

@@ -1,4 +1,4 @@
-const trigram = "CAT";
+const trigram = "NNN";
 var targetLength = 5;
 
 const form = document.querySelector("form");
@@ -32,6 +32,7 @@ function addWordToDisplayArea(word, trigramPosition) {
 		rowDiv.appendChild(letterDiv);
 	}
 	displayArea.appendChild(rowDiv);
+	scrollDisplayToBottom();
 }
 
 function incrementTargetLength() {

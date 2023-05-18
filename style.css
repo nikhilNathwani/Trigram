@@ -5,20 +5,22 @@ body {
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
 		Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
 		sans-serif;
-	background-color: #2f4858;
+	background-color: #f1f1e6;
 	color: white;
 }
 
 div#pageContainer {
 	display: grid;
-	grid-template-rows: 4rem 1fr 16rem;
+	grid-template-rows: 4rem 1fr min-content;
 	height: 100vh;
-	width: 100vw;
+	max-height: 100vh;
+	width: 600px;
 	margin: auto;
 }
 
 div#header {
-	/* background-color: #210f3b; */
+	background-color: #222222;
+	width: auto;
 	display: flex;
 	font-size: 2rem;
 }
@@ -28,24 +30,25 @@ div#header > p {
 }
 
 div#gameArea {
-	display: grid;
-	grid-template-rows: min-content 1fr min-content;
-	height: 100%;
-	margin: auto;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
 }
 
 div#constraintArea {
-	background-color: #2f4858;
+	background-color: #006573;
 	text-align: center;
 	font-size: 1.5rem;
 }
 
 div#displayArea {
+	flex-grow: 1;
 	display: flex;
 	flex-flow: column nowrap;
-	flex-direction: column-reverse;
-	background-color: #2f4858;
-	/* overflow-y: scroll; */
+	align-items: center;
+	gap: 4rem;
+	/* flex-direction: column-reverse; */
+	background-color: #f1f1e6;
 }
 
 div#displayArea > div.word {
@@ -59,19 +62,20 @@ div#displayArea > div.word > div.letter {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 1.5rem;
-	height: 1.5rem;
-	margin: 0.1em;
-	background-color: white;
+	width: 2rem;
+	height: 2rem;
+	/* margin: 0.1em; */
+	background-color: #2f4858;
 	/* border: solid white 1px; */
 	font-size: 1rem;
-	color: #2f4858;
+	color: white;
 	text-transform: uppercase;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 div#displayArea > div.word > div.trigramLetter {
 	background-color: #edb00f;
+	color: #2f4858;
 }
 
 div#errorAlertArea > p {
@@ -81,19 +85,21 @@ div#errorAlertArea > p {
 div#inputArea {
 	margin-inline: auto;
 	display: grid;
-	grid-template-rows: 2rem 1fr;
+	grid-template-rows: 3rem 1fr;
 	justify-items: center;
 	align-items: center;
 	gap: 0.375em;
 	padding: 0.375em;
 }
 
-/* div#inputArea > div#textField {
-	   margin: auto; 
-} */
+div#inputArea > div#textField > input {
+	margin: auto;
+	height: 2rem;
+	font-size: 1rem;
+}
 
 div#inputArea > div#textField > input::placeholder {
-	font-size: 0.75rem;
+	font-size: 1rem;
 	font-style: italic;
 	text-align: center;
 }
