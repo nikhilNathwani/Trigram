@@ -1,52 +1,32 @@
 const trigram = "NNN";
 var targetLength = 5;
 
-const form = document.querySelector("form");
-const displayArea = document.querySelector("#displayArea");
+/* -----  MAIN  ------------------------------------------------------------ */
 
-function handleInputWord() {
-	var word = getInputWord();
-	if (word.length == 0) {
-		return;
-	}
+function handleInput() {
 	var [isValid, errorReason] = validateWord();
 	if (isValid) {
-		handleValidWord(word);
+		handleValidWord(); //will have 2nd arg for success reasons like IsLongest or isPersonalBest
 	} else {
-		displayError(errorReason);
+		handleInvalidWord(errorReason);
 	}
 }
 
-function handleValidWord(word) {
-	clearExistingErrors();
-	addWordToDisplayArea(word, word.indexOf(trigram));
-	clearInput();
-	if (isLongestPossibleWord(word)) {
+function handleValidWord() {
+	if (isLongestPossibleWord()) {
 		return; //Come back to this
 	} else {
 		incrementTargetLength();
-		introduceNextRound();
 	}
+	updateDisplay();
+	clearUserInput(); //must be last, because this updates the 'word' global var
 }
 
-function addWordToDisplayArea(word, trigramPosition) {
-	//Create row div
-	const rowDiv = document.createElement("div");
-	rowDiv.classList.add("word");
-	//Create letter divs for each letter in the word
-	for (let i = 0; i < word.length; i++) {
-		const letterDiv = document.createElement("div");
-		letterDiv.textContent = word[i];
-		letterDiv.classList.add("letter");
-		//If it's a trigram letter, apply trigram styling
-		if (i >= trigramPosition && i <= trigramPosition + 2) {
-			letterDiv.classList.add("trigramLetter");
-		}
-		rowDiv.appendChild(letterDiv);
-	}
-	displayArea.appendChild(rowDiv);
-	scrollDisplayToBottom();
+function handleInvalidWord(errorReason) {
+	updateDisplay(errorReason);
 }
+
+/* -----  HELPER FUNCTIONS  ------------------------------------------------ */
 
 function incrementTargetLength() {
 	//Increment value on backend

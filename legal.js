@@ -1,7 +1,7 @@
 // Returns [isValid, errorReason] where:
 //    -isValid is true/false indicating whether the inputted word meets the constraints
 //    -errorReason is a string indicating which error message to display
-function validateWord(word) {
+function validateWord() {
 	if (!isTargetLengthReached()) {
 		return [false, lookupErrorString("WRONG-LENGTH")];
 	} else if (!containsTrigram()) {
@@ -27,20 +27,17 @@ function lookupErrorString(errorCode) {
 }
 
 function isTargetLengthReached() {
-	var word = getInputWord();
 	return targetLength == word.length;
 }
 
 function containsTrigram() {
-	var word = getInputWord();
 	return word.includes(trigram);
 }
 
 function existsInWordList() {
-	var word = getInputWord();
 	return true; //will complete this function later
 }
 
-function isLongestPossibleWord(word) {
+function isLongestPossibleWord() {
 	return false;
 }
