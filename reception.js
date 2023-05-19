@@ -44,31 +44,8 @@ function getInputWord() {
 	return input.value.trim(); //trim() ignores whitespace at start/end
 }
 
-function handleInputWord() {
-	var word = getInputWord();
-	if (word.length == 0) {
-		return;
-	}
-	var [isValid, errorReason] = validateWord();
-	if (isValid) {
-		handleValidWord(word);
-	} else {
-		displayError(errorReason);
-	}
-}
-
-function deleteLetter() {
-	if (input.value.length > 0) {
-		input.value = input.value.slice(0, -1);
-	}
-}
-
 function clearInput() {
 	input.value = "";
-}
-
-function addLetter(letter) {
-	input.value += letter;
 }
 
 function isLetterFromOnscreenKeyboard(key) {
@@ -77,8 +54,4 @@ function isLetterFromOnscreenKeyboard(key) {
 		`.keyboard-key[data-keyname="${letter}"]`
 	);
 	return [matchingKey !== null, letter];
-}
-
-function isLongestPossibleWord(word) {
-	return false;
 }

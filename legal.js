@@ -40,3 +40,7 @@ function existsInWordList() {
 	var word = getInputWord();
 	return true; //will complete this function later
 }
+
+function isLongestPossibleWord(word) {
+	return false;
+}
