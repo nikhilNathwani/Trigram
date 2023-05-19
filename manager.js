@@ -4,16 +4,6 @@ var targetLength = 5;
 const form = document.querySelector("form");
 const displayArea = document.querySelector("#displayArea");
 
-function deleteLetter() {
-	if (input.value.length > 0) {
-		input.value = input.value.slice(0, -1);
-	}
-}
-
-function addLetter(letter) {
-	input.value += letter;
-}
-
 function handleInputWord() {
 	var word = getInputWord();
 	if (word.length == 0) {

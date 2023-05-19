@@ -44,6 +44,16 @@ function getInputWord() {
 	return input.value.trim(); //trim() ignores whitespace at start/end
 }
 
+function addLetter(letter) {
+	input.value += letter;
+}
+
+function deleteLetter() {
+	if (input.value.length > 0) {
+		input.value = input.value.slice(0, -1);
+	}
+}
+
 function clearInput() {
 	input.value = "";
 }
