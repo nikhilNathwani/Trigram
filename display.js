@@ -2,21 +2,23 @@ const displayArea = document.querySelector("#displayArea");
 const gameArea = document.querySelector("#gameArea");
 const errorDialog = document.querySelector("#errorString");
 
-function updateDisplay(errorReason = "") {
+function updateDisplay(word, errorReason = "") {
 	if (errorReason == "") {
 		clearExistingErrors();
-		addWordToDisplayArea();
+		addWordToDisplayArea(word);
 		introduceNextRound();
 	} else {
-		displayError(errorReason);
+		displayError(word, errorReason);
 	}
 }
 
-function addWordToDisplayArea() {
-	var trigramPosition = word.indexOf(trigram);
+function addWordToDisplayArea(word) {
 	//Create row div
 	const rowDiv = document.createElement("div");
 	rowDiv.classList.add("word");
+
+	var trigramPosition = word.indexOf(trigram);
+
 	//Create letter divs for each letter in the word
 	for (let i = 0; i < word.length; i++) {
 		const letterDiv = document.createElement("div");
@@ -32,7 +34,7 @@ function addWordToDisplayArea() {
 	scrollDisplayToBottom();
 }
 
-function displayError(errorReason) {
+function displayError(word, errorReason) {
 	errorDialog.textContent = errorReason;
 }
 

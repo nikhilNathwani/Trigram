@@ -3,27 +3,27 @@ var targetLength = 5;
 
 /* -----  MAIN  ------------------------------------------------------------ */
 
-function handleInput() {
-	var [isValid, errorReason] = validateWord();
+function handleInput(word) {
+	var [isValid, errorReason] = validateWord(word);
 	if (isValid) {
-		handleValidWord(); //will have 2nd arg for success reasons like IsLongest or isPersonalBest
+		handleValidWord(word); //will have 2nd arg for success reasons like IsLongest or isPersonalBest
 	} else {
-		handleInvalidWord(errorReason);
+		handleInvalidWord(word, errorReason);
 	}
 }
 
-function handleValidWord() {
-	if (isLongestPossibleWord()) {
+function handleValidWord(word) {
+	if (isLongestPossibleWord(word)) {
 		return; //Come back to this
 	} else {
 		incrementTargetLength();
 	}
-	updateDisplay();
+	updateDisplay(word);
 	clearUserInput(); //must be last, because this updates the 'word' global var
 }
 
-function handleInvalidWord(errorReason) {
-	updateDisplay(errorReason);
+function handleInvalidWord(word, errorReason) {
+	updateDisplay(word, errorReason);
 }
 
 /* -----  HELPER FUNCTIONS  ------------------------------------------------ */

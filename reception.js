@@ -1,6 +1,5 @@
 const keys = document.querySelectorAll(".keyboard-key");
 const input = document.querySelector("input");
-var word = "";
 
 /* -----  MAIN  ------------------------------------------------------------ */
 
@@ -17,21 +16,23 @@ document.addEventListener("keydown", (e) => {
 });
 
 function handleKeyPress(key) {
+	var word = getUserInput();
 	if (key === "Backspace") {
 		deleteLetter();
 	} else if (key === "Enter") {
 		if (word.length > 0) {
-			handleInput();
+			handleInput(word);
 		}
-	} else if (isTargetLengthReached()) {
+	} else if (isTargetLengthReached(word)) {
 		//~
-		handleInput();
+		handleInput(word);
 	} else {
 		[isLetter, letter] = isLetterFromOnscreenKeyboard(key);
 		if (isLetter) {
 			addLetter(letter);
-			if (isTargetLengthReached()) {
-				handleInput();
+			word = getUserInput();
+			if (isTargetLengthReached(word)) {
+				handleInput(word);
 			}
 		}
 	}
@@ -47,25 +48,18 @@ function getUserInput() {
 	return input.value.trim(); //trim() ignores whitespace at start/end
 }
 
-function saveUserInput() {
-	word = getUserInput();
-}
-
 function addLetter(letter) {
 	input.value += letter;
-	saveUserInput();
 }
 
 function deleteLetter() {
 	if (input.value.length > 0) {
 		input.value = input.value.slice(0, -1);
 	}
-	saveUserInput();
 }
 
 function clearUserInput() {
 	input.value = "";
-	saveUserInput();
 }
 
 function isLetterFromOnscreenKeyboard(key) {
