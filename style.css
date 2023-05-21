@@ -66,7 +66,7 @@ div#displayArea {
 	background-color: darkslategray;
 	color: white;
 	font-size: 2rem;
-	font-weight: 600;
+	font-weight: 400;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -81,7 +81,7 @@ div#displayArea {
 	display: flex;
 	/* justify-content: center; */
 	align-items: center;
-	padding-left: 1rem;
+	padding-inline: 1rem;
 }
 
 div#displayArea > div.word {
