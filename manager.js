@@ -13,12 +13,12 @@ function handleInput(word) {
 }
 
 function handleValidWord(word) {
+	updateDisplay(word);
 	if (isLongestPossibleWord(word)) {
 		return; //Come back to this
 	} else {
 		incrementTargetLength();
 	}
-	updateDisplay(word);
 	clearUserInput(); //must be last, because this updates the 'word' global var
 }
 

@@ -43,12 +43,45 @@ div#constraintArea {
 
 div#displayArea {
 	flex-grow: 1;
-	display: flex;
 	flex-flow: column nowrap;
 	align-items: center;
-	gap: 4rem;
-	/* flex-direction: column-reverse; */
 	background-color: #f1f1e6;
+}
+
+#gameDisplayGrid {
+	display: flex;
+	flex-flow: column;
+	gap: 2rem;
+	padding: 1rem;
+}
+
+.gameDisplayRow {
+	display: grid;
+	grid-template-columns: 4rem 1fr;
+}
+
+.targetLengthCell {
+	/* width: 100%;
+	height: 3rem; */
+	background-color: darkslategray;
+	color: white;
+	font-size: 2rem;
+	font-weight: 600;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.wordInputCell {
+	/* width: 100%;
+	height: 3rem; */
+	background-color: white;
+	color: darkslategray;
+	font-size: 2rem;
+	font-weight: 400;
+	display: flex;
+	/* justify-content: center; */
+	align-items: center;
+	padding-left: 1rem;
 }
 
 div#displayArea > div.word {
