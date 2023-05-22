@@ -82,10 +82,12 @@ div#displayArea {
 	/* justify-content: center; */
 	align-items: center;
 	padding-inline: 1rem;
+	letter-spacing: 0.5rem;
 }
 
 span.trigramSubstring {
-	color: green;
+	color: goldenrod;
+	font-weight: 600;
 }
 
 div#displayArea > div.word {
