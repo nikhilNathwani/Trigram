@@ -1,5 +1,5 @@
 const keys = document.querySelectorAll(".keyboard-key");
-const input = document.querySelector("input");
+var input = document.querySelector(`input#wordInputBox_${targetLength}`);
 
 /* -----  MAIN  ------------------------------------------------------------ */
 

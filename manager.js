@@ -1,7 +1,21 @@
 const trigram = "NNN";
 var targetLength = 5;
+var acceptedWords = ["", "", "", "", ""];
 
 /* -----  MAIN  ------------------------------------------------------------ */
+
+initiateNextRound();
+
+function initiateNextRound() {
+	if (targetLength > 5) {
+		changeCurrentInputFieldToStaticDisplay();
+	}
+	addInputDivToDisplay();
+	listenToNewInputField();
+}
+function listenToNewInputField() {
+	input = document.querySelector(`input#wordInputBox_${targetLength}`);
+}
 
 function handleInput(word) {
 	var [isValid, errorReason] = validateWord(word);
@@ -12,13 +26,21 @@ function handleInput(word) {
 	}
 }
 
+function addWordToAcceptedWordsList(word) {
+	acceptedWords.push(word);
+}
+
 function handleValidWord(word) {
+	// playAcceptedWordAnimation()
+	// moveAcceptedWordToCompletedList()
+	addWordToAcceptedWordsList(word);
 	updateDisplay(word);
 	if (isLongestPossibleWord(word)) {
 		return; //Come back to this
 	} else {
 		incrementTargetLength();
 	}
+	initiateNextRound();
 	clearUserInput(); //must be last, because this updates the 'word' global var
 }
 
