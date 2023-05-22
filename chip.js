@@ -13,6 +13,14 @@ function updateDisplay(word, errorReason = "") {
 	}
 }
 
+function createWordInputCellInnerHTML(word) {
+	var trigramPosition = word.indexOf("NNN");
+	const preTrigram = word.slice(0, trigramPosition);
+	const trigram = word.slice(trigramPosition, trigramPosition + 3);
+	const postTrigram = word.slice(trigramPosition + 3);
+	return preTrigram + "<span>" + trigram + "</span>" + postTrigram;
+}
+
 function addWordToDisplayArea(word) {
 	//Create row div
 	const rowDiv = document.createElement("div");
@@ -29,10 +37,12 @@ function addWordToDisplayArea(word) {
 	const wordInputCell = document.createElement("div");
 	wordInputCell.classList.add("wordInputCell");
 	wordInputCell.id = "wordInputCell_" + targetLength;
-	wordInputCell.textContent = word;
+	wordInputCell.innerHTML = createWordInputCellInnerHTML(word);
 	rowDiv.appendChild(wordInputCell);
 
-	// var trigramPosition = word.indexOf(trigram);
+	//Apply styling class to trigram span
+	const trigramSpan = wordInputCell.querySelector("span");
+	trigramSpan.classList.add("trigramSubstring");
 
 	//Create letter divs for each letter in the word
 	// for (let i = 0; i < word.length; i++) {
