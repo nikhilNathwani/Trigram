@@ -14,9 +14,8 @@ function updateDisplay(word, errorReason = "") {
 }
 
 function createWordInputCellInnerHTML(word) {
-	var trigramPosition = word.indexOf("NNN");
+	var trigramPosition = word.indexOf(trigram);
 	const preTrigram = word.slice(0, trigramPosition);
-	const trigram = word.slice(trigramPosition, trigramPosition + 3);
 	const postTrigram = word.slice(trigramPosition + 3);
 	return preTrigram + "<span>" + trigram + "</span>" + postTrigram;
 }
@@ -43,18 +42,6 @@ function addWordToDisplayArea(word) {
 	//Apply styling class to trigram span
 	const trigramSpan = wordInputCell.querySelector("span");
 	trigramSpan.classList.add("trigramSubstring");
-
-	//Create letter divs for each letter in the word
-	// for (let i = 0; i < word.length; i++) {
-	// 	const letterDiv = document.createElement("div");
-	// 	letterDiv.textContent = word[i];
-	// 	letterDiv.classList.add("letter");
-	// 	//If it's a trigram letter, apply trigram styling
-	// 	if (i >= trigramPosition && i <= trigramPosition + 2) {
-	// 		letterDiv.classList.add("trigramLetter");
-	// 	}
-	// 	rowDiv.appendChild(letterDiv);
-	// }
 
 	gameDisplayGrid.appendChild(rowDiv);
 	scrollDisplayToBottom();
