@@ -1,3 +1,9 @@
+:root {
+	--letterWidth: 2rem;
+	--letterGap: 1rem;
+	--targetLength: 5;
+}
+
 html,
 body {
 	margin: 0;
@@ -65,29 +71,31 @@ div#displayArea {
 	height: 3rem; */
 	background-color: darkslategray;
 	color: white;
-	font-size: 2rem;
+	font-size: var(--letterWidth);
 	font-weight: 400;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 .wordInputCell {
-	/* width: 100%;
-	height: 3rem; */
 	background-color: white;
+}
+
+.wordInputBox {
 	color: darkslategray;
-	font-size: 2rem;
-	font-weight: 400;
-	display: flex;
+	font-family: monospace;
+	font-size: var(--letterWidth);
+	letter-spacing: var(--letterGap);
+	display: block;
 	/* justify-content: center; */
 	align-items: center;
-	padding-inline: 1rem;
-	letter-spacing: 0.5rem;
+	/* padding-inline: 1rem; */
+	position: relative;
 }
 
 span.trigramSubstring {
 	color: goldenrod;
-	font-weight: 600;
+	/* font-weight: 600; */
 }
 
 div#displayArea > div.word {

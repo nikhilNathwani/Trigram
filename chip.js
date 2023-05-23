@@ -2,7 +2,10 @@ const gameArea = document.querySelector("#gameArea");
 const displayArea = document.querySelector("#displayArea");
 const gameDisplayGrid = document.querySelector("#gameDisplayGrid");
 const errorDialog = document.querySelector("#errorString");
-
+const computedStyle = getComputedStyle(document.documentElement);
+const letterWidth = "21px"; //computedStyle.getPropertyValue("--letterWidth");
+const letterGap = computedStyle.getPropertyValue("--letterGap");
+//
 function changeCurrentInputFieldToStaticDisplay(word) {
 	const currentInputField = document.querySelector(
 		`input#wordInputBox_${targetLength - 1}`
@@ -46,11 +49,18 @@ function addInputDivToDisplay() {
 	wordInputBox.type = "text";
 	wordInputBox.name = "wordInput";
 	wordInputBox.id = "wordInput";
-	wordInputBox.placeholder = "Enter word here";
+	// wordInputBox.placeholder = "Enter word here";
 	// inputElement.readOnly = true;
 	wordInputBox.classList.add("wordInputBox");
 	wordInputBox.id = "wordInputBox_" + targetLength;
 	wordInputCell.appendChild(wordInputBox);
+
+	//Create dashed underline
+	const dashedUnderline = document.createElement("div");
+	dashedUnderline.style.height = "2px";
+	dashedUnderline.style.width = `calc((${targetLength} * (${letterWidth} + ${letterGap})) - ${letterGap})`;
+	dashedUnderline.style.backgroundImage = `repeating-linear-gradient(to right, black 0rem, black ${letterWidth}, white ${letterWidth}, white calc(${letterWidth} + ${letterGap}))`;
+	wordInputCell.appendChild(dashedUnderline);
 
 	gameDisplayGrid.appendChild(rowDiv);
 	scrollDisplayToBottom();
