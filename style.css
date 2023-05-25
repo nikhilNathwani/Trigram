@@ -124,8 +124,32 @@ span.trigramSubstring {
 	/* font-weight: 600; */
 }
 
-div#errorAlertArea > p {
-	color: red;
+div#alertArea {
+	height: 4rem;
+	/* background-color: orange; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+div#alertContainer {
+	width: 50ch;
+	height: 2.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+	border: 2px solid darkslategray;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	animation-name: wiggle;
+	animation-duration: 0.2s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 1;
+}
+
+div#errorMessage {
+	font-size: 1.5rem;
+	color: darkslategray;
 }
 
 div#inputArea {
@@ -136,4 +160,16 @@ div#inputArea {
 	align-items: center;
 	gap: 0.375em;
 	padding: 0.375em;
+}
+
+@keyframes wiggle {
+	0% {
+		transform: rotate(-2deg);
+	}
+	50% {
+		transform: rotate(2deg);
+	}
+	100% {
+		transform: rotate(-2deg);
+	}
 }

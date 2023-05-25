@@ -1,7 +1,6 @@
 const gameArea = document.querySelector("#gameArea");
 const displayArea = document.querySelector("#displayArea");
 const gameDisplayGrid = document.querySelector("#gameDisplayGrid");
-const errorDialog = document.querySelector("#errorString");
 const rootStyles = getComputedStyle(document.documentElement);
 const letterGap = rootStyles.getPropertyValue("--letterGap");
 //
@@ -113,11 +112,26 @@ function addWordToDisplayArea(word) {
 }
 
 function displayError(word, errorReason) {
-	errorDialog.textContent = errorReason;
+	clearExistingErrors();
+
+	//Create alert container and error message div
+	const alertContainer = document.createElement("div");
+	alertContainer.id = "alertContainer";
+	const errorMessage = document.createElement("div");
+	errorMessage.id = "errorMessage";
+	alertContainer.appendChild(errorMessage);
+
+	//Write the error message
+	errorMessage.textContent = errorReason;
+
+	//Add divs to alert area
+	const alertArea = document.querySelector("div#alertArea");
+	alertArea.appendChild(alertContainer);
 }
 
 function clearExistingErrors() {
-	errorDialog.textContent = "";
+	const alertArea = document.querySelector("div#alertArea");
+	alertArea.innerHTML = "";
 }
 
 function introduceNextRound() {
