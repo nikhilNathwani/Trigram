@@ -7,7 +7,7 @@ html,
 body {
 	margin: 0;
 	box-sizing: border-box;
-	font-family: Menlo, monospace;
+	font-family: monospace;
 	background-color: #f1f1e6;
 	color: white;
 }
@@ -38,10 +38,22 @@ div#gameArea {
 	overflow-y: auto;
 }
 
-div#constraintArea {
+div#trigramContainer {
+	width: 50%;
+	margin-block: 2rem;
+	margin-inline: auto;
 	background-color: #006573;
 	text-align: center;
 	font-size: 1.5rem;
+}
+
+div#trigramContainer > p {
+	margin: 0;
+	padding: 1rem;
+}
+
+p#trigramReveal {
+	font-size: 3rem;
 }
 
 div#displayArea {
@@ -86,7 +98,7 @@ div#displayArea {
 }
 
 .wordInputBox {
-	font-family: Menlo, monospace;
+	font-family: monospace;
 	font-size: var(--letterSize);
 	letter-spacing: var(--letterGap);
 	color: darkslategray;
