@@ -22,7 +22,8 @@ html,
 body {
 	margin: 0;
 	box-sizing: border-box;
-	font-family: monospace;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+		sans-serif;
 	background-color: var(--background-color);
 	color: var(--primary-color-light);
 }
@@ -92,6 +93,7 @@ div#trigramHeader {
 
 #trigramReveal {
 	width: min-content;
+	font-family: monospace;
 	font-size: 4rem;
 	font-weight: 600;
 	letter-spacing: 1rem;
@@ -136,8 +138,10 @@ div#displayArea {
 	height: 2rem;
 	padding: 1rem;
 	background-color: var(--primary-color-light);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 	display: flex;
 	align-items: center;
+	font-family: monospace;
 	font-size: var(--letterSize);
 	letter-spacing: var(--letterGap);
 	color: var(--primary-color-dark);
