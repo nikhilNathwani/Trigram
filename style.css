@@ -117,20 +117,20 @@ div#displayArea {
 }
 
 .gameDisplayRow {
-	display: grid;
-	grid-template-columns: 4rem 1fr;
+	display: flex;
+	flex-flow: column nowrap;
 }
 
 .targetLengthCell {
-	/* width: 100%;
-	height: 3rem; */
+	width: 15ch;
+	height: min-content;
 	background-color: var(--primary-color-dark);
 	color: var(--primary-color-light);
-	font-size: var(--letterSize);
-	font-weight: 400;
+	font-size: 1.5rem;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
+	padding: 1rem;
 }
 .wordInputCell {
 	height: 2rem;

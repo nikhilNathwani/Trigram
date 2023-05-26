@@ -33,7 +33,7 @@ function addInputDivToDisplay() {
 	const targetLengthCell = document.createElement("div");
 	targetLengthCell.classList.add("targetLengthCell");
 	targetLengthCell.id = "targetLengthCell_" + targetLength;
-	targetLengthCell.textContent = targetLength;
+	targetLengthCell.textContent = targetLength + " letter word";
 	rowDiv.appendChild(targetLengthCell);
 
 	//Create cell containing input field
