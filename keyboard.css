@@ -3,7 +3,7 @@ div.keyboard {
 	flex-direction: column;
 	gap: 0.375em;
 	width: 100%;
-	background-color: #364954;
+	background-color: var(--background-color);
 	padding-block: 0.5rem;
 }
 

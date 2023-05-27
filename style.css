@@ -34,7 +34,6 @@ div#pageContainer {
 	grid-template-rows: 4rem 1fr min-content;
 	height: 100vh;
 	max-height: 100vh;
-	width: min(100vw, 600px);
 	margin: auto;
 }
 
@@ -49,9 +48,11 @@ div#header > p {
 }
 
 div#gameArea {
+	width: min(100vw, 600px);
 	display: flex;
 	flex-direction: column;
 	overflow-y: auto;
+	margin-inline: auto;
 }
 
 div#trigramContainer {
@@ -183,7 +184,7 @@ div#alertArea {
 }
 
 div#alertContainer {
-	width: 75%;
+	width: min(50ch, 75%);
 	height: 2.5rem;
 	display: flex;
 	align-items: center;
