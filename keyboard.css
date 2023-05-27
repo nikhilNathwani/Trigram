@@ -3,6 +3,8 @@ div.keyboard {
 	flex-direction: column;
 	gap: 0.375em;
 	width: 100%;
+	background-color: #364954;
+	padding-block: 0.5rem;
 }
 
 div.keyboard > div.keyboard-row {
@@ -12,14 +14,14 @@ div.keyboard > div.keyboard-row {
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key {
-	min-width: 2.5rem;
-	min-height: 3.5rem;
+	min-width: 2rem;
+	min-height: 2.75rem;
 	border: transparent;
 	border-radius: 4px;
-	background-color: #888;
-	font-size: 1.25rem;
+	background-color: #536672;
+	font-size: 1rem;
 	font-weight: bold;
-	color: #fff;
+	color: white;
 	cursor: pointer;
 }
 

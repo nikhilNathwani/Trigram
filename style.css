@@ -4,17 +4,18 @@
 	--letterGap: 1rem;
 
 	/* Font colors */
-	--primary-color-dark: darkslategray;
+	--primary-color-dark: #364954;
 	--primary-color-light: white;
-	--accent-color: goldenrod;
+	--accent-color: #52a87f;
+	--error-color: #da7e80;
 
 	/* Background colors */
-	--background-color: #f1f1e6;
+	--background-color: #5ea0c2;
 
 	/* Borders */
-	--trigram-container-border: 2px solid darkslategray;
+	--trigram-container-border: 2px solid #364954;
 	--trigram-container-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-	--alert-container-border: 2px solid darkslategray;
+	--alert-container-border: 2px solid #364954;
 	--alert-container-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -33,13 +34,12 @@ div#pageContainer {
 	grid-template-rows: 4rem 1fr min-content;
 	height: 100vh;
 	max-height: 100vh;
-	width: 600px;
+	width: min(100vw, 600px);
 	margin: auto;
 }
 
 div#header {
 	background-color: #222222;
-	width: auto;
 	display: flex;
 	font-size: 2rem;
 }
@@ -101,7 +101,7 @@ div#trigramHeader {
 	border: 1px solid var(--accent-color);
 	border-radius: 8px;
 	padding-left: 1rem;
-	margin: 2rem;
+	margin: auto;
 }
 
 div#displayArea {
@@ -183,7 +183,7 @@ div#alertArea {
 }
 
 div#alertContainer {
-	width: 50ch;
+	width: 75%;
 	height: 2.5rem;
 	display: flex;
 	align-items: center;
@@ -198,8 +198,9 @@ div#alertContainer {
 }
 
 div#errorMessage {
-	font-size: 1.5rem;
-	color: var(--primary-color-dark);
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--error-color);
 }
 
 div#inputArea {
