@@ -32,6 +32,7 @@ body {
 div#pageContainer {
 	display: grid;
 	grid-template-rows: 4rem 1fr min-content;
+	justify-content: center;
 	height: 100vh;
 	max-height: 100vh;
 	margin: auto;
@@ -218,7 +219,7 @@ div.keyboard {
 	display: flex;
 	flex-direction: column;
 	gap: 0.375em;
-	max-width: 100%;
+	max-width: min(100%, 600px);
 	background-color: var(--background-color);
 	padding-block: 0.5rem;
 }
@@ -226,11 +227,12 @@ div.keyboard {
 div.keyboard > div.keyboard-row {
 	display: flex;
 	justify-content: center;
-	gap: 0.375em;
+	gap: min(0.375rem, 2vw);
+	padding-inline: 10px;
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key {
-	width: 2rem;
+	width: min(2rem, 8vw);
 	min-height: 2.75rem;
 	border: transparent;
 	border-radius: 4px;
