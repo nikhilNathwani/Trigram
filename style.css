@@ -10,8 +10,7 @@
 	--error-color: #da7e80;
 
 	/* Background colors */
-	/* --background-color: #5ea0c2; */
-	--background-color: orangered;
+	--background-color: #5ea0c2;
 
 	/* Borders */
 	--trigram-container-border: 2px solid #364954;
@@ -210,6 +209,37 @@ div#inputArea {
 	align-items: center;
 	gap: 0.375em;
 	padding: 0.375em;
+}
+
+div.keyboard {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375em;
+	max-width: 100%;
+	background-color: var(--background-color);
+	padding-block: 0.5rem;
+}
+
+div.keyboard > div.keyboard-row {
+	display: flex;
+	justify-content: center;
+	gap: 0.375em;
+}
+
+div.keyboard > div.keyboard-row > button.keyboard-key {
+	min-width: 2rem;
+	min-height: 2.75rem;
+	border: transparent;
+	border-radius: 4px;
+	background-color: #536672;
+	font-size: 1rem;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+}
+
+div.keyboard > div.keyboard-row > button.keyboard-key:hover {
+	background-color: #aaa;
 }
 
 @keyframes wiggle {
