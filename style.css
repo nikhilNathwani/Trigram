@@ -10,7 +10,8 @@
 	--error-color: #da7e80;
 
 	/* Background colors */
-	--background-color: #5ea0c2;
+	/* --background-color: #5ea0c2; */
+	--background-color: orangered;
 
 	/* Borders */
 	--trigram-container-border: 2px solid #364954;
