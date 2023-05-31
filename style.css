@@ -38,6 +38,9 @@ div#pageContainer {
 }
 
 div#header {
+	/* position: fixed;
+	top: 0;
+	width: 100%; */
 	background-color: #222222;
 	display: flex;
 	font-size: 2rem;
@@ -227,7 +230,7 @@ div.keyboard > div.keyboard-row {
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key {
-	min-width: 2rem;
+	width: 2rem;
 	min-height: 2.75rem;
 	border: transparent;
 	border-radius: 4px;
