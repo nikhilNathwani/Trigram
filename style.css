@@ -52,6 +52,7 @@ div#pageContainer {
 	margin: auto;
 }
 
+/* 1. Header container */
 div#pageContainer > #headerContainer {
 	width: inherit;
 	display: flex;
@@ -60,17 +61,26 @@ div#pageContainer > #headerContainer {
 	background-color: #222222;
 }
 
+/* 2. Game container */
 div#pageContainer > div#gameContainer {
 	width: inherit;
+	padding: 0 20px;
 	overflow-y: auto;
+	/*  */
 	background-color: var(--background-color);
+	/*  */
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 2rem;
 }
 
+/* 3. Alert container */
 div#pageContainer > div#alertContainer {
 	width: inherit;
 	background-color: var(--background-color);
 }
 
+/* 4. Keyboard container */
 div#pageContainer > div#keyboardContainer {
 	width: inherit;
 	background-color: var(--background-color);
@@ -91,6 +101,8 @@ div#header {
 /* ---------------------------------------------------------------- */
 /* ----------------------   2. GAME AREA   ------------------------ */
 /* ---------------------------------------------------------------- */
+
+/*     -------------  TODAY'S TRIGRAM CONTAINER  ---------------    */
 
 div#trigramContainer {
 	width: 20rem;
@@ -134,27 +146,14 @@ div#trigramContainer {
 	color: var(--accent-color);
 }
 
-div#gameArea {
-	width: inherit;
-	/*  */
-	background-color: var(--background-color);
+/*     -----------------  GAME DISPLAY AREA  -------------------    */
+
+div#gameDisplayArea {
+	width: 100%;
 	/*  */
 	display: flex;
-	flex-direction: column;
-}
-
-div#displayArea {
-	flex-grow: 1;
 	flex-flow: column nowrap;
-	align-items: center;
-	/* background-color: var(--background-color); */
-}
-
-#gameDisplayGrid {
-	display: flex;
-	flex-flow: column;
 	gap: 2rem;
-	padding: 1rem;
 }
 
 .gameDisplayRow {
@@ -173,8 +172,9 @@ div#displayArea {
 	align-items: center;
 	padding: 1rem;
 }
+
 .wordInputCell {
-	height: 2rem;
+	height: 5rem;
 	padding: 1rem;
 	background-color: var(--primary-color-light);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

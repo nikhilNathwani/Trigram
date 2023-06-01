@@ -1,6 +1,5 @@
-const gameArea = document.querySelector("#gameArea");
-const displayArea = document.querySelector("#displayArea");
-const gameDisplayGrid = document.querySelector("#gameDisplayGrid");
+const gameContainer = document.querySelector("#gameContainer");
+const gameDisplayArea = document.querySelector("#gameDisplayArea");
 const rootStyles = getComputedStyle(document.documentElement);
 const letterGap = rootStyles.getPropertyValue("--letterGap");
 //
@@ -53,7 +52,7 @@ function addInputDivToDisplay() {
 	wordInputBox.id = "wordInputBox_" + targetLength;
 	wordInputCell.appendChild(wordInputBox);
 
-	gameDisplayGrid.appendChild(rowDiv);
+	gameDisplayArea.appendChild(rowDiv);
 	scrollDisplayToBottom();
 }
 
@@ -111,5 +110,5 @@ function introduceNextRound() {
 }
 
 function scrollDisplayToBottom() {
-	gameArea.scrollTop = gameArea.scrollHeight;
+	gameContainer.scrollTop = gameContainer.scrollHeight;
 }
