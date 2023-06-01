@@ -1,3 +1,7 @@
+/* ---------------------------------------------------------------- */
+/* --------------------   GLOBAL STYLING   ------------------------ */
+/* ---------------------------------------------------------------- */
+
 :root {
 	--game-max-width: 500px;
 
@@ -34,6 +38,10 @@ body {
 	color: var(--primary-color-light);
 }
 
+/* ---------------------------------------------------------------- */
+/* ----------------------   PAGE LAYOUT   ------------------------- */
+/* ---------------------------------------------------------------- */
+
 div#pageContainer {
 	width: min(100vw, var(--game-max-width));
 	display: grid;
@@ -45,21 +53,24 @@ div#pageContainer {
 
 div#pageContainer > #headerContainer {
 	width: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	background-color: #222222;
 }
 
-div#gameContainer {
+div#pageContainer > div#gameContainer {
 	width: inherit;
 	overflow-y: auto;
 	background-color: var(--background-color);
 }
 
-div#alertContainer {
+div#pageContainer > div#alertContainer {
 	width: inherit;
 	background-color: var(--background-color);
 }
 
-div#keyboardContainer {
+div#pageContainer > div#keyboardContainer {
 	width: inherit;
 	background-color: var(--background-color);
 	padding: 6px;
@@ -67,15 +78,18 @@ div#keyboardContainer {
 	touch-action: none;
 }
 
+/* ---------------------------------------------------------------- */
+/* -----------------------   1. HEADER   -------------------------- */
+/* ---------------------------------------------------------------- */
+
 div#header {
 	background-color: #222222;
-	display: flex;
 	font-size: 2rem;
 }
 
-div#header > p {
-	margin: auto;
-}
+/* ---------------------------------------------------------------- */
+/* ----------------------   2. GAME AREA   ------------------------ */
+/* ---------------------------------------------------------------- */
 
 div#gameArea {
 	width: inherit;
@@ -200,6 +214,10 @@ span.trigramSubstring {
 	font-weight: 600;
 }
 
+/* ---------------------------------------------------------------- */
+/* ---------------------   3. ALERT AREA   ------------------------ */
+/* ---------------------------------------------------------------- */
+
 div#alertPopup {
 	width: min(50ch, 75%);
 	height: 2.5rem;
@@ -227,6 +245,10 @@ div#errorMessage {
 	font-weight: 600;
 	color: var(--error-color);
 }
+
+/* ---------------------------------------------------------------- */
+/* ----------------------   4. KEYBOARD   ------------------------- */
+/* ---------------------------------------------------------------- */
 
 div.keyboard {
 	width: 100%;
@@ -261,6 +283,10 @@ div.keyboard > div.keyboard-row > button.keyboard-key {
 div.keyboard > div.keyboard-row > button.keyboard-key:hover {
 	background-color: #aaa;
 }
+
+/* ---------------------------------------------------------------- */
+/* -----------------------   ANIMATIONS   ------------------------- */
+/* ---------------------------------------------------------------- */
 
 @keyframes wiggle {
 	0% {
