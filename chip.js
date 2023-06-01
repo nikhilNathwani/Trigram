@@ -76,6 +76,7 @@ function updateTargetLengthFlag() {
 		"#wordInputCell_" + targetLength
 	);
 	wordInputCell.style.height = "3rem";
+	wordInputCell.style.width = "min-content";
 }
 
 function moveAcceptedWordToCompletedList() {
