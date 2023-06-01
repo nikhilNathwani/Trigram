@@ -39,8 +39,7 @@ div#pageContainer {
 	display: grid;
 	grid-template-rows: 4rem 1fr 4rem min-content;
 	justify-content: center;
-	height: 100vh;
-	max-height: 100vh;
+	height: 100dvh;
 	margin: auto;
 }
 
