@@ -27,11 +27,12 @@
 
 * {
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 html,
 body {
-	margin: 0;
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
 		sans-serif;
 	background-color: black; /*var(--background-color);*/
@@ -91,57 +92,55 @@ div#header {
 /* ----------------------   2. GAME AREA   ------------------------ */
 /* ---------------------------------------------------------------- */
 
-div#gameArea {
-	width: inherit;
-	display: flex;
-	flex-direction: column;
-	background-color: var(--background-color);
-}
-
 div#trigramContainer {
-	width: 50%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	width: 20rem;
+	height: min-content;
+	padding: 1rem;
 	margin: 2rem auto;
+	/*  */
 	background-color: var(--primary-color-light);
 	border: 2px solid var(--primary-color-dark);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-	text-align: center;
-	padding: 1rem;
 	color: var(--primary-color-dark);
+	/*  */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-items: center;
+	justify-content: center;
 }
 
-div#trigramDate {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
+#trigramDate {
 	font-size: 1.25rem;
-	margin-bottom: 1.25rem;
+	margin-bottom: 0.5rem;
 }
 
 #trigramTitle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
 	font-size: 2rem;
 	font-weight: 600;
-	margin-bottom: 1rem;
+	margin-bottom: 1.25rem;
 }
 
 #trigramReveal {
-	width: min-content;
+	margin-bottom: 0.75rem;
+	padding-left: 1rem;
+	border: 1px solid var(--accent-color);
+	border-radius: 8px;
+	/*  */
 	font-family: monospace;
 	font-size: 4rem;
 	font-weight: 600;
 	letter-spacing: 1rem;
 	color: var(--accent-color);
-	border: 1px solid var(--accent-color);
-	border-radius: 8px;
-	padding-left: 1rem;
+}
+
+div#gameArea {
+	width: inherit;
+	/*  */
+	background-color: var(--background-color);
+	/*  */
+	display: flex;
+	flex-direction: column;
 }
 
 div#displayArea {
