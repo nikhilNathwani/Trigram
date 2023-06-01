@@ -64,6 +64,7 @@ div#keyboardContainer {
 	background-color: var(--background-color);
 	padding: 6px;
 	margin: auto;
+	touch-action: none;
 }
 
 div#header {
