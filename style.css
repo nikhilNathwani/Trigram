@@ -57,7 +57,7 @@ div#gameContainer {
 
 div#alertContainer {
 	width: inherit;
-	background-color: var(--background-color);
+	background-color: orange;
 }
 
 div#keyboardContainer {
@@ -249,7 +249,7 @@ div.keyboard > div.keyboard-row > button.keyboard-key {
 	border: transparent;
 	border-radius: 4px;
 	background-color: #536672;
-	font-size: 1rem;
+	font-size: 1.25rem;
 	font-weight: bold;
 	color: white;
 	cursor: pointer;
