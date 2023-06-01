@@ -44,37 +44,44 @@ div#pageContainer {
 	margin: auto;
 }
 
-div#header {
-	/* position: fixed;
-	top: 0; */
+div#pageContainer > #headerContainer {
 	width: inherit;
+	background-color: #222222;
+}
+
+div#gameContainer {
+	width: inherit;
+	overflow-y: auto;
+	background-color: var(--background-color);
+}
+
+div#alertContainer {
+	width: inherit;
+	background-color: var(--background-color);
+}
+
+div#keyboardContainer {
+	width: inherit;
+	background-color: var(--background-color);
+	padding: 10px;
+	margin: auto;
+}
+
+div#header {
 	background-color: #222222;
 	display: flex;
 	font-size: 2rem;
+}
+
+div#header > p {
+	margin: auto;
 }
 
 div#gameArea {
 	width: inherit;
 	display: flex;
 	flex-direction: column;
-	overflow-y: auto;
 	background-color: var(--background-color);
-}
-
-div#alertArea {
-	width: inherit;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: var(--background-color);
-}
-
-div#keyboardArea {
-	width: inherit;
-}
-
-div#header > p {
-	margin: auto;
 }
 
 div#trigramContainer {
@@ -193,7 +200,7 @@ span.trigramSubstring {
 	font-weight: 600;
 }
 
-div#alertContainer {
+div#alertPopup {
 	width: min(50ch, 75%);
 	height: 2.5rem;
 	display: flex;
@@ -208,6 +215,13 @@ div#alertContainer {
 	animation-iteration-count: 1;
 }
 
+div#alertArea {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--background-color);
+}
+
 div#errorMessage {
 	font-size: 1.25rem;
 	font-weight: 600;
@@ -215,22 +229,22 @@ div#errorMessage {
 }
 
 div.keyboard {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 0.375em;
 	background-color: var(--background-color);
-	padding: 0.5rem 0rem;
 }
 
 div.keyboard > div.keyboard-row {
+	width: inherit;
 	display: flex;
-	justify-content: space-between;
-	padding: 0px 10px;
+	justify-content: center;
+	gap: 6px;
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key {
-	width: calc((100% - 20px - 9 * 6px) / 10);
-	margin: 0 6px;
+	width: calc((100% - 20px - (9 * 6px)) / 10);
 	height: 55px;
 	border: transparent;
 	border-radius: 4px;
