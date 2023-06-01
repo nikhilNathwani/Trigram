@@ -56,12 +56,12 @@ div#gameContainer {
 
 div#alertContainer {
 	width: inherit;
-	background-color: orange;
+	background-color: var(--background-color);
 }
 
 div#keyboardContainer {
 	width: inherit;
-	background-color: green;
+	background-color: var(--background-color);
 	padding: 6px;
 	margin: auto;
 }
