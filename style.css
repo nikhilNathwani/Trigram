@@ -21,10 +21,13 @@
 	--alert-container-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+* {
+	box-sizing: border-box;
+}
+
 html,
 body {
 	margin: 0;
-	box-sizing: border-box;
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
 		sans-serif;
 	background-color: black; /*var(--background-color);*/
@@ -32,8 +35,9 @@ body {
 }
 
 div#pageContainer {
+	width: min(100vw, var(--game-max-width));
 	display: grid;
-	grid-template-rows: 4rem 1fr min-content;
+	grid-template-rows: 4rem 1fr 4rem min-content;
 	justify-content: center;
 	height: 100vh;
 	max-height: 100vh;
@@ -42,24 +46,35 @@ div#pageContainer {
 
 div#header {
 	/* position: fixed;
-	top: 0;
-	width: 100%; */
+	top: 0; */
+	width: inherit;
 	background-color: #222222;
 	display: flex;
 	font-size: 2rem;
 }
 
-div#header > p {
-	margin: auto;
-}
-
 div#gameArea {
-	width: min(100vw, var(--game-max-width));
+	width: inherit;
 	display: flex;
 	flex-direction: column;
 	overflow-y: auto;
-	margin-inline: auto;
 	background-color: var(--background-color);
+}
+
+div#alertArea {
+	width: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--background-color);
+}
+
+div#keyboardArea {
+	width: inherit;
+}
+
+div#header > p {
+	margin: auto;
 }
 
 div#trigramContainer {
@@ -179,14 +194,6 @@ span.trigramSubstring {
 	font-weight: 600;
 }
 
-div#alertArea {
-	height: 4rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: var(--background-color);
-}
-
 div#alertContainer {
 	width: min(50ch, 75%);
 	height: 2.5rem;
@@ -208,16 +215,6 @@ div#errorMessage {
 	color: var(--error-color);
 }
 
-div#inputArea {
-	margin-inline: auto;
-	display: grid;
-	grid-template-rows: 3rem 1fr;
-	justify-items: center;
-	align-items: center;
-	gap: 0.375em;
-	padding: 0.375em;
-}
-
 div.keyboard {
 	display: flex;
 	flex-direction: column;
@@ -229,18 +226,19 @@ div.keyboard {
 div.keyboard > div.keyboard-row {
 	display: flex;
 	justify-content: center;
-	gap: min(0.375rem, 2vw);
-	padding-inline: 10px;
+	gap: min(6px, 2vw);
+	/* padding-inline: 10px; */
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key {
-	width: min(2rem, 8vw);
-	min-height: 2.75rem;
+	width: min(42px, 8vw);
+	height: 55px;
 	border: transparent;
 	border-radius: 4px;
 	background-color: #536672;
 	font-size: 1rem;
 	font-weight: bold;
+	text-align: center;
 	color: white;
 	cursor: pointer;
 }
