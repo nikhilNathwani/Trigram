@@ -57,7 +57,25 @@ function addInputDivToDisplay() {
 }
 
 function playAcceptedWordAnimation() {
+	updateTargetLengthFlag();
 	return;
+}
+
+function updateTargetLengthFlag() {
+	const targetLengthFlag = document.querySelector(
+		"#targetLengthCell_" + targetLength
+	);
+	targetLengthFlag.innerHTML = `<i class="fas fa-check" id="checkMark"></i>${targetLength}`;
+	targetLengthFlag.style.width = "min-content";
+	targetLengthFlag.style.backgroundColor =
+		rootStyles.getPropertyValue("--accent-color");
+	targetLengthFlag.style.borderLeft = "2px solid white";
+	targetLengthFlag.style.borderRight = "2px solid white";
+	targetLengthFlag.style.borderTop = "2px solid white";
+	const wordInputCell = document.querySelector(
+		"#wordInputCell_" + targetLength
+	);
+	wordInputCell.style.height = "3rem";
 }
 
 function moveAcceptedWordToCompletedList() {

@@ -173,6 +173,11 @@ div#gameDisplayArea {
 	padding: 1rem;
 }
 
+#checkMark {
+	font-size: 75%;
+	padding-right: 0.5rem;
+}
+
 .wordInputCell {
 	height: 5rem;
 	padding: 1rem;
