@@ -251,9 +251,11 @@ div.keyboard > div.keyboard-row > button.keyboard-key {
 	background-color: #536672;
 	font-size: 1rem;
 	font-weight: bold;
-	text-align: center;
 	color: white;
 	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key:hover {
