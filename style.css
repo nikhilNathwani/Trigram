@@ -163,7 +163,7 @@ div#gameDisplayArea {
 
 .targetLengthCell {
 	width: 15ch;
-	height: 1rem;
+	height: 2.5rem;
 	background-color: var(--primary-color-dark);
 	color: var(--primary-color-light);
 	font-size: 1.5rem;
@@ -171,6 +171,9 @@ div#gameDisplayArea {
 	justify-content: flex-start;
 	align-items: center;
 	padding: 1rem;
+	border-top: 2px solid white;
+	border-left: 2px solid white;
+	border-right: 2px solid white;
 }
 
 #checkMark {
