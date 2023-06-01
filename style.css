@@ -224,13 +224,13 @@ div.keyboard {
 
 div.keyboard > div.keyboard-row {
 	display: flex;
-	justify-content: center;
-	gap: min(6px, 2vw);
+	justify-content: space-between;
 	padding: 0px 10px;
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key {
-	width: min(42px, 8vw);
+	width: calc((100% - 20px - 9 * 6px) / 10);
+	margin: 0 6px;
 	height: 55px;
 	border: transparent;
 	border-radius: 4px;
