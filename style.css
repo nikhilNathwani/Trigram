@@ -83,8 +83,7 @@ div#trigramContainer {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin-block: 2rem;
-	margin-inline: auto;
+	margin: 2rem auto;
 	background-color: var(--primary-color-light);
 	border: 2px solid var(--primary-color-dark);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -220,14 +219,14 @@ div.keyboard {
 	flex-direction: column;
 	gap: 0.375em;
 	background-color: var(--background-color);
-	padding-block: 0.5rem;
+	padding: 0.5rem 0rem;
 }
 
 div.keyboard > div.keyboard-row {
 	display: flex;
 	justify-content: center;
 	gap: min(6px, 2vw);
-	/* padding-inline: 10px; */
+	padding: 0px 10px;
 }
 
 div.keyboard > div.keyboard-row > button.keyboard-key {
