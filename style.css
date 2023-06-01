@@ -233,7 +233,7 @@ div.keyboard {
 	display: flex;
 	flex-direction: column;
 	gap: 0.375em;
-	background-color: var(--background-color);
+	/* background-color: var(--background-color); */
 }
 
 div.keyboard > div.keyboard-row {
