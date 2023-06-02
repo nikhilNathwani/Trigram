@@ -81,7 +81,6 @@ div#alertContainer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	outline: none;
 }
 
 /* 4. Keyboard container */
@@ -91,7 +90,6 @@ div#pageContainer > div#keyboardContainer {
 	padding: 6px;
 	margin: auto;
 	touch-action: none;
-	outline: none;
 }
 
 /* ---------------------------------------------------------------- */
@@ -212,13 +210,13 @@ div#gameDisplayArea {
 
 	background-image: repeating-linear-gradient(
 		to right,
-		black,
-		black 1ch,
+		var(--primary-color-dark),
+		var(--primary-color-dark) 1ch,
 		var(--primary-color-light) 1ch,
 		var(--primary-color-light) calc(1ch + 1rem)
 	);
 	background-position: 0 100%;
-	background-size: 100% 2px;
+	background-size: 100% 3px;
 	background-repeat: no-repeat;
 }
 
