@@ -46,7 +46,7 @@ body {
 div#pageContainer {
 	width: min(100vw, var(--game-max-width));
 	display: grid;
-	grid-template-rows: 4rem 1fr min-content;
+	grid-template-rows: 4rem 1fr 4rem min-content;
 	justify-content: center;
 	height: 100dvh;
 	margin: auto;
@@ -74,7 +74,16 @@ div#pageContainer > div#gameContainer {
 	gap: 2rem;
 }
 
-/* 3. Keyboard container */
+/* 3. Alert container */
+div#alertContainer {
+	width: inherit;
+	background-color: var(--background-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 4. Keyboard container */
 div#pageContainer > div#keyboardContainer {
 	width: inherit;
 	background-color: var(--background-color);
@@ -189,17 +198,6 @@ div#gameDisplayArea {
 	color: var(--primary-color-dark);
 }
 
-div.active::after {
-	content: "";
-	display: block;
-	height: 6rem;
-	/* background-color: #da7e80; */
-	position: absolute;
-	top: 100%;
-	left: 0;
-	width: 100%;
-}
-
 .wordInputBox {
 	font-family: monospace;
 	font-size: var(--letterSize);
@@ -228,25 +226,13 @@ span.trigramSubstring {
 }
 
 /* ---------------------------------------------------------------- */
-/* ---------------------   2b. ALERT AREA   ----------------------- */
+/* ----------------------   3. ALERT AREA   ----------------------- */
 /* ---------------------------------------------------------------- */
-/* Instead of being a separate div in the flow of the document, it'll
-   pop up on top of the game, just above the keyboard, taking up the 
-   6rem of height that was reserved by the ::after pseudoelement of 
-   the active wordInputCell */
-
-div#alertContainer {
-	position: absolute;
-	width: 500px;
-	height: 6rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 
 div#alertPopup {
 	width: min(50ch, 75%);
 	height: 2.5rem;
+	margin-top: 6px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -257,12 +243,6 @@ div#alertPopup {
 	animation-duration: 0.2s;
 	animation-timing-function: ease-in-out;
 	animation-iteration-count: 1;
-	font-size: 1.25rem;
-	font-weight: 600;
-	color: #da7e80;
-}
-
-div#errorMessage {
 	font-size: 1.25rem;
 	font-weight: 600;
 	color: var(--error-color);

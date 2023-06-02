@@ -4,20 +4,6 @@ const rootStyles = getComputedStyle(document.documentElement);
 const letterGap = rootStyles.getPropertyValue("--letterGap");
 //
 
-positionAlertContainer();
-
-function positionAlertContainer() {
-	const keyboardContainer = document.querySelector("#keyboardContainer");
-	const alertContainer = document.querySelector("#alertContainer");
-
-	// Calculate the desired position
-	var keyboardContainerRect = keyboardContainer.getBoundingClientRect();
-	var desiredTop = keyboardContainerRect.top - alertContainer.offsetHeight;
-
-	// Set the position of the errorPopup
-	alertContainer.style.top = desiredTop + 3 + "px";
-}
-
 function changeCurrentInputFieldToStaticDisplay(word) {
 	const currentInputField = document.querySelector(
 		`input#wordInputBox_${targetLength - 1}`
@@ -52,7 +38,6 @@ function addInputDivToDisplay() {
 	//Create cell containing input field
 	const wordInputCell = document.createElement("div");
 	wordInputCell.classList.add("wordInputCell");
-	wordInputCell.classList.add("active");
 	wordInputCell.id = "wordInputCell_" + targetLength;
 	rowDiv.appendChild(wordInputCell);
 
@@ -92,7 +77,6 @@ function updateTargetLengthFlag() {
 	);
 	wordInputCell.style.height = "3rem";
 	wordInputCell.style.width = "min-content";
-	wordInputCell.classList.remove("active");
 }
 
 function moveAcceptedWordToCompletedList() {
