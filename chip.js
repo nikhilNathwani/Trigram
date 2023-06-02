@@ -38,6 +38,7 @@ function addInputDivToDisplay() {
 	//Create cell containing input field
 	const wordInputCell = document.createElement("div");
 	wordInputCell.classList.add("wordInputCell");
+	wordInputCell.classList.add("active");
 	wordInputCell.id = "wordInputCell_" + targetLength;
 	rowDiv.appendChild(wordInputCell);
 
@@ -77,6 +78,7 @@ function updateTargetLengthFlag() {
 	);
 	wordInputCell.style.height = "3rem";
 	wordInputCell.style.width = "min-content";
+	wordInputCell.classList.remove("active");
 }
 
 function moveAcceptedWordToCompletedList() {
@@ -102,26 +104,23 @@ function createWordInputCellInnerHTML(word) {
 }
 
 function displayError(word, errorReason) {
-	clearExistingErrors();
-
-	//Create alert container and error message div
-	const alertContainer = document.createElement("div");
-	alertContainer.id = "alertContainer";
-	const errorMessage = document.createElement("div");
-	errorMessage.id = "errorMessage";
-	alertContainer.appendChild(errorMessage);
-
-	//Write the error message
-	errorMessage.textContent = errorReason;
-
-	//Add divs to alert area
-	const alertArea = document.querySelector("div#alertArea");
-	alertArea.appendChild(alertContainer);
+	// clearExistingErrors();
+	// //Create alert container and error message div
+	// const alertContainer = document.createElement("div");
+	// alertContainer.id = "alertContainer";
+	// const errorMessage = document.createElement("div");
+	// errorMessage.id = "errorMessage";
+	// alertContainer.appendChild(errorMessage);
+	// //Write the error message
+	// errorMessage.textContent = errorReason;
+	// //Add divs to alert area
+	// const alertArea = document.querySelector("div#alertArea");
+	// alertArea.appendChild(alertContainer);
 }
 
 function clearExistingErrors() {
-	const alertArea = document.querySelector("div#alertArea");
-	alertArea.innerHTML = "";
+	// const alertArea = document.querySelector("div#alertArea");
+	// alertArea.innerHTML = "";
 }
 
 function introduceNextRound() {
