@@ -81,7 +81,7 @@ div#alertContainer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: none;
+	outline: none;
 }
 
 /* 4. Keyboard container */
@@ -91,7 +91,7 @@ div#pageContainer > div#keyboardContainer {
 	padding: 6px;
 	margin: auto;
 	touch-action: none;
-	border: none;
+	outline: none;
 }
 
 /* ---------------------------------------------------------------- */
