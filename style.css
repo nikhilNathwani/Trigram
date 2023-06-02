@@ -81,6 +81,7 @@ div#alertContainer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border: none;
 }
 
 /* 4. Keyboard container */
