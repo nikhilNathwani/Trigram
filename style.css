@@ -74,13 +74,7 @@ div#pageContainer > div#gameContainer {
 	gap: 2rem;
 }
 
-/* 3. Alert container */
-div#pageContainer > div#alertContainer {
-	width: inherit;
-	background-color: var(--background-color);
-}
-
-/* 4. Keyboard container */
+/* 3. Keyboard container */
 div#pageContainer > div#keyboardContainer {
 	width: inherit;
 	background-color: var(--background-color);
@@ -234,8 +228,21 @@ span.trigramSubstring {
 }
 
 /* ---------------------------------------------------------------- */
-/* ---------------------   3. ALERT AREA   ------------------------ */
+/* ---------------------   2b. ALERT AREA   ----------------------- */
 /* ---------------------------------------------------------------- */
+/* Instead of being a separate div in the flow of the document, it'll
+   pop up on top of the game, just above the keyboard, taking up the 
+   6rem of height that was reserved by the ::after pseudoelement of 
+   the active wordInputCell */
+
+div#alertContainer {
+	position: absolute;
+	width: 500px;
+	height: 6rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
 div#alertPopup {
 	width: min(50ch, 75%);
@@ -250,13 +257,9 @@ div#alertPopup {
 	animation-duration: 0.2s;
 	animation-timing-function: ease-in-out;
 	animation-iteration-count: 1;
-}
-
-div#alertArea {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: var(--background-color);
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: #da7e80;
 }
 
 div#errorMessage {

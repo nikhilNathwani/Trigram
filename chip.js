@@ -4,6 +4,20 @@ const rootStyles = getComputedStyle(document.documentElement);
 const letterGap = rootStyles.getPropertyValue("--letterGap");
 //
 
+positionAlertContainer();
+
+function positionAlertContainer() {
+	const keyboardContainer = document.querySelector("#keyboardContainer");
+	const alertContainer = document.querySelector("#alertContainer");
+
+	// Calculate the desired position
+	var keyboardContainerRect = keyboardContainer.getBoundingClientRect();
+	var desiredTop = keyboardContainerRect.top - alertContainer.offsetHeight;
+
+	// Set the position of the errorPopup
+	alertContainer.style.top = desiredTop + 3 + "px";
+}
+
 function changeCurrentInputFieldToStaticDisplay(word) {
 	const currentInputField = document.querySelector(
 		`input#wordInputBox_${targetLength - 1}`
@@ -104,23 +118,17 @@ function createWordInputCellInnerHTML(word) {
 }
 
 function displayError(word, errorReason) {
-	// clearExistingErrors();
-	// //Create alert container and error message div
-	// const alertContainer = document.createElement("div");
-	// alertContainer.id = "alertContainer";
-	// const errorMessage = document.createElement("div");
-	// errorMessage.id = "errorMessage";
-	// alertContainer.appendChild(errorMessage);
-	// //Write the error message
-	// errorMessage.textContent = errorReason;
-	// //Add divs to alert area
-	// const alertArea = document.querySelector("div#alertArea");
-	// alertArea.appendChild(alertContainer);
+	clearExistingErrors();
+	const alertContainer = document.querySelector("#alertContainer");
+	const alertPopup = document.createElement("div");
+	alertPopup.id = "alertPopup";
+	alertPopup.textContent = errorReason;
+	alertContainer.appendChild(alertPopup);
 }
 
 function clearExistingErrors() {
-	// const alertArea = document.querySelector("div#alertArea");
-	// alertArea.innerHTML = "";
+	const alertContainer = document.querySelector("div#alertContainer");
+	alertContainer.innerHTML = "";
 }
 
 function introduceNextRound() {
