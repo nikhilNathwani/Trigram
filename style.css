@@ -12,7 +12,7 @@
 	/* Font colors */
 	--primary-color-dark: #364954;
 	--primary-color-light: white;
-	--accent-color: #398c7f; /*#52a87f;*/
+	--accent-color: #52a87f; /*#398c7f; */
 	--error-color: #da7e80;
 
 	/* Background colors */
@@ -236,6 +236,11 @@ div#alertPopup {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	/* background: linear-gradient(
+		to bottom,
+		transparent,
+		var(--primary-color-light)
+	); */
 	background-color: var(--primary-color-light);
 	border: 2px solid var(--primary-color-dark);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
