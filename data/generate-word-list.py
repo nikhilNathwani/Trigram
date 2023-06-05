@@ -14,3 +14,31 @@
 #    B) Else (T already in 'trigrams' table):
 #         - Increment 'num_words_length_N' by 1
 #         - Increment 'run_length' IF it currently equals (N - 'run_start')
+
+
+# Temp solution:
+import urllib.request
+import json
+
+def download_sowpods_word_list():
+    url = "https://www.wordgamedictionary.com/sowpods/download/sowpods.txt"
+    filename = "sowpods.txt"
+    urllib.request.urlretrieve(url, filename)
+
+def generate_words_with_cat(n):
+    with open("sowpods.txt", "r") as file:
+        cat_words = [word.strip() for word in file.readlines() if 'cat' in word.lower()]
+    n_letter_words = [word for word in cat_words if len(word) == n]
+    return n_letter_words
+
+n_values = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+json_data = {}
+
+download_sowpods_word_list()
+
+for n in n_values:
+    words_with_cat = generate_words_with_cat(n)
+    json_data[str(n)] = words_with_cat
+
+with open('cat_words.json', 'w') as json_file:
+    json.dump(json_data, json_file, indent=2)
