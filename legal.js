@@ -20,7 +20,7 @@ function lookupErrorString(errorCode) {
 		case "TRIGRAM-MISSING":
 			return `Word must contain ${trigram}.`;
 		case "NOT-FOUND":
-			return "Word not found.";
+			return "Not in word list";
 		default:
 			return "An error occurred.";
 	}
@@ -34,9 +34,42 @@ function containsTrigram(word) {
 	return word.includes(trigram);
 }
 
-function existsInWordList(word) {
-	return true; //will complete this function later
+let wordList = null;
+
+function loadWordList() {
+	return new Promise((resolve, reject) => {
+		fetch("data/cat_words.json")
+			.then((response) => response.json())
+			.then((data) => {
+				wordList = data;
+				resolve();
+			})
+			.catch((error) => {
+				console.error("Error loading word list:", error);
+				reject(error);
+			});
+	});
 }
+
+function existsInWordList(word) {
+	if (!wordList) {
+		console.error("Word list not loaded.");
+		return false;
+	}
+	const words = wordList[targetLength.toString()];
+	if (words && Array.isArray(words)) {
+		return words.includes(word.toLowerCase());
+	}
+
+	return false;
+}
+
+// Usage:
+loadWordList().then(() => {
+	const word = "catch";
+	const exists = existsInWordList(word);
+	console.log(exists); // true or false
+});
 
 function isLongestPossibleWord(word) {
 	return false;

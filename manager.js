@@ -1,4 +1,4 @@
-const trigram = "NNN";
+const trigram = "CAT";
 var targetLength = 5;
 var acceptedWords = ["", "", "", "", ""];
 
