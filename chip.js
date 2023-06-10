@@ -23,23 +23,18 @@ function changeCurrentInputFieldToStaticDisplay(word) {
 	trigramSpan.classList.add("trigramSubstring");
 }
 
-function addInputDivToDisplay() {
-	//Create row div
-	const rowDiv = document.createElement("div");
-	rowDiv.classList.add("gameDisplayRow");
+function addInputDivToDisplay(length) {
+	//Select row div
+	const rowDiv = document.querySelector(`div.gameDisplayRow_${length}`);
 
-	//Create cell containing target length
-	const targetLengthCell = document.createElement("div");
-	targetLengthCell.classList.add("targetLengthCell");
-	targetLengthCell.id = "targetLengthCell_" + targetLength;
+	//Update cell containing target length
+	const targetLengthCell = document.querySelector(
+		`div#targetLengthCell_${length}`
+	);
 	targetLengthCell.textContent = targetLength + " letter word";
-	rowDiv.appendChild(targetLengthCell);
 
-	//Create cell containing input field
-	const wordInputCell = document.createElement("div");
-	wordInputCell.classList.add("wordInputCell");
-	wordInputCell.id = "wordInputCell_" + targetLength;
-	rowDiv.appendChild(wordInputCell);
+	//Select cell containing word input field
+	const wordInputCell = document.querySelector(`div#wordInputCell_${length}`);
 
 	//Create input field
 	const wordInputBox = document.createElement("input");
@@ -52,7 +47,6 @@ function addInputDivToDisplay() {
 	wordInputBox.id = "wordInputBox_" + targetLength;
 	wordInputCell.appendChild(wordInputBox);
 
-	gameDisplayArea.appendChild(rowDiv);
 	scrollDisplayToBottom();
 }
 

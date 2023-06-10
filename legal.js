@@ -68,7 +68,7 @@ function existsInWordList(word) {
 loadWordList().then(() => {
 	const word = "catch";
 	const exists = existsInWordList(word);
-	console.log(exists); // true or false
+	// console.log(exists); // true or false
 });
 
 function isLongestPossibleWord(word) {

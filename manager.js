@@ -1,16 +1,46 @@
 const trigram = "CAT";
 var targetLength = 5;
+var maxLength = 10;
 var acceptedWords = ["", "", "", "", ""];
 
 /* -----  MAIN  ------------------------------------------------------------ */
 
+initiateBoard();
+
 initiateNextRound();
+
+function initiateBoard() {
+	var parentElement = document.getElementById("gameDisplayArea");
+
+	for (var N = targetLength; N <= maxLength; N++) {
+		var gameDisplayRow = document.createElement("div");
+		gameDisplayRow.className = "gameDisplayRow";
+		gameDisplayRow.id = "gameDisplayRow_" + N;
+		if (N == targetLength) {
+			gameDisplayRow.classList.add("active");
+		} else {
+			gameDisplayRow.classList.add("locked");
+		}
+
+		var targetLengthCell = document.createElement("div");
+		targetLengthCell.className = "targetLengthCell";
+		targetLengthCell.id = "targetLengthCell_" + N;
+		gameDisplayRow.appendChild(targetLengthCell);
+
+		var wordInputCell = document.createElement("div");
+		wordInputCell.className = "wordInputCell";
+		wordInputCell.id = "wordInputCell_" + N;
+		gameDisplayRow.appendChild(wordInputCell);
+
+		parentElement.appendChild(gameDisplayRow);
+	}
+}
 
 function initiateNextRound() {
 	if (targetLength > 5) {
 		changeCurrentInputFieldToStaticDisplay();
 	}
-	addInputDivToDisplay();
+	addInputDivToDisplay(targetLength);
 	listenToNewInputField();
 }
 function listenToNewInputField() {
