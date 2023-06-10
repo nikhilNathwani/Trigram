@@ -22,11 +22,6 @@ function initiateBoard() {
 			gameDisplayRow.classList.add("locked");
 		}
 
-		var targetLengthCell = document.createElement("div");
-		targetLengthCell.className = "targetLengthCell";
-		targetLengthCell.id = "targetLengthCell_" + N;
-		gameDisplayRow.appendChild(targetLengthCell);
-
 		var wordInputCell = document.createElement("div");
 		wordInputCell.className = "wordInputCell";
 		wordInputCell.id = "wordInputCell_" + N;

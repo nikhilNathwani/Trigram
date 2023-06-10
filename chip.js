@@ -25,13 +25,16 @@ function changeCurrentInputFieldToStaticDisplay(word) {
 
 function addInputDivToDisplay(length) {
 	//Select row div
-	const rowDiv = document.querySelector(`div.gameDisplayRow_${length}`);
+	const rowDiv = document.querySelector(`div#gameDisplayRow_${length}`);
+	rowDiv.classList.remove("locked");
+	rowDiv.classList.add("active");
 
-	//Update cell containing target length
-	const targetLengthCell = document.querySelector(
-		`div#targetLengthCell_${length}`
-	);
+	//Create cell containing target length
+	const targetLengthCell = document.createElement("div");
+	targetLengthCell.classList.add("targetLengthCell");
+	targetLengthCell.id = `targetLengthCell_${length}`;
 	targetLengthCell.textContent = targetLength + " letter word";
+	rowDiv.insertBefore(targetLengthCell, rowDiv.firstChild);
 
 	//Select cell containing word input field
 	const wordInputCell = document.querySelector(`div#wordInputCell_${length}`);

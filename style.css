@@ -6,8 +6,8 @@
 	--game-max-width: 500px;
 
 	/* Font sizes */
-	--letterSize: 2.5rem;
-	--letterGap: 1rem;
+	--letterSize: 2rem;
+	--letterGap: 0.75rem;
 
 	/* Font colors */
 	--primary-color-dark: #364954;
@@ -223,6 +223,17 @@ div#gameDisplayArea {
 span.trigramSubstring {
 	color: var(--accent-color);
 	font-weight: 600;
+}
+
+.locked > div {
+	background-color: var(--primary-color-dark);
+	border: 1px solid black;
+	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.7);
+}
+
+.locked > div.targetLengthCell {
+	background-color: var(--primary-color-dark);
+	border-bottom: none;
 }
 
 /* ---------------------------------------------------------------- */
