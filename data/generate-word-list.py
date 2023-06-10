@@ -20,13 +20,13 @@
 import urllib.request
 import json
 
-def download_sowpods_word_list():
-    url = "https://www.wordgamedictionary.com/sowpods/download/sowpods.txt"
-    filename = "sowpods.txt"
+def download_scrabble_word_list():
+    url = "https://www.wordgamedictionary.com/twl06/download/twl06.txt"
+    filename = "scrabble_words.txt"
     urllib.request.urlretrieve(url, filename)
 
 def generate_words_with_cat(n):
-    with open("sowpods.txt", "r") as file:
+    with open("scrabble_words.txt", "r") as file:
         cat_words = [word.strip() for word in file.readlines() if 'cat' in word.lower()]
     n_letter_words = [word for word in cat_words if len(word) == n]
     return n_letter_words
@@ -34,7 +34,7 @@ def generate_words_with_cat(n):
 n_values = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 json_data = {}
 
-download_sowpods_word_list()
+download_scrabble_word_list()
 
 for n in n_values:
     words_with_cat = generate_words_with_cat(n)
