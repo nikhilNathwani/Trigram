@@ -78,7 +78,7 @@ div#pageContainer > div#gameContainer {
 	/*  */
 	display: flex;
 	flex-flow: column nowrap;
-	gap: 2rem;
+	gap: 1rem;
 }
 
 /* 3. Alert container */
