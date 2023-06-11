@@ -6,8 +6,8 @@
 	--game-max-width: 500px;
 
 	/* Font sizes */
-	--letterSize: 2rem;
-	--letterGap: 0.75rem;
+	--letterSize: 1.75rem;
+	--letterGap: 0.5rem;
 
 	/* Colors */
 	--color-1: #fff;
@@ -74,7 +74,7 @@ div#pageContainer > div#gameContainer {
 	padding: 0 20px;
 	overflow-y: auto;
 	/*  */
-	background-color: var(--color-4);
+	background-color: var(--color-1);
 	/*  */
 	display: flex;
 	flex-flow: column nowrap;
@@ -84,7 +84,7 @@ div#pageContainer > div#gameContainer {
 /* 3. Alert container */
 div#alertContainer {
 	width: inherit;
-	background-color: var(--color-4);
+	background-color: var(--color-1);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -126,7 +126,7 @@ div#gameScoreArea {
 .score-widget {
 	width: 10.5rem;
 	background-color: white;
-	border: 3px solid var(--color-5);
+	border: 1px solid var(--color-5);
 	color: var(--color-5);
 	display: flex;
 	flex-direction: column;
@@ -150,7 +150,7 @@ div#gameScoreArea {
 	font-size: 1.75rem;
 	font-family: monospace;
 	font-weight: bold;
-	letter-spacing: 0.25rem;
+	letter-spacing: 0.5rem;
 	padding-left: 0.125rem;
 }
 
@@ -177,16 +177,16 @@ div#gameDisplayArea {
 .targetLengthCell {
 	width: 15ch;
 	height: 2.5rem;
-	background-color: var(--color-5);
-	color: var(--color-1);
-	font-size: 1.5rem;
+	background-color: var(--color-1);
+	color: var(--color-5);
+	font-size: 1.25rem;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
 	padding: 1rem;
-	border-top: 2px solid var(--color-1);
-	border-left: 2px solid var(--color-1);
-	border-right: 2px solid var(--color-1);
+	border-top: 1px solid var(--color-5);
+	border-left: 1px solid var(--color-5);
+	border-right: 1px solid var(--color-5);
 }
 
 #checkMark {
@@ -196,10 +196,11 @@ div#gameDisplayArea {
 
 .wordInputCell {
 	position: relative;
-	height: 5rem;
-	padding: 1rem;
+	height: 4rem;
+	padding: 0 1rem;
 	background-color: var(--color-1);
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	border: 1px solid black;
+	/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
 	display: flex;
 	align-items: center;
 	font-family: monospace;
@@ -236,7 +237,10 @@ span.trigramSubstring {
 }
 
 .locked > div {
-	background-color: var(--color-4);
+	width: 90%;
+	height: 4.5rem;
+	margin: 1rem auto;
+	background-color: var(--color-1);
 	border: 1px solid var(--color-5);
 	border-radius: 12px;
 	box-shadow: none;
