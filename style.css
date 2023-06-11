@@ -273,7 +273,7 @@ div#alertPopup {
 	animation-iteration-count: 1;
 	font-size: 1.25rem;
 	font-weight: 600;
-	color: var(--error-color);
+	color: var(--color-3);
 }
 
 /* ---------------------------------------------------------------- */
