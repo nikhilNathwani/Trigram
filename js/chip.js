@@ -1,8 +1,11 @@
 const gameContainer = document.querySelector("#gameContainer");
-const gameDisplayArea = document.querySelector("#gameDisplayArea");
 const rootStyles = getComputedStyle(document.documentElement);
 const letterGap = rootStyles.getPropertyValue("--letterGap");
 //
+
+function displayLevel() {
+	return;
+}
 
 function changeCurrentInputFieldToStaticDisplay(word) {
 	const currentInputField = document.querySelector(
