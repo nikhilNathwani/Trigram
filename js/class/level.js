@@ -27,10 +27,22 @@ class Level {
 
 	// Setter methods
 	setState(state) {
-		// Check if the state value is valid
-		if (Object.values(LevelState).includes(state)) {
+		if (state == LevelState.ACTIVE) {
 			this.state = state;
-		} else {
+			this.levelDiv.querySelector("input").focus();
+		}
+		//
+		else if (state == LevelState.INACTIVE) {
+			this.state = state;
+			return;
+		}
+		//
+		else if (state == LevelState.COMPLETE) {
+			this.state = state;
+			return;
+		}
+		//
+		else {
 			throw new Error("Invalid state value");
 		}
 	}

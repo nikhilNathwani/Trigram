@@ -8,8 +8,6 @@ class Game {
 		//i.e. indices 0 through minTargetLength-1 will be null.
 		this.allLevels = this.generateAllLevels();
 		this.currentLevel = this.getLevel(minTargetLength);
-		this.nextLevel = this.getLevel(minTargetLength + 1);
-		this.completedLevels = Array(maxTargetLength + 1).fill(null);
 	}
 
 	generateAllLevels() {
@@ -27,29 +25,13 @@ class Game {
 		return this.allLevels[wordLength] || null;
 	}
 
-	advanceLevel(targetLength, word) {
-		//Set current level to complete
+	acceptWord(word) {
 		this.currentLevel.acceptedWord = word;
 		this.currentLevel.setState(LevelState.COMPLETE);
-
-		//Move to next level
-		this.currentLevel = this.nextLevel;
-		this.currentLevel.setState(LevelState.ACTIVE); //will throw error when game is complete
-
-		//Set the next level
-		this.nextLevel = null;
-		var currentTarget = this.currentLevel.wordLength;
-		for (let i = 0; i < this.allLevels.length; i++) {
-			var index = (currentTarget + 1 + i) % this.allLevels.length;
-			var level = allLevels[index]; //future perf: check index>=minTargetLength first, will save some null checks
-			if (level == this.currentLevel) {
-				return; // call end-game sequence here
-			}
-			if (level.state == LevelState.INACTIVE) {
-				this.nextLevel = level;
-			}
-		}
+		advanceLevel();
 	}
+
+	// ~~~~~~~~~~  HELPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	isGameComplete() {
 		for (let i = this.minTargetLength; i <= this.maxTargetLength; i++) {
@@ -61,5 +43,27 @@ class Game {
 			}
 		}
 		return true;
+	}
+
+	advanceLevel() {
+		//Find next incomplete level
+		this.currentLevel = null;
+		for (let i = 0; i < this.allLevels.length; i++) {
+			var index = (word.length + 1 + i) % this.allLevels.length;
+			var level = allLevels[index]; //unnecessarily checks indices 0 through minTarget-1 which are all null
+			if (level != null && level.state != LevelState.COMPLETE) {
+				this.currentLevel = level;
+			}
+		}
+		//Set new current level to ACTIVE (if game isn't over)
+		if (this.currentLevel != null) {
+			this.currentLevel.setState(LevelState.ACTIVE); //will throw error when game is complete
+		} else {
+			endGame();
+		}
+	}
+
+	endGame() {
+		return; //TBD
 	}
 }

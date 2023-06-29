@@ -20,25 +20,7 @@ function processInput(word) {
 }
 
 function handleValidWord(word) {
-	//Add word to accepted word list
-	game.completedLevels[word.length] = word;
-	//Set level state to complete
-	levels[word.length].setState(LevelState.COMPLETE);
-	//Update current and next level fields
-	if (game.isGameComplete()) {
-		console.log("You win!");
-	} else {
-		game.currentLevel = game.nextLevel;
-		game.nextLevel = null;
-	}
-	// updateDisplay(word);
-	if (isLongestPossibleWord(word)) {
-		return; //Come back to this
-	} else {
-		incrementTargetLength();
-	}
-	initiateNextRound();
-	clearUserInput(); //must be last, because this updates the 'word' global var
+	game.acceptWord(word);
 }
 
 function handleInvalidWord(word, errorReason) {
