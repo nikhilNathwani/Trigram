@@ -8,7 +8,7 @@ var inputStateEnum = {
 /* -----  MAIN  ------------------------------------------------------------ */
 
 // Set the initial focus on the first input field
-inputs[0].focus();
+// inputs[0].focus();
 
 // Attach event listeners to each input field
 inputs.forEach(function (input, index) {

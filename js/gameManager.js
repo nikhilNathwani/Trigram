@@ -1,14 +1,3 @@
-import Level from "./class/level.js";
-import Game from "./class/game.js";
-
-const trigram = "CAT";
-const initialTargetLength = 6;
-const maxTargetLength = 10;
-
-var currentTargetLength = initialTargetLength;
-var nextTargetLength = initialTargetLength + 1;
-var completedTargetLengths = {};
-
 //Only these functions:
 // 1) startGame
 // 2) playLevel
@@ -18,31 +7,8 @@ var completedTargetLengths = {};
 
 /* -----  MAIN  ------------------------------------------------------------ */
 
-startGame();
-
-function startGame() {
-	createAllLevels(initialTargetLength, maxTargetLength);
-	playLevel(initialTargetLength);
-}
-
-function updatePreviousLevelState() {
-	if (!(currentTargetLength in completedTargetLengths)) {
-		setStateInactive(currentTargetLength);
-	}
-}
-
-function playLevel(wordLength) {
-	updatePreviousLevelState();
-	setActiveLevel(wordLength);
-	setNextLevel(wordLength);
-
-	displayLevel(wordLength);
-	listenForInput(wordLength);
-}
-
-function endLevel(wordLength) {
-	return;
-}
+const game = new Game("CAT", 6, 10);
+const levels = game.allLevels;
 
 function processInput(word) {
 	var [isValid, errorReason] = validateWord(word); //owned by legal
@@ -53,15 +19,19 @@ function processInput(word) {
 	}
 }
 
-function addWordToAcceptedWordsList(word) {
-	acceptedWords.push(word);
-}
-
 function handleValidWord(word) {
-	// playAcceptedWordAnimation()
-	// moveAcceptedWordToCompletedList()
-	addWordToAcceptedWordsList(word);
-	updateDisplay(word);
+	//Add word to accepted word list
+	game.completedLevels[word.length] = word;
+	//Set level state to complete
+	levels[word.length].setState(LevelState.COMPLETE);
+	//Update current and next level fields
+	if (game.isGameComplete()) {
+		console.log("You win!");
+	} else {
+		game.currentLevel = game.nextLevel;
+		game.nextLevel = null;
+	}
+	// updateDisplay(word);
 	if (isLongestPossibleWord(word)) {
 		return; //Come back to this
 	} else {
@@ -76,15 +46,3 @@ function handleInvalidWord(word, errorReason) {
 }
 
 /* -----  HELPER FUNCTIONS  ------------------------------------------------ */
-
-function incrementTargetLength() {
-	//Increment value on backend
-	targetLength++;
-
-	//Increment value on frontend (TEMPORARILY REMOVED)
-	// const targetLengthUI = document.querySelector("#targetLength");
-	// targetLengthUI.innerText = parseInt(targetLengthUI.innerText) + 1;
-	//^may want to add error handling. E.g. if targetLengthUI is
-	//changed to a non-integer value in dev tools. Or change it
-	//from a <p> to an immutable svg
-}

@@ -16,7 +16,7 @@ function validateWord(word) {
 function lookupErrorString(errorCode) {
 	switch (errorCode) {
 		case "WRONG-LENGTH":
-			return `Word must be ${currentTargetLength} letters long.`;
+			return `Word must be ${game.currentLevel.wordLength} letters long.`;
 		case "TRIGRAM-MISSING":
 			return `Word must contain ${trigram}.`;
 		case "NOT-FOUND":
@@ -27,7 +27,7 @@ function lookupErrorString(errorCode) {
 }
 
 function isTargetLengthReached(word) {
-	return currentTargetLength == word.length;
+	return game.currentLevel.wordLength == word.length;
 }
 
 function containsTrigram(word) {
@@ -56,7 +56,7 @@ function existsInWordList(word) {
 		console.error("Word list not loaded.");
 		return false;
 	}
-	const words = wordList[currentTargetLength.toString()];
+	const words = wordList[game.currentLevel.wordLength.toString()];
 	if (words && Array.isArray(words)) {
 		return words.includes(word.toLowerCase());
 	}
