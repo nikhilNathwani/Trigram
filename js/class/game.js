@@ -25,10 +25,37 @@ class Game {
 		return this.allLevels[wordLength] || null;
 	}
 
+	endGame() {
+		return; //TBD
+	}
+
+	advanceLevel() {
+		var completedWordLength = this.currentLevel.wordLength;
+
+		//Find next incomplete level
+		console.log("setting next level");
+
+		this.currentLevel = null;
+		for (let i = 0; i < this.allLevels.length; i++) {
+			var index = (completedWordLength + 1 + i) % this.allLevels.length;
+			var level = this.allLevels[index]; //unnecessarily checks indices 0 through minTarget-1 which are all null
+			if (level != null && level.state != LevelState.COMPLETE) {
+				this.currentLevel = level;
+				break;
+			}
+		}
+		//Set new current level to ACTIVE (if game isn't over)
+		if (this.currentLevel != null) {
+			this.currentLevel.setState(LevelState.ACTIVE); //will throw error when game is complete
+		} else {
+			this.endGame();
+		}
+	}
+
 	acceptWord(word) {
 		this.currentLevel.acceptedWord = word;
 		this.currentLevel.setState(LevelState.COMPLETE);
-		advanceLevel();
+		this.advanceLevel();
 	}
 
 	// ~~~~~~~~~~  HELPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,27 +70,5 @@ class Game {
 			}
 		}
 		return true;
-	}
-
-	advanceLevel() {
-		//Find next incomplete level
-		this.currentLevel = null;
-		for (let i = 0; i < this.allLevels.length; i++) {
-			var index = (word.length + 1 + i) % this.allLevels.length;
-			var level = allLevels[index]; //unnecessarily checks indices 0 through minTarget-1 which are all null
-			if (level != null && level.state != LevelState.COMPLETE) {
-				this.currentLevel = level;
-			}
-		}
-		//Set new current level to ACTIVE (if game isn't over)
-		if (this.currentLevel != null) {
-			this.currentLevel.setState(LevelState.ACTIVE); //will throw error when game is complete
-		} else {
-			endGame();
-		}
-	}
-
-	endGame() {
-		return; //TBD
 	}
 }

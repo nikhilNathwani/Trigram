@@ -1,32 +1,26 @@
 var inputs = document.querySelectorAll("input.inputField");
-var inputStateEnum = {
-	INACTIVE: "inactive",
-	ACTIVE: "active",
-	COMPLETED: "completed",
-};
 
 /* -----  MAIN  ------------------------------------------------------------ */
-
-// Set the initial focus on the first input field
-// inputs[0].focus();
 
 // Attach event listeners to each input field
 inputs.forEach(function (input, index) {
 	input.addEventListener("focus", function (event) {
-		handleFocus(event, index + initialTargetLength);
+		handleFocus(event, index + game.minTargetLength);
 	});
 	input.addEventListener("blur", function (event) {
-		handleUnfocus(event, index + initialTargetLength);
+		handleUnfocus(event, index + game.minTargetLength);
 	});
 	input.addEventListener("keydown", function (event) {
-		handleKeyDown(event, index + initialTargetLength);
+		handleKeyDown(event, index + game.minTargetLength);
+	});
+	input.addEventListener("input", function (event) {
+		handleInput(event, index + game.minTargetLength);
 	});
 });
 
 // Event handler for focus event
 function handleFocus(event, levelNumber) {
 	console.log("FOCUS event for LEVEL", levelNumber);
-	startLevel(levelNumber);
 }
 
 // Event handler for un-focus ("blur") event
@@ -34,37 +28,30 @@ function handleUnfocus(event, levelNumber) {
 	console.log("UNFOCUS event for LEVEL", levelNumber);
 }
 
-// Event handler for keydown event
-function handleKeyDown(event, levelNumber) {
+// Event handler for focus event
+function handleInput(event, levelNumber) {
 	var word = event.target.value;
+	if (isTargetLengthReached(word)) {
+		processInput(word);
+	}
+}
+
+// Event handler for keydown event (intercept Enter action & invalid chars)
+function handleKeyDown(event, levelNumber) {
 	var inputChar = event.key;
-	// Case 0 of 3:
-	// - If not an accepted char, then ignore
+	var word = event.target.value;
 	if (!isAcceptedChar(inputChar)) {
 		event.preventDefault();
+		return;
 	}
-	// Case 1 of 3:
-	// - User hit 'Enter'
-	else if (inputChar === "Enter") {
-		console.log("Enter key pressed");
-		if (word.length > 0) {
-			processInput(word);
-		}
-	}
-	// Case 2 of 3:
-	// - User is already at targetLength (*)
-	else if (word.length > currentTargetLength) {
-		e.target.value = word.slice(0, currentTargetLength);
+	if (
+		(inputChar === "Enter" && word.length > 0) ||
+		(word.length == game.currentLevel.wordLength &&
+			inputChar !== "Backspace")
+	) {
+		event.preventDefault();
 		processInput(word);
-		// (*) E.g. can happen if user hit a "Not in word list",
-		//     error then kept typing chars before deleting any)
-	}
-	// Case 3 of 3:
-	// - User inputted a letter and hit the target length
-	else {
-		if (isLetter(inputChar) && isTargetLengthReached(word)) {
-			processInput(word);
-		}
+		return;
 	}
 }
 

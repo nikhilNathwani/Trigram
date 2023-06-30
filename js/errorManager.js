@@ -2,6 +2,7 @@
 //    -isValid is true/false indicating whether the inputted word meets the constraints
 //    -errorReason is a string indicating which error message to display
 function validateWord(word) {
+	var word = word.toUpperCase();
 	if (!isTargetLengthReached(word)) {
 		return [false, lookupErrorString("WRONG-LENGTH")];
 	} else if (!containsTrigram(word)) {
@@ -18,7 +19,7 @@ function lookupErrorString(errorCode) {
 		case "WRONG-LENGTH":
 			return `Word must be ${game.currentLevel.wordLength} letters long.`;
 		case "TRIGRAM-MISSING":
-			return `Word must contain ${trigram}.`;
+			return `Word must contain ${game.trigram}.`;
 		case "NOT-FOUND":
 			return "Not in word list";
 		default:
@@ -31,7 +32,7 @@ function isTargetLengthReached(word) {
 }
 
 function containsTrigram(word) {
-	return word.includes(trigram);
+	return word.includes(game.trigram);
 }
 
 let wordList = null;
@@ -60,7 +61,6 @@ function existsInWordList(word) {
 	if (words && Array.isArray(words)) {
 		return words.includes(word.toLowerCase());
 	}
-
 	return false;
 }
 
