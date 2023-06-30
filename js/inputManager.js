@@ -18,25 +18,13 @@ inputs.forEach(function (input, index) {
 	});
 });
 
-// Event handler for focus event
+/* -----  EVENT HANDLER SETUP  --------------------------------------------- */
 function handleFocus(event, levelNumber) {
 	console.log("FOCUS event for LEVEL", levelNumber);
 }
-
-// Event handler for un-focus ("blur") event
 function handleUnfocus(event, levelNumber) {
 	console.log("UNFOCUS event for LEVEL", levelNumber);
 }
-
-// Event handler for focus event
-function handleInput(event, levelNumber) {
-	var word = event.target.value;
-	if (isTargetLengthReached(word)) {
-		processInput(word);
-	}
-}
-
-// Event handler for keydown event (intercept Enter action & invalid chars)
 function handleKeyDown(event, levelNumber) {
 	var inputChar = event.key;
 	var word = event.target.value;
@@ -54,21 +42,11 @@ function handleKeyDown(event, levelNumber) {
 		return;
 	}
 }
-
-function createAllLevels(firstLevel, lastLevel) {
-	drawAllLevels(firstLevel, lastLevel);
-}
-
-function setActiveLevel(levelNumber) {
-	return;
-}
-
-function setInactiveLevel(levelNumber) {
-	return;
-}
-
-function setCompletedLevel(levelNumber) {
-	return;
+function handleInput(event, levelNumber) {
+	var word = event.target.value;
+	if (isTargetLengthReached(word)) {
+		processInput(word);
+	}
 }
 
 /* -----  HELPER FUNCTIONS  ------------------------------------------------ */
@@ -78,33 +56,30 @@ function isAcceptedChar(key) {
 	return result;
 }
 
-function listenForInput(levelNumber) {
-	input = document.querySelector(`input#inputField_${levelNumber}`);
-	input.focus();
-}
-
-function getUserInput() {
-	return input.value.trim(); //trim() ignores whitespace at start/end
-}
-
-function displayLetter() {
-	input.value = input.value.toUpperCase();
-}
-
-function deleteChar() {
-	if (input.value.length > 0) {
-		input.value = input.value.slice(0, -1);
-	}
-}
-
-function clearUserInput() {
-	input.value = "";
-}
-
 function isLetter(key) {
 	const letter = key.toUpperCase();
 	const matchingKey = document.querySelector(
 		`.keyboard-key[data-keyname="${letter}"]`
 	);
 	return matchingKey !== null;
+}
+
+/* -----  OLD FUNCTIONS  ------------------------------------------------ */
+function listenForInput(levelNumber) {
+	input = document.querySelector(`input#inputField_${levelNumber}`);
+	input.focus();
+}
+function getUserInput() {
+	return input.value.trim(); //trim() ignores whitespace at start/end
+}
+function displayLetter() {
+	input.value = input.value.toUpperCase();
+}
+function deleteChar() {
+	if (input.value.length > 0) {
+		input.value = input.value.slice(0, -1);
+	}
+}
+function clearUserInput() {
+	input.value = "";
 }
