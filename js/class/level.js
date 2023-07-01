@@ -27,30 +27,16 @@ class Level {
 
 	// Setter methods
 	setState(state) {
-		if (state == LevelState.ACTIVE) {
-			this.state = state;
-			var inputField = this.levelDiv.querySelector("input");
-			inputField.className = "inputField";
-			inputField.classList.add(LevelState.ACTIVE);
-			inputField.focus();
+		if (this.state == LevelState.COMPLETE) {
+			return; //Once complete, state doesn't change
 		}
-		//
-		else if (state == LevelState.INACTIVE) {
-			this.state = state;
-			var inputField = this.levelDiv.querySelector("input");
-			inputField.className = "inputField";
-			inputField.classList.add(LevelState.INACTIVE);
-		}
-		//
-		else if (state == LevelState.COMPLETE) {
-			this.state = state;
-			var inputField = this.levelDiv.querySelector("input");
-			inputField.className = "inputField";
-			inputField.classList.add(LevelState.COMPLETE);
-		}
-		//
-		else {
+		if (!Object.values(LevelState).includes(state)) {
 			throw new Error("Invalid state value");
+		}
+		this.state = state;
+		updateStateClasses(this.levelDiv, state);
+		if (state == LevelState.ACTIVE) {
+			this.levelDiv.querySelector("input").focus();
 		}
 	}
 
@@ -94,4 +80,20 @@ class Level {
 		// Return the generated HTML element
 		return levelDiv;
 	}
+}
+
+//Updates the state class of given element and all descendents
+function updateStateClasses(element, newState) {
+	clearStateClasses(element);
+	element.classList.add(newState);
+	var children = element.children;
+	for (var i = 0; i < children.length; i++) {
+		updateStateClasses(children[i], newState);
+	}
+}
+
+function clearStateClasses(element) {
+	element.classList.remove(LevelState.INACTIVE);
+	element.classList.remove(LevelState.ACTIVE);
+	element.classList.remove(LevelState.COMPLETE);
 }
