@@ -21,9 +21,15 @@ inputs.forEach(function (input, index) {
 /* -----  EVENT HANDLER SETUP  --------------------------------------------- */
 function handleFocus(event, levelNumber) {
 	console.log("FOCUS event for LEVEL", levelNumber);
+	var level = game.allLevels[levelNumber];
+	level.setState(LevelState.ACTIVE);
 }
 function handleUnfocus(event, levelNumber) {
 	console.log("UNFOCUS event for LEVEL", levelNumber);
+	var level = game.allLevels[levelNumber];
+	if (level.getAcceptedWord() == "") {
+		level.setState(LevelState.INACTIVE);
+	}
 }
 function handleKeyDown(event, levelNumber) {
 	var inputChar = event.key;

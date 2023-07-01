@@ -29,17 +29,24 @@ class Level {
 	setState(state) {
 		if (state == LevelState.ACTIVE) {
 			this.state = state;
-			this.levelDiv.querySelector("input").focus();
+			var inputField = this.levelDiv.querySelector("input");
+			inputField.className = "inputField";
+			inputField.classList.add(LevelState.ACTIVE);
+			inputField.focus();
 		}
 		//
 		else if (state == LevelState.INACTIVE) {
 			this.state = state;
-			return;
+			var inputField = this.levelDiv.querySelector("input");
+			inputField.className = "inputField";
+			inputField.classList.add(LevelState.INACTIVE);
 		}
 		//
 		else if (state == LevelState.COMPLETE) {
 			this.state = state;
-			return;
+			var inputField = this.levelDiv.querySelector("input");
+			inputField.className = "inputField";
+			inputField.classList.add(LevelState.COMPLETE);
 		}
 		//
 		else {
