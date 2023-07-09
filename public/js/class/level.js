@@ -82,7 +82,10 @@ class Level {
 	}
 }
 
-//Updates the state class of given element and all descendents
+//-------------  HELPER FUNCTIONS  ----------------------------------------- //
+
+//Updates the CSS classes of given element and all its descendents, to reflect
+//the latest state (inactive/active/complete)
 function updateStateClasses(element, newState) {
 	clearStateClasses(element);
 	element.classList.add(newState);

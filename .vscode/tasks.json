@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Svelte Compile",
+			"type": "shell",
+			"command": "npx svelte compile --format iife --watch --output public/js src/components",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
