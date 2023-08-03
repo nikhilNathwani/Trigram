@@ -1,3 +1,4 @@
+// MAIN THREAD ------------------------------------------------------------- //
 const GAME_STATE = {
 	//Immutable vars (shouldn’t touch after initialization)
 	trigram: "CAR",
@@ -21,7 +22,17 @@ const UI_STATE = {
 	level_letterCount: null,
 };
 
-initializeLettersProvided();
+initializeGameState();
+initializeUIState();
+
+// MAIN FUNCTIONS ---------------------------------------------------------- //
+function initializeGameState() {
+	initializeLettersProvided();
+}
+
+function initializeUIState() {
+	return;
+}
 
 function addLetter(letter) {
 	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] +=
@@ -60,19 +71,7 @@ function submitGuess() {
 	}
 }
 
-function displayError() {
-	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
-	var errorReason =
-		word.length != GAME_STATE.wordLength_current
-			? `Word not ${GAME_STATE.wordLength_current} letters long`
-			: !word.includes(GAME_STATE.trigram)
-			? `Word doesn't contain ${GAME_STATE.trigram}`
-			: !wordListContains(word)
-			? "Not in word list"
-			: "Unknown error";
-	console.log("Error reason:", errorReason);
-}
-
+// HELPER FUNCTIONS -------------------------------------------------------- //
 function initializeLettersProvided() {
 	const nullArray = Array(GAME_STATE.wordLength_start).fill(null);
 	const emptyStringArray = Array(
@@ -86,6 +85,20 @@ function endGame() {
 	stopInteraction();
 }
 
+// BELONGS IN OTHER FILES -------------------------------------------------- //
 function wordListContains(word) {
 	return true;
+}
+
+function displayError() {
+	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
+	var errorReason =
+		word.length != GAME_STATE.wordLength_current
+			? `Word not ${GAME_STATE.wordLength_current} letters long`
+			: !word.includes(GAME_STATE.trigram)
+			? `Word doesn't contain ${GAME_STATE.trigram}`
+			: !wordListContains(word)
+			? "Not in word list"
+			: "Unknown error";
+	console.log("Error reason:", errorReason);
 }

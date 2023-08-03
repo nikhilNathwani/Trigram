@@ -1,5 +1,7 @@
+// MAIN THREAD ------------------------------------------------------------- //
 startInteraction();
 
+// MAIN FUNCTIONS ---------------------------------------------------------- //
 function startInteraction() {
 	document.addEventListener("keydown", handleKeyPress);
 }
@@ -20,13 +22,14 @@ function handleKeyPress(e) {
 		return;
 	}
 	if (e.key.match(/^[a-z]$/)) {
-		pressKey(e.key);
+		pressLetterKey(e.key);
 		printGameState();
 		return;
 	}
 }
 
-function pressKey(key) {
+// HELPER FUNCTIONS -------------------------------------------------------- //
+function pressLetterKey(key) {
 	var currentlyTyped =
 		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	if (currentlyTyped.length == GAME_STATE.wordLength_current) {
@@ -44,7 +47,6 @@ function deleteKey() {
 	}
 }
 
-//HELPER FUNCTIONS
 function printGameState() {
 	for (let key in GAME_STATE) {
 		console.log(key, GAME_STATE[key]);
