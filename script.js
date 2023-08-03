@@ -23,11 +23,6 @@ const UI_STATE = {
 
 initializeLettersProvided();
 
-//Challenge:
-//-Complete the game using only game state and console logs
-//-For each console log, print the whole GAME_STATE for convenience
-//-In the console, can call addLetter() and other functions
-
 function addLetter(letter) {
 	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] +=
 		letter.toUpperCase();
@@ -60,7 +55,22 @@ function submitGuess() {
 		} else {
 			GAME_STATE.wordLength_current += 1;
 		}
+	} else {
+		displayError();
 	}
+}
+
+function displayError() {
+	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
+	var errorReason =
+		word.length != GAME_STATE.wordLength_current
+			? `Word not ${GAME_STATE.wordLength_current} letters long`
+			: !word.includes(GAME_STATE.trigram)
+			? `Word doesn't contain ${GAME_STATE.trigram}`
+			: !wordListContains(word)
+			? "Not in word list"
+			: "Unknown error";
+	console.log("Error reason:", errorReason);
 }
 
 function initializeLettersProvided() {
@@ -74,4 +84,8 @@ function initializeLettersProvided() {
 
 function endGame() {
 	stopInteraction();
+}
+
+function wordListContains(word) {
+	return true;
 }

@@ -8,12 +8,6 @@ function stopInteraction() {
 	document.removeEventListener("keydown", handleKeyPress);
 }
 
-function printGameState() {
-	for (let key in GAME_STATE) {
-		console.log(key, GAME_STATE[key]);
-	}
-}
-
 function handleKeyPress(e) {
 	if (e.key === "Enter") {
 		submitGuess();
@@ -47,5 +41,12 @@ function deleteKey() {
 		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	if (currentlyTyped.length > 0) {
 		deleteLetter();
+	}
+}
+
+//HELPER FUNCTIONS
+function printGameState() {
+	for (let key in GAME_STATE) {
+		console.log(key, GAME_STATE[key]);
 	}
 }
