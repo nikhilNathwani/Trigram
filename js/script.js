@@ -1,14 +1,14 @@
 // MAIN THREAD ------------------------------------------------------------- //
 const GAME_STATE = {
 	//Immutable vars (shouldn’t touch after initialization)
-	trigram: "CAR",
-	wordLength_start: 5,
-	wordLength_goal: 10,
-	wordLength_max: 15,
+	trigram: null,
+	wordLength_start: null,
+	wordLength_goal: null,
+	wordLength_max: null,
 
 	//Mutable vars (will update throughout game)
-	wordLength_current: 5,
-	lettersProvided: [],
+	wordLength_current: null,
+	lettersProvided: null,
 };
 
 const UI_STATE = {
@@ -23,12 +23,19 @@ const UI_STATE = {
 	level_numLettersTyped: document.getElementById("numLettersTyped"),
 };
 
-initializeGameState();
+initializeGameState(6, 10);
 initializeUIState();
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
-function initializeGameState() {
-	initializeLettersProvided();
+function initializeGameState(startLength, goalLength) {
+	GAME_STATE.wordLength_start = startLength;
+	GAME_STATE.wordLength_goal = goalLength;
+
+	GAME_STATE.trigram = getTrigram();
+	GAME_STATE.wordLength_max = getMaxWordLength(GAME_STATE.trigram);
+	GAME_STATE.wordLength_current = startLength;
+	GAME_STATE.lettersProvided = new Array(startLength).fill(null);
+	GAME_STATE.lettersProvided.push("");
 
 	console.log("GAME_STATE:", GAME_STATE);
 }
@@ -89,18 +96,17 @@ function submitGuess() {
 	}
 }
 
-// HELPER FUNCTIONS -------------------------------------------------------- //
-function initializeLettersProvided() {
-	const nullArray = Array(GAME_STATE.wordLength_start).fill(null);
-	const emptyStringArray = Array(
-		GAME_STATE.wordLength_max - GAME_STATE.wordLength_start + 1
-	).fill("");
-	const resultArray = [...nullArray, ...emptyStringArray];
-	GAME_STATE.lettersProvided = resultArray;
-}
-
 function endGame() {
 	stopInteraction();
+}
+
+// HELPER FUNCTIONS -------------------------------------------------------- //
+function getTrigram() {
+	return "CAR";
+}
+
+function getMaxWordLength(trigram) {
+	return 15;
 }
 
 // BELONGS IN OTHER FILES -------------------------------------------------- //
