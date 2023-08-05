@@ -47,14 +47,7 @@ function initializeUIState() {
 	UI_STATE.level_numLettersRequired.textContent =
 		GAME_STATE.wordLength_current;
 	UI_STATE.level_numLettersTyped.textContent = 0;
-
-	var letterContainer = document.getElementById("letters");
-	for (let index = 0; index < GAME_STATE.wordLength_current; index++) {
-		var letter = document.createElement("div");
-		letter.classList.add("letter");
-		letterContainer.appendChild(letter);
-	}
-	UI_STATE.level_letters = document.querySelectorAll(".letter");
+	UI_STATE.level_letters = constructLetterDivs();
 
 	console.log("UI_STATE:", UI_STATE);
 }
@@ -107,6 +100,16 @@ function getTrigram() {
 
 function getMaxWordLength(trigram) {
 	return 15;
+}
+
+function constructLetterDivs() {
+	var letterContainer = document.getElementById("letters");
+	for (let index = 0; index < GAME_STATE.wordLength_current; index++) {
+		var letter = document.createElement("div");
+		letter.classList.add("letter");
+		letterContainer.appendChild(letter);
+	}
+	return document.querySelectorAll(".letter");
 }
 
 // BELONGS IN OTHER FILES -------------------------------------------------- //
