@@ -12,14 +12,15 @@ const GAME_STATE = {
 };
 
 const UI_STATE = {
-	//Immutable vars (shouldn’t touch after initialization)
-	scoreboard_trigram: null,
-	scoreboard_goal: null,
+	//Immutable elements (shouldn’t touch after initialization)
+	scoreboard_trigram: document.getElementById("trigram"),
+	scoreboard_goalScore: document.getElementById("goalScore"),
 
-	//Mutable vars (will update throughout game)
-	scoreboard_currentScore: null,
+	//Mutable elements (will update throughout game)
+	scoreboard_currentScore: document.getElementById("currentScore"),
 	level_letters: null,
-	level_letterCount: null,
+	level_numLettersRequired: document.getElementById("numLettersRequired"),
+	level_numLettersTyped: document.getElementById("numLettersTyped"),
 };
 
 initializeGameState();
@@ -28,10 +29,27 @@ initializeUIState();
 // MAIN FUNCTIONS ---------------------------------------------------------- //
 function initializeGameState() {
 	initializeLettersProvided();
+
+	console.log("GAME_STATE:", GAME_STATE);
 }
 
 function initializeUIState() {
-	return;
+	UI_STATE.scoreboard_trigram.textContent = GAME_STATE.trigram;
+	UI_STATE.scoreboard_goalScore.textContent = GAME_STATE.wordLength_goal;
+	UI_STATE.scoreboard_currentScore.textContent = 0;
+	UI_STATE.level_numLettersRequired.textContent =
+		GAME_STATE.wordLength_current;
+	UI_STATE.level_numLettersTyped.textContent = 0;
+
+	var letterContainer = document.getElementById("letters");
+	for (let index = 0; index < GAME_STATE.wordLength_current; index++) {
+		var letter = document.createElement("div");
+		letter.classList.add("letter");
+		letterContainer.appendChild(letter);
+	}
+	UI_STATE.level_letters = document.querySelectorAll(".letter");
+
+	console.log("UI_STATE:", UI_STATE);
 }
 
 function addLetter(letter) {
