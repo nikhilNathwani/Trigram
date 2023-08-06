@@ -49,6 +49,10 @@ startGame(6, 10);
 // (7) End Game
 
 function startGame(startLength, goalLength) {
+	// 1. Confirm action can be performed
+	//    n/a
+
+	// 2. Perform the action
 	GAME_STATE.wordLength_start = startLength;
 	GAME_STATE.wordLength_goal = goalLength;
 	GAME_STATE.trigram = getTrigram();
@@ -57,35 +61,45 @@ function startGame(startLength, goalLength) {
 	GAME_STATE.lettersProvided = new Array(startLength).fill(null);
 	console.log("Initial GAME_STATE:", GAME_STATE);
 
+	// 3. Inform the UI
 	UI_STATE.startGame(GAME_STATE.trigram, startLength, goalLength);
 
+	// 4. Advance the game
 	startLevel();
 }
 
 function startLevel() {
+	// 1. Confirm action can be performed
+	//    n/a
+
+	// 2. Perform the action
 	GAME_STATE.wordLength_current += 1;
 	GAME_STATE.lettersProvided.push("");
+
+	// 3. Inform the UI
 	UI_STATE.startLevel(GAME_STATE.wordLength_current);
+
+	// 4. Advance the game
 	startInteraction(); //i.e. start listening for user input
 }
 
 function addLetter(letter) {
-	// Pre-processing
+	// 1. Confirm action can be performed
 	var letter = letter.toUpperCase();
 	var nextLetterPosition =
 		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current].length;
-
-	//If all letter slots are already filled, resubmit current word
 	if (nextLetterPosition >= GAME_STATE.wordLength_current) {
 		submitGuess();
 		return;
 	}
 
-	//Add the letter
+	// 2. Perform the action
 	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] += letter;
+
+	// 3. Inform the UI
 	UI_STATE.addLetter(letter, nextLetterPosition);
 
-	//Now if all letter slots are filled, submit current word
+	// 4. Advance the game
 	nextLetterPosition =
 		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current].length;
 	if (nextLetterPosition >= GAME_STATE.wordLength_current) {
@@ -94,19 +108,24 @@ function addLetter(letter) {
 }
 
 function deleteLetter() {
-	//If there aren't any letters to delete, then do nothing
+	// 1. Confirm action can be performed
 	var latestLetterPosition =
 		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current].length - 1;
 	if (latestLetterPosition < 0) {
 		return;
 	}
 
-	//Delete the letter
+	// 2. Perform the action
 	var letterRemoved = GAME_STATE.lettersProvided[
 		GAME_STATE.wordLength_current
 	].slice(0, -1);
 	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] = letterRemoved;
+
+	// 3. Inform the UI
 	UI_STATE.deleteLetter(latestLetterPosition);
+
+	// 4. Advance the game
+	// n/a
 }
 
 function submitGuess() {
@@ -114,6 +133,7 @@ function submitGuess() {
 	var guessResult =
 		word.length == GAME_STATE.wordLength_current &&
 		word.includes(GAME_STATE.trigram);
+
 	if (guessResult) {
 		endLevel();
 	} else {
@@ -122,8 +142,16 @@ function submitGuess() {
 }
 
 function endLevel() {
+	// 1. Confirm action can be performed
+	//    n/a
+
+	// 2. Perform the action
 	stopInteraction();
+
+	// 3. Inform the UI
 	UI_STATE.endLevel(GAME_STATE.wordLength_current);
+
+	// 4. Advance the game
 	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_goal) {
 		endGame();
 	} else {
@@ -132,8 +160,18 @@ function endLevel() {
 }
 
 function endGame() {
+	// 1. Confirm action can be performed
+	//    n/a
+
+	// 2. Perform the action
 	console.log("GAME ENDED! YOU WIN!");
 	stopInteraction();
+
+	// 3. Inform the UI
+	UI_STATE.endGame();
+
+	// 4. Advance the game
+	//    tbd
 }
 
 // -----------------------------------------------
