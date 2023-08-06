@@ -14,7 +14,7 @@ function handleKeyPress(e) {
 		return;
 	}
 	if (e.key === "Backspace" || e.key === "Delete") {
-		deleteKey();
+		deleteLetter();
 		printGameState();
 		return;
 	}
@@ -26,14 +26,6 @@ function handleKeyPress(e) {
 }
 
 // HELPER FUNCTIONS -------------------------------------------------------- //
-function deleteKey() {
-	var currentlyTyped =
-		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
-	if (currentlyTyped.length > 0) {
-		deleteLetter();
-	}
-}
-
 function printGameState() {
 	for (let key in GAME_STATE) {
 		console.log(key, GAME_STATE[key]);

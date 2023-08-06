@@ -10,10 +10,6 @@ WHAT IM DOING NOW:
     (5) game: "thanks! once you're done, I'll move the game to the next step"
     (6) uiManager: "ok, I'll let you know... [done now] ok done!"
     (7) game: "thanks! Now I'm moving the game to the next step"
-
-
-
-
 */
 
 // MAIN THREAD ------------------------------------------------------------- //
