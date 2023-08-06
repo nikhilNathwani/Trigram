@@ -1,4 +1,4 @@
-// MAIN FUNCTIONS ---------------------------------------------------------- //
+//
 function startInteraction() {
 	document.addEventListener("keydown", handleKeyPress);
 }
@@ -22,12 +22,5 @@ function handleKeyPress(e) {
 		addLetter(e.key);
 		printGameState();
 		return;
-	}
-}
-
-// HELPER FUNCTIONS -------------------------------------------------------- //
-function printGameState() {
-	for (let key in GAME_STATE) {
-		console.log(key, GAME_STATE[key]);
 	}
 }

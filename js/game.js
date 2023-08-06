@@ -41,7 +41,7 @@ startGame(6, 10);
 // (4) Delete Letter
 //      -Check for word emptiness
 //      -Set state variables
-// (5) Check word
+// (5) Submit Guess
 //      -Check for validity
 // (6) End Level
 //      -Set state variables (should trigger CSS animations for level complete)
@@ -136,10 +136,6 @@ function endGame() {
 	stopInteraction();
 }
 
-function displayError() {
-	return;
-}
-
 // -----------------------------------------------
 function getTrigram() {
 	return "CAR";
@@ -147,4 +143,10 @@ function getTrigram() {
 
 function getMaxWordLength(trigram) {
 	return 15;
+}
+
+function printGameState() {
+	for (let key in GAME_STATE) {
+		console.log(key, GAME_STATE[key]);
+	}
 }
