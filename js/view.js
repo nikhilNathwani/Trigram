@@ -1,4 +1,9 @@
+//To Do:
+// - Have level_letters query-select the #letters container, then add/delete via query-selecting it for data-letter attr, instead of having itself be the nodelist of .letter divs which can't be queried further
+
 // STATE VARIABLES ------------------------------------------------------------- //
+var nextLetterIndex = 0;
+
 const UI_STATE = {
 	//Immutable elements (shouldn’t touch after initialization)
 	scoreboard_trigram: document.getElementById("trigram"),
@@ -17,26 +22,45 @@ const UI_STATE = {
 		this.level_numLettersRequired.textContent = startLength;
 		this.level_numLettersTyped.textContent = 0;
 		addLetterDivs(startLength);
-		this.level_letters = document.querySelectorAll(".letter");
+		this.level_letters = document.querySelector("#letters");
+		nextLetterIndex = 0;
 		console.log("Initial UI_STATE:", UI_STATE);
 	},
 
 	startLevel: function (length) {
 		addLetterDivs(1);
-		this.level_letters = document.querySelectorAll(".letter");
-		this.level_letters.forEach((letterDiv) => (letterDiv.textContent = ""));
+		this.level_letters
+			.querySelectorAll(".letter")
+			.forEach((letterDiv) => (letterDiv.textContent = ""));
 		this.level_numLettersRequired.textContent = length;
-		this.level_numLettersTyped.textContent = 0;
+		nextLetterIndex = 0;
+		this.level_numLettersTyped.textContent = nextLetterIndex;
 	},
 
-	addLetter: function (letter, position) {
-		this.level_letters[position].textContent = letter;
-		this.level_numLettersTyped.textContent = position + 1;
+	addLetter: function (letter) {
+		const nextLetterDiv = this.level_letters.querySelector(
+			`.letter:nth-child(${nextLetterIndex + 1})`
+		); //offset by 1 because nth-child is 1-indexed, not 0-indexed
+		nextLetterDiv.textContent = letter;
+		nextLetterIndex += 1;
+		this.level_numLettersTyped.textContent = nextLetterIndex;
 	},
 
-	deleteLetter: function (position) {
-		this.level_letters[position].textContent = "";
-		this.level_numLettersTyped.textContent = position;
+	deleteLetter: function () {
+		const lastTypedLetterDiv = this.level_letters.querySelector(
+			`.letter:nth-child(${nextLetterIndex})`
+		); //offset by 1 because nth-child is 1-indexed, not 0-indexed
+		lastTypedLetterDiv.textContent = "";
+		this.level_numLettersTyped.textContent = nextLetterIndex - 1;
+		nextLetterIndex -= 1;
+	},
+
+	handleValidGuess: function () {
+		return;
+	},
+
+	handleInvalidGuess: function (errorString) {
+		return;
 	},
 
 	endLevel: function (length) {
