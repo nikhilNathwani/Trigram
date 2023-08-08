@@ -1,7 +1,3 @@
-function wordListContains(word) {
-	return true;
-}
-
 function displayError() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	var errorReason =
@@ -13,4 +9,8 @@ function displayError() {
 			? "Not in word list"
 			: "Unknown error";
 	console.log("Error reason:", errorReason);
+}
+
+function wordListContains(word) {
+	return true;
 }

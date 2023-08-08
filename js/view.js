@@ -1,5 +1,6 @@
 //To Do:
-// - Have level_letters query-select the #letters container, then add/delete via query-selecting it for data-letter attr, instead of having itself be the nodelist of .letter divs which can't be queried further
+// -
+//
 
 // STATE VARIABLES ------------------------------------------------------------- //
 var nextLetterIndex = 0;

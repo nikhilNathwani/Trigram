@@ -114,24 +114,34 @@ function deleteLetter() {
 
 function handleValidGuess() {
 	// 1. Confirm action can be performed
+	// n/a
 
 	// 2. Perform the action
+	stopInteraction();
 
 	// 3. Inform the UI
 	UI_STATE.handleValidGuess();
 
 	// 4. Advance the game
+	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_goal) {
+		endGame();
+	} else {
+		startLevel();
+	}
 }
 
 function handleInvalidGuess() {
 	// 1. Confirm action can be performed
+	// n/a
 
 	// 2. Perform the action
+	displayError();
 
 	// 3. Inform the UI
 	UI_STATE.handleInvalidGuess("Placeholder error string");
 
 	// 4. Advance the game
+	// n/a
 }
 
 function submitGuess() {
@@ -140,27 +150,9 @@ function submitGuess() {
 		word.length == GAME_STATE.wordLength_current &&
 		word.includes(GAME_STATE.trigram);
 	if (guessResult) {
-		endLevel();
+		handleValidGuess();
 	} else {
-		displayError();
-	}
-}
-
-function endLevel() {
-	// 1. Confirm action can be performed
-	//    n/a
-
-	// 2. Perform the action
-	stopInteraction();
-
-	// 3. Inform the UI
-	UI_STATE.endLevel(GAME_STATE.wordLength_current);
-
-	// 4. Advance the game
-	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_goal) {
-		endGame();
-	} else {
-		startLevel();
+		handleInvalidGuess();
 	}
 }
 
