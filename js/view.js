@@ -1,5 +1,5 @@
 // UP NEXT:
-// -
+// -Add alerts widget at the bottom of the #level div, which displays error messages and the final YOU WIN message
 //
 
 var nextLetterIndex = 0;
@@ -9,6 +9,7 @@ const divID = {
 	LETTERS: "letters",
 	NUM_LETTERS_REQUIRED: "numRequiredLetters",
 	NUM_LETTERS_TYPED: "numTypedLetters",
+	ALERT: "message",
 };
 
 // MAIN THREAD ------------------------------------------------------------- //
@@ -20,63 +21,59 @@ const UI_STATE = {
 	lettersTyped: document.getElementById(divID.LETTERS),
 	numRequiredLetters: document.getElementById(divID.NUM_LETTERS_REQUIRED),
 	numTypedLetters: document.getElementById(divID.NUM_LETTERS_TYPED),
+	alert: document.getElementById(divID.ALERT),
 
 	startGame: function (trigram, startLength) {
 		document.getElementById(divID.TRIGRAM).textContent = trigram;
 
-		UI_STATE.score.textContent = 0;
-		UI_STATE.numRequiredLetters.textContent = startLength;
-		UI_STATE.numTypedLetters.textContent = 0;
-
-		addLetterDivs(startLength);
+		this.score.textContent = 0;
+		this.numRequiredLetters.textContent = startLength;
+		this.numTypedLetters.textContent = 0;
+		this.lettersTyped.textContent = "";
 
 		nextLetterIndex = 0;
 
-		console.log("Initial UI_STATE:", UI_STATE);
+		console.log("Initial UI STATE:", this);
 	},
 
 	startLevel: function (length) {
-		addLetterDivs(1);
-		UI_STATE.lettersTyped
-			.querySelectorAll(".letter")
-			.forEach((letterDiv) => (letterDiv.textContent = ""));
-		UI_STATE.numRequiredLetters.textContent = length;
+		this.lettersTyped.textContent = "";
+		this.numRequiredLetters.textContent = length;
 		nextLetterIndex = 0;
-		UI_STATE.numTypedLetters.textContent = nextLetterIndex;
+		this.numTypedLetters.textContent = nextLetterIndex;
 	},
 
 	addLetter: function (letter) {
-		const nextLetterDiv = UI_STATE.lettersTyped.querySelector(
-			`.letter:nth-child(${nextLetterIndex + 1})`
-		); //offset by 1 because nth-child is 1-indexed, not 0-indexed
-		nextLetterDiv.textContent = letter;
+		this.alert.textContent = "";
+
+		this.lettersTyped.textContent += letter;
 		nextLetterIndex += 1;
-		UI_STATE.numTypedLetters.textContent = nextLetterIndex;
+		this.numTypedLetters.textContent = nextLetterIndex;
 	},
 
 	deleteLetter: function () {
-		const lastTypedLetterDiv = UI_STATE.lettersTyped.querySelector(
-			`.letter:nth-child(${nextLetterIndex})`
-		); //offset by 1 because nth-child is 1-indexed, not 0-indexed
-		lastTypedLetterDiv.textContent = "";
-		UI_STATE.numTypedLetters.textContent = nextLetterIndex - 1;
+		this.lettersTyped.textContent = this.lettersTyped.textContent.slice(
+			0,
+			-1
+		);
+		this.numTypedLetters.textContent = nextLetterIndex - 1;
 		nextLetterIndex -= 1;
 	},
 
 	handleValidGuess: function (length) {
-		UI_STATE.score.textContent = length;
+		this.score.textContent = length;
 	},
 
 	handleInvalidGuess: function (errorString) {
-		return;
+		this.alert.textContent = errorString;
 	},
 
 	endLevel: function (length) {
-		UI_STATE.score.textContent = length;
+		this.score.textContent = length;
 	},
 
 	endGame: function () {
-		return;
+		this.alert.textContent = "YOU WIN!";
 	},
 };
 
@@ -84,6 +81,7 @@ const UI_STATE = {
 function initializeHTML() {
 	initializeScoreboardDiv();
 	initializeLevelDiv();
+	initializeAlertsDiv();
 }
 
 function initializeScoreboardDiv(trigram, goalScore) {
@@ -94,6 +92,37 @@ function initializeScoreboardDiv(trigram, goalScore) {
 
 	var scoreWidget = createWidget(divID.SCORE, 0);
 	scoreboard.appendChild(scoreWidget);
+}
+
+function initializeLevelDiv() {
+	var level = appendNewDivtoParent("level", "game");
+
+	var widget_numRequiredLetters = createWidget(
+		divID.NUM_LETTERS_REQUIRED,
+		""
+	);
+	level.appendChild(widget_numRequiredLetters);
+
+	var widget_numTypedLetters = createWidget(divID.NUM_LETTERS_TYPED, "");
+	level.appendChild(widget_numTypedLetters);
+
+	var widget_letters = createWidget(divID.LETTERS, "");
+	level.appendChild(widget_letters);
+}
+
+function initializeAlertsDiv() {
+	var alert = appendNewDivtoParent("alerts", "game");
+	var alertWidget = createWidget(divID.ALERT, "");
+	alert.appendChild(alertWidget);
+}
+
+// HELPER  -------------------------------------------------------- //
+function getTrigram() {
+	return "CAR";
+}
+
+function getMaxWordLength(trigram) {
+	return 15;
 }
 
 function createWidget(widgetType, value) {
@@ -116,45 +145,12 @@ function createWidget(widgetType, value) {
 	return widgetWrapper;
 }
 
-function initializeLevelDiv() {
-	var level = appendNewDivtoParent("level", "game");
-
-	var widget_numRequiredLetters = createWidget(
-		divID.NUM_LETTERS_REQUIRED,
-		""
-	);
-	level.appendChild(widget_numRequiredLetters);
-
-	var widget_numTypedLetters = createWidget(divID.NUM_LETTERS_TYPED, "");
-	level.appendChild(widget_numTypedLetters);
-
-	var widget_letters = createWidget(divID.LETTERS, "");
-	level.appendChild(widget_letters);
-}
-
 function appendNewDivtoParent(newDivID, parentID) {
 	const parent = document.getElementById(parentID);
 	const newDiv = document.createElement("div");
 	newDiv.setAttribute("id", newDivID);
 	parent.appendChild(newDiv);
 	return document.getElementById(newDivID);
-}
-
-// HELPER  -------------------------------------------------------- //
-function getTrigram() {
-	return "CAR";
-}
-
-function getMaxWordLength(trigram) {
-	return 15;
-}
-
-function addLetterDivs(numLetters) {
-	for (let index = 0; index < numLetters; index++) {
-		var letter = document.createElement("div");
-		letter.classList.add("letter");
-		UI_STATE.lettersTyped.appendChild(letter);
-	}
 }
 
 // BELONGS IN OTHER FILES -------------------------------------------------- //

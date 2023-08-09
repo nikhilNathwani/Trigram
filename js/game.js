@@ -137,10 +137,10 @@ function handleInvalidGuess() {
 	// n/a
 
 	// 2. Perform the action
-	displayError();
+	const errorReason = getErrorReason();
 
 	// 3. Inform the UI
-	UI_STATE.handleInvalidGuess("Placeholder error string");
+	UI_STATE.handleInvalidGuess(errorReason);
 
 	// 4. Advance the game
 	// n/a
