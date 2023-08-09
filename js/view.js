@@ -1,20 +1,28 @@
 // UP NEXT:
-// -Make view.js create all the html inside the #game div, so index.html only needs to know that the game will go there, and view.js can control the structure entirely
+// -
 //
 
-// STATE VARIABLES ------------------------------------------------------------- //
+var nextLetterIndex = 0;
+const divID = {
+	TRIGRAM: "trigram",
+	CURRENT_SCORE: "score",
+	LETTERS: "letters",
+	NUM_LETTERS_REQUIRED: "numRequiredLetters",
+	NUM_LETTERS_TYPED: "numTypedLetters",
+};
+
+// MAIN THREAD ------------------------------------------------------------- //
 
 initializeHTML();
 
-var nextLetterIndex = 0;
 const UI_STATE = {
-	currentScore: document.getElementById("score"),
-	lettersTyped: document.getElementById("letters"),
-	numRequiredLetters: document.getElementById("numRequiredLetters"),
-	numTypedLetters: document.getElementById("numTypedLetters"),
+	currentScore: document.getElementById(divID.CURRENT_SCORE),
+	lettersTyped: document.getElementById(divID.LETTERS),
+	numRequiredLetters: document.getElementById(divID.NUM_LETTERS_REQUIRED),
+	numTypedLetters: document.getElementById(divID.NUM_LETTERS_TYPED),
 
 	startGame: function (trigram, startLength) {
-		document.getElementById("trigram").textContent = trigram;
+		document.getElementById(divID.TRIGRAM).textContent = trigram;
 
 		UI_STATE.currentScore.textContent = 0;
 		UI_STATE.numRequiredLetters.textContent = startLength;
@@ -72,7 +80,7 @@ const UI_STATE = {
 	},
 };
 
-// MAIN  ---------------------------------------------------------- //
+// MAIN FUNCTIONS ---------------------------------------------------------- //
 function initializeHTML() {
 	initializeScoreboardDiv();
 	initializeLevelDiv();
@@ -81,10 +89,10 @@ function initializeHTML() {
 function initializeScoreboardDiv(trigram, goalScore) {
 	var scoreboard = appendNewDivtoParent("scoreboard", "game");
 
-	var trigramWidget = createWidget("trigram", trigram);
+	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
 	scoreboard.appendChild(trigramWidget);
 
-	var scoreWidget = createWidget("score", 0);
+	var scoreWidget = createWidget(divID.CURRENT_SCORE, 0);
 	scoreboard.appendChild(scoreWidget);
 }
 
@@ -111,13 +119,16 @@ function createWidget(widgetType, value) {
 function initializeLevelDiv() {
 	var level = appendNewDivtoParent("level", "game");
 
-	var widget_numRequiredLetters = createWidget("numRequiredLetters", "");
+	var widget_numRequiredLetters = createWidget(
+		divID.NUM_LETTERS_REQUIRED,
+		""
+	);
 	level.appendChild(widget_numRequiredLetters);
 
-	var widget_numTypedLetters = createWidget("numTypedLetters", "");
+	var widget_numTypedLetters = createWidget(divID.NUM_LETTERS_TYPED, "");
 	level.appendChild(widget_numTypedLetters);
 
-	var widget_letters = createWidget("letters", "");
+	var widget_letters = createWidget(divID.LETTERS, "");
 	level.appendChild(widget_letters);
 }
 
