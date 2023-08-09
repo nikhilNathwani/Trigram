@@ -1,13 +1,12 @@
 // UP NEXT:
-// -REPLACE SUBMIT_GUESS & END_LEVEL GAME EVENTS WITH HANDLE_VALID_GUESS AND HANDLE_INVALID_GUESS
-// -So far: created placeholder functions in both game.js and view.js
+// -
+//
 
 /* MAIN THREAD ------------------------------------------------------------- */
 const GAME_STATE = {
 	//Immutable vars (shouldn’t touch after initialization)
 	trigram: null,
 	wordLength_start: null,
-	wordLength_goal: null,
 	wordLength_max: null,
 
 	//Mutable vars (will update throughout game)
@@ -32,13 +31,12 @@ startGame(6, 10);
 //      3. Inform the UI
 //      4. Advance the game
 
-function startGame(startLength, goalLength) {
+function startGame(startLength, maxLength) {
 	// 1. Confirm action can be performed
 	//    n/a
 
 	// 2. Perform the action
 	GAME_STATE.wordLength_start = startLength;
-	GAME_STATE.wordLength_goal = goalLength;
 	GAME_STATE.trigram = getTrigram();
 	GAME_STATE.wordLength_max = getMaxWordLength(GAME_STATE.trigram);
 	GAME_STATE.wordLength_current = startLength - 1;
@@ -46,7 +44,7 @@ function startGame(startLength, goalLength) {
 	console.log("Initial GAME_STATE:", GAME_STATE);
 
 	// 3. Inform the UI
-	UI_STATE.startGame(GAME_STATE.trigram, startLength, goalLength);
+	UI_STATE.startGame(GAME_STATE.trigram, startLength, maxLength);
 
 	// 4. Advance the game
 	startLevel();
@@ -123,7 +121,7 @@ function handleValidGuess() {
 	UI_STATE.handleValidGuess();
 
 	// 4. Advance the game
-	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_goal) {
+	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_max) {
 		endGame();
 	} else {
 		startLevel();
