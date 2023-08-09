@@ -5,7 +5,7 @@
 var nextLetterIndex = 0;
 const divID = {
 	TRIGRAM: "trigram",
-	CURRENT_SCORE: "score",
+	SCORE: "score",
 	LETTERS: "letters",
 	NUM_LETTERS_REQUIRED: "numRequiredLetters",
 	NUM_LETTERS_TYPED: "numTypedLetters",
@@ -16,7 +16,7 @@ const divID = {
 initializeHTML();
 
 const UI_STATE = {
-	currentScore: document.getElementById(divID.CURRENT_SCORE),
+	score: document.getElementById(divID.SCORE),
 	lettersTyped: document.getElementById(divID.LETTERS),
 	numRequiredLetters: document.getElementById(divID.NUM_LETTERS_REQUIRED),
 	numTypedLetters: document.getElementById(divID.NUM_LETTERS_TYPED),
@@ -24,7 +24,7 @@ const UI_STATE = {
 	startGame: function (trigram, startLength) {
 		document.getElementById(divID.TRIGRAM).textContent = trigram;
 
-		UI_STATE.currentScore.textContent = 0;
+		UI_STATE.score.textContent = 0;
 		UI_STATE.numRequiredLetters.textContent = startLength;
 		UI_STATE.numTypedLetters.textContent = 0;
 
@@ -63,8 +63,8 @@ const UI_STATE = {
 		nextLetterIndex -= 1;
 	},
 
-	handleValidGuess: function () {
-		return;
+	handleValidGuess: function (length) {
+		UI_STATE.score.textContent = length;
 	},
 
 	handleInvalidGuess: function (errorString) {
@@ -72,7 +72,7 @@ const UI_STATE = {
 	},
 
 	endLevel: function (length) {
-		UI_STATE.currentScore.textContent = length;
+		UI_STATE.score.textContent = length;
 	},
 
 	endGame: function () {
@@ -92,7 +92,7 @@ function initializeScoreboardDiv(trigram, goalScore) {
 	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
 	scoreboard.appendChild(trigramWidget);
 
-	var scoreWidget = createWidget(divID.CURRENT_SCORE, 0);
+	var scoreWidget = createWidget(divID.SCORE, 0);
 	scoreboard.appendChild(scoreWidget);
 }
 

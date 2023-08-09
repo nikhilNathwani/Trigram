@@ -122,7 +122,7 @@ function handleValidGuess() {
 	stopInteraction();
 
 	// 3. Inform the UI
-	UI_STATE.handleValidGuess();
+	UI_STATE.handleValidGuess(GAME_STATE.wordLength_current);
 
 	// 4. Advance the game
 	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_max) {
