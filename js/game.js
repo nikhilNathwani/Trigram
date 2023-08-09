@@ -14,7 +14,7 @@ const GAME_STATE = {
 	lettersProvided: null,
 };
 
-startGame(6, 10);
+startGame(6);
 
 /* GAME EVENTS ------------------------------------------------------------ */
 //  (1) Start Game
@@ -31,20 +31,24 @@ startGame(6, 10);
 //      3. Inform the UI
 //      4. Advance the game
 
-function startGame(startLength, maxLength) {
+function startGame(startLength) {
 	// 1. Confirm action can be performed
 	//    n/a
 
 	// 2. Perform the action
-	GAME_STATE.wordLength_start = startLength;
 	GAME_STATE.trigram = getTrigram();
 	GAME_STATE.wordLength_max = getMaxWordLength(GAME_STATE.trigram);
+	GAME_STATE.wordLength_start = startLength;
 	GAME_STATE.wordLength_current = startLength - 1;
 	GAME_STATE.lettersProvided = new Array(startLength).fill(null);
 	console.log("Initial GAME_STATE:", GAME_STATE);
 
 	// 3. Inform the UI
-	UI_STATE.startGame(GAME_STATE.trigram, startLength, maxLength);
+	UI_STATE.startGame(
+		GAME_STATE.trigram,
+		startLength,
+		GAME_STATE.wordLength_max
+	);
 
 	// 4. Advance the game
 	startLevel();
@@ -175,7 +179,7 @@ function getTrigram() {
 }
 
 function getMaxWordLength(trigram) {
-	return 15;
+	return 8;
 }
 
 function printGameState() {
