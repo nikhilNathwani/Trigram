@@ -1,7 +1,6 @@
 // UP NEXT:
 // -
 //
-
 const divID = {
 	TRIGRAM: "trigram",
 	SCORE: "score",
@@ -15,39 +14,28 @@ var nextLetterIndex = 0;
 
 initializeHTML();
 
-function appendLetterDivs(numLetterDivs, parentDiv) {
-	for (let index = 0; index < numLetterDivs; index++) {
-		const letter = document.createElement("div");
-		letter.classList.add("letter");
-		parentDiv.append(letter);
-	}
-}
-
 const UI_STATE = {
+	trigram: document.getElementById(divID.TRIGRAM),
 	score: document.getElementById(divID.SCORE),
 	word: document.getElementById(divID.WORD),
-	numRequiredLetters: document.getElementById(divID.TARGET_LENGTH),
+	targetLength: document.getElementById(divID.TARGET_LENGTH),
 	alert: document.getElementById(divID.ALERT),
 
 	startGame: function (trigram, startLength) {
-		document.getElementById(divID.TRIGRAM).textContent = trigram;
-
+		this.trigram.textContent = trigram;
 		this.score.textContent = 0;
-		this.numRequiredLetters.textContent = startLength;
+		this.targetLength.textContent = startLength;
 		appendLetterDivs(startLength - 1, this.word);
-
-		nextLetterIndex = 0;
-
-		console.log("Initial UI STATE:", this);
+		// console.log("Initial UI STATE:", this);
 	},
 
 	startLevel: function (length) {
+		this.targetLength.textContent = length;
 		appendLetterDivs(1, this.word);
 		const letterDivs = this.word.querySelectorAll(".letter");
 		letterDivs.forEach((letterDiv) => {
 			letterDiv.textContent = "";
 		});
-		this.numRequiredLetters.textContent = length;
 		nextLetterIndex = 0;
 	},
 
@@ -71,14 +59,11 @@ const UI_STATE = {
 
 	handleValidGuess: function (length) {
 		this.score.textContent = length;
+		this.alert.textContent = "";
 	},
 
 	handleInvalidGuess: function (errorString) {
 		this.alert.textContent = errorString;
-	},
-
-	endLevel: function (length) {
-		this.score.textContent = length;
 	},
 
 	endGame: function () {
@@ -113,9 +98,9 @@ function initializeLevelDiv() {
 	letters.id = divID.WORD;
 	level.append(letters);
 
-	const numRequiredLetters = document.createElement("div");
-	numRequiredLetters.id = divID.TARGET_LENGTH;
-	level.append(numRequiredLetters);
+	const targetLength = document.createElement("div");
+	targetLength.id = divID.TARGET_LENGTH;
+	level.append(targetLength);
 }
 
 function initializeAlertsDiv() {
@@ -131,6 +116,14 @@ function getTrigram() {
 
 function getMaxWordLength(trigram) {
 	return 15;
+}
+
+function appendLetterDivs(numLetterDivs, parentDiv) {
+	for (let index = 0; index < numLetterDivs; index++) {
+		const letter = document.createElement("div");
+		letter.classList.add("letter");
+		parentDiv.appendChild(letter);
+	}
 }
 
 function createWidget(widgetType, value) {
