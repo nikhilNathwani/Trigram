@@ -179,7 +179,7 @@ function getTrigram() {
 }
 
 function getMaxWordLength(trigram) {
-	return 8;
+	return 12;
 }
 
 function printGameState() {

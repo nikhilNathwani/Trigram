@@ -1,8 +1,7 @@
 // UP NEXT:
-// -Add alerts widget at the bottom of the #level div, which displays error messages and the final YOU WIN message
+// -
 //
 
-var nextLetterIndex = 0;
 const divID = {
 	TRIGRAM: "trigram",
 	SCORE: "score",
@@ -11,6 +10,7 @@ const divID = {
 	NUM_LETTERS_TYPED: "numTypedLetters",
 	ALERT: "message",
 };
+var nextLetterIndex = 0;
 
 // MAIN THREAD ------------------------------------------------------------- //
 
@@ -88,9 +88,12 @@ function initializeScoreboardDiv(trigram, goalScore) {
 	var scoreboard = appendNewDivtoParent("scoreboard", "game");
 
 	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
+	trigramWidget.classList.add("scoreboard-widget");
 	scoreboard.appendChild(trigramWidget);
 
 	var scoreWidget = createWidget(divID.SCORE, 0);
+	scoreWidget.classList.add("scoreboard-widget");
+
 	scoreboard.appendChild(scoreWidget);
 }
 
@@ -132,12 +135,14 @@ function createWidget(widgetType, value) {
 
 	//Create widget title element
 	var titleElement = document.createElement("p");
+	titleElement.classList.add("widget-title");
 	titleElement.id = widgetType + "Title";
 	titleElement.textContent = widgetType;
 	widgetWrapper.appendChild(titleElement);
 
 	//Create widget value element (trigram or current score/goal score)
 	var valueElement = document.createElement("p");
+	valueElement.classList.add("widget-value");
 	valueElement.id = widgetType;
 	valueElement.textContent = value;
 	widgetWrapper.appendChild(valueElement);
