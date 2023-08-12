@@ -7,7 +7,6 @@ const divID = {
 	SCORE: "score",
 	WORD: "word",
 	NUM_LETTERS_REQUIRED: "numRequiredLetters",
-	NUM_LETTERS_TYPED: "numTypedLetters",
 	ALERT: "message",
 };
 var nextLetterIndex = 0;
@@ -28,7 +27,6 @@ const UI_STATE = {
 	score: document.getElementById(divID.SCORE),
 	word: document.getElementById(divID.WORD),
 	numRequiredLetters: document.getElementById(divID.NUM_LETTERS_REQUIRED),
-	// numTypedLetters: document.getElementById(divID.NUM_LETTERS_TYPED),
 	alert: document.getElementById(divID.ALERT),
 
 	startGame: function (trigram, startLength) {
@@ -36,8 +34,6 @@ const UI_STATE = {
 
 		this.score.textContent = 0;
 		this.numRequiredLetters.textContent = startLength;
-		// this.numTypedLetters.textContent = 0;
-		// this.word.textContent = "";
 		appendLetterDivs(startLength - 1, this.word);
 
 		nextLetterIndex = 0;
@@ -46,7 +42,6 @@ const UI_STATE = {
 	},
 
 	startLevel: function (length) {
-		// this.word.textContent = "";
 		appendLetterDivs(1, this.word);
 		const letterDivs = this.word.querySelectorAll(".letter");
 		letterDivs.forEach((letterDiv) => {
@@ -54,7 +49,6 @@ const UI_STATE = {
 		});
 		this.numRequiredLetters.textContent = length;
 		nextLetterIndex = 0;
-		// this.numTypedLetters.textContent = nextLetterIndex;
 	},
 
 	addLetter: function (letter) {
@@ -65,7 +59,6 @@ const UI_STATE = {
 		);
 		nextLetter.textContent = letter;
 		nextLetterIndex += 1;
-		// this.numTypedLetters.textContent = nextLetterIndex;
 	},
 
 	deleteLetter: function () {
@@ -73,8 +66,6 @@ const UI_STATE = {
 			`.letter:nth-child(${nextLetterIndex})`
 		);
 		latestLetter.textContent = "";
-		// this.word.textContent = this.word.textContent.slice(0, -1);
-		// this.numTypedLetters.textContent = nextLetterIndex - 1;
 		nextLetterIndex -= 1;
 	},
 
