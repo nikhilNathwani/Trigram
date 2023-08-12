@@ -6,7 +6,7 @@ const divID = {
 	TRIGRAM: "trigram",
 	SCORE: "score",
 	WORD: "word",
-	NUM_LETTERS_REQUIRED: "numRequiredLetters",
+	TARGET_LENGTH: "targetLength",
 	ALERT: "message",
 };
 var nextLetterIndex = 0;
@@ -26,7 +26,7 @@ function appendLetterDivs(numLetterDivs, parentDiv) {
 const UI_STATE = {
 	score: document.getElementById(divID.SCORE),
 	word: document.getElementById(divID.WORD),
-	numRequiredLetters: document.getElementById(divID.NUM_LETTERS_REQUIRED),
+	numRequiredLetters: document.getElementById(divID.TARGET_LENGTH),
 	alert: document.getElementById(divID.ALERT),
 
 	startGame: function (trigram, startLength) {
@@ -114,7 +114,7 @@ function initializeLevelDiv() {
 	level.append(letters);
 
 	const numRequiredLetters = document.createElement("div");
-	numRequiredLetters.id = divID.NUM_LETTERS_REQUIRED;
+	numRequiredLetters.id = divID.TARGET_LENGTH;
 	level.append(numRequiredLetters);
 }
 
