@@ -14,11 +14,10 @@ var nextLetterIndex = 0;
 
 initializeHTML();
 
-function initializeGameUI(UIdivs, trigram, startLength) {
-	UIdivs.trigram.textContent = trigram;
-	UIdivs.score.textContent = 0;
-	UIdivs.targetLength.textContent = startLength;
-	appendLetterDivs(startLength - 1, UIdivs.word);
+function initializeHTML() {
+	initializeScoreboardDiv();
+	initializeLevelDiv();
+	initializeAlertsDiv();
 }
 
 const UI_STATE = {
@@ -28,23 +27,19 @@ const UI_STATE = {
 	targetLength: document.getElementById(divID.TARGET_LENGTH),
 	alert: document.getElementById(divID.ALERT),
 
+	// MAIN FUNCTIONS ---------------------------------------------------------- //
 	startGame: function (trigram, startLength) {
-		initializeGameUI(this, trigram, startLength);
+		this.initializeGameUI(trigram, startLength);
 		// console.log("Initial UI STATE:", this);
 	},
 
 	startLevel: function (length) {
-		this.targetLength.textContent = length;
-		appendLetterDivs(1, this.word);
-		const letterDivs = this.word.querySelectorAll(".letter");
-		letterDivs.forEach((letterDiv) => {
-			letterDiv.textContent = "";
-		});
+		this.incrementLevelUI(length);
 		nextLetterIndex = 0;
 	},
 
 	addLetter: function (letter) {
-		this.alert.textContent = "";
+		this.clearAlerts();
 
 		const nextLetter = this.word.querySelector(
 			`.letter:nth-child(${nextLetterIndex + 1})`
@@ -63,57 +58,44 @@ const UI_STATE = {
 
 	handleValidGuess: function (length) {
 		this.score.textContent = length;
-		this.alert.textContent = "";
+		this.clearAlerts();
 	},
 
 	handleInvalidGuess: function (errorString) {
-		this.alert.textContent = errorString;
+		this.setAlert(errorString);
 	},
 
 	endGame: function () {
-		this.alert.textContent = "YOU WIN!";
+		this.setAlert("YOU WIN!");
+	},
+
+	// HELPER FUNCTIONS -------------------------------------------------------- //
+
+	initializeGameUI: function (trigram, startLength) {
+		this.trigram.textContent = trigram;
+		this.score.textContent = 0;
+		this.targetLength.textContent = startLength;
+		appendLetterDivs(startLength - 1, this.word);
+	},
+
+	incrementLevelUI: function (length) {
+		this.targetLength.textContent = length;
+		appendLetterDivs(1, this.word);
+		const letterDivs = this.word.querySelectorAll(".letter");
+		letterDivs.forEach((letterDiv) => {
+			letterDiv.textContent = "";
+		});
+	},
+
+	setAlert: function (alertText) {
+		this.alert.textContent = alertText;
+	},
+
+	clearAlerts: function () {
+		this.setAlert("");
 	},
 };
 
-// MAIN FUNCTIONS ---------------------------------------------------------- //
-function initializeHTML() {
-	initializeScoreboardDiv();
-	initializeLevelDiv();
-	initializeAlertsDiv();
-}
-
-function initializeScoreboardDiv(trigram, goalScore) {
-	var scoreboard = appendNewDivtoParent("scoreboard", "game");
-
-	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
-	trigramWidget.classList.add("scoreboard-widget");
-	scoreboard.appendChild(trigramWidget);
-
-	var scoreWidget = createWidget(divID.SCORE, 0);
-	scoreWidget.classList.add("scoreboard-widget");
-
-	scoreboard.appendChild(scoreWidget);
-}
-
-function initializeLevelDiv() {
-	var level = appendNewDivtoParent("level", "game");
-
-	const letters = document.createElement("div");
-	letters.id = divID.WORD;
-	level.append(letters);
-
-	const targetLength = document.createElement("div");
-	targetLength.id = divID.TARGET_LENGTH;
-	level.append(targetLength);
-}
-
-function initializeAlertsDiv() {
-	var alert = appendNewDivtoParent("alerts", "game");
-	var alertWidget = createWidget(divID.ALERT, "");
-	alert.appendChild(alertWidget);
-}
-
-// HELPER  -------------------------------------------------------- //
 function getTrigram() {
 	return "CAR";
 }
@@ -158,6 +140,37 @@ function appendNewDivtoParent(newDivID, parentID) {
 	newDiv.setAttribute("id", newDivID);
 	parent.appendChild(newDiv);
 	return document.getElementById(newDivID);
+}
+
+function initializeScoreboardDiv(trigram, goalScore) {
+	var scoreboard = appendNewDivtoParent("scoreboard", "game");
+
+	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
+	trigramWidget.classList.add("scoreboard-widget");
+	scoreboard.appendChild(trigramWidget);
+
+	var scoreWidget = createWidget(divID.SCORE, 0);
+	scoreWidget.classList.add("scoreboard-widget");
+
+	scoreboard.appendChild(scoreWidget);
+}
+
+function initializeLevelDiv() {
+	var level = appendNewDivtoParent("level", "game");
+
+	const letters = document.createElement("div");
+	letters.id = divID.WORD;
+	level.append(letters);
+
+	const targetLength = document.createElement("div");
+	targetLength.id = divID.TARGET_LENGTH;
+	level.append(targetLength);
+}
+
+function initializeAlertsDiv() {
+	var alert = appendNewDivtoParent("alerts", "game");
+	var alertWidget = createWidget(divID.ALERT, "");
+	alert.appendChild(alertWidget);
 }
 
 // BELONGS IN OTHER FILES -------------------------------------------------- //
