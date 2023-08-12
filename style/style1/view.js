@@ -5,7 +5,7 @@
 const divID = {
 	TRIGRAM: "trigram",
 	SCORE: "score",
-	LETTERS: "letters",
+	WORD: "word",
 	NUM_LETTERS_REQUIRED: "numRequiredLetters",
 	NUM_LETTERS_TYPED: "numTypedLetters",
 	ALERT: "message",
@@ -16,11 +16,19 @@ var nextLetterIndex = 0;
 
 initializeHTML();
 
+function appendLetterDivs(numLetterDivs, parentDiv) {
+	for (let index = 0; index < numLetterDivs; index++) {
+		const letter = document.createElement("div");
+		letter.classList.add("letter");
+		parentDiv.append(letter);
+	}
+}
+
 const UI_STATE = {
 	score: document.getElementById(divID.SCORE),
-	lettersTyped: document.getElementById(divID.LETTERS),
+	word: document.getElementById(divID.WORD),
 	numRequiredLetters: document.getElementById(divID.NUM_LETTERS_REQUIRED),
-	numTypedLetters: document.getElementById(divID.NUM_LETTERS_TYPED),
+	// numTypedLetters: document.getElementById(divID.NUM_LETTERS_TYPED),
 	alert: document.getElementById(divID.ALERT),
 
 	startGame: function (trigram, startLength) {
@@ -28,8 +36,9 @@ const UI_STATE = {
 
 		this.score.textContent = 0;
 		this.numRequiredLetters.textContent = startLength;
-		this.numTypedLetters.textContent = 0;
-		this.lettersTyped.textContent = "";
+		// this.numTypedLetters.textContent = 0;
+		// this.word.textContent = "";
+		appendLetterDivs(startLength - 1, this.word);
 
 		nextLetterIndex = 0;
 
@@ -37,26 +46,35 @@ const UI_STATE = {
 	},
 
 	startLevel: function (length) {
-		this.lettersTyped.textContent = "";
+		// this.word.textContent = "";
+		appendLetterDivs(1, this.word);
+		const letterDivs = this.word.querySelectorAll(".letter");
+		letterDivs.forEach((letterDiv) => {
+			letterDiv.textContent = "";
+		});
 		this.numRequiredLetters.textContent = length;
 		nextLetterIndex = 0;
-		this.numTypedLetters.textContent = nextLetterIndex;
+		// this.numTypedLetters.textContent = nextLetterIndex;
 	},
 
 	addLetter: function (letter) {
 		this.alert.textContent = "";
 
-		this.lettersTyped.textContent += letter;
+		const nextLetter = this.word.querySelector(
+			`.letter:nth-child(${nextLetterIndex + 1})`
+		);
+		nextLetter.textContent = letter;
 		nextLetterIndex += 1;
-		this.numTypedLetters.textContent = nextLetterIndex;
+		// this.numTypedLetters.textContent = nextLetterIndex;
 	},
 
 	deleteLetter: function () {
-		this.lettersTyped.textContent = this.lettersTyped.textContent.slice(
-			0,
-			-1
+		const latestLetter = this.word.querySelector(
+			`.letter:nth-child(${nextLetterIndex})`
 		);
-		this.numTypedLetters.textContent = nextLetterIndex - 1;
+		latestLetter.textContent = "";
+		// this.word.textContent = this.word.textContent.slice(0, -1);
+		// this.numTypedLetters.textContent = nextLetterIndex - 1;
 		nextLetterIndex -= 1;
 	},
 
@@ -100,17 +118,13 @@ function initializeScoreboardDiv(trigram, goalScore) {
 function initializeLevelDiv() {
 	var level = appendNewDivtoParent("level", "game");
 
-	var widget_numRequiredLetters = createWidget(
-		divID.NUM_LETTERS_REQUIRED,
-		""
-	);
-	level.appendChild(widget_numRequiredLetters);
+	const letters = document.createElement("div");
+	letters.id = divID.WORD;
+	level.append(letters);
 
-	var widget_numTypedLetters = createWidget(divID.NUM_LETTERS_TYPED, "");
-	level.appendChild(widget_numTypedLetters);
-
-	var widget_letters = createWidget(divID.LETTERS, "");
-	level.appendChild(widget_letters);
+	const numRequiredLetters = document.createElement("div");
+	numRequiredLetters.id = divID.NUM_LETTERS_REQUIRED;
+	level.append(numRequiredLetters);
 }
 
 function initializeAlertsDiv() {

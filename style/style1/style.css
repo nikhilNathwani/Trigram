@@ -49,3 +49,25 @@ body {
 	font-size: 1.625rem;
 	font-weight: bold;
 }
+
+#word {
+	width: min-content;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 1.625rem;
+	font-weight: bold;
+}
+
+.letter {
+	width: 1.5rem;
+	height: 2.5rem;
+	border: 1px solid black;
+}
+
+#alerts {
+	margin-top: 200px;
+}
