@@ -14,6 +14,13 @@ var nextLetterIndex = 0;
 
 initializeHTML();
 
+function initializeGameUI(UIdivs, trigram, startLength) {
+	UIdivs.trigram.textContent = trigram;
+	UIdivs.score.textContent = 0;
+	UIdivs.targetLength.textContent = startLength;
+	appendLetterDivs(startLength - 1, UIdivs.word);
+}
+
 const UI_STATE = {
 	trigram: document.getElementById(divID.TRIGRAM),
 	score: document.getElementById(divID.SCORE),
@@ -22,10 +29,7 @@ const UI_STATE = {
 	alert: document.getElementById(divID.ALERT),
 
 	startGame: function (trigram, startLength) {
-		this.trigram.textContent = trigram;
-		this.score.textContent = 0;
-		this.targetLength.textContent = startLength;
-		appendLetterDivs(startLength - 1, this.word);
+		initializeGameUI(this, trigram, startLength);
 		// console.log("Initial UI STATE:", this);
 	},
 

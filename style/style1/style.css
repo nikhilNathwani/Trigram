@@ -14,19 +14,32 @@ body {
 
 #game {
 	width: 500px;
+	height: 500px;
+	margin: 40px;
+	background-color: hsl(180, 50%, 80%);
 
 	display: flex;
 	flex-direction: column;
 }
 
 #scoreboard {
-	width: 100%;
-	/* padding-inline: 20px; */
-
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-around;
+}
+
+#level {
+	flex-grow: 1;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#alerts {
+	/* margin-top: 200px; */
 }
 
 .scoreboard-widget {
@@ -63,11 +76,21 @@ body {
 }
 
 .letter {
-	width: 1.5rem;
+	width: 2rem;
 	height: 2.5rem;
 	border: 1px solid black;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-#alerts {
-	margin-top: 200px;
+.letter:not(:last-child) {
+	border-right: none;
+}
+
+#targetLength {
+	font-size: 2.25rem;
+	font-weight: bold;
+	padding-top: 1em;
 }

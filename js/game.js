@@ -14,7 +14,7 @@ const GAME_STATE = {
 	lettersProvided: null,
 };
 
-startGame(6);
+startGame(4);
 
 /* GAME EVENTS ------------------------------------------------------------ */
 //  (1) Start Game
