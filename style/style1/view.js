@@ -1,9 +1,10 @@
 // UP NEXT:
-// -
+// -Rewatch wordle tutorial to inspire how I want to approach animations: https://www.youtube.com/watch?v=Wak7iN4JZzU&t=1641s
 //
 const divID = {
 	TRIGRAM: "trigram",
 	SCORE: "score",
+	TIMER: "timer",
 	WORD: "word",
 	TARGET_LENGTH: "targetLength",
 	ALERT: "message",
@@ -79,7 +80,7 @@ const UI_STATE = {
 	},
 
 	incrementLevelUI: function (length) {
-		this.targetLength.textContent = length;
+		this.targetLength.textContent = length + " letters";
 		appendLetterDivs(1, this.word);
 		const letterDivs = this.word.querySelectorAll(".letter");
 		letterDivs.forEach((letterDiv) => {
@@ -151,20 +152,23 @@ function initializeScoreboardDiv(trigram, goalScore) {
 
 	var scoreWidget = createWidget(divID.SCORE, 0);
 	scoreWidget.classList.add("scoreboard-widget");
-
 	scoreboard.appendChild(scoreWidget);
+
+	var timerWidget = createWidget(divID.TIMER, 0);
+	timerWidget.classList.add("scoreboard-widget");
+	scoreboard.appendChild(timerWidget);
 }
 
 function initializeLevelDiv() {
 	var level = appendNewDivtoParent("level", "game");
 
-	const letters = document.createElement("div");
-	letters.id = divID.WORD;
-	level.append(letters);
-
 	const targetLength = document.createElement("div");
 	targetLength.id = divID.TARGET_LENGTH;
 	level.append(targetLength);
+
+	const letters = document.createElement("div");
+	letters.id = divID.WORD;
+	level.append(letters);
 }
 
 function initializeAlertsDiv() {

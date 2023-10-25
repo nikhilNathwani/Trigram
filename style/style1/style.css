@@ -90,7 +90,10 @@ body {
 }
 
 #targetLength {
-	font-size: 2.25rem;
-	font-weight: bold;
-	padding-top: 1em;
+	font-size: 1rem;
+	padding: 0.5ch 1ch;
+	margin: 0.5rem;
+	background-color: blueviolet;
+	color: white;
+	border-radius: 8px;
 }
