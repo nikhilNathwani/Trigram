@@ -66,7 +66,7 @@ function startLevel() {
 	UI_STATE.startLevel(GAME_STATE.wordLength_current);
 
 	// 4. Advance the game
-	startInteraction(); //i.e. start listening for user input
+	// startInteraction(); //i.e. start listening for user input
 }
 
 function addLetter(letter) {

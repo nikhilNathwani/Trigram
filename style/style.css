@@ -16,8 +16,8 @@ body {
 	width: 500px;
 	height: 500px;
 	margin: 40px;
-	background-color: hsl(180, 50%, 80%);
-
+	/* background-color: hsl(180, 50%, 80%); */
+	background-color: hsl(180, 15%, 90%);
 	display: flex;
 	flex-direction: column;
 }
@@ -36,7 +36,25 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
+	transition: transform 0.5s, opacity 0.5s;
 }
+
+#level.fade-out-left {
+	transform: translateY(60px);
+	opacity: 0;
+}
+
+#level.teleport {
+	transform: translateY(-60px);
+	opacity: 0;
+	transition: transform 0.1s, opacity 0.1s;
+}
+
+/* #level.fade-in-right {
+	transform: translateY(20px);
+	opacity: 1;
+} */
 
 #alerts {
 	/* margin-top: 200px; */
@@ -70,6 +88,7 @@ body {
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+	gap: 3px;
 
 	font-size: 1.625rem;
 	font-weight: bold;
@@ -78,16 +97,16 @@ body {
 .letter {
 	width: 2rem;
 	height: 2.5rem;
-	border: 1px solid black;
+	border: 2px solid blueviolet;
 
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.letter:not(:last-child) {
+/* .letter:not(:last-child) {
 	border-right: none;
-}
+} */
 
 #targetLength {
 	font-size: 1rem;

@@ -2,6 +2,7 @@
 // -Rewatch wordle tutorial to inspire how I want to approach animations: https://www.youtube.com/watch?v=Wak7iN4JZzU&t=1641s
 //
 const divID = {
+	LEVEL: "level",
 	TRIGRAM: "trigram",
 	SCORE: "score",
 	TIMER: "timer",
@@ -22,6 +23,7 @@ function initializeHTML() {
 }
 
 const UI_STATE = {
+	level: document.getElementById(divID.LEVEL),
 	trigram: document.getElementById(divID.TRIGRAM),
 	score: document.getElementById(divID.SCORE),
 	word: document.getElementById(divID.WORD),
@@ -80,12 +82,30 @@ const UI_STATE = {
 	},
 
 	incrementLevelUI: function (length) {
-		this.targetLength.textContent = length + " letters";
-		appendLetterDivs(1, this.word);
-		const letterDivs = this.word.querySelectorAll(".letter");
-		letterDivs.forEach((letterDiv) => {
-			letterDiv.textContent = "";
-		});
+		this.level.classList.add("fade-out-left");
+
+		// After a delay, update the level content and add the 'fade-in-right' class to bring it back from the right
+		setTimeout(function () {
+			stopInteraction();
+			this.targetLength.textContent = length + " letters";
+			appendLetterDivs(1, this.word);
+			const letterDivs = this.word.querySelectorAll(".letter");
+			letterDivs.forEach((letterDiv) => {
+				letterDiv.textContent = "";
+			});
+			this.level.classList.remove("fade-out-left");
+			this.level.classList.add("teleport");
+		}, 500); // Adjust the delay to match your transition duration
+
+		setTimeout(function () {
+			this.level.classList.remove("teleport");
+			this.level.classList.remove("fade-in-right");
+		}, 600); // Adjust the delay to match your transition duration
+
+		setTimeout(function () {
+			this.level.classList.remove("fade-in-right");
+			startInteraction();
+		}, 1100); // Adjust the delay to match your transition duration
 	},
 
 	setAlert: function (alertText) {
