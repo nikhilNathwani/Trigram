@@ -99,7 +99,7 @@ const UI_STATE = {
 
 		setTimeout(function () {
 			this.level.classList.remove("teleport");
-			this.level.classList.remove("fade-in-right");
+			this.level.classList.add("fade-in-right");
 		}, 600); // Adjust the delay to match your transition duration
 
 		setTimeout(function () {
@@ -166,13 +166,13 @@ function appendNewDivtoParent(newDivID, parentID) {
 function initializeScoreboardDiv(trigram, goalScore) {
 	var scoreboard = appendNewDivtoParent("scoreboard", "game");
 
-	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
-	trigramWidget.classList.add("scoreboard-widget");
-	scoreboard.appendChild(trigramWidget);
-
 	var scoreWidget = createWidget(divID.SCORE, 0);
 	scoreWidget.classList.add("scoreboard-widget");
 	scoreboard.appendChild(scoreWidget);
+
+	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
+	trigramWidget.classList.add("scoreboard-widget");
+	scoreboard.appendChild(trigramWidget);
 
 	var timerWidget = createWidget(divID.TIMER, 0);
 	timerWidget.classList.add("scoreboard-widget");

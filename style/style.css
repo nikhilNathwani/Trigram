@@ -81,6 +81,15 @@ body {
 	font-weight: bold;
 }
 
+.scoreboard-widget #trigram {
+	width: min-content;
+	margin: auto;
+	padding-inline: 1ch;
+	background-color: white;
+	border: 2px solid black;
+	border-radius: 6px;
+}
+
 #word {
 	width: min-content;
 
