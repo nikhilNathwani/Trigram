@@ -41,12 +41,12 @@ body {
 }
 
 #level.fade-out-left {
-	transform: translateY(60px);
+	transform: translateX(-60px);
 	opacity: 0;
 }
 
 #level.teleport {
-	transform: translateY(-60px);
+	transform: translateX(60px);
 	opacity: 0;
 	transition: transform 0.1s, opacity 0.1s;
 }
@@ -71,7 +71,7 @@ body {
 }
 
 .scoreboard-widget > .widget-title {
-	font-size: 1.25rem;
+	font-size: 1rem;
 	text-transform: capitalize;
 	text-decoration: underline;
 }

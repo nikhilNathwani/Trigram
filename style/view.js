@@ -99,11 +99,11 @@ const UI_STATE = {
 
 		setTimeout(function () {
 			this.level.classList.remove("teleport");
-			this.level.classList.add("fade-in-right");
+			// this.level.classList.add("fade-in-right");
 		}, 600); // Adjust the delay to match your transition duration
 
 		setTimeout(function () {
-			this.level.classList.remove("fade-in-right");
+			// this.level.classList.remove("fade-in-right");
 			startInteraction();
 		}, 1100); // Adjust the delay to match your transition duration
 	},
