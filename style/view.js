@@ -9,6 +9,7 @@ const divID = {
 	WORD: "word",
 	TARGET_LENGTH: "targetLength",
 	ALERT: "message",
+	JUMBOTRON: "jumbotron",
 };
 const targetLength_colors = {
 	4: "#1976D2",
@@ -52,6 +53,7 @@ const UI_STATE = {
 	word: document.getElementById(divID.WORD),
 	targetLength: document.getElementById(divID.TARGET_LENGTH),
 	alert: document.getElementById(divID.ALERT),
+	jumbotron: document.getElementById(divID.JUMBOTRON),
 
 	// MAIN FUNCTIONS ---------------------------------------------------------- //
 	startGame: function (trigram, startLength) {
@@ -59,8 +61,8 @@ const UI_STATE = {
 		// console.log("Initial UI STATE:", this);
 	},
 
-	startLevel: function (length) {
-		this.incrementLevelUI(length);
+	startLevel: function (length, isFirstLevel) {
+		this.incrementLevelUI(length, isFirstLevel);
 		nextLetterIndex = 0;
 	},
 
@@ -104,20 +106,23 @@ const UI_STATE = {
 		appendLetterDivs(startLength - 1, this.word);
 	},
 
-	incrementLevelUI: function (length) {
+	incrementLevelUI: function (length, isFirstLevel) {
 		this.level.classList.add("fade-out-left");
 
 		// After a delay, update the level content and add the 'fade-in-right' class to bring it back from the right
 		setTimeout(function () {
 			stopInteraction();
 			this.targetLength.textContent = length + " letters";
-			this.targetLength.style.backgroundColor =
-				targetLength_colors[length];
+			if (!isFirstLevel) {
+				this.jumbotron.classList.add("scored");
+				this.jumbotron.style.backgroundColor =
+					targetLength_colors[length - 1];
+			}
 			appendLetterDivs(1, this.word);
 			const letterDivs = this.word.querySelectorAll(".letter");
 			letterDivs.forEach((letterDiv) => {
 				letterDiv.textContent = "";
-				letterDiv.style.borderColor = targetLength_colors[length];
+				// letterDiv.style.borderColor = targetLength_colors[length];
 			});
 			this.level.classList.remove("fade-out-left");
 			this.level.classList.add("teleport");
