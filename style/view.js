@@ -132,28 +132,6 @@ function appendLetterDivs(numLetterDivs, parentDiv) {
 	}
 }
 
-function createWidget(widgetType, value) {
-	//Create the widget wrapper div
-	var widgetWrapper = document.createElement("div");
-	widgetWrapper.id = widgetType + "Wrapper";
-
-	//Create widget title element
-	var titleElement = document.createElement("p");
-	titleElement.classList.add("widget-title");
-	titleElement.id = widgetType + "Title";
-	titleElement.textContent = widgetType;
-	widgetWrapper.appendChild(titleElement);
-
-	//Create widget value element (trigram or current score/goal score)
-	var valueElement = document.createElement("p");
-	valueElement.classList.add("widget-value");
-	valueElement.id = widgetType;
-	valueElement.textContent = value;
-	widgetWrapper.appendChild(valueElement);
-
-	return widgetWrapper;
-}
-
 function appendNewDivtoParent(newDivID, parentID) {
 	const parent = document.getElementById(parentID);
 	const newDiv = document.createElement("div");
@@ -163,19 +141,7 @@ function appendNewDivtoParent(newDivID, parentID) {
 }
 
 function initializeScoreboardDiv(trigram, goalScore) {
-	var scoreboard = appendNewDivtoParent("scoreboard", "game");
-
-	var scoreWidget = createWidget(divID.SCORE, 0);
-	scoreWidget.classList.add("scoreboard-widget");
-	scoreboard.appendChild(scoreWidget);
-
-	var trigramWidget = createWidget(divID.TRIGRAM, trigram);
-	trigramWidget.classList.add("scoreboard-widget");
-	scoreboard.appendChild(trigramWidget);
-
-	var timerWidget = createWidget(divID.TIMER, 0);
-	timerWidget.classList.add("scoreboard-widget");
-	scoreboard.appendChild(timerWidget);
+	this.trigram.textContent = trigram;
 }
 
 function initializeLevelDiv() {

@@ -8,9 +8,27 @@
 		<title>Trigram</title>
 	</head>
 	<body>
-		<div id="header"></div>
-		<div id="game"></div>
-		<div id="keyboard"></div>
+		<div id="app">
+			<div id="header">
+				<h1 id="header-title">Trigram</h1>
+			</div>
+			<div id="game">
+				<div id="jumbotron">
+					<div id="scoreWidget" class="jumbotron-widget">
+						<p class="widget-title" id="scoreTitle">score</p>
+						<p class="widget-value" id="score">0</p>
+					</div>
+					<div id="trigramWidget" class="jumbotron-widget">
+						<p class="widget-value" id="trigram">CAR</p>
+					</div>
+					<div id="timerWidget" class="jumbotron-widget">
+						<p class="widget-title" id="timerTitle">timer</p>
+						<p class="widget-value" id="timer">0</p>
+					</div>
+				</div>
+			</div>
+			<div id="keyboard"></div>
+		</div>
 		<script src="js/interactionHandler.js"></script>
 		<script src="js/wordChecker.js"></script>
 		<script src="style/view.js"></script>
