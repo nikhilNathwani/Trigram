@@ -19,7 +19,6 @@ initializeHTML();
 function initializeHTML() {
 	initializeScoreboardDiv();
 	initializeLevelDiv();
-	initializeAlertsDiv();
 }
 
 const UI_STATE = {
@@ -189,12 +188,10 @@ function initializeLevelDiv() {
 	const letters = document.createElement("div");
 	letters.id = divID.WORD;
 	level.append(letters);
-}
 
-function initializeAlertsDiv() {
-	var alert = appendNewDivtoParent("alerts", "game");
-	var alertWidget = createWidget(divID.ALERT, "");
-	alert.appendChild(alertWidget);
+	//Adding message area to level container
+	const message = document.createElement("div");
+	message.id = divID.ALERT;
+	level.append(message);
 }
-
 // BELONGS IN OTHER FILES -------------------------------------------------- //

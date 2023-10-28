@@ -50,16 +50,6 @@ body {
 	opacity: 0;
 	transition: transform 0.1s, opacity 0.1s;
 }
-
-/* #level.fade-in-right {
-	transform: translateY(20px);
-	opacity: 1;
-} */
-
-#alerts {
-	/* margin-top: 200px; */
-}
-
 .scoreboard-widget {
 	width: 120px;
 	/* border: 1px solid black; */
@@ -107,7 +97,8 @@ body {
 .letter {
 	width: 2rem;
 	height: 2.5rem;
-	border: 2px solid blueviolet;
+	border: 2px solid black;
+	/* box-shadow: 4px 4px 4px rgba(138, 43, 226, 0.5); */
 
 	display: flex;
 	align-items: center;
@@ -125,4 +116,12 @@ body {
 	background-color: blueviolet;
 	color: white;
 	border-radius: 8px;
+}
+
+#message {
+	height: 1.5rem;
+	text-align: center;
+	font-size: 1rem;
+	margin: 1rem;
+	color: black;
 }
