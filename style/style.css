@@ -12,11 +12,10 @@ body {
 }
 
 #app {
-	width: 500px;
 	height: 100dvh;
 	height: 100vh;
 	margin: auto;
-	border-inline: 1px solid black;
+	/* border-inline: 1px solid black; */
 
 	display: flex;
 	flex-flow: column nowrap;
@@ -26,8 +25,9 @@ body {
 
 #header {
 	width: 100%;
-	height: 2rem;
-	background-color: darkgray;
+	height: 3rem;
+	/* background-color: darkgray; */
+	border-bottom: 3px double darkgray;
 
 	display: flex;
 	align-items: center;
@@ -35,29 +35,33 @@ body {
 }
 
 #header-title {
-	font-size: 1rem;
+	font-family: monospace;
+	font-size: 1.5rem;
 	color: hsl(0, 0%, 36%);
 }
 
 #game {
-	width: 100%;
+	width: 500px;
 	flex-grow: 1;
 	/* background-color: hsl(180, 50%, 80%); */
 	/* background-color: hsl(180, 0%, 92%); */
 	display: flex;
 	flex-direction: column;
-}
-
-#jumbotron {
-	margin-block: 1rem;
-	display: flex;
-	flex-direction: row;
 	align-items: center;
 	justify-content: space-around;
 }
 
+#jumbotron {
+	width: 100%;
+	margin-block: 1rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
 #level {
-	flex-grow: 1;
+	/* flex-grow: 1; */
 
 	display: flex;
 	flex-direction: column;
@@ -104,11 +108,22 @@ body {
 
 .jumbotron-widget #trigram {
 	width: min-content;
+	height: 3rem;
 	margin-inline: auto;
-	padding: 0.25rem 1ch;
+
+	font-family: monospace;
+	font-size: 2rem;
+	letter-spacing: 0.5rem;
+	padding-right: 0.5rem;
+	padding-left: 1rem;
+
 	background-color: white;
 	border: 2px solid black;
 	border-radius: 6px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #word {
@@ -118,15 +133,16 @@ body {
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	gap: 3px;
+	gap: 6px;
 
-	font-size: 1.625rem;
+	font-family: monospace;
+	font-size: 2rem;
 	font-weight: bold;
 }
 
 .letter {
-	width: 2rem;
-	height: 2.5rem;
+	width: 3rem;
+	height: 4rem;
 	border: 2px solid black;
 	/* box-shadow: 4px 4px 4px rgba(138, 43, 226, 0.5); */
 
@@ -140,9 +156,9 @@ body {
 } */
 
 #targetLength {
-	font-size: 1rem;
-	padding: 0.5ch 1ch;
-	margin: 0.5rem;
+	font-size: 1.25rem;
+	padding: 0.75ch 1.25ch;
+	margin: 1rem;
 	background-color: blueviolet;
 	color: white;
 	border-radius: 8px;
@@ -159,5 +175,52 @@ body {
 #keyboard {
 	width: 100%;
 	height: 200px;
-	background-color: darkgrey;
+	/* background-color: darkgrey; */
+
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	font-family: monospace;
+}
+
+#keyboard > div.keyboard-row {
+	width: inherit;
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+}
+
+#keyboard > div.keyboard-row > button.keyboard-key {
+	/* width: calc((100% - (2 * 6px) - (9 * 6px)) / 10); */
+	width: 3ch;
+	height: 3.25rem;
+
+	background-color: #ebebeb;
+	border: 2px solid #888;
+	border-bottom: 3px solid #888;
+
+	border-radius: 4px;
+	/* background-color: #888; */
+	/* box-shadow: 2px 2px 1px 1px white; */
+
+	font-size: 1.375rem;
+	/* font-weight: bold; */
+	font-family: monospace;
+	color: #888;
+
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#keyboard > div.keyboard-row > button.keyboard-key:hover {
+	background-color: #ddd;
+}
+
+#keyboard > div.keyboard-row > button.keyboard-key:active {
+	background-color: #888;
+	color: white;
 }

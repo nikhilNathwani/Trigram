@@ -10,6 +10,30 @@ const divID = {
 	TARGET_LENGTH: "targetLength",
 	ALERT: "message",
 };
+const targetLength_colors = {
+	4: "#1976D2",
+	5: "#388E3C",
+	6: "#D32F2F",
+	7: "#7B1FA2",
+	8: "#FBC02D",
+	9: "#E64A19",
+	10: "#689F38",
+	11: "#FFA000",
+	12: "#0277BD",
+	13: "#558B2F",
+	14: "#C2185B",
+	15: "#FF6F00",
+	16: "#512DA8",
+	17: "#F57C00",
+	18: "#1976D2",
+	19: "#388E3C",
+	20: "#D32F2F",
+	21: "#7B1FA2",
+	22: "#FBC02D",
+	23: "#E64A19",
+	24: "#689F38",
+	25: "#FFA000",
+};
 var nextLetterIndex = 0;
 
 // MAIN THREAD ------------------------------------------------------------- //
@@ -87,10 +111,13 @@ const UI_STATE = {
 		setTimeout(function () {
 			stopInteraction();
 			this.targetLength.textContent = length + " letters";
+			this.targetLength.style.backgroundColor =
+				targetLength_colors[length];
 			appendLetterDivs(1, this.word);
 			const letterDivs = this.word.querySelectorAll(".letter");
 			letterDivs.forEach((letterDiv) => {
 				letterDiv.textContent = "";
+				letterDiv.style.borderColor = targetLength_colors[length];
 			});
 			this.level.classList.remove("fade-out-left");
 			this.level.classList.add("teleport");
