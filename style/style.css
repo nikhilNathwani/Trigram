@@ -60,6 +60,7 @@ body {
 	align-items: center;
 	justify-content: space-evenly;
 	color: black;
+	transition: background-color 0.5s;
 }
 
 #jumbotron.scored {
@@ -114,6 +115,7 @@ body {
 	font-size: 1rem;
 	text-transform: capitalize;
 	text-decoration: underline;
+	text-underline-offset: 3px;
 	/* text-decoration-thickness: 1px; */
 }
 
@@ -141,6 +143,13 @@ body {
 	justify-content: center;
 }
 
+#jumbotron.scored #trigram {
+	background-color: transparent;
+	color: white;
+	border: 2px solid white;
+	transition: color 0.5s, border 0.5s, background-color 0.5s;
+}
+
 #word {
 	width: min-content;
 
@@ -148,7 +157,7 @@ body {
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	gap: 6px;
+	/* gap: 6px; */
 
 	font-size: 2rem;
 	font-weight: bold;
@@ -159,15 +168,47 @@ body {
 	height: 4rem;
 	border: 2px solid black;
 	/* box-shadow: 4px 4px 4px rgba(138, 43, 226, 0.5); */
+	margin-right: 6px;
 
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	transition: width 0.5s, margin-right 0.5s, color 0.5s, background-color 0.5s,
+		border 0.5s;
 }
 
-/* .letter:not(:last-child) {
+.letter:last-child {
+	margin-right: 0px;
+}
+
+.letter.trigram-letter {
+	width: 2.5rem;
+	height: 4rem;
+
+	color: white;
+	border-color: white;
+}
+
+.letter.trigram-left {
 	border-right: none;
-} */
+	/* border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px; */
+	padding-left: 1ch;
+	margin-right: 0px;
+}
+.letter.trigram-middle {
+	width: 2.25rem;
+	border-left: none;
+	border-right: none;
+	margin-right: 0px;
+}
+.letter.trigram-right {
+	border-left: none;
+	/* border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px; */
+	padding-right: 1ch;
+}
 
 #targetLength {
 	font-size: 1.25rem;

@@ -84,8 +84,9 @@ const UI_STATE = {
 		nextLetterIndex -= 1;
 	},
 
-	handleValidGuess: function (length) {
+	handleValidGuess: function (length, trigramIndex) {
 		this.score.textContent = length;
+		this.animateSuccess(length, trigramIndex);
 		this.clearAlerts();
 	},
 
@@ -98,6 +99,38 @@ const UI_STATE = {
 	},
 
 	// HELPER FUNCTIONS -------------------------------------------------------- //
+	animateSuccess: function (targetLength, trigramIndex) {
+		stopInteraction();
+		let letters = this.word.children;
+		let trigramLetters = [
+			letters[trigramIndex],
+			letters[trigramIndex + 1],
+			letters[trigramIndex + 2],
+		];
+		trigramLetters.forEach(function (letter, index) {
+			let position =
+				index == 0 ? "left" : index == 1 ? "middle" : "right";
+			letter.classList.add("trigram-letter");
+			letter.classList.add("trigram-" + position);
+			letter.style.backgroundColor = targetLength_colors[targetLength];
+		});
+
+		this.jumbotron.classList.add("scored");
+		this.jumbotron.style.backgroundColor =
+			targetLength_colors[targetLength];
+		// this.trigram.style.backgroundColor = targetLength_colors[targetLength];
+
+		setTimeout(function () {
+			trigramLetters.forEach(function (letter, index) {
+				let position =
+					index == 0 ? "left" : index == 1 ? "middle" : "right";
+				letter.classList.remove("trigram-letter");
+				letter.classList.remove("trigram-" + position);
+				letter.style.backgroundColor = "";
+			});
+			startInteraction();
+		}, 1300);
+	},
 
 	initializeGameUI: function (trigram, startLength) {
 		this.trigram.textContent = trigram;
@@ -107,17 +140,21 @@ const UI_STATE = {
 	},
 
 	incrementLevelUI: function (length, isFirstLevel) {
-		this.level.classList.add("fade-out-left");
+		if (isFirstLevel) {
+			this.targetLength.textContent = length + " letters";
+			appendLetterDivs(1, this.word);
+			startInteraction();
+			return;
+		}
+
+		setTimeout(function () {
+			this.level.classList.add("fade-out-left");
+		}, 1000);
 
 		// After a delay, update the level content and add the 'fade-in-right' class to bring it back from the right
 		setTimeout(function () {
 			stopInteraction();
 			this.targetLength.textContent = length + " letters";
-			if (!isFirstLevel) {
-				this.jumbotron.classList.add("scored");
-				this.jumbotron.style.backgroundColor =
-					targetLength_colors[length - 1];
-			}
 			appendLetterDivs(1, this.word);
 			const letterDivs = this.word.querySelectorAll(".letter");
 			letterDivs.forEach((letterDiv) => {
@@ -126,17 +163,17 @@ const UI_STATE = {
 			});
 			this.level.classList.remove("fade-out-left");
 			this.level.classList.add("teleport");
-		}, 500); // Adjust the delay to match your transition duration
+		}, 1500); // Adjust the delay to match your transition duration
 
 		setTimeout(function () {
 			this.level.classList.remove("teleport");
 			// this.level.classList.add("fade-in-right");
-		}, 600); // Adjust the delay to match your transition duration
+		}, 1600); // Adjust the delay to match your transition duration
 
 		setTimeout(function () {
 			// this.level.classList.remove("fade-in-right");
 			startInteraction();
-		}, 1100); // Adjust the delay to match your transition duration
+		}, 2100); // Adjust the delay to match your transition duration
 	},
 
 	setAlert: function (alertText) {

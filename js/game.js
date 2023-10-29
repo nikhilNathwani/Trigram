@@ -117,7 +117,7 @@ function deleteLetter() {
 	// n/a
 }
 
-function handleValidGuess() {
+function handleValidGuess(trigramIndex) {
 	// 1. Confirm action can be performed
 	// n/a
 
@@ -125,7 +125,7 @@ function handleValidGuess() {
 	stopInteraction();
 
 	// 3. Inform the UI
-	UI_STATE.handleValidGuess(GAME_STATE.wordLength_current);
+	UI_STATE.handleValidGuess(GAME_STATE.wordLength_current, trigramIndex);
 
 	// 4. Advance the game
 	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_max) {
@@ -151,11 +151,11 @@ function handleInvalidGuess() {
 
 function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
+	var trigramIndex = word.indexOf(GAME_STATE.trigram);
 	var guessResult =
-		word.length == GAME_STATE.wordLength_current &&
-		word.includes(GAME_STATE.trigram);
+		word.length == GAME_STATE.wordLength_current && trigramIndex !== -1;
 	if (guessResult) {
-		handleValidGuess();
+		handleValidGuess(trigramIndex);
 	} else {
 		handleInvalidGuess();
 	}
