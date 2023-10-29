@@ -118,6 +118,10 @@ const UI_STATE = {
 		this.jumbotron.classList.add("scored");
 		this.jumbotron.style.backgroundColor =
 			targetLength_colors[targetLength];
+		this.targetLength.style.backgroundColor =
+			targetLength_colors[targetLength];
+		this.targetLength.style.borderColor = targetLength_colors[targetLength];
+		this.targetLength.style.color = "white";
 		// this.trigram.style.backgroundColor = targetLength_colors[targetLength];
 
 		setTimeout(function () {
@@ -128,6 +132,9 @@ const UI_STATE = {
 				letter.classList.remove("trigram-" + position);
 				letter.style.backgroundColor = "";
 			});
+			this.targetLength.style.backgroundColor = "white";
+			this.targetLength.style.borderColor = "black";
+			this.targetLength.style.color = "black";
 			startInteraction();
 		}, 1300);
 	},
