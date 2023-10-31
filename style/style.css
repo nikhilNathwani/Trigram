@@ -28,10 +28,14 @@ body {
 	height: 3rem;
 	/* background-color: darkgray; */
 	border-bottom: 3px double darkgray;
+}
 
+#headerContent {
+	height: 100%;
 	display: flex;
+	/* grid-template-columns: 2rem 1fr 2rem; */
 	align-items: center;
-	justify-content: center;
+	justify-content: space-evenly;
 }
 
 #header-title {
