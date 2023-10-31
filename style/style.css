@@ -45,7 +45,7 @@ body {
 }
 
 #game {
-	width: 500px;
+	width: min(500px, 100vw);
 	flex-grow: 1;
 	/* background-color: hsl(180, 50%, 80%); */
 	/* background-color: hsl(180, 0%, 92%); */
@@ -124,6 +124,13 @@ body {
 	align-items: center;
 	justify-content: center;
 }
+
+/* #score {
+	border-radius: 8px;
+	width: 3ch;
+	padding-block: 0.25rem;
+	text-align: center;
+} */
 
 #word {
 	width: min-content;

@@ -35,7 +35,7 @@
 	margin: 4rem auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 500px;
+	width: min(500px, 96vw);
 	height: 100%;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
