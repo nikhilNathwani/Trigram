@@ -125,12 +125,12 @@ body {
 	justify-content: center;
 }
 
-#score {
+/* #score {
 	border-radius: 8px;
 	width: 3ch;
 	padding-block: 0.25rem;
 	text-align: center;
-}
+} */
 
 #word {
 	width: min-content;
