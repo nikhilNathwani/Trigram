@@ -18,14 +18,14 @@
 	gap: 3rem;
 }
 
-h1 {
+#titleScreen h1 {
 	margin-bottom: 1rem;
 	font-family: monospace;
 	font-size: 3rem;
 	color: hsl(0, 0%, 36%);
 }
 
-h3 {
+#titleScreen h3 {
 	font-family: monospace;
 	font-size: 1.75rem;
 	font-weight: 400;
