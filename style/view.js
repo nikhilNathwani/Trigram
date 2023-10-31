@@ -110,14 +110,14 @@ const UI_STATE = {
 		// After a delay, update the level content and add the 'fade-in-right' class to bring it back from the right
 		setTimeout(function () {
 			stopInteraction();
-			this.targetLength.textContent = length + " letters";
-			this.targetLength.style.backgroundColor =
-				targetLength_colors[length];
+			this.targetLength.textContent = length + " letter word";
+			// this.targetLength.style.backgroundColor =
+			// 	targetLength_colors[length];
 			appendLetterDivs(1, this.word);
 			const letterDivs = this.word.querySelectorAll(".letter");
 			letterDivs.forEach((letterDiv) => {
 				letterDiv.textContent = "";
-				letterDiv.style.borderColor = targetLength_colors[length];
+				// letterDiv.style.borderColor = targetLength_colors[length];
 			});
 			this.level.classList.remove("fade-out-left");
 			this.level.classList.add("teleport");
