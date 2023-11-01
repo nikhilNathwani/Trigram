@@ -12,8 +12,8 @@ body {
 }
 
 #app {
-	height: 100dvh;
 	height: 100vh;
+	height: 100dvh;
 	margin: auto;
 	/* border-inline: 1px solid black; */
 
