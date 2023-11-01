@@ -172,8 +172,6 @@ function initializeScoreboardDiv(trigram, goalScore) {
 }
 
 function initializeLevelDiv() {
-	var level = appendNewDivtoParent("level", "game");
-
 	const targetLength = document.createElement("div");
 	targetLength.id = divID.TARGET_LENGTH;
 	level.append(targetLength);
