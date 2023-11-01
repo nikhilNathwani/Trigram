@@ -31,14 +31,17 @@ body {
 }
 
 #headerContent {
+	width: min(500px, 100vw);
 	height: 100%;
-	display: flex;
-	/* grid-template-columns: 2rem 1fr 2rem; */
+	margin: auto;
+	display: grid;
+	grid-template-columns: 1.5rem 1fr 1.5rem;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: space-between;
 }
 
 #header-title {
+	text-align: center;
 	font-family: monospace;
 	font-size: 1.5rem;
 	color: hsl(0, 0%, 36%);
