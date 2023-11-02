@@ -27,8 +27,6 @@ function handleMouseClick(e) {
 }
 
 function handleKeyPress(e) {
-	console.log("Keypress registered");
-	console.log("Key:", e);
 	if (e.key === "Enter") {
 		submitGuess();
 		printGameState();
