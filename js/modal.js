@@ -5,7 +5,7 @@ document.getElementById("helpButton").addEventListener("click", function () {
 document.querySelector(".close").addEventListener("click", function () {
 	document.getElementById("help").style.display = "none";
 	if (!titleScreenVisible && !titleSequenceOver) {
-		startGame(4);
+		startGame(5);
 		titleSequenceOver = true;
 	}
 });
@@ -15,7 +15,7 @@ window.addEventListener("click", function (event) {
 		document.getElementById("help").style.display = "none";
 	}
 	if (!titleScreenVisible && !titleSequenceOver) {
-		startGame(4);
+		startGame(5);
 		titleSequenceOver = true;
 	}
 });

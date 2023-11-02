@@ -130,12 +130,12 @@ function handleValidGuess() {
 	}
 }
 
-function handleInvalidGuess() {
+function handleInvalidGuess(errorReason) {
 	// 1. Confirm action can be performed
 	// n/a
 
 	// 2. Perform the action
-	const errorReason = getErrorReason();
+	// tbd
 
 	// 3. Inform the UI
 	UI_STATE.handleInvalidGuess(errorReason);
@@ -146,13 +146,14 @@ function handleInvalidGuess() {
 
 function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
-	var guessResult =
-		word.length == GAME_STATE.wordLength_current &&
+	var [guessResult, errorReason] = validateWord(word);
+	console.log(errorReason);
+	word.length == GAME_STATE.wordLength_current &&
 		word.includes(GAME_STATE.trigram);
 	if (guessResult) {
 		handleValidGuess();
 	} else {
-		handleInvalidGuess();
+		handleInvalidGuess(errorReason);
 	}
 }
 
@@ -173,7 +174,7 @@ function endGame() {
 
 // -----------------------------------------------
 function getTrigram() {
-	return "CAR";
+	return "CAT";
 }
 
 function getMaxWordLength(trigram) {
