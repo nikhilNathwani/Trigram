@@ -41,7 +41,7 @@ function startGame(startLength) {
 	GAME_STATE.wordLength_start = startLength;
 	GAME_STATE.wordLength_current = startLength - 1;
 	GAME_STATE.lettersProvided = new Array(startLength).fill(null);
-	console.log("Initial GAME_STATE:", GAME_STATE);
+	// console.log("Initial GAME_STATE:", GAME_STATE);
 
 	// 3. Inform the UI
 	UI_STATE.startGame(
