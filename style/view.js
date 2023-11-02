@@ -35,6 +35,8 @@ const targetLength_colors = {
 	25: "#FFA000",
 };
 var nextLetterIndex = 0;
+var titleScreenVisible = true;
+var titleSequenceOver = false;
 
 // MAIN THREAD ------------------------------------------------------------- //
 
@@ -107,31 +109,25 @@ const UI_STATE = {
 	incrementLevelUI: function (length) {
 		this.level.classList.add("fade-out-left");
 
-		// After a delay, update the level content and add the 'fade-in-right' class to bring it back from the right
 		setTimeout(function () {
 			stopInteraction();
 			this.targetLength.textContent = length + " letter word";
-			// this.targetLength.style.backgroundColor =
-			// 	targetLength_colors[length];
 			appendLetterDivs(1, this.word);
 			const letterDivs = this.word.querySelectorAll(".letter");
 			letterDivs.forEach((letterDiv) => {
 				letterDiv.textContent = "";
-				// letterDiv.style.borderColor = targetLength_colors[length];
 			});
 			this.level.classList.remove("fade-out-left");
 			this.level.classList.add("teleport");
-		}, 500); // Adjust the delay to match your transition duration
+		}, 500);
 
 		setTimeout(function () {
 			this.level.classList.remove("teleport");
-			// this.level.classList.add("fade-in-right");
-		}, 600); // Adjust the delay to match your transition duration
+		}, 600);
 
 		setTimeout(function () {
-			// this.level.classList.remove("fade-in-right");
 			startInteraction();
-		}, 1100); // Adjust the delay to match your transition duration
+		}, 1100);
 	},
 
 	setAlert: function (alertText) {
@@ -185,4 +181,3 @@ function initializeLevelDiv() {
 	message.id = divID.ALERT;
 	level.append(message);
 }
-// BELONGS IN OTHER FILES -------------------------------------------------- //

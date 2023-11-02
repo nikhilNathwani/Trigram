@@ -5,6 +5,7 @@ document
 	.addEventListener("click", function () {
 		titleScreen.style.display = "none";
 		document.getElementById("help").style.display = "block";
+		titleScreenVisible = false;
 	});
 
 document
@@ -12,4 +13,5 @@ document
 	.addEventListener("click", function () {
 		titleScreen.style.display = "none";
 		document.getElementById("help").style.display = "block";
+		titleScreenVisible = false;
 	});

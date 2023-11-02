@@ -14,8 +14,6 @@ const GAME_STATE = {
 	lettersProvided: null,
 };
 
-startGame(4);
-
 /* GAME EVENTS ------------------------------------------------------------ */
 //  (1) Start Game
 //  (2) Start Level
