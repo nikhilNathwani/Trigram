@@ -19,17 +19,17 @@
 	--c4-light: hsl(28, 40%, 85%);
 	--c4-med: hsl(28, 40%, 72%);
 	--c4-dark: hsl(28, 40%, 35%);
+
 	--frame-width: 100%;
 	--frame-padding-inline: 2vw;
 	--frame-height: 100dvh;
+
 	--header-height: 115px;
-	--input-height: calc(2 * var(--fs-1));
-	--target-height: clamp(
-		calc(3 * var(--fs-1)),
-		calc((100vh - var(--header-height) - var(--keyboard-height)) / 3),
-		calc(5 * var(--fs-1))
-	);
-	--round-height: calc(3 * (var(--target-height)));
+
+	--round-height: calc(100% - var(--header-height) - var(--keyboard-height));
+	--target-height: calc(var(--round-height) / 3);
+	--input-height: calc(2 * var(--target-height) / 3);
+
 	--keyboard-height: 200px;
 }
 
@@ -38,6 +38,14 @@
 		--frame-width: calc(30rem + 2 * var(--frame-padding-inline));
 		--frame-padding-inline: 1.25rem;
 		--frame-height: 100%;
+
+		--round-height: calc(3 * (var(--target-height)));
+		--target-height: clamp(
+			calc(3 * var(--fs-1)),
+			calc((100vh - var(--header-height) - var(--keyboard-height)) / 3),
+			calc(5 * var(--fs-1))
+		);
+		--input-height: calc(2 * var(--fs-1));
 	}
 }
 
