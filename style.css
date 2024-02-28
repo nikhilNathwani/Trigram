@@ -360,7 +360,7 @@ body {
 #keyboard {
 	width: min(100%, 100vw);
 	height: var(--keyboard-height);
-	padding-inline: var(--frame-padding-inline);
+	padding-inline: min(var(--frame-padding-inline), 2vw);
 	padding-block: 1rem;
 	border-top: 3px double;
 
