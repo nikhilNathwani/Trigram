@@ -26,7 +26,9 @@
 
 	--header-height: 115px;
 
-	--round-height: calc(100% - var(--header-height) - var(--keyboard-height));
+	--round-height: calc(
+		var(--frame-height) - var(--header-height) - var(--keyboard-height)
+	);
 	--target-height: calc(var(--round-height) / 3);
 	--input-height: calc(2 * var(--target-height) / 3);
 
