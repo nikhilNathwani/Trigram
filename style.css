@@ -19,6 +19,7 @@
 	--c4-light: hsl(28, 40%, 85%);
 	--c4-med: hsl(28, 40%, 72%);
 	--c4-dark: hsl(28, 40%, 35%);
+	--frame-width: min(96vw, calc(30rem + 2 * var(--frame-padding-inline)));
 	--frame-padding-inline: 1.25rem;
 	--header-height: 115px;
 	--input-height: calc(2 * var(--fs-1));
@@ -27,11 +28,7 @@
 		calc((100vh - var(--header-height) - var(--keyboard-height)) / 3),
 		calc(5 * var(--fs-1))
 	);
-	--target-margin-y: 0px;
-	--round-height: calc(
-		3 * (var(--target-height) + 2 * var(--target-margin-y))
-	);
-	--round-width: calc(30rem + 2 * var(--frame-padding-inline));
+	--round-height: calc(3 * (var(--target-height)));
 	--keyboard-height: 200px;
 }
 
@@ -55,7 +52,7 @@ body {
 }
 
 #frame {
-	width: calc(var(--round-width));
+	width: calc(var(--frame-width));
 	height: 100%;
 	display: flex;
 	flex-flow: column nowrap;
@@ -67,56 +64,64 @@ body {
 /*                        HEADER                            */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 .header {
+	width: 100%;
+	height: var(--header-height);
+	padding-inline: var(--frame-padding-inline);
+	padding-block: 1rem;
+	border-bottom: 3px double;
+
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content: space-between;
+
 	font-size: 2rem;
-	padding-inline: var(--frame-padding-inline);
-	padding-block: 1rem;
-	width: 100%;
-	height: var(--header-height);
-	border-bottom: 3px double;
-	/* margin-bottom: var(--target-margin-y); */
 }
 
 .header-element {
 	display: flex;
 	flex-flow: column nowrap;
 	align-items: center;
+
 	font-weight: bold;
 }
 
 .header-title {
+	padding-bottom: 3px;
+
 	font-size: 1rem;
 	font-weight: bold;
-	padding-bottom: 3px;
 }
 
 .header-button {
-	font-size: 1.75rem;
 	width: 3.25rem;
 	aspect-ratio: 1/1;
 	border: 2px solid;
 	border-bottom: 4px solid;
 	border-radius: 50%;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: transparent;
+
+	font-size: 1.75rem;
 	color: inherit;
+	background-color: transparent;
+
 	cursor: pointer;
 }
 
 .header .trigram {
 	height: 3.25rem;
 	padding: 1.75rem 1rem;
-	background-color: white;
 	border: 3px solid;
 	border-radius: 8px;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	background-color: white;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -267,67 +272,61 @@ body {
 	padding-inline: var(--frame-padding-inline);
 	margin-block: var(--game-margin-y);
 
-	/* background-color: olivedrab; */
-	overflow: hidden;
-
 	display: flex;
 	flex-flow: column nowrap;
-	/* align-items: center; */
-	/* justify-content: center; */
+
+	overflow: hidden;
 }
 
 .round {
-	width: var(--round-width);
-	min-height: var(--round-height);
-	/* background-color: bisque; */
 	display: flex;
 	flex-flow: column nowrap;
-	/* justify-content: space-between; */
-	/* padding-bottom: 20px; */
+
 	transition: all 1s ease-out;
-	/* transition-delay: 0.3s; */
 }
 
 .target {
-	display: flex;
-	flex-flow: row nowrap;
-	gap: 1.5rem;
-	align-items: center;
 	width: fit-content;
 	height: var(--target-height);
-	margin-block: var(--target-margin-y);
-	/* transition: all 1s ease-out; */
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	gap: 1.5rem;
 }
 
 .length {
-	font-size: 2rem;
 	width: fit-content;
 	min-width: 3.25rem;
 	height: 3.5rem;
 	padding: var(--tl-padding-block) 0.75rem;
 	border: 2px solid;
 	border-radius: 8px;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	/* transition: all 1s ease-out; */
+
+	font-size: 2rem;
 }
 
 .word {
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: center;
-	width: fit-content;
+	/* width: fit-content; */
 	height: var(--input-height);
 	padding: 1rem;
 	border: 2px solid;
 	border-radius: 8px;
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+
 	transition: gap 1s ease-out, padding-inline 1s ease-out;
 }
 
 .letter {
-	text-align: center;
 	border-bottom: 2px solid;
+	text-align: center;
 	transition: font-size 1s ease-out, width 1s ease-out;
 }
 
@@ -359,7 +358,7 @@ body {
 /*                       KEYBOARD                           */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #keyboard {
-	width: 100%;
+	width: min(100%, 100vw);
 	height: var(--keyboard-height);
 	padding-inline: var(--frame-padding-inline);
 	padding-block: 1rem;
@@ -368,17 +367,25 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+
+	--num-keys: 10;
+	--num-keyGaps: 9;
+	--key-width: 9%;
+	--key-gap: calc(
+		(100% - (var(--num-keys) * var(--key-width))) / (var(--num-keyGaps))
+	);
 }
 
 .keyboard-row {
-	width: inherit;
+	width: 100%;
 	display: flex;
+	flex-flow: row nowrap;
 	justify-content: center;
-	gap: 10px;
+	gap: var(--key-gap);
 }
 
 .keyboard-key {
-	width: 39px;
+	width: var(--key-width);
 	height: 3.25rem;
 
 	border: 2px solid;
