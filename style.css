@@ -19,9 +19,9 @@
 	--c4-light: hsl(28, 40%, 85%);
 	--c4-med: hsl(28, 40%, 72%);
 	--c4-dark: hsl(28, 40%, 35%);
-	--app-height: 100dvh;
 	--frame-width: 100%;
 	--frame-padding-inline: 2vw;
+	--frame-height: 100dvh;
 	--header-height: 115px;
 	--input-height: calc(2 * var(--fs-1));
 	--target-height: clamp(
