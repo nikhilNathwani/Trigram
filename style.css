@@ -22,6 +22,7 @@
 
 	--frame-width: 100%;
 	--frame-padding-inline: 2vw;
+	--frame-height: 100vh;
 	--frame-height: 100dvh;
 
 	--header-height: 115px;
@@ -31,6 +32,7 @@
 	);
 	--target-height: calc(var(--round-height) / 3);
 	--input-height: calc(2 * var(--target-height) / 3);
+	--padding-length-word: 4vw;
 
 	--keyboard-height: 200px;
 }
@@ -48,6 +50,7 @@
 			calc(5 * var(--fs-1))
 		);
 		--input-height: calc(2 * var(--fs-1));
+		--padding-length-word: 1.5rem;
 	}
 }
 
@@ -312,7 +315,7 @@ body {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
-	gap: 1.5rem;
+	gap: var(--padding-length-word);
 }
 
 .length {
