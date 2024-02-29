@@ -60,28 +60,28 @@
 				var(--frame-width) - 2 * var(--frame-padding-inline) -
 					var(--length-width) - var(--padding-length-word) - 5 *
 					var(--letter-gap-1)
-			) / 7
+			) / 6
 	);
 	--letter-fs-2: calc(
 		(
 				var(--frame-width) - 2 * var(--frame-padding-inline) -
 					var(--length-width) - var(--padding-length-word) - 8 *
 					var(--letter-gap-2)
-			) / 10
+			) / 9
 	);
 	--letter-fs-3: calc(
 		(
 				var(--frame-width) - 2 * var(--frame-padding-inline) -
 					var(--length-width) - var(--padding-length-word) - 11 *
 					var(--letter-gap-3)
-			) / 13
+			) / 10
 	);
 	--letter-fs-4: calc(
 		(
 				var(--frame-width) - 2 * var(--frame-padding-inline) -
 					var(--length-width) - var(--padding-length-word) - 14 *
 					var(--letter-gap-4)
-			) / 16
+			) / 15
 	);
 
 	--word-px-1: 0vw;
