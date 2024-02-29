@@ -36,6 +36,7 @@
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	--frame-width: 100vw;
 	--frame-padding-inline: 4vw;
+	--keyboard-padding-inline: 2vw;
 
 	--length-fs: 6vw;
 	--length-width: 12vw;
@@ -73,6 +74,7 @@
 	:root {
 		--frame-width: calc(30rem + 2 * var(--frame-padding-inline));
 		--frame-padding-inline: 1.25rem;
+		--keyboard-padding-inline: var(--frame-padding-inline);
 		--frame-height: 100%;
 
 		--round-height: calc(3 * (var(--target-height)));
