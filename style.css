@@ -199,7 +199,7 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 .round-1 {
 	--num-letters-max: 6;
-	--letter-mx: 5vw;
+	--letter-mx: 2vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: max(3rem, calc(var(--letter-width) - 2 * var(--letter-mx)));
 
@@ -233,7 +233,7 @@ body {
 
 .round-2 {
 	--num-letters-max: 9;
-	--letter-mx: 3vw;
+	--letter-mx: 2vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
 
@@ -270,7 +270,7 @@ body {
 
 .round-3 {
 	--num-letters-max: 12;
-	--letter-mx: 2vw;
+	--letter-mx: 1vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
 
@@ -305,7 +305,7 @@ body {
 
 .round-4 {
 	--num-letters-max: 15;
-	--letter-mx: 2vw;
+	--letter-mx: 1vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
 
