@@ -199,7 +199,7 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 .round-1 {
 	--num-letters-max: 6;
-	--letter-mx: 2vw;
+	--letter-mx: 1vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: max(3rem, calc(var(--letter-width) - 2 * var(--letter-mx)));
 
