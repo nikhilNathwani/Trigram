@@ -437,6 +437,9 @@ body {
 	flex-direction: column;
 	gap: 8px;
 
+	touch-action: manipulation;
+	/* ^ Disables double-tap-to-zoom on mobile */
+
 	--num-keys: 10;
 	--num-keyGaps: 9;
 	--key-width: 9%;
