@@ -50,7 +50,7 @@
 	/* 15*3vw (45) + 14*2vw (28) */
 	/* (fw - fpx - lw - lpr) - 15*/
 
-	--letter-gap-1: 3vw;
+	--letter-gap-1: 2vw;
 	--letter-gap-2: 2vw;
 	--letter-gap-3: 1vw;
 	--letter-gap-4: 1vw;
@@ -74,7 +74,7 @@
 				var(--frame-width) - 2 * var(--frame-padding-inline) -
 					var(--length-width) - var(--padding-length-word) - 11 *
 					var(--letter-gap-3)
-			) / 10
+			) / 12
 	);
 	--letter-fs-4: calc(
 		(
