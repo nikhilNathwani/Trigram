@@ -21,35 +21,71 @@
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	/*         Heights         */
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
-	--frame-height: 100%;
+	--frame-height: 100vh;
+	--frame-height: 100dvh;
 	--header-height: 115px;
 	--keyboard-height: 200px;
-	--round-height: calc(3 * (var(--target-height)));
-	--target-height: clamp(
-		calc(8rem),
-		calc((100vh - var(--header-height) - var(--keyboard-height)) / 3),
-		calc(16rem)
+	--round-height: calc(
+		var(--frame-height) - var(--header-height) - var(--keyboard-height)
 	);
-	--input-height: 5.5rem;
+	--target-height: calc(var(--round-height) / 3);
+	--input-height: calc(2 * var(--target-height) / 3);
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	/*   Widths & Font Sizes   */
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
-	--frame-width: calc(30rem + 2 * var(--frame-padding-inline));
-	--frame-padding-inline: 1.25rem;
-	--keyboard-padding-inline: var(--frame-padding-inline);
+	--frame-width: 100vw;
+	--frame-padding-inline: 6vw;
+	--keyboard-padding-inline: 2vw;
 
-	--length-fs: 2rem;
-	--length-width: 3.25rem;
-	--padding-length-word: 1.5rem;
+	--length-fs: 6vw;
+	--length-width: 12vw;
+	--padding-length-word: 4vw;
 
 	--word-border-width: 2px;
-	--word-px: 0.5rem;
+	--word-px: 2vw;
 	--word-width-max: calc(
 		var(--frame-width) - 2 * var(--frame-padding-inline) -
 			var(--length-width) - var(--padding-length-word) - 2 *
 			var(--word-border-width) - 2 * var(--word-px)
 	);
+}
+
+@media (min-width: 520px) {
+	:root {
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		/*         Heights         */
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		--frame-height: 100%;
+		--header-height: 115px;
+		--keyboard-height: 200px;
+		--round-height: calc(3 * (var(--target-height)));
+		--target-height: clamp(
+			calc(8rem),
+			calc((100vh - var(--header-height) - var(--keyboard-height)) / 3),
+			calc(16rem)
+		);
+		--input-height: 5.5rem;
+
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		/*   Widths & Font Sizes   */
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		--frame-width: calc(30rem + 2 * var(--frame-padding-inline));
+		--frame-padding-inline: 1.25rem;
+		--keyboard-padding-inline: var(--frame-padding-inline);
+
+		--length-fs: 2rem;
+		--length-width: 3.25rem;
+		--padding-length-word: 1.5rem;
+
+		--word-border-width: 2px;
+		--word-px: 0.5rem;
+		--word-width-max: calc(
+			var(--frame-width) - 2 * var(--frame-padding-inline) -
+				var(--length-width) - var(--padding-length-word) - 2 *
+				var(--word-border-width) - 2 * var(--word-px)
+		);
+	}
 }
 
 * {
