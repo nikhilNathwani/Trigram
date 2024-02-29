@@ -84,7 +84,10 @@
 			) / 16
 	);
 
-	--word-padding-inline: 0vw;
+	--word-px-1: 0vw;
+	--word-px-2: 0vw;
+	--word-px-3: 0vw;
+	--word-px-4: 0vw;
 
 	/* --letter-fs-1: 1rem;
 	--letter-fs-2: 1rem;
@@ -123,7 +126,10 @@
 		--letter-gap-3: 0.5rem;
 		--letter-gap-4: 0.375rem;
 
-		--word-padding-inline: 1rem;
+		--word-px-1: 1.75rem;
+		--word-px-2: 1rem;
+		--word-px-3: 1.5rem;
+		--word-px-4: 1.4375rem;
 
 		--length-fs: 2rem;
 		--length-width: 3.25rem;
@@ -234,7 +240,7 @@ body {
 	}
 	.word {
 		gap: var(--letter-gap-1);
-		padding-inline: 1.75rem;
+		padding-inline: var(--word-px-1);
 		width: 100%;
 	}
 	.letter {
@@ -269,6 +275,7 @@ body {
 	}
 	.word {
 		gap: var(--letter-gap-2);
+		padding-inline: var(--word-px-2);
 	}
 	.letter {
 		font-size: var(--letter-fs-2);
@@ -304,7 +311,7 @@ body {
 	}
 	.word {
 		gap: var(--letter-gap-3);
-		padding-inline: 1.5rem;
+		padding-inline: var(--word-px-3);
 	}
 	.letter {
 		font-size: var(--letter-fs-3);
@@ -338,7 +345,7 @@ body {
 	}
 	.word {
 		gap: var(--letter-gap-4);
-		padding-inline: 1.4375rem;
+		padding-inline: var(--word-px-4);
 	}
 	.letter {
 		font-size: var(--letter-fs-4);
@@ -413,7 +420,7 @@ body {
 .word {
 	/* width: fit-content; */
 	height: var(--input-height);
-	padding: var(--word-padding-inline);
+	/* padding: var(--word-padding-inline); */
 	border: 2px solid;
 	border-radius: 8px;
 
