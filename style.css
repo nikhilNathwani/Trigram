@@ -84,6 +84,8 @@
 			) / 16
 	);
 
+	--word-padding-inline: 0vw;
+
 	/* --letter-fs-1: 1rem;
 	--letter-fs-2: 1rem;
 	--letter-fs-3: 0.5rem;
@@ -120,6 +122,8 @@
 		--letter-gap-2: 0.625rem;
 		--letter-gap-3: 0.5rem;
 		--letter-gap-4: 0.375rem;
+
+		--word-padding-inline: 1rem;
 
 		--length-fs: 2rem;
 		--length-width: 3.25rem;
@@ -409,7 +413,7 @@ body {
 .word {
 	/* width: fit-content; */
 	height: var(--input-height);
-	padding: 1rem;
+	padding: var(--word-padding-inline);
 	border: 2px solid;
 	border-radius: 8px;
 
