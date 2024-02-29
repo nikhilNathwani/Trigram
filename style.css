@@ -35,7 +35,7 @@
 	/*   Widths & Font Sizes   */
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	--frame-width: 100vw;
-	--frame-padding-inline: 2vw;
+	--frame-padding-inline: 4vw;
 
 	--length-fs: 6vw;
 	--length-width: 15vw;
