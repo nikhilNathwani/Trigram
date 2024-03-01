@@ -229,20 +229,21 @@ body {
 	}
 	.locked .word,
 	.empty.letter {
-		border-color: cyan;
-		/* border-color: var(--c1-dark-hsl); */
+		border-color: var(--c1-dark-hsl);
 		color: transparent;
 	}
-	button:hover {
-		background-color: var(--c1-light-hsl);
-		color: var(--c1-dark-hsl);
-	}
-	button:active {
+	.keyboard-key {
 		background-color: var(--c1-dark-hsl);
 		color: var(--c1-light-hsl);
 		border-color: var(--c1-dark-hsl);
 	}
-	.keyboard-key {
+	.keyboard-key:hover,
+	.header-button:hover {
+		background-color: var(--c1-light-hsl);
+		color: var(--c1-dark-hsl);
+	}
+	.keyboard-key:active,
+	.header-button:active {
 		background-color: var(--c1-dark-hsl);
 		color: var(--c1-light-hsl);
 		border-color: var(--c1-dark-hsl);
@@ -589,8 +590,8 @@ body {
 	align-items: center;
 	justify-content: center;
 
-	background-color: red;
-	color: cyan;
+	/* background-color: red;
+	color: cyan; */
 }
 
 /* .keyboard-key:not(:hover) {
