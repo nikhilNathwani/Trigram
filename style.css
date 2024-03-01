@@ -229,7 +229,8 @@ body {
 	}
 	.locked .word,
 	.empty.letter {
-		border-color: var(--c1-dark-hsl);
+		border-color: cyan;
+		/* border-color: var(--c1-dark-hsl); */
 		color: transparent;
 	}
 	button:hover {
@@ -242,8 +243,7 @@ body {
 		border-color: var(--c1-dark-hsl);
 	}
 	.keyboard-key {
-		background-color: red;
-		/* background-color: var(--c1-dark-hsl); */
+		background-color: var(--c1-dark-hsl);
 		color: var(--c1-light-hsl);
 		border-color: var(--c1-dark-hsl);
 	}
