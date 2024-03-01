@@ -437,6 +437,13 @@ body {
 	}
 }
 
+.round-1.round-transition *,
+.round-2.round-transition *,
+.round-3.round-transition *,
+.round-4.round-transition * {
+	transition: all 1s ease-out;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                         GAME                             */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -456,7 +463,7 @@ body {
 	display: flex;
 	flex-flow: column nowrap;
 
-	transition: all 1s ease-out;
+	/* transition: all 1s ease-out; */
 }
 
 .target {
@@ -495,7 +502,7 @@ body {
 	flex-flow: row nowrap;
 	align-items: center;
 
-	transition: gap 1s ease-out, padding 1s ease-out, width 1px ease-out;
+	/* transition: gap 1s ease-out, padding 1s ease-out, width 1px ease-out; */
 }
 
 .letter {
@@ -504,7 +511,7 @@ body {
 	);
 	border-bottom: 2px solid;
 	text-align: center;
-	transition: font-size 1s ease-out, margin 1s ease-out, width 1s ease-out;
+	/* transition: font-size 1s ease-out, margin 1s ease-out, width 1s ease-out; */
 }
 
 .complete {
@@ -579,9 +586,11 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	transition: background-color 1s ease-out;
 }
+
+/* .keyboard-key:not(:hover) {
+	transition: none;
+} */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                        MODALS                            */

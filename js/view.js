@@ -58,6 +58,13 @@ const UI_STATE = {
 		if (targetsCompleted % 3 == 0) {
 			this.app.classList = "";
 			this.app.classList.add("round-" + roundNum);
+
+			if (targetsCompleted > 0) {
+				this.app.classList.add("round-transition");
+				this.app.addEventListener("transitionend", () => {
+					this.app.classList.remove("round-transition");
+				});
+			}
 		}
 
 		this.target = roundDiv.querySelector(
