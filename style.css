@@ -2,21 +2,49 @@
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	/*         Colors          */
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
-	--c1-light: hsl(13, 40%, 85%);
-	--c1-med: hsl(13, 40%, 72%);
-	--c1-dark: hsl(13, 40%, 35%);
+	--c1-hue: 13;
+	--c1-sat: 40%;
+	--c1-light: 85%;
+	--c1-med: 72%;
+	--c1-dark: 35%;
+	--c1-darker: 20%;
+	--c1-light-hsl: hsl(var(--c1-hue), var(--c1-sat), var(--c1-light));
+	--c1-med-hsl: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
+	--c1-dark-hsl: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
+	--c1-darker-hsl: hsl(var(--c1-hue), var(--c1-sat), var(--c1-darker));
 
-	--c2-light: hsl(3, 40%, 85%);
-	--c2-med: hsl(3, 40%, 72%);
-	--c2-dark: hsl(3, 40%, 35%);
+	--c2-hue: 3;
+	--c2-sat: 40%;
+	--c2-light: 85%;
+	--c2-med: 72%;
+	--c2-dark: 35%;
+	--c2-darker: 20%;
+	--c2-light-hsl: hsl(var(--c2-hue), var(--c2-sat), var(--c2-light));
+	--c2-med-hsl: hsl(var(--c2-hue), var(--c2-sat), var(--c2-med));
+	--c2-dark-hsl: hsl(var(--c2-hue), var(--c2-sat), var(--c2-dark));
+	--c2-darker-hsl: hsl(var(--c2-hue), var(--c2-sat), var(--c2-darker));
 
-	--c3-light: hsl(42, 40%, 85%);
-	--c3-med: hsl(42, 40%, 72%);
-	--c3-dark: hsl(42, 40%, 35%);
+	--c3-hue: 42;
+	--c3-sat: 40%;
+	--c3-light: 85%;
+	--c3-med: 72%;
+	--c3-dark: 35%;
+	--c3-darker: 20%;
+	--c3-light-hsl: hsl(var(--c3-hue), var(--c3-sat), var(--c3-light));
+	--c3-med-hsl: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
+	--c3-dark-hsl: hsl(var(--c3-hue), var(--c3-sat), var(--c3-dark));
+	--c3-darker-hsl: hsl(var(--c3-hue), var(--c3-sat), var(--c3-darker));
 
-	--c4-light: hsl(28, 40%, 85%);
-	--c4-med: hsl(28, 40%, 72%);
-	--c4-dark: hsl(28, 40%, 35%);
+	--c4-hue: 28;
+	--c4-sat: 40%;
+	--c4-light: 85%;
+	--c4-med: 72%;
+	--c4-dark: 35%;
+	--c4-darker: 20%;
+	--c4-light-hsl: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+	--c4-med-hsl: hsl(var(--c4-hue), var(--c4-sat), var(--c4-med));
+	--c4-dark-hsl: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+	--c4-darker-hsl: hsl(var(--c4-hue), var(--c4-sat), var(--c4-darker));
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	/*         Heights         */
@@ -83,19 +111,6 @@
 				var(--length-width) - var(--padding-length-word) - 2 *
 				var(--word-border-width) - 2 * var(--word-px)
 		);
-	}
-
-	.round-1 {
-		--letter-mx: 0.5rem;
-	}
-	.round-2 {
-		--letter-mx: 0.5rem;
-	}
-	.round-3 {
-		--letter-mx: 0.25rem;
-	}
-	.round-4 {
-		--letter-mx: 0.125rem;
 	}
 }
 
@@ -199,12 +214,15 @@ body {
 	--num-letters-max: 6;
 	--letter-mx: 2vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
-	--letter-fs: min(3rem, calc(var(--letter-width) - 2 * var(--letter-mx)));
+	--letter-fs: min(2.75rem, calc(var(--letter-width) - 2 * var(--letter-mx)));
+	@media (min-width: 520px) {
+		--letter-mx: 0.5rem;
+	}
 
-	background-color: var(--c1-med);
-	color: var(--c1-dark);
+	background-color: var(--c1-med-hsl);
+	color: var(--c1-dark-hsl);
 	.round {
-		border-color: var(--c1-dark);
+		border-color: var(--c1-dark-hsl);
 	}
 	.letter {
 		font-size: var(--letter-fs);
@@ -212,20 +230,33 @@ body {
 	}
 	.active .length,
 	.active .word {
-		background-color: var(--c1-light);
+		background-color: var(--c1-light-hsl);
 	}
 	.locked .word,
 	.empty.letter {
-		border-color: var(--c1-dark);
+		border-color: var(--c1-dark-hsl);
 		color: transparent;
 	}
 	button:hover {
-		background-color: var(--c1-light);
+		background-color: var(--c1-light-hsl);
 	}
 	button:active {
-		background-color: var(--c1-dark);
-		color: var(--c1-light);
-		border-color: var(--c1-dark);
+		background-color: var(--c1-dark-hsl);
+		color: var(--c1-light-hsl);
+		border-color: var(--c1-dark-hsl);
+	}
+	.modal-screen {
+		background-color: hsla(
+			var(--c1-hue),
+			var(--c1-sat),
+			var(--c1-dark),
+			0.7
+		);
+	}
+	.modal-content {
+		background-color: var(--c1-light-hsl);
+		color: var(--c1-darker-hsl);
+		border-color: var(--c1-darker-hsl);
 	}
 }
 
@@ -234,10 +265,13 @@ body {
 	--letter-mx: 1vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
+	@media (min-width: 520px) {
+		--letter-mx: 0.5rem;
+	}
 
-	background-color: var(--c2-med);
-	color: var(--c2-dark);
-	border-color: var(--c2-dark);
+	background-color: var(--c2-med-hsl);
+	color: var(--c2-dark-hsl);
+	border-color: var(--c2-dark-hsl);
 	.round {
 		transform: translateY(calc(-1 * var(--round-height)));
 	}
@@ -247,22 +281,35 @@ body {
 	}
 	.active .length,
 	.active .word {
-		background-color: var(--c2-light);
+		background-color: var(--c2-light-hsl);
 	}
 	.locked .word,
 	.empty.letter {
 		color: transparent;
-		border-color: var(--c2-dark);
+		border-color: var(--c2-dark-hsl);
 	}
 	.keyboard-key:hover,
 	.header-button:hover {
-		background-color: var(--c2-light);
+		background-color: var(--c2-light-hsl);
 	}
 	.keyboard-key:active,
 	.header-button:active {
-		background-color: var(--c2-dark);
-		color: var(--c2-light);
-		border-color: var(--c2-dark);
+		background-color: var(--c2-dark-hsl);
+		color: var(--c2-light-hsl);
+		border-color: var(--c2-dark-hsl);
+	}
+	.modal-screen {
+		background-color: hsla(
+			var(--c2-hue),
+			var(--c2-sat),
+			var(--c2-dark),
+			0.7
+		);
+	}
+	.modal-content {
+		background-color: var(--c2-light-hsl);
+		color: var(--c2-darker-hsl);
+		border-color: var(--c2-darker-hsl);
 	}
 }
 
@@ -271,10 +318,13 @@ body {
 	--letter-mx: 0.5vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
+	@media (min-width: 520px) {
+		--letter-mx: 0.25rem;
+	}
 
-	background-color: var(--c3-med);
-	color: var(--c3-dark);
-	border-color: var(--c3-dark);
+	background-color: var(--c3-med-hsl);
+	color: var(--c3-dark-hsl);
+	border-color: var(--c3-dark-hsl);
 	.round {
 		transform: translateY(calc(-2 * var(--round-height)));
 	}
@@ -284,20 +334,33 @@ body {
 	}
 	.active .length,
 	.active .word {
-		background-color: var(--c3-light);
+		background-color: var(--c3-light-hsl);
 	}
 	.locked .word,
 	.empty.letter {
 		color: transparent;
-		border-color: var(--c3-dark);
+		border-color: var(--c3-dark-hsl);
 	}
 	button:hover {
-		background-color: var(--c3-light);
+		background-color: var(--c3-light-hsl);
 	}
 	button:active {
-		background-color: var(--c3-dark);
-		color: var(--c3-light);
-		border-color: var(--c3-dark);
+		background-color: var(--c3-dark-hsl);
+		color: var(--c3-light-hsl);
+		border-color: var(--c3-dark-hsl);
+	}
+	.modal-screen {
+		background-color: hsla(
+			var(--c3-hue),
+			var(--c3-sat),
+			var(--c3-dark),
+			0.7
+		);
+	}
+	.modal-content {
+		background-color: var(--c3-light-hsl);
+		color: var(--c3-darker-hsl);
+		border-color: var(--c3-darker-hsl);
 	}
 }
 
@@ -306,10 +369,13 @@ body {
 	--letter-mx: 0.5vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
+	@media (min-width: 520px) {
+		--letter-mx: 0.25rem;
+	}
 
-	background-color: var(--c4-med);
-	color: var(--c4-dark);
-	border-color: var(--c4-dark);
+	background-color: var(--c4-med-hsl);
+	color: var(--c4-dark-hsl);
+	border-color: var(--c4-dark-hsl);
 	.round {
 		transform: translateY(calc(-3 * var(--round-height)));
 	}
@@ -319,20 +385,33 @@ body {
 	}
 	.active .length,
 	.active .word {
-		background-color: var(--c4-light);
+		background-color: var(--c4-light-hsl);
 	}
 	.locked .word,
 	.empty.letter {
 		color: transparent;
-		border-color: var(--c4-dark);
+		border-color: var(--c4-dark-hsl);
 	}
 	button:hover {
-		background-color: var(--c4-light);
+		background-color: var(--c4-light-hsl);
 	}
 	button:active {
-		background-color: var(--c4-dark);
-		color: var(--c4-light);
-		border-color: var(--c4-dark);
+		background-color: var(--c4-dark-hsl);
+		color: var(--c4-light-hsl);
+		border-color: var(--c4-dark-hsl);
+	}
+	.modal-screen {
+		background-color: hsla(
+			var(--c4-hue),
+			var(--c4-sat),
+			var(--c4-dark),
+			0.7
+		);
+	}
+	.modal-content {
+		background-color: var(--c4-light-hsl);
+		color: var(--c4-darker-hsl);
+		border-color: var(--c4-darker-hsl);
 	}
 }
 
@@ -490,7 +569,7 @@ body {
 .keyboard-key:active {
 	background-color: #888;
 	color: white;
-	border-color: var(--c1-dark);
+	border-color: var(--c1-dark-hsl);
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -505,7 +584,7 @@ h1 {
 h2 {
 	font-size: 1rem;
 	margin-block: 1.25rem 0.75rem;
-	border-bottom: 2px solid var(--c1-dark);
+	border-bottom: 2px solid var(--c1-dark-hsl);
 }
 
 .modal-screen {
@@ -516,7 +595,6 @@ h2 {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(125, 69, 54, 0.7);
 	overflow: auto;
 	cursor: pointer;
 }
@@ -524,14 +602,10 @@ h2 {
 .modal-content {
 	width: min(500px, 96vw);
 	height: fit-content;
-	background-color: var(--c1-light);
-	border: 3px solid var(--c1-dark);
-	color: hsl(13, 40%, 20%);
+	border: 3px solid;
 	margin: 4rem auto;
 	padding: 1.5rem;
 	cursor: default;
-	/* border: 1px solid #888; */
-	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
 }
 
 .closeRow {
