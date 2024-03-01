@@ -64,7 +64,8 @@
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	--frame-width: 100vw;
 	--frame-padding-inline: 6vw;
-	--keyboard-padding-inline: 1vw;
+	--keyboard-padding-inline: 2vw;
+	--keyboard-key-border-radius: 4px;
 
 	--length-fs: 6vw;
 	--length-width: 12vw;
@@ -99,6 +100,7 @@
 		--frame-width: calc(30rem + 2 * var(--frame-padding-inline));
 		--frame-padding-inline: 1.25rem;
 		--keyboard-padding-inline: var(--frame-padding-inline);
+		--keyboard-key-border-radius: 6px;
 
 		--length-fs: 2rem;
 		--length-width: 3.25rem;
@@ -613,7 +615,7 @@ body {
 
 	border: 2px solid;
 	/* border-bottom: 4px solid; */
-	border-radius: 6px;
+	border-radius: var(--keyboard-key-border-radius);
 
 	font-size: 1.375rem;
 
