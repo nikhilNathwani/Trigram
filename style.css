@@ -239,8 +239,14 @@ body {
 	}
 	button:hover {
 		background-color: var(--c1-light-hsl);
+		color: var(--c1-dark-hsl);
 	}
 	button:active {
+		background-color: var(--c1-dark-hsl);
+		color: var(--c1-light-hsl);
+		border-color: var(--c1-dark-hsl);
+	}
+	.keyboard-key {
 		background-color: var(--c1-dark-hsl);
 		color: var(--c1-light-hsl);
 		border-color: var(--c1-dark-hsl);
@@ -288,12 +294,16 @@ body {
 		color: transparent;
 		border-color: var(--c2-dark-hsl);
 	}
-	.keyboard-key:hover,
-	.header-button:hover {
+	button:hover {
 		background-color: var(--c2-light-hsl);
+		color: var(--c2-dark-hsl);
 	}
-	.keyboard-key:active,
-	.header-button:active {
+	button:active {
+		background-color: var(--c2-dark-hsl);
+		color: var(--c2-light-hsl);
+		border-color: var(--c2-dark-hsl);
+	}
+	.keyboard-key {
 		background-color: var(--c2-dark-hsl);
 		color: var(--c2-light-hsl);
 		border-color: var(--c2-dark-hsl);
@@ -343,8 +353,14 @@ body {
 	}
 	button:hover {
 		background-color: var(--c3-light-hsl);
+		color: var(--c3-dark-hsl);
 	}
 	button:active {
+		background-color: var(--c3-dark-hsl);
+		color: var(--c3-light-hsl);
+		border-color: var(--c3-dark-hsl);
+	}
+	.keyboard-key {
 		background-color: var(--c3-dark-hsl);
 		color: var(--c3-light-hsl);
 		border-color: var(--c3-dark-hsl);
@@ -394,8 +410,14 @@ body {
 	}
 	button:hover {
 		background-color: var(--c4-light-hsl);
+		color: var(--c4-dark-hsl);
 	}
 	button:active {
+		background-color: var(--c4-dark-hsl);
+		color: var(--c4-light-hsl);
+		border-color: var(--c4-dark-hsl);
+	}
+	.keyboard-key {
 		background-color: var(--c4-dark-hsl);
 		color: var(--c4-light-hsl);
 		border-color: var(--c4-dark-hsl);
@@ -547,7 +569,7 @@ body {
 	height: 3.25rem;
 
 	border: 2px solid;
-	border-bottom: 4px solid;
+	/* border-bottom: 4px solid; */
 	border-radius: 6px;
 
 	font-size: 1.375rem;
@@ -558,18 +580,7 @@ body {
 	align-items: center;
 	justify-content: center;
 
-	background-color: inherit;
-	color: inherit;
-}
-
-.keyboard-key:hover {
-	background-color: var();
-}
-
-.keyboard-key:active {
-	background-color: #888;
-	color: white;
-	border-color: var(--c1-dark-hsl);
+	transition: background-color 1s ease-out;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
