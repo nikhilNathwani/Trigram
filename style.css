@@ -252,12 +252,13 @@ body {
 		border-color: var(--c1-dark-hsl);
 	}
 	.modal-screen {
-		background-color: hsla(
+		/* background-color: hsla(
 			var(--c1-hue),
 			var(--c1-sat),
 			var(--c1-dark),
 			0.7
-		);
+		); */
+		background-color: var(--c1-dark-hsl);
 	}
 	.modal-content {
 		background-color: var(--c1-light-hsl);
