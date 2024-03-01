@@ -586,6 +586,9 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	background-color: inherit;
+	color: inherit;
 }
 
 /* .keyboard-key:not(:hover) {
@@ -641,13 +644,9 @@ h2 {
 	cursor: pointer;
 }
 
-/* .closeButton:hover {
-	color: hsl(13, 40%, 72%);
-} */
-
 .fa-xmark {
 	font-size: 1.25rem;
-	color: hsl(13, 40%, 20%);
+	/* color: hsl(13, 40%, 20%); */
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

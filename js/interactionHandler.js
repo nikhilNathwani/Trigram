@@ -29,17 +29,17 @@ function handleMouseClick(e) {
 function handleKeyPress(e) {
 	if (e.key === "Enter") {
 		submitGuess();
-		printGameState();
+		// printGameState();
 		return;
 	}
 	if (e.key === "Backspace" || e.key === "Delete") {
 		deleteLetter();
-		printGameState();
+		// printGameState();
 		return;
 	}
 	if (e.key.match(/^[a-z]$/)) {
 		addLetter(e.key);
-		printGameState();
+		// printGameState();
 		return;
 	}
 }

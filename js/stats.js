@@ -130,7 +130,6 @@ makeStatList();
 makeLongestWordDistribution();
 
 function addToStatsWordList(word) {
-	console.log("wld", wordListDiv);
 	var emptyState = wordListDiv.querySelector("p#wordListEmptyState");
 	if (emptyState != null) {
 		emptyState.remove();
