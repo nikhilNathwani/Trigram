@@ -64,7 +64,7 @@
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	--frame-width: 100vw;
 	--frame-padding-inline: 6vw;
-	--keyboard-padding-inline: 2vw;
+	--keyboard-padding-inline: 1vw;
 
 	--length-fs: 6vw;
 	--length-width: 12vw;
@@ -430,7 +430,7 @@ body {
 		}
 	}
 	.round-2 {
-		--letter-mx: 0.5rem
+		--letter-mx: 0.5rem;
 		.keyboard-key:hover,
 		.header-button:hover {
 			background-color: var(--c2-light-hsl);
@@ -444,7 +444,7 @@ body {
 		}
 	}
 	.round-3 {
-		--letter-mx: 0.25rem
+		--letter-mx: 0.25rem;
 		.keyboard-key:hover,
 		.header-button:hover {
 			background-color: var(--c3-light-hsl);
@@ -458,7 +458,7 @@ body {
 		}
 	}
 	.round-4 {
-		--letter-mx: 0.25rem
+		--letter-mx: 0.25rem;
 		.keyboard-key:hover,
 		.header-button:hover {
 			background-color: var(--c4-light-hsl);
