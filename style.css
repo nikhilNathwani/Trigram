@@ -215,9 +215,6 @@ body {
 	--letter-mx: 2vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: min(2.75rem, calc(var(--letter-width) - 2 * var(--letter-mx)));
-	@media (min-width: 520px) {
-		--letter-mx: 0.5rem;
-	}
 
 	background-color: var(--c1-med-hsl);
 	color: var(--c1-dark-hsl);
@@ -272,9 +269,6 @@ body {
 	--letter-mx: 1vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
-	@media (min-width: 520px) {
-		--letter-mx: 0.5rem;
-	}
 
 	background-color: var(--c2-med-hsl);
 	color: var(--c2-dark-hsl);
@@ -329,9 +323,6 @@ body {
 	--letter-mx: 0.5vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
-	@media (min-width: 520px) {
-		--letter-mx: 0.25rem;
-	}
 
 	background-color: var(--c3-med-hsl);
 	color: var(--c3-dark-hsl);
@@ -386,9 +377,6 @@ body {
 	--letter-mx: 0.5vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
-	@media (min-width: 520px) {
-		--letter-mx: 0.25rem;
-	}
 
 	background-color: var(--c4-med-hsl);
 	color: var(--c4-dark-hsl);
@@ -435,6 +423,21 @@ body {
 		background-color: var(--c4-light-hsl);
 		color: var(--c4-darker-hsl);
 		border-color: var(--c4-darker-hsl);
+	}
+}
+
+@media (min-width: 520px) {
+	.round-1 {
+		--letter-mx: 0.5rem;
+	}
+	.round-2 {
+		--letter-mx: 0.5rem;
+	}
+	.round-3 {
+		--letter-mx: 0.25rem;
+	}
+	.round-4 {
+		--letter-mx: 0.25rem;
 	}
 }
 
