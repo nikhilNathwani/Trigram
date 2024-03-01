@@ -218,9 +218,7 @@ body {
 
 	background-color: var(--c1-med-hsl);
 	color: var(--c1-dark-hsl);
-	.round {
-		border-color: var(--c1-dark-hsl);
-	}
+
 	.letter {
 		font-size: var(--letter-fs);
 		margin-inline: var(--letter-mx);
@@ -244,18 +242,18 @@ body {
 		border-color: var(--c1-dark-hsl);
 	}
 	.keyboard-key {
-		background-color: var(--c1-dark-hsl);
+		background-color: red;
+		/* background-color: var(--c1-dark-hsl); */
 		color: var(--c1-light-hsl);
 		border-color: var(--c1-dark-hsl);
 	}
 	.modal-screen {
-		/* background-color: hsla(
+		background-color: hsla(
 			var(--c1-hue),
 			var(--c1-sat),
 			var(--c1-dark),
 			0.7
-		); */
-		background-color: var(--c1-dark-hsl);
+		);
 	}
 	.modal-content {
 		background-color: var(--c1-light-hsl);
