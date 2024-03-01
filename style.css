@@ -57,8 +57,6 @@
 		/*         Heights         */
 		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 		--frame-height: 100%;
-		--header-height: 115px;
-		--keyboard-height: 200px;
 		--round-height: calc(3 * (var(--target-height)));
 		--target-height: clamp(
 			calc(8rem),
@@ -199,9 +197,9 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 .round-1 {
 	--num-letters-max: 6;
-	--letter-mx: 1vw;
+	--letter-mx: 2vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
-	--letter-fs: max(3rem, calc(var(--letter-width) - 2 * var(--letter-mx)));
+	--letter-fs: min(3rem, calc(var(--letter-width) - 2 * var(--letter-mx)));
 
 	background-color: var(--c1-med);
 	color: var(--c1-dark);
@@ -233,7 +231,7 @@ body {
 
 .round-2 {
 	--num-letters-max: 9;
-	--letter-mx: 2vw;
+	--letter-mx: 1vw;
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	--letter-fs: calc(var(--letter-width) - 2 * var(--letter-mx));
 
