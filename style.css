@@ -588,6 +588,9 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	background-color: red;
+	color: cyan;
 }
 
 /* .keyboard-key:not(:hover) {
