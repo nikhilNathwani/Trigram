@@ -129,32 +129,45 @@ makeWordList();
 makeStatList();
 makeLongestWordDistribution();
 
-function makeWordList() {
-	for (let index = 0; index < words.length; index++) {
-		if (words[index] != "") {
-			const target = document.createElement("div");
-			target.classList.add("stat-wordList-target");
-			target.id = "stat-wordList-target" + index;
-
-			const length = document.createElement("div");
-			length.classList.add("stat-wordList-length");
-			length.id = "stat-wordList-length" + index;
-			length.textContent = index + ":";
-			target.appendChild(length);
-
-			const word = document.createElement("div");
-			word.classList.add("stat-wordList-word");
-			word.id = "stat-wordList-word" + index;
-			word.innerHTML = words[index].replace(
-				trigram,
-				`<span class="stat-wordList-trigram">${trigram}</span>`
-			);
-			words[index];
-			target.appendChild(word);
-
-			wordListDiv.appendChild(target);
-		}
+function addToStatsWordList(word) {
+	console.log("wld", wordListDiv);
+	var emptyState = wordListDiv.querySelector("p#wordListEmptyState");
+	if (emptyState != null) {
+		emptyState.remove();
 	}
+
+	const length = word.length;
+
+	const targetDiv = document.createElement("div");
+	targetDiv.classList.add("stat-wordList-target");
+	targetDiv.id = "stat-wordList-target" + length;
+
+	const lengthDiv = document.createElement("div");
+	lengthDiv.classList.add("stat-wordList-length");
+	lengthDiv.id = "stat-wordList-length" + length;
+	lengthDiv.textContent = length + ":";
+	targetDiv.appendChild(lengthDiv);
+
+	const wordDiv = document.createElement("div");
+	wordDiv.classList.add("stat-wordList-word");
+	wordDiv.id = "stat-wordList-word" + length;
+	wordDiv.innerHTML = word.replace(
+		trigram,
+		`<span class="stat-wordList-trigram">${trigram}</span>`
+	);
+	targetDiv.appendChild(wordDiv);
+
+	wordListDiv.appendChild(targetDiv);
+}
+
+function makeWordList() {
+	const emptyState = document.createElement("p");
+	emptyState.id = "wordListEmptyState";
+	emptyState.innerHTML = `
+			Your words containing
+			<span class="stat-wordList-trigram">${trigram}</span> will appear
+			here.`;
+	wordListDiv.appendChild(emptyState);
 }
 
 function makeStatList() {

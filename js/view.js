@@ -104,12 +104,13 @@ const UI_STATE = {
 		nextLetterIndex--;
 	},
 
-	handleValidGuess: function (length) {
+	handleValidGuess: function (word) {
 		this.target.querySelector(".length").innerHTML =
 			'<i class="fa-solid fa-check"></i>';
 		this.target.classList.add("complete");
 		this.target.classList.remove("active");
 		targetsCompleted++;
+		addToStatsWordList(word);
 
 		// this.target.classList.remove("active");
 		// console.log("new classlist", this.target.classList);
