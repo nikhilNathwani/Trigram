@@ -394,7 +394,7 @@ body {
 	flex-flow: row nowrap;
 	align-items: center;
 
-	transition: gap 1s ease-out, margin 1s ease-out, width 1px ease-out;
+	transition: gap 1s ease-out, padding 1s ease-out, width 1px ease-out;
 }
 
 .letter {
@@ -403,8 +403,7 @@ body {
 	);
 	border-bottom: 2px solid;
 	text-align: center;
-	transition: font-size 1s ease-out, margin-inline 1s ease-out,
-		width 1s ease-out;
+	transition: font-size 1s ease-out, margin 1s ease-out, width 1s ease-out;
 }
 
 .complete {
