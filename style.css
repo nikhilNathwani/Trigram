@@ -53,8 +53,10 @@
 	--frame-height: 100dvh;
 	--header-height: 115px;
 	--keyboard-height: 200px;
+	--game-margin-y: 40px;
 	--round-height: calc(
-		var(--frame-height) - var(--header-height) - var(--keyboard-height)
+		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
+			var(--game-margin-y)
 	);
 	--target-height: calc(var(--round-height) / 3);
 	--input-height: calc(2 * var(--target-height) / 3);
@@ -89,7 +91,12 @@
 		--round-height: calc(3 * (var(--target-height)));
 		--target-height: clamp(
 			calc(8rem),
-			calc((100vh - var(--header-height) - var(--keyboard-height)) / 3),
+			calc(
+				(
+						100vh - var(--header-height) - var(--keyboard-height) -
+							2 * var(--game-margin-y)
+					) / 3
+			),
 			calc(16rem)
 		);
 		--input-height: 5.5rem;

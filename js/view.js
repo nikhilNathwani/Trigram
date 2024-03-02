@@ -1,15 +1,9 @@
 // UP NEXT:
-// -Rewatch wordle tutorial to inspire how I want to approach animations: https://www.youtube.com/watch?v=Wak7iN4JZzU&t=1641s
+// -Error/success messages
+// -Title screen (and temp toggle-off for testing)
+// -Stat distribution histogram (background gradient approach)
+// -Accepted word/round animation
 //
-// const divID = {
-// 	LEVEL: "level",
-// 	TRIGRAM: "trigram",
-// 	SCORE: "score",
-// 	TIMER: "timer",
-// 	WORD: "word",
-// 	TARGET_LENGTH: "targetLength",
-// 	ALERT: "message",
-// };
 
 var nextLetterIndex = 0;
 // var titleScreenVisible = true;
