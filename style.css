@@ -232,7 +232,7 @@ body {
 
 #messageContainer {
 	position: absolute;
-	top: calc(100% + var(--game-margin-y) / 2);
+	top: calc(100% + 1rem);
 	left: 0;
 
 	width: 100%;
