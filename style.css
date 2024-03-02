@@ -641,8 +641,8 @@ body {
 
 .keyboard-key svg {
 	pointer-events: none;
-	width: 1.125em;
-	height: 1.125em;
+	width: 1.0625em;
+	height: 1.0625em;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
