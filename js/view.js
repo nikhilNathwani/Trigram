@@ -91,6 +91,8 @@ const UI_STATE = {
 	},
 
 	deleteLetter: function () {
+		this.clearAlerts();
+
 		const latestLetter = this.word.querySelector(
 			`.letter:nth-child(${nextLetterIndex})`
 		);
