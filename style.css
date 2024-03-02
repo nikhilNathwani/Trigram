@@ -64,6 +64,7 @@
 		var(--length-height),
 		calc(2 * var(--target-height) / 3)
 	);
+	--letter-border-bottom: 2px;
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	/*   Widths & Font Sizes   */
@@ -124,6 +125,12 @@
 				var(--length-width) - var(--padding-length-word) - 2 *
 				var(--word-border-width) - 2 * var(--word-px)
 		);
+	}
+}
+
+@media (max-width: 520px) {
+	.round-4 {
+		--letter-border-bottom: 1px;
 	}
 }
 
@@ -535,7 +542,7 @@ body {
 	width: calc(
 		(var(--word-width-max) / var(--num-letters-max)) - 2 * var(--letter-mx)
 	);
-	border-bottom: 2px solid;
+	border-bottom: var(--letter-border-bottom) solid;
 	text-align: center;
 	/* transition: font-size 1s ease-out, margin 1s ease-out, width 1s ease-out; */
 }
