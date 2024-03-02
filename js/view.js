@@ -25,6 +25,7 @@ const UI_STATE = {
 	rounds: document.querySelectorAll(".round"),
 	target: null,
 	word: null,
+	alert: document.getElementById("message"),
 	// level: document.getElementById(divID.LEVEL),
 	// trigram: document.getElementById(divID.TRIGRAM),
 	// score: document.getElementById(divID.SCORE),
@@ -79,7 +80,7 @@ const UI_STATE = {
 	},
 
 	addLetter: function (letter) {
-		// this.clearAlerts();
+		this.clearAlerts();
 
 		const nextLetter = this.word.querySelector(
 			`.letter:nth-child(${nextLetterIndex + 1})`
@@ -108,11 +109,11 @@ const UI_STATE = {
 
 		// this.target.classList.remove("active");
 		// console.log("new classlist", this.target.classList);
-		// this.clearAlerts();
+		this.clearAlerts();
 	},
 
 	handleInvalidGuess: function (errorString) {
-		// this.setAlert(errorString);
+		this.setAlert(errorString);
 	},
 
 	endGame: function () {
@@ -156,10 +157,12 @@ const UI_STATE = {
 
 	setAlert: function (alertText) {
 		this.alert.textContent = alertText;
+		this.alert.classList.add("shown");
 	},
 
 	clearAlerts: function () {
-		this.setAlert("");
+		this.alert.classList.remove("shown");
+		this.alert.textContent = "";
 	},
 };
 
