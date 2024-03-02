@@ -280,15 +280,6 @@ body {
 		color: transparent;
 		border-color: var(--c2-dark-hsl);
 	}
-	button:hover {
-		background-color: var(--c2-light-hsl);
-		color: var(--c2-dark-hsl);
-	}
-	button:active {
-		background-color: var(--c2-dark-hsl);
-		color: var(--c2-light-hsl);
-		border-color: var(--c2-dark-hsl);
-	}
 	.keyboard-key {
 		background-color: var(--c2-dark-hsl);
 		color: var(--c2-light-hsl);
@@ -335,15 +326,6 @@ body {
 		color: transparent;
 		border-color: var(--c3-dark-hsl);
 	}
-	button:hover {
-		background-color: var(--c3-light-hsl);
-		color: var(--c3-dark-hsl);
-	}
-	button:active {
-		background-color: var(--c3-dark-hsl);
-		color: var(--c3-light-hsl);
-		border-color: var(--c3-dark-hsl);
-	}
 	.keyboard-key {
 		background-color: var(--c3-dark-hsl);
 		color: var(--c3-light-hsl);
@@ -388,15 +370,6 @@ body {
 	.locked .word,
 	.empty.letter {
 		color: transparent;
-		border-color: var(--c4-dark-hsl);
-	}
-	button:hover {
-		background-color: var(--c4-light-hsl);
-		color: var(--c4-dark-hsl);
-	}
-	button:active {
-		background-color: var(--c4-dark-hsl);
-		color: var(--c4-light-hsl);
 		border-color: var(--c4-dark-hsl);
 	}
 	.keyboard-key {
