@@ -230,7 +230,7 @@ body {
 
 #messageContainer {
 	position: absolute;
-	top: calc(100% + 5px);
+	top: calc(100% + 10px);
 	left: 0;
 
 	width: 100%;
@@ -239,7 +239,7 @@ body {
 	align-items: center;
 	justify-content: center;
 
-	font-size: 0.75rem;
+	font-size: 1rem;
 	font-weight: bold;
 }
 
