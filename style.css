@@ -238,6 +238,7 @@ body {
 		background-color: var(--c1-dark-hsl);
 		color: var(--c1-light-hsl);
 		border-color: var(--c1-dark-hsl);
+		fill: var(--c1-light-hsl);
 	}
 	.modal-screen {
 		background-color: hsla(
@@ -292,6 +293,7 @@ body {
 		background-color: var(--c2-dark-hsl);
 		color: var(--c2-light-hsl);
 		border-color: var(--c2-dark-hsl);
+		fill: var(--c2-light-hsl);
 	}
 	.modal-screen {
 		background-color: hsla(
@@ -346,6 +348,7 @@ body {
 		background-color: var(--c3-dark-hsl);
 		color: var(--c3-light-hsl);
 		border-color: var(--c3-dark-hsl);
+		fill: var(--c3-light-hsl);
 	}
 	.modal-screen {
 		background-color: hsla(
@@ -400,6 +403,7 @@ body {
 		background-color: var(--c4-dark-hsl);
 		color: var(--c4-light-hsl);
 		border-color: var(--c4-dark-hsl);
+		fill: var(--c4-light-hsl);
 	}
 	.modal-screen {
 		background-color: hsla(
@@ -624,14 +628,22 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	/* background-color: red;
-	color: cyan; */
 }
 
-/* .keyboard-key:not(:hover) {
-	transition: none;
-} */
+.keyboard-key#backspaceKey,
+.keyboard-key#enterKey {
+	width: calc(1.5 * var(--key-width) + var(--key-gap));
+}
+
+.keyboard-key#enterKey {
+	font-size: 0.75em;
+}
+
+.keyboard-key svg {
+	pointer-events: none;
+	width: 1.125em;
+	height: 1.125em;
+}
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                        MODALS                            */
