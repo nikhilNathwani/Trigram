@@ -59,7 +59,11 @@
 			var(--game-margin-y)
 	);
 	--target-height: calc(var(--round-height) / 3);
-	--input-height: calc(2 * var(--target-height) / 3);
+	--length-height: 3.5rem;
+	--input-height: max(
+		var(--length-height),
+		calc(2 * var(--target-height) / 3)
+	);
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	/*   Widths & Font Sizes   */
@@ -501,7 +505,7 @@ body {
 .length {
 	width: fit-content;
 	min-width: var(--length-width);
-	height: 3.5rem;
+	height: var(--length-height);
 	padding: var(--tl-padding-block) 0.75rem;
 	border: 2px solid;
 	border-radius: 8px;
