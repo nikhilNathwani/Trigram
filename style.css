@@ -74,6 +74,7 @@
 	--keyboard-padding-inline: 2vw;
 	--keyboard-key-border-radius: 4px;
 
+	--message-fs: 1rem;
 	--length-fs: 6vw;
 	--length-width: 12vw;
 	--padding-length-word: 4vw;
@@ -114,6 +115,7 @@
 		--keyboard-padding-inline: var(--frame-padding-inline);
 		--keyboard-key-border-radius: 6px;
 
+		--message-fs: 1.125rem;
 		--length-fs: 2rem;
 		--length-width: 3.25rem;
 		--padding-length-word: 1.5rem;
@@ -230,7 +232,7 @@ body {
 
 #messageContainer {
 	position: absolute;
-	top: calc(100% + 10px);
+	top: calc(100% + var(--game-margin-y) / 2);
 	left: 0;
 
 	width: 100%;
@@ -239,7 +241,7 @@ body {
 	align-items: center;
 	justify-content: center;
 
-	font-size: 1rem;
+	font-size: var(--message-fs);
 	font-weight: bold;
 }
 
