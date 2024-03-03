@@ -128,7 +128,7 @@ const UI_STATE = {
 	},
 
 	endGame: function () {
-		this.setAlert("YOU WIN!");
+		this.setAlert("YOU WIN!", (isGameOver = true));
 	},
 
 	// HELPER FUNCTIONS -------------------------------------------------------- //
@@ -188,10 +188,12 @@ const UI_STATE = {
 	// 	}, 1100);
 	// },
 
-	setAlert: function (alertText, duration = 2000) {
+	setAlert: function (alertText, isGameOver = false, duration = 2000) {
 		this.alert.textContent = alertText;
 		this.alert.classList.add("shown");
-		this.shakeTarget();
+		if (!isGameOver) {
+			this.shakeTarget();
+		}
 	},
 
 	clearAlerts: function () {
