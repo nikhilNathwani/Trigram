@@ -51,14 +51,21 @@ const UI_STATE = {
 		// });
 
 		if (targetsCompleted % 3 == 0) {
-			this.app.classList = "";
-			this.app.classList.add("round-" + roundNum);
-
-			if (targetsCompleted > 0) {
-				this.app.classList.add("round-transition");
-				this.app.addEventListener("transitionend", () => {
-					this.app.classList.remove("round-transition");
-				});
+			//If round 1 then begin the round right away
+			if (targetsCompleted == 0) {
+				this.app.classList = "";
+				this.app.classList.add("round-" + roundNum);
+			}
+			//If round >1, wait a bit before sliding to next round
+			else {
+				setTimeout(() => {
+					this.app.classList = "";
+					this.app.classList.add("round-" + roundNum);
+					this.app.classList.add("round-transition");
+					this.app.addEventListener("transitionend", () => {
+						this.app.classList.remove("round-transition");
+					});
+				}, 350);
 			}
 		}
 
@@ -104,6 +111,7 @@ const UI_STATE = {
 	handleValidGuess: function (word) {
 		this.target.querySelector(".length").innerHTML =
 			'<i class="fa-solid fa-check"></i>';
+
 		this.target.classList.add("complete");
 		this.target.classList.remove("active");
 		targetsCompleted++;
@@ -131,6 +139,17 @@ const UI_STATE = {
 			"animationend",
 			() => {
 				this.target.classList.remove("shake");
+			},
+			{ once: true }
+		);
+	},
+
+	dingTarget: function () {
+		this.target.classList.add("ding");
+		this.target.addEventListener(
+			"animationend",
+			() => {
+				this.target.classList.remove("ding");
 			},
 			{ once: true }
 		);

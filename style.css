@@ -565,6 +565,17 @@ body {
 	}
 }
 
+/* .target.ding .length,
+.target.ding .word {
+	animation: ding 1000ms ease-in-out;
+}
+
+@keyframes ding {
+	50% {
+		border-color: green;
+	}
+} */
+
 .length {
 	width: fit-content;
 	min-width: var(--length-width);
