@@ -116,6 +116,7 @@ const UI_STATE = {
 
 	handleInvalidGuess: function (errorString) {
 		this.setAlert(errorString);
+		this.shakeTarget();
 	},
 
 	endGame: function () {
@@ -123,6 +124,17 @@ const UI_STATE = {
 	},
 
 	// HELPER FUNCTIONS -------------------------------------------------------- //
+
+	shakeTarget: function () {
+		this.target.classList.add("shake");
+		this.target.addEventListener(
+			"animationend",
+			() => {
+				this.target.classList.remove("shake");
+			},
+			{ once: true }
+		);
+	},
 
 	initializeGameUI: function (trigram, startLength) {
 		this.trigram.textContent = trigram;
@@ -157,9 +169,10 @@ const UI_STATE = {
 	// 	}, 1100);
 	// },
 
-	setAlert: function (alertText) {
+	setAlert: function (alertText, duration = 2000) {
 		this.alert.textContent = alertText;
 		this.alert.classList.add("shown");
+		this.shakeTarget();
 	},
 
 	clearAlerts: function () {
