@@ -1,5 +1,4 @@
 // UP NEXT:
-// -Error/success messages
 // -Title screen (and temp toggle-off for testing)
 // -Stat distribution histogram (background gradient approach)
 // -Accepted word/round animation

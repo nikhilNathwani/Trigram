@@ -19,6 +19,8 @@ const words = [
 	"AUTHENTICATING",
 	"REAUTHENTICATES",
 ];
+const histogram_minWidth = 2;
+const histogram_maxWidth = 15;
 
 function getLongestWord() {
 	var currLongest = -1;
@@ -239,12 +241,17 @@ function makeLongestWordDistribution() {
 	var minLongestWord = 1000;
 	var maxLongestWord = 0;
 	var longestWordCounts = Array.from({ length: maxLength + 1 }, () => 0);
+	var maxWordCount = -10;
 
 	for (let index = 0; index < pastGames.length; index++) {
 		const currLongestWord = pastGames[index].longestWord;
 		minLongestWord = Math.min(minLongestWord, currLongestWord);
 		maxLongestWord = Math.max(maxLongestWord, currLongestWord);
 		longestWordCounts[currLongestWord]++;
+		maxWordCount = Math.max(
+			maxWordCount,
+			longestWordCounts[currLongestWord]
+		);
 	}
 	for (let index = minLongestWord; index <= maxLongestWord; index++) {
 		const row = document.createElement("div");
@@ -258,6 +265,10 @@ function makeLongestWordDistribution() {
 		const count = document.createElement("div");
 		count.classList.add("stat-statDistribution-itemCount");
 		count.textContent = longestWordCounts[index];
+		count.style.width = `${
+			histogram_minWidth +
+			histogram_maxWidth * (longestWordCounts[index] / maxWordCount)
+		}ch`;
 		row.appendChild(count);
 
 		statDistributionDiv.appendChild(row);

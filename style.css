@@ -301,6 +301,10 @@ body {
 		color: var(--c1-darker-hsl);
 		border-color: var(--c1-darker-hsl);
 	}
+	.stat-statDistribution-itemCount {
+		background-color: var(--c1-dark-hsl);
+		/* color: var(--c1-light-hsl); */
+	}
 }
 
 .round-2 {
@@ -346,6 +350,10 @@ body {
 		background-color: var(--c2-light-hsl);
 		color: var(--c2-darker-hsl);
 		border-color: var(--c2-darker-hsl);
+	}
+	.stat-statDistribution-itemCount {
+		background-color: var(--c2-dark-hsl);
+		/* color: var(--c2-light-hsl); */
 	}
 }
 
@@ -393,6 +401,10 @@ body {
 		color: var(--c3-darker-hsl);
 		border-color: var(--c3-darker-hsl);
 	}
+	.stat-statDistribution-itemCount {
+		background-color: var(--c3-dark-hsl);
+		/* color: var(--c3-light-hsl); */
+	}
 }
 
 .round-4 {
@@ -438,6 +450,10 @@ body {
 		background-color: var(--c4-light-hsl);
 		color: var(--c4-darker-hsl);
 		border-color: var(--c4-darker-hsl);
+	}
+	.stat-statDistribution-itemCount {
+		background-color: var(--c4-dark-hsl);
+		/* color: var(--c4-light-hsl); */
 	}
 }
 
@@ -831,7 +847,9 @@ h2 {
 }
 
 .stat-statDistribution-itemCount {
-	letter-spacing: 0.25rem;
+	padding-left: 0.5ch;
+	color: white;
+	/* font-weight: bold; */
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
