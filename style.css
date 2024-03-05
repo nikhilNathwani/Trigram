@@ -181,7 +181,7 @@ body {
 	justify-content: space-between;
 	position: relative;
 
-	font-size: 2rem;
+	font-size: 1rem;
 }
 
 .header-element {
@@ -194,8 +194,6 @@ body {
 
 .header-title {
 	padding-bottom: 3px;
-
-	font-size: 1rem;
 	font-weight: bold;
 }
 
@@ -228,6 +226,8 @@ body {
 	justify-content: center;
 
 	background-color: white;
+
+	font-size: 2em;
 }
 
 #messageContainer {
@@ -847,9 +847,9 @@ h2 {
 }
 
 .stat-statDistribution-itemCount {
-	padding-left: 0.5ch;
+	padding-inline: 0.5ch;
 	color: white;
-	/* font-weight: bold; */
+	text-align: right;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
