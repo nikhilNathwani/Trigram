@@ -2,10 +2,10 @@
 //Invoking the modal (help or stats)
 //
 document.getElementById("helpButton").addEventListener("click", function () {
-	document.getElementById("helpScreen").style.display = "block";
+	showHelpScreen();
 });
 document.getElementById("statsButton").addEventListener("click", function () {
-	document.getElementById("statsScreen").style.display = "block";
+	showStatsScreen();
 });
 
 //
@@ -13,16 +13,32 @@ document.getElementById("statsButton").addEventListener("click", function () {
 //
 document.querySelectorAll(".closeButton").forEach((closeButton) => {
 	closeButton.addEventListener("click", function () {
-		document.getElementById("helpScreen").style.display = "none";
-		document.getElementById("statsScreen").style.display = "none";
+		hideHelpScreen();
+		hideStatsScreen();
 	});
 });
 
 window.addEventListener("click", function (event) {
 	if (event.target === document.getElementById("helpScreen")) {
-		document.getElementById("helpScreen").style.display = "none";
+		hideHelpScreen();
 	}
 	if (event.target === document.getElementById("statsScreen")) {
-		document.getElementById("statsScreen").style.display = "none";
+		hideStatsScreen();
 	}
 });
+
+function showHelpScreen() {
+	document.getElementById("helpScreen").style.display = "block";
+}
+
+function showStatsScreen() {
+	document.getElementById("statsScreen").style.display = "block";
+}
+
+function hideHelpScreen() {
+	document.getElementById("helpScreen").style.display = "none";
+}
+
+function hideStatsScreen() {
+	document.getElementById("statsScreen").style.display = "none";
+}

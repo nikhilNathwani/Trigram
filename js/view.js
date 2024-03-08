@@ -115,7 +115,7 @@ const UI_STATE = {
 		this.setAlert(youWinString);
 
 		setTimeout(() => {
-			document.getElementById("statsScreen").style.display = "block";
+			showStatsScreen();
 		}, 1000);
 	},
 
