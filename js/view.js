@@ -11,8 +11,8 @@ var targetsCompleted = 0;
 var roundTitles = [
 	"Round I of III",
 	"Round II of III",
-	"Final Round",
-	"Bonus Round!",
+	"Final Round!",
+	"BONUS!",
 ];
 
 // MAIN THREAD ------------------------------------------------------------- //
