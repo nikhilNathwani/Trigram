@@ -113,6 +113,10 @@ const UI_STATE = {
 
 	endGame: function () {
 		this.setAlert(youWinString);
+
+		setTimeout(() => {
+			document.getElementById("statsScreen").style.display = "block";
+		}, 1000);
 	},
 
 	// HELPER FUNCTIONS -------------------------------------------------------- //
