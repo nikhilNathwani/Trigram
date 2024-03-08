@@ -8,6 +8,12 @@ var nextLetterIndex = 0;
 // var titleSequenceOver = false;
 
 var targetsCompleted = 0;
+var roundTitles = [
+	"Round I of III",
+	"Round II of III",
+	"Final Round",
+	"Bonus Round!",
+];
 
 // MAIN THREAD ------------------------------------------------------------- //
 
@@ -24,6 +30,7 @@ const UI_STATE = {
 	target: null,
 	word: null,
 	alert: document.getElementById("message"),
+	roundTitle: document.getElementById("roundTitle"),
 	// level: document.getElementById(divID.LEVEL),
 	// trigram: document.getElementById(divID.TRIGRAM),
 	// score: document.getElementById(divID.SCORE),
@@ -53,6 +60,8 @@ const UI_STATE = {
 			if (targetsCompleted == 0) {
 				this.app.classList = "";
 				this.app.classList.add("round-" + roundNum);
+				this.roundTitle.textContent =
+					roundTitles[Math.floor(targetsCompleted / 3)];
 			}
 			//If round >1, wait a bit before sliding to next round
 			else {
@@ -62,11 +71,12 @@ const UI_STATE = {
 					this.app.classList.add("round-transition");
 					this.app.addEventListener("transitionend", () => {
 						this.app.classList.remove("round-transition");
+						this.roundTitle.textContent =
+							roundTitles[Math.floor(targetsCompleted / 3)];
 					});
 				}, 350);
 			}
 		}
-
 		this.target = roundDiv.querySelector(
 			`div.target:nth-child(${(targetsCompleted % 3) + 1})`
 		);

@@ -51,9 +51,9 @@
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	--frame-height: 100vh;
 	--frame-height: 100dvh;
-	--header-height: 115px;
+	--header-height: calc(115px + 2.25rem);
 	--keyboard-height: 200px;
-	--game-margin-y: 40px;
+	--game-margin-y: 20px;
 	--round-height: calc(
 		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
 			var(--game-margin-y)
@@ -172,16 +172,25 @@ body {
 	width: 100%;
 	height: var(--header-height);
 	padding-inline: var(--frame-padding-inline);
-	padding-block: 1rem;
-	border-bottom: 3px double;
 
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center
+
+	font-size: 1rem;
+}
+
+#headerRow-1 {
+	width: 100%;
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content: space-between;
 	position: relative;
 
-	font-size: 1rem;
+	padding-block: 1rem;
+	border-bottom: 3px double;
 }
 
 .header-element {
@@ -228,6 +237,14 @@ body {
 	background-color: white;
 
 	font-size: 2em;
+}
+
+#roundTitle {
+	height: fit-content;
+	padding-block: 1rem;
+	font-weight: bold;
+	text-decoration: underline;
+	text-underline-offset: 2px;
 }
 
 #messageContainer {
