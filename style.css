@@ -929,7 +929,7 @@ li {
 #titleScreenButtons {
 	display: flex;
 	flex-flow: column nowrap;
-	gap: 1rem;
+	gap: 0.875rem;
 }
 
 #titleScreenButtons button {
@@ -956,7 +956,10 @@ button#howToButton {
 }
 
 #titleScreenDetails {
-	text-align: center;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 0.1875rem;
+	/* text-align: center; */
 }
 
 #titleScreenDetails #date {
@@ -968,6 +971,13 @@ button#howToButton {
 	margin-bottom: 0.125em;
 }
 
-#titleScreen h2 {
-	/* padding-bottom: 4rem; */
+@media (max-width: 519px) {
+	#titleScreen h1 {
+		font-size: 5rem;
+		margin-bottom: 0.125em;
+	}
 }
+
+/* #titleScreen h2 {
+	padding-bottom: 4rem;
+} */
