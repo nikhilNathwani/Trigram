@@ -1,4 +1,16 @@
 //
+//Title screen
+//
+document.getElementById("playButton").addEventListener("click", function () {
+	hideTitleScreen();
+	showHelpScreen();
+});
+document.getElementById("howToButton").addEventListener("click", function () {
+	hideTitleScreen();
+	showHelpScreen();
+});
+
+//
 //Invoking the modal (help or stats)
 //
 document.getElementById("helpButton").addEventListener("click", function () {
@@ -28,17 +40,29 @@ window.addEventListener("click", function (event) {
 });
 
 function showHelpScreen() {
-	document.getElementById("helpScreen").style.display = "block";
+	showScreen("help");
 }
 
 function showStatsScreen() {
-	document.getElementById("statsScreen").style.display = "block";
+	showScreen("stats");
+}
+
+function hideTitleScreen() {
+	hideScreen("title");
 }
 
 function hideHelpScreen() {
-	document.getElementById("helpScreen").style.display = "none";
+	hideScreen("help");
 }
 
 function hideStatsScreen() {
-	document.getElementById("statsScreen").style.display = "none";
+	hideScreen("stats");
+}
+
+function showScreen(name) {
+	document.getElementById(name + "Screen").style.display = "block";
+}
+
+function hideScreen(name) {
+	document.getElementById(name + "Screen").style.display = "none";
 }
