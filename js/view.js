@@ -21,7 +21,6 @@ const UI_STATE = {
 	alert: document.getElementById("message"),
 	roundTitle: document.getElementById("roundTitle"),
 	rounds: document.querySelectorAll(".round"),
-
 	target: null,
 	word: null,
 
@@ -115,7 +114,7 @@ const UI_STATE = {
 
 		setTimeout(() => {
 			showStatsScreen();
-		}, 1000);
+		}, 2000);
 	},
 
 	// HELPER FUNCTIONS -------------------------------------------------------- //
