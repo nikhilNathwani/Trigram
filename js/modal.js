@@ -1,5 +1,7 @@
+var showTrigramReveal = true;
+
 //
-//Title screen
+//Title screen set-up
 //
 const currentDate = new Date();
 const formattedDate = getFormattedDate(currentDate);
@@ -51,24 +53,46 @@ function showStatsScreen() {
 	showScreen("stats");
 }
 
+function showTrigramRevealScreen() {
+	showScreen("trigramReveal");
+	const screen = document.getElementById("trigramRevealScreen");
+
+	setTimeout(() => {
+		screen.classList.add("fade-out");
+		screen.addEventListener("transitionend", () => {
+			hideTrigramRevealScreen();
+		});
+		showTrigramReveal = false;
+	}, 4000);
+}
+
 function hideTitleScreen() {
 	hideScreen("title");
 }
 
 function hideHelpScreen() {
 	hideScreen("help");
+	if (showTrigramReveal) {
+		showTrigramRevealScreen();
+	}
 }
 
 function hideStatsScreen() {
 	hideScreen("stats");
 }
 
+function hideTrigramRevealScreen() {
+	hideScreen("trigramReveal");
+}
+
 function showScreen(name) {
-	document.getElementById(name + "Screen").style.display = "block";
+	stopInteraction();
+	document.getElementById(name + "Screen").style.display = "flex";
 }
 
 function hideScreen(name) {
 	document.getElementById(name + "Screen").style.display = "none";
+	startInteraction();
 }
 
 function getFormattedDate(date) {

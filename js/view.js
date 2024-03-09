@@ -5,8 +5,6 @@
 
 // MAIN THREAD ------------------------------------------------------------- //
 var nextLetterIndex = 0;
-// var titleScreenVisible = true;
-// var titleSequenceOver = false;
 
 var targetsCompleted = 0;
 var roundTitles = [
