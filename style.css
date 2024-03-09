@@ -51,7 +51,7 @@
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	--frame-height: 100vh;
 	--frame-height: 100dvh;
-	--header-height: calc(115px + 2.25rem);
+	--header-height: 115px;
 	--keyboard-height: 200px;
 	--game-margin-y: 20px;
 	--round-height: calc(
@@ -248,6 +248,8 @@ body {
 
 	font-size: var(--message-fs);
 	font-weight: bold;
+
+	z-index: 2;
 }
 
 #message {
@@ -533,7 +535,11 @@ body {
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*                         GAME                             */
+/*                                                          */
+/*                                                          */
+/*     GAME                                                 */
+/*                                                          */
+/*                                                          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #game {
 	width: 100%;
@@ -589,17 +595,6 @@ body {
 		transform: translateX(0%);
 	}
 }
-
-/* .target.ding .length,
-.target.ding .word {
-	animation: ding 1000ms ease-in-out;
-}
-
-@keyframes ding {
-	50% {
-		border-color: green;
-	}
-} */
 
 .length {
 	width: fit-content;
@@ -664,7 +659,19 @@ body {
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*                       KEYBOARD                           */
+/*                                                          */
+/*                                                          */
+/*     KEYBOARD                                             */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     KEYBOARD                                             */
+/*                                                          */
+/*                                                          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #keyboard {
 	width: min(100%, 100vw);
