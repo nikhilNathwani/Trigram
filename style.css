@@ -1029,9 +1029,9 @@ button#howToButton {
 
 #trigramReveal {
 	/* height: 3.25rem; */
-	letter-spacing: 1rem;
-	padding: 1.75rem 2rem;
-	padding-right: 1rem;
+	letter-spacing: 1.5rem;
+	padding: 1.5rem 1.5rem;
+	padding-right: 0rem;
 	border: 6px solid;
 	border-radius: 24px;
 
@@ -1041,5 +1041,6 @@ button#howToButton {
 
 	background-color: white;
 
-	font-size: 6rem;
+	font-size: 4rem;
+	font-weight: bold;
 }
