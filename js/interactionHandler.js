@@ -37,7 +37,7 @@ function handleKeyPress(e) {
 		// printGameState();
 		return;
 	}
-	if (e.key.match(/^[a-z]$/)) {
+	if (e.key.match(/^[a-z]$/) && !(e.ctrlKey || e.altKey || e.metaKey)) {
 		addLetter(e.key);
 		// printGameState();
 		return;
