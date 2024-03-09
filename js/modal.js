@@ -1,6 +1,10 @@
 //
 //Title screen
 //
+const currentDate = new Date();
+const formattedDate = getFormattedDate(currentDate);
+document.querySelector("#titleScreen #date").textContent = formattedDate;
+
 document.getElementById("playButton").addEventListener("click", function () {
 	hideTitleScreen();
 	showHelpScreen();
@@ -65,4 +69,26 @@ function showScreen(name) {
 
 function hideScreen(name) {
 	document.getElementById(name + "Screen").style.display = "none";
+}
+
+function getFormattedDate(date) {
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	const month = months[date.getMonth()];
+	const day = date.getDate();
+	const year = date.getFullYear();
+
+	return `${month} ${day}, ${year}`;
 }
