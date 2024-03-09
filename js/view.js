@@ -19,7 +19,6 @@ const youWinString = "YOU WIN!";
 const UI_STATE = {
 	app: document.getElementById("app"),
 	alert: document.getElementById("message"),
-	roundTitle: document.getElementById("roundTitle"),
 	rounds: document.querySelectorAll(".round"),
 	target: null,
 	word: null,
@@ -34,8 +33,6 @@ const UI_STATE = {
 			if (targetsCompleted == 0) {
 				this.app.classList = "";
 				this.app.classList.add("round-" + roundNum);
-				this.roundTitle.textContent =
-					roundTitles[Math.floor(targetsCompleted / 3)];
 			}
 			//If round >1, wait a bit before sliding to next round
 			//(so you have a chance to see all 3 words in completed state)
@@ -46,8 +43,6 @@ const UI_STATE = {
 					this.app.classList.add("round-transition");
 					this.app.addEventListener("transitionend", () => {
 						this.app.classList.remove("round-transition");
-						this.roundTitle.textContent =
-							roundTitles[Math.floor(targetsCompleted / 3)];
 					});
 				}, 350);
 			}
