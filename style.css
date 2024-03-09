@@ -249,7 +249,7 @@ body {
 	font-size: var(--message-fs);
 	font-weight: bold;
 
-	z-index: 2;
+	/* z-index: 2; */
 }
 
 #message {
