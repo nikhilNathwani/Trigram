@@ -168,7 +168,7 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                        HEADER                            */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-.header {
+#header {
 	width: 100%;
 	height: var(--header-height);
 	padding-inline: var(--frame-padding-inline);
@@ -224,7 +224,7 @@ body {
 	cursor: pointer;
 }
 
-.header .trigram {
+#header .trigram {
 	height: 3.25rem;
 	padding: 1.75rem 1rem;
 	border: 3px solid;

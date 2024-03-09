@@ -7,22 +7,23 @@
 var nextLetterIndex = 0;
 
 var targetsCompleted = 0;
-var roundTitles = [
+const roundTitles = [
 	"Round I of III",
 	"Round II of III",
 	"Final Round!",
 	"BONUS!",
 ];
-var youWinString = "YOU WIN!";
+const youWinString = "YOU WIN!";
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
 const UI_STATE = {
 	app: document.getElementById("app"),
-	rounds: document.querySelectorAll(".round"),
-	target: null,
-	word: null,
 	alert: document.getElementById("message"),
 	roundTitle: document.getElementById("roundTitle"),
+	rounds: document.querySelectorAll(".round"),
+
+	target: null,
+	word: null,
 
 	startLevel: function (length) {
 		const roundNum = Math.floor(targetsCompleted / 3) + 1;

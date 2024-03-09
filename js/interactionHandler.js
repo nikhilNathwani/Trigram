@@ -10,11 +10,6 @@ function stopInteraction() {
 }
 
 function handleMouseClick(e) {
-	if (e.target.matches("[data-keyname]")) {
-		addLetter(e.target.dataset.keyname);
-		return;
-	}
-
 	if (e.target.matches("[data-enter]")) {
 		submitGuess();
 		return;
@@ -24,22 +19,23 @@ function handleMouseClick(e) {
 		deleteLetter();
 		return;
 	}
+	if (e.target.matches("[data-keyname]")) {
+		addLetter(e.target.dataset.keyname);
+		return;
+	}
 }
 
 function handleKeyPress(e) {
 	if (e.key === "Enter") {
 		submitGuess();
-		// printGameState();
 		return;
 	}
 	if (e.key === "Backspace" || e.key === "Delete") {
 		deleteLetter();
-		// printGameState();
 		return;
 	}
 	if (e.key.match(/^[a-z]$/) && !(e.ctrlKey || e.altKey || e.metaKey)) {
 		addLetter(e.key);
-		// printGameState();
 		return;
 	}
 }

@@ -1,33 +1,29 @@
-const trigram = "CAT";
 const trigramNum = 10;
-const maxLength = 15;
-const words = [
-	"",
-	"",
-	"",
-	"",
-	"CATS",
-	"CATER",
-	"CATERS",
-	"SCATTER",
-	"DELICATE",
-	"DELICATES",
-	"DELICATELY",
-	"CATEGORIZES",
-	"CATEGORIZING",
-	"AUTHENTICATES",
-	"AUTHENTICATING",
-	"REAUTHENTICATES",
-];
-const histogram_minWidth = 2;
-const histogram_maxWidth = 15;
+// const words = [
+// 	"",
+// 	"",
+// 	"",
+// 	"",
+// 	"CATS",
+// 	"CATER",
+// 	"CATERS",
+// 	"SCATTER",
+// 	"DELICATE",
+// 	"DELICATES",
+// 	"DELICATELY",
+// 	"CATEGORIZES",
+// 	"CATEGORIZING",
+// 	"AUTHENTICATES",
+// 	"AUTHENTICATING",
+// 	"REAUTHENTICATES",
+// ];
 
 function getLongestWord() {
 	var currLongest = -1;
 	for (let index = 0; index < pastGames.length; index++) {
 		const game = pastGames[index];
-		if (game.longestWord == maxLength) {
-			return maxLength;
+		if (game.longestWord == GAME_STATE.wordLength_max) {
+			return GAME_STATE.wordLength_max;
 		}
 		if (game.longestWord > currLongest) {
 			currLongest = game.longestWord;
@@ -153,8 +149,8 @@ function addToStatsWordList(word) {
 	wordDiv.classList.add("stat-wordList-word");
 	wordDiv.id = "stat-wordList-word" + length;
 	wordDiv.innerHTML = word.replace(
-		trigram,
-		`<span class="stat-wordList-trigram">${trigram}</span>`
+		GAME_STATE.trigram,
+		`<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span>`
 	);
 	targetDiv.appendChild(wordDiv);
 
@@ -166,7 +162,7 @@ function makeWordList() {
 	emptyState.id = "wordListEmptyState";
 	emptyState.innerHTML = `
 			Your words containing
-			<span class="stat-wordList-trigram">${trigram}</span> will appear
+			<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span> will appear
 			here.`;
 	wordListDiv.appendChild(emptyState);
 }
@@ -238,9 +234,15 @@ function makeStatList() {
 }
 
 function makeLongestWordDistribution() {
+	const histogram_minWidth = 2;
+	const histogram_maxWidth = 15;
+
 	var minLongestWord = 1000;
 	var maxLongestWord = 0;
-	var longestWordCounts = Array.from({ length: maxLength + 1 }, () => 0);
+	var longestWordCounts = Array.from(
+		{ length: GAME_STATE.wordLength_max + 1 },
+		() => 0
+	);
 	var maxWordCount = -10;
 
 	for (let index = 0; index < pastGames.length; index++) {

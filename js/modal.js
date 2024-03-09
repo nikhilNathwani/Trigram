@@ -1,11 +1,9 @@
-var showTrigramReveal = true;
-
 //
-//Title screen set-up
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*          TITLE SCREEN          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
-const currentDate = new Date();
-const formattedDate = getFormattedDate(currentDate);
-document.querySelector("#titleScreen #date").textContent = formattedDate;
+setTitleScreenDate();
 
 document.getElementById("playButton").addEventListener("click", function () {
 	hideTitleScreen();
@@ -16,75 +14,109 @@ document.getElementById("howToButton").addEventListener("click", function () {
 	showHelpScreen();
 });
 
-//
-//Invoking the modal (help or stats)
-//
-document.getElementById("helpButton").addEventListener("click", function () {
-	showHelpScreen();
-});
-document.getElementById("statsButton").addEventListener("click", function () {
-	showStatsScreen();
-});
-
-//
-//Closing the modal (help or stats)
-//
-document.querySelectorAll(".closeButton").forEach((closeButton) => {
-	closeButton.addEventListener("click", function () {
-		hideHelpScreen();
-		hideStatsScreen();
-	});
-});
-
-window.addEventListener("click", function (event) {
-	if (event.target === document.getElementById("helpScreen")) {
-		hideHelpScreen();
-	}
-	if (event.target === document.getElementById("statsScreen")) {
-		hideStatsScreen();
-	}
-});
-
-function showHelpScreen() {
-	showScreen("help");
+function hideTitleScreen() {
+	hideScreen("title");
 }
+///////////////////////////////////////////////////
 
-function showStatsScreen() {
-	showScreen("stats");
-}
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*     TRIGRAM REVEAL OVERLAY     */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+var trigramRevealShown = false;
 
 function showTrigramRevealScreen() {
+	//show screen then fade out after 4 seconds
 	showScreen("trigramReveal");
-	const screen = document.getElementById("trigramRevealScreen");
-
 	setTimeout(() => {
+		const screen = document.getElementById("trigramRevealScreen");
 		screen.classList.add("fade-out");
 		screen.addEventListener("transitionend", () => {
 			hideTrigramRevealScreen();
 		});
-		showTrigramReveal = false;
+		trigramRevealShown = true;
 	}, 4000);
-}
-
-function hideTitleScreen() {
-	hideScreen("title");
-}
-
-function hideHelpScreen() {
-	hideScreen("help");
-	if (showTrigramReveal) {
-		showTrigramRevealScreen();
-	}
-}
-
-function hideStatsScreen() {
-	hideScreen("stats");
 }
 
 function hideTrigramRevealScreen() {
 	hideScreen("trigramReveal");
 }
+///////////////////////////////////////////////////
 
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*           HELP SCREEN          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+const helpScreen = document.getElementById("helpScreen");
+
+// Help button in game header
+document.getElementById("helpButton").addEventListener("click", function () {
+	showHelpScreen();
+});
+
+//Close (X) button in Help dialog
+helpScreen.querySelector(".closeButton").addEventListener("click", function () {
+	hideHelpScreen();
+});
+
+//Clicking outside Help dialog closes it
+helpScreen.addEventListener("click", function (event) {
+	if (event.target === helpScreen) {
+		hideHelpScreen();
+	}
+});
+
+//Show/Hide functions for Help screen
+function showHelpScreen() {
+	showScreen("help");
+}
+function hideHelpScreen() {
+	hideScreen("help");
+	if (!trigramRevealShown) {
+		showTrigramRevealScreen();
+	}
+}
+///////////////////////////////////////////////////
+
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*          STATS SCREEN          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+const statsScreen = document.getElementById("statsScreen");
+
+// Stats button in game header
+document.getElementById("statsButton").addEventListener("click", function () {
+	showStatsScreen();
+});
+
+//Close (X) button in Stats screen
+statsScreen
+	.querySelector(".closeButton")
+	.addEventListener("click", function () {
+		hideStatsScreen();
+	});
+
+//Clicking outside Stats dialog closes it
+statsScreen.addEventListener("click", function (event) {
+	if (event.target === statsScreen) {
+		hideStatsScreen();
+	}
+});
+
+//Show/Hide functions for Stats screen
+function showStatsScreen() {
+	showScreen("stats");
+}
+function hideStatsScreen() {
+	hideScreen("stats");
+}
+
+//////////////////////////////////////////////////////
+// HELPER FUNCTIONS --------------------------------//
+//////////////////////////////////////////////////////
 function showScreen(name) {
 	stopInteraction();
 	document.getElementById(name + "Screen").style.display = "flex";
@@ -95,7 +127,8 @@ function hideScreen(name) {
 	startInteraction();
 }
 
-function getFormattedDate(date) {
+function setTitleScreenDate() {
+	const currentDate = new Date();
 	const months = [
 		"January",
 		"February",
@@ -110,9 +143,11 @@ function getFormattedDate(date) {
 		"November",
 		"December",
 	];
-	const month = months[date.getMonth()];
-	const day = date.getDate();
-	const year = date.getFullYear();
+	const month = months[currentDate.getMonth()];
+	const day = currentDate.getDate();
+	const year = currentDate.getFullYear();
+	const formattedDate = `${month} ${day}, ${year}`;
 
-	return `${month} ${day}, ${year}`;
+	const dateElement = document.querySelector("#titleScreen #date");
+	dateElement.textContent = formattedDate;
 }
