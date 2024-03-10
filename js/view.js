@@ -121,14 +121,15 @@ const UI_STATE = {
 
 	startBonusGame: function () {
 		hideYouWinScreen();
+		stopInteraction();
 		setTimeout(() => {
 			this.startLevel(bonusFirstLength);
+			startInteraction();
 		}, 1000);
 	},
 
 	endGame: function () {
 		this.setAlert(youWinString);
-		// showYouWinScreen();
 		setTimeout(() => {
 			showStatsScreen();
 		}, 2000);
