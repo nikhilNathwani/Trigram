@@ -105,8 +105,8 @@ const UI_STATE = {
 	},
 
 	endGame: function () {
-		this.setAlert(youWinString);
-
+		// this.setAlert(youWinString);
+		document.getElementById("youWinScreen").style.display = "flex";
 		setTimeout(() => {
 			showStatsScreen();
 		}, 2000);
