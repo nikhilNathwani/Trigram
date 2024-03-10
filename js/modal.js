@@ -113,6 +113,43 @@ function showStatsScreen() {
 function hideStatsScreen() {
 	hideScreen("stats");
 }
+///////////////////////////////////////////////////
+
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*     YOU WIN OVERLAY     */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+
+//View Stats button in You Win overlay
+document
+	.getElementById("viewStatsButton")
+	.addEventListener("click", function () {
+		showStatsScreen();
+	});
+
+//Bonus Round button in You Win overlay
+document
+	.getElementById("bonusRoundButton")
+	.addEventListener("click", function () {
+		UI_STATE.startBonusGame();
+	});
+
+function showYouWinScreen() {
+	showScreen("youWin");
+	setTimeout(() => {
+		const screen = document.getElementById("youWinScreen");
+		screen.classList.add("fade-in");
+	}, 1000);
+}
+function hideYouWinScreen() {
+	const screen = document.getElementById("youWinScreen");
+	screen.classList.add("fade-out");
+	screen.addEventListener("transitionend", () => {
+		hideScreen("youWin");
+	});
+}
+///////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////
 // HELPER FUNCTIONS --------------------------------//

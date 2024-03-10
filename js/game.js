@@ -7,7 +7,7 @@ const GAME_STATE = {
 	//Immutable vars (shouldn’t touch after initialization)
 	trigram: "CAT",
 	wordLength_start: 4,
-	wordLength_max: 12,
+	wordLength_max: 15,
 };
 //Mutable vars (will update throughout game)
 GAME_STATE.wordLength_current = GAME_STATE.wordLength_start;
