@@ -151,7 +151,7 @@ function handleInvalidGuess(errorReason) {
 function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	var [guessResult, errorReason] = validateWord(word);
-	console.log(errorReason);
+	// console.log(errorReason);
 	if (guessResult) {
 		handleValidGuess();
 	} else {
@@ -164,7 +164,7 @@ function endGame() {
 	//    n/a
 
 	// 2. Perform the action
-	console.log("GAME ENDED! YOU WIN!");
+	// console.log("GAME ENDED! YOU WIN!");
 	stopInteraction();
 
 	// 3. Inform the UI

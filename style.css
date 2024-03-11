@@ -327,7 +327,7 @@ body {
 	color: var(--c2-dark-hsl);
 	border-color: var(--c2-dark-hsl);
 	.round {
-		transform: translateY(calc(-1 * var(--round-height)));
+		transform: translateY(calc(1 * var(--round-height)));
 	}
 	.letter {
 		font-size: var(--letter-fs);
@@ -377,7 +377,7 @@ body {
 	color: var(--c3-dark-hsl);
 	border-color: var(--c3-dark-hsl);
 	.round {
-		transform: translateY(calc(-2 * var(--round-height)));
+		transform: translateY(calc(2 * var(--round-height)));
 	}
 	.letter {
 		font-size: var(--letter-fs);
@@ -427,7 +427,7 @@ body {
 	color: var(--c4-dark-hsl);
 	border-color: var(--c4-dark-hsl);
 	.round {
-		transform: translateY(calc(-3 * var(--round-height)));
+		transform: translateY(calc(3 * var(--round-height)));
 	}
 	.letter {
 		font-size: var(--letter-fs);
@@ -547,7 +547,7 @@ body {
 	margin-block: var(--game-margin-y);
 
 	display: flex;
-	flex-flow: column nowrap;
+	flex-flow: column-reverse nowrap;
 	position: relative;
 
 	overflow: hidden;
@@ -555,7 +555,7 @@ body {
 
 .round {
 	display: flex;
-	flex-flow: column nowrap;
+	flex-flow: column-reverse nowrap;
 
 	/* transition: all 1s ease-out; */
 }
@@ -785,7 +785,7 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #wordListValue {
 	display: flex;
-	flex-flow: column nowrap;
+	flex-flow: column-reverse nowrap;
 	gap: 0.5rem;
 }
 
