@@ -164,6 +164,13 @@ function hideScreen(name) {
 	startInteraction();
 }
 
+//called when loading pre-existing game
+function skipAllModalScreens() {
+	document.querySelectorAll(".screen").forEach((screen) => {
+		screen.style.display = "none";
+	});
+}
+
 function setTitleScreenDate() {
 	const currentDate = new Date();
 	const months = [

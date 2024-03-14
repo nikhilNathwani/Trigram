@@ -26,6 +26,24 @@ const UI_STATE = {
 	target: null,
 	word: null,
 
+	loadGame: function (wordsProvided) {
+		skipAllModalScreens();
+
+		console.log("words provided:", wordsProvided);
+		for (
+			let wordIndex = GAME_STATE.wordLength_start;
+			wordIndex < wordsProvided.length;
+			wordIndex++
+		) {
+			this.startLevel(wordIndex);
+			for (let letterIndex = 0; letterIndex < wordIndex; letterIndex++) {
+				this.addLetter(wordsProvided[wordIndex][letterIndex]);
+			}
+			this.handleValidGuess(wordsProvided[wordIndex]);
+		}
+		this.startLevel(wordsProvided.length);
+	},
+
 	startLevel: function (length) {
 		const roundNum = Math.floor(targetsCompleted / 3) + 1;
 		const roundDiv = this.rounds[roundNum - 1];
