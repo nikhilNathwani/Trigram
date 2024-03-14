@@ -178,3 +178,10 @@ const UI_STATE = {
 		this.alert.textContent = "";
 	},
 };
+
+//called when loading pre-existing game
+function skipAllModalScreens() {
+	document.querySelectorAll(".screen").forEach((screen) => {
+		screen.style.display = "none";
+	});
+}
