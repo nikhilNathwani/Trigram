@@ -25,26 +25,33 @@ const UI_STATE = {
 	rounds: document.querySelectorAll(".round"),
 	target: null,
 	word: null,
+	trigram: null,
 
-	loadGame: function (wordsProvided) {
+	loadGame: function (trigram, wordsProvided) {
+		this.trigram = trigram;
 		skipAllModalScreens();
-
-		console.log("words provided:", wordsProvided);
+		initializeStats();
 		for (
 			let wordIndex = GAME_STATE.wordLength_start;
 			wordIndex < wordsProvided.length;
 			wordIndex++
 		) {
-			this.startLevel(wordIndex);
+			this.startLevel(wordIndex, (skipTransition = true));
 			for (let letterIndex = 0; letterIndex < wordIndex; letterIndex++) {
 				this.addLetter(wordsProvided[wordIndex][letterIndex]);
 			}
 			this.handleValidGuess(wordsProvided[wordIndex]);
 		}
-		this.startLevel(wordsProvided.length);
+		this.startLevel(wordsProvided.length, (skipTransition = true));
 	},
 
-	startLevel: function (length) {
+	startGame: function (trigram, startLength) {
+		this.trigram = trigram;
+		initializeStats();
+		this.startLevel(startLength);
+	},
+
+	startLevel: function (length, skipTransition = false) {
 		const roundNum = Math.floor(targetsCompleted / 3) + 1;
 		const roundDiv = this.rounds[roundNum - 1];
 
@@ -58,21 +65,24 @@ const UI_STATE = {
 		//If level is the start of a new round
 		if (targetsCompleted % 3 == 0) {
 			//If round 1 then begin the round right away
-			if (targetsCompleted == 0) {
+			if (targetsCompleted == 0 && !skipTransition) {
 				this.app.classList = "";
 				this.app.classList.add("round-" + roundNum);
 			}
 			//If round >1, wait a bit before sliding to next round
 			//(so you have a chance to see all 3 words in completed state)
 			else {
+				const timeout = skipTransition ? 0 : 350;
 				setTimeout(() => {
 					this.app.classList = "";
 					this.app.classList.add("round-" + roundNum);
-					this.app.classList.add("round-transition");
-					this.app.addEventListener("transitionend", () => {
-						this.app.classList.remove("round-transition");
-					});
-				}, 350);
+					if (!skipTransition) {
+						this.app.classList.add("round-transition");
+						this.app.addEventListener("transitionend", () => {
+							this.app.classList.remove("round-transition");
+						});
+					}
+				}, timeout);
 			}
 		}
 
@@ -181,6 +191,7 @@ const UI_STATE = {
 
 //called when loading pre-existing game
 function skipAllModalScreens() {
+	trigramRevealShown = true;
 	document.querySelectorAll(".screen").forEach((screen) => {
 		screen.style.display = "none";
 	});

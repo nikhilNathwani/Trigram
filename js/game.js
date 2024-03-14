@@ -44,13 +44,12 @@ function startGame(startLength) {
 
 	// 2. Perform the action
 	if (isGameStarted()) {
-		console.log("loading");
 		loadGameState();
-		UI_STATE.loadGame(GAME_STATE.lettersProvided);
+		UI_STATE.loadGame(GAME_STATE.trigram, GAME_STATE.lettersProvided);
+		GAME_STATE.lettersProvided.push("");
 	} else {
-		console.log("initializing");
-		saveGameState();
-		UI_STATE.startLevel(GAME_STATE.wordLength_current);
+		GAME_STATE.lettersProvided.push("");
+		UI_STATE.startGame(GAME_STATE.trigram, startLength);
 	}
 
 	// 3. Inform the UI
@@ -58,7 +57,7 @@ function startGame(startLength) {
 
 	// 4. Advance the game
 	startInteraction();
-	startLevel();
+	// startLevel();
 }
 
 function startLevel() {
@@ -158,7 +157,6 @@ function handleInvalidGuess(errorReason) {
 function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	var [guessResult, errorReason] = validateWord(word);
-	// console.log(errorReason);
 	if (guessResult) {
 		handleValidGuess();
 	} else {
@@ -171,7 +169,6 @@ function endGame() {
 	//    n/a
 
 	// 2. Perform the action
-	// console.log("GAME ENDED! YOU WIN!");
 	stopInteraction();
 
 	// 3. Inform the UI
