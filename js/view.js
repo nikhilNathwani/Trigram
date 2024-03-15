@@ -13,7 +13,7 @@ const roundTitles = [
 	"Final Round!",
 	"BONUS!",
 ];
-var youWinScreenShown = false;
+var bonusGameInvoked = false;
 const youWinString = "INCREDIBLE!";
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
@@ -63,7 +63,7 @@ const UI_STATE = {
 		const roundDiv = this.rounds[roundNum - 1];
 
 		//If level is end of pre-bonus game, end game
-		if (targetsCompleted == 9 && !youWinScreenShown) {
+		if (targetsCompleted == 9 && !bonusGameInvoked) {
 			this.endPreBonusGame();
 			return;
 		}
@@ -144,7 +144,7 @@ const UI_STATE = {
 
 	startBonusGame: function () {
 		hideYouWinScreen();
-		youWinScreenShown = true;
+		bonusGameInvoked = true;
 		stopInteraction();
 		setTimeout(() => {
 			this.startLevel();
