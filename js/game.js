@@ -2,26 +2,27 @@
 // -
 //
 
-/* MAIN THREAD ------------------------------------------------------------- */
+/*  ------------------------------------------------------------- */
 const trigrams = ["CAT", "ING", "MIS", "RED"];
-const startDate = new Date(2024, 2, 14);
-const msOffset = Date.now() - startDate;
-const dayOffset = msOffset / 1000 / 60 / 60 / 24;
-const trigramIndex = Math.floor(dayOffset);
+const trigramIndex = getTrigramIndex();
+const trigram = trigrams[trigramIndex];
+
+const wordLength_start = 4;
+const wordLength_max = 15;
+
+const gameData = loadGameState();
 
 const GAME_STATE = {
-	//Immutable vars (shouldn’t touch after initialization)
 	trigram: trigrams[trigramIndex],
-	wordLength_start: 4,
-	wordLength_max: 15,
+	wordLength_current: gameData
+		? gameData.wordsProvided.length
+		: wordLength_start,
+	lettersProvided: gameData
+		? gameData.wordsProvided
+		: new Array(wordLength_start).fill(null),
 };
-//Mutable vars (will update throughout game)
-GAME_STATE.wordLength_current = GAME_STATE.wordLength_start;
-GAME_STATE.lettersProvided = new Array(GAME_STATE.wordLength_start).fill(null);
 
-// GAME_STATE.lettersProvided.push("");
-
-startGame(GAME_STATE.wordLength_start);
+startGame();
 
 /* GAME EVENTS ------------------------------------------------------------ */
 //  (1) Start Game
@@ -38,18 +39,15 @@ startGame(GAME_STATE.wordLength_start);
 //      3. Inform the UI
 //      4. Advance the game
 
-function startGame(startLength) {
+function startGame() {
 	// 1. Confirm action can be performed
 	//    Done as part of #2
 
 	// 2. Perform the action
-	if (isGameStarted()) {
-		loadGameState();
-		UI_STATE.loadGame(GAME_STATE.trigram, GAME_STATE.lettersProvided);
-		GAME_STATE.lettersProvided.push("");
+	if (GAME_STATE.wordLength_current == wordLength_start) {
+		UI_STATE.newGame();
 	} else {
-		GAME_STATE.lettersProvided.push("");
-		UI_STATE.startGame(GAME_STATE.trigram, startLength);
+		UI_STATE.resumeGame(GAME_STATE.lettersProvided);
 	}
 
 	// 3. Inform the UI
@@ -57,7 +55,7 @@ function startGame(startLength) {
 
 	// 4. Advance the game
 	startInteraction();
-	// startLevel();
+	startLevel();
 }
 
 function startLevel() {
@@ -65,8 +63,8 @@ function startLevel() {
 	//    n/a
 
 	// 2. Perform the action
+	GAME_STATE.wordLength_current = GAME_STATE.lettersProvided.length;
 	GAME_STATE.lettersProvided.push("");
-	GAME_STATE.wordLength_current = GAME_STATE.lettersProvided.length - 1;
 
 	// 3. Inform the UI
 	UI_STATE.startLevel(GAME_STATE.wordLength_current);
@@ -133,7 +131,7 @@ function handleValidGuess() {
 	);
 
 	// 4. Advance the game
-	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_max) {
+	if (GAME_STATE.wordLength_current == wordLength_max) {
 		endGame();
 	} else {
 		startLevel();
@@ -181,7 +179,7 @@ function endGame() {
 /* LOCAL STORAGE ------------------------------------------------------------- */
 
 //Returns null if gameData doesn't exist
-function getGameState() {
+function loadGameState() {
 	if (!localStorage.getItem(trigramIndex)) {
 		return null;
 	}
@@ -199,18 +197,8 @@ function saveGameState() {
 }
 
 function isGameStarted() {
-	const gameData = getGameState();
-	return (
-		gameData != null &&
-		gameData.wordsProvided.length > GAME_STATE.wordLength_start
-	);
-}
-
-function loadGameState() {
-	const gameData = getGameState();
-	GAME_STATE.trigram = gameData.trigram;
-	GAME_STATE.wordLength_current = gameData.wordsProvided.length;
-	GAME_STATE.lettersProvided = gameData.wordsProvided;
+	const gameData = loadGameState();
+	return gameData != null && gameData.wordsProvided.length > wordLength_start;
 }
 
 // -- APPENDIX -----------------------------------
@@ -224,3 +212,10 @@ Flow between the different files:
     (6) uiManager: "ok, I'll let you know... [done now] ok done!"
     (7) game: "thanks! Now I'm moving the game to the next step"
 */
+
+function getTrigramIndex() {
+	const startDate = new Date(2024, 2, 15);
+	const msOffset = Date.now() - startDate;
+	const dayOffset = msOffset / 1000 / 60 / 60 / 24;
+	return Math.floor(dayOffset);
+}

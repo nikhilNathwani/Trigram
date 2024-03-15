@@ -4,19 +4,17 @@
 //
 
 // MAIN THREAD ------------------------------------------------------------- //
+var targetsCompleted = 0;
 var nextLetterIndex = 0;
 
-var targetsCompleted = 0;
 const roundTitles = [
 	"Round I of III",
 	"Round II of III",
 	"Final Round!",
 	"BONUS!",
 ];
+var youWinScreenShown = false;
 const youWinString = "INCREDIBLE!";
-
-var mainGameEnded = false;
-var bonusFirstLength = null;
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
 const UI_STATE = {
@@ -25,39 +23,47 @@ const UI_STATE = {
 	rounds: document.querySelectorAll(".round"),
 	target: null,
 	word: null,
-	trigram: null,
 
-	loadGame: function (trigram, wordsProvided) {
-		this.trigram = trigram;
+	resumeGame: function (wordsProvided) {
 		skipAllModalScreens();
-		initializeStats();
-		for (
-			let wordIndex = GAME_STATE.wordLength_start;
-			wordIndex < wordsProvided.length;
-			wordIndex++
-		) {
-			this.startLevel(wordIndex, (skipTransition = true));
-			for (let letterIndex = 0; letterIndex < wordIndex; letterIndex++) {
-				this.addLetter(wordsProvided[wordIndex][letterIndex]);
+		initializeStats(wordsProvided);
+		for (let wordIndex = 0; wordIndex < wordsProvided.length; wordIndex++) {
+			//Skip initial null entries
+			if (!wordsProvided[wordIndex]) {
+				continue;
 			}
-			this.handleValidGuess(wordsProvided[wordIndex]);
+
+			//Get the current target and mark as complete
+			this.target = document.getElementById("target-" + wordIndex);
+			setTargetComplete();
+
+			//Fill in the letters for the completed target
+			this.word = this.target.querySelector(".word");
+			const letters = this.word.querySelectorAll(".letter");
+			letters.forEach((letter, letterIndex) => {
+				letter.textContent = wordsProvided[wordIndex][letterIndex]; //so that letter divs have a height
+			});
 		}
-		this.startLevel(wordsProvided.length, (skipTransition = true));
+		//Move app to the current round
+		const roundNum = Math.floor(targetsCompleted / 3) + 1;
+		this.app.classList = "round-" + roundNum;
+
+		//If pre-bonus game was just completed, show You Win
+		if (targetsCompleted == 9) {
+			this.endPreBonusGame();
+		}
 	},
 
-	startGame: function (trigram, startLength) {
-		this.trigram = trigram;
+	newGame: function () {
 		initializeStats();
-		this.startLevel(startLength);
 	},
 
-	startLevel: function (length, skipTransition = false) {
+	startLevel: function () {
 		const roundNum = Math.floor(targetsCompleted / 3) + 1;
 		const roundDiv = this.rounds[roundNum - 1];
 
 		//If level is end of pre-bonus game, end game
-		if (targetsCompleted == 9 && !mainGameEnded) {
-			bonusFirstLength = length;
+		if (targetsCompleted == 9 && !youWinScreenShown) {
 			this.endPreBonusGame();
 			return;
 		}
@@ -65,24 +71,21 @@ const UI_STATE = {
 		//If level is the start of a new round
 		if (targetsCompleted % 3 == 0) {
 			//If round 1 then begin the round right away
-			if (targetsCompleted == 0 && !skipTransition) {
+			if (targetsCompleted == 0) {
 				this.app.classList = "";
 				this.app.classList.add("round-" + roundNum);
 			}
 			//If round >1, wait a bit before sliding to next round
 			//(so you have a chance to see all 3 words in completed state)
 			else {
-				const timeout = skipTransition ? 0 : 350;
 				setTimeout(() => {
 					this.app.classList = "";
 					this.app.classList.add("round-" + roundNum);
-					if (!skipTransition) {
-						this.app.classList.add("round-transition");
-						this.app.addEventListener("transitionend", () => {
-							this.app.classList.remove("round-transition");
-						});
-					}
-				}, timeout);
+					this.app.classList.add("round-transition");
+					this.app.addEventListener("transitionend", () => {
+						this.app.classList.remove("round-transition");
+					});
+				}, 350);
 			}
 		}
 
@@ -125,15 +128,8 @@ const UI_STATE = {
 	},
 
 	handleValidGuess: function (word) {
-		this.target.querySelector(".length").innerHTML =
-			'<i class="fa-solid fa-check"></i>';
-
-		this.target.classList.add("complete");
-		this.target.classList.remove("active");
-		targetsCompleted++;
-
+		setTargetComplete();
 		addToStatsWordList(word);
-
 		this.clearAlerts();
 	},
 
@@ -143,15 +139,15 @@ const UI_STATE = {
 	},
 
 	endPreBonusGame: function () {
-		mainGameEnded = true;
 		showYouWinScreen();
 	},
 
 	startBonusGame: function () {
 		hideYouWinScreen();
+		youWinScreenShown = true;
 		stopInteraction();
 		setTimeout(() => {
-			this.startLevel(bonusFirstLength);
+			this.startLevel();
 			startInteraction();
 		}, 1000);
 	},
@@ -195,4 +191,11 @@ function skipAllModalScreens() {
 	document.querySelectorAll(".screen").forEach((screen) => {
 		screen.style.display = "none";
 	});
+}
+
+function setTargetComplete() {
+	UI_STATE.target.querySelector(".length").innerHTML =
+		'<i class="fa-solid fa-check"></i>';
+	UI_STATE.target.classList = "target complete";
+	targetsCompleted++;
 }
