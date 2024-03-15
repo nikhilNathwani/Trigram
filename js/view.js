@@ -24,6 +24,10 @@ const UI_STATE = {
 	target: null,
 	word: null,
 
+	newGame: function () {
+		initializeStats();
+	},
+
 	resumeGame: function (wordsProvided) {
 		skipAllModalScreens();
 		initializeStats(wordsProvided);
@@ -52,10 +56,6 @@ const UI_STATE = {
 		if (targetsCompleted == 9) {
 			this.endPreBonusGame();
 		}
-	},
-
-	newGame: function () {
-		initializeStats();
 	},
 
 	startLevel: function () {
