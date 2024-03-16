@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+		<script
+			src="https://kit.fontawesome.com/caba6ce64c.js"
+			crossorigin="anonymous"
+		></script>
+		<title>Trigram</title>
+	</head>
+	<body>
+		<div id="app">
+			<div id="titleScreen" class="screen">
+				<div id="titleScreenTitle">
+					<h1>trigram</h1>
+					<h2>a daily word game</h2>
+				</div>
+				<div id="titleScreenButtons">
+					<button id="playButton">Play</button>
+					<button id="howToButton">How to play</button>
+				</div>
+				<div id="titleScreenDetails">
+					<p id="date"></p>
+					<p id="gameNumber">No. 001</p>
+					<p id="editor">Edited by Nikhil Nathwani</p>
+				</div>
+			</div>
+			<div class="overlay screen" id="trigramRevealScreen">
+				<div class="overlayContent" id="trigramRevealScreenContent">
+					<h3>Today's trigram is...</h3>
+					<div id="trigramReveal">CAT</div>
+					<h4>Your words must contain "CAT"</h4>
+				</div>
+			</div>
+			<div class="overlay screen" id="youWinScreen">
+				<div class="overlayContent" id="youWinScreenContent">
+					<h3>YOU WIN!</h3>
+					<div id="youWinScreenButtons">
+						<button id="bonusRoundButton">
+							<i class="fa-solid fa-unlock"></i> Bonus round
+						</button>
+						<button id="viewStatsButton">View stats</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-screen screen" id="helpScreen">
+				<div class="modal-content">
+					<div class="closeRow">
+						<div class="closeButton">
+							<i class="fa-solid fa-xmark"></i>
+						</div>
+					</div>
+					<h1>How to play Trigram</h1>
+					<ul>
+						<li>
+							A <em>Trigram</em> is a sequence of 3 letters, like
+							<span class="help-trigram">CAT</span>
+						</li>
+						<li>Make words containing the Trigram of the day.</li>
+						<li>
+							First a 4-letter word, then a 5-letter word, then
+							6... and so on. See how far you can go!
+						</li>
+					</ul>
+
+					<h2>Example</h2>
+					<p>
+						Trigram of the day:
+						<span class="help-trigram">CAT</span>
+					</p>
+					<ul>
+						<li>
+							4-letter word:
+							<span class="help-trigram-subtle">CAT</span>S
+						</li>
+						<li>
+							5-letter word:
+							<span class="help-trigram-subtle">CAT</span>ER
+						</li>
+						<li>
+							6-letter word:
+							<span class="help-trigram-subtle">CAT</span>SUP
+						</li>
+						<li>
+							7-letter word: S<span class="help-trigram-subtle"
+								>CAT</span
+							>TER
+						</li>
+						<li>
+							8-letter word: DELI<span class="help-trigram-subtle"
+								>CAT</span
+							>E
+						</li>
+						<li>
+							9-letter word: DELI<span class="help-trigram-subtle"
+								>CAT</span
+							>ES
+						</li>
+						<!-- <li>
+							10-letter word: DELI<span
+								class="help-trigram-subtle"
+								>CAT</span
+							>ELY
+						</li> -->
+						<li>Can you continue the streak??</li>
+					</ul>
+					<h2>Notes</h2>
+					<ul>
+						<li>
+							Plurals and other suffixes (like
+							<em>-ed</em> and <em>-ing</em>) are perfectly valid!
+						</li>
+						<li>
+							Words must contain the Trigram (like "CAT") as is,
+							with no letters in between.
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="modal-screen screen" id="statsScreen">
+				<div id="stats" class="modal-content">
+					<div class="closeRow">
+						<div class="closeButton">
+							<i class="fa-solid fa-xmark"></i>
+						</div>
+					</div>
+					<h1 id="statsTitle">Words & Stats</h1>
+					<div id="wordList">
+						<h2 id="wordListTitle">Your Words</h2>
+						<div id="wordListValue"></div>
+					</div>
+					<div id="statList">
+						<h2 id="statListTitle">Your Stats</h2>
+						<div id="statListValue"></div>
+					</div>
+					<div id="statDistribution">
+						<h2 id="statDistributionTitle">
+							Longest Word Distribution
+						</h2>
+						<div id="statDistributionValue"></div>
+					</div>
+				</div>
+			</div>
+			<div id="frame">
+				<div id="header">
+					<div class="header-element">
+						<div class="header-title">Help</div>
+						<button class="header-button" id="helpButton">
+							<i class="fa-solid fa-question"></i>
+						</button>
+					</div>
+					<div class="header-element">
+						<div class="header-title trigram-number">
+							Trigram #001
+						</div>
+						<div class="trigram">C A T</div>
+					</div>
+					<div class="header-element">
+						<div class="header-title">Stats</div>
+						<button class="header-button" id="statsButton">
+							<i class="fa-solid fa-chart-simple"></i>
+						</button>
+					</div>
+					<div id="messageContainer">
+						<div id="message"></div>
+					</div>
+				</div>
+				<div id="game">
+					<!-- <div id="roundTitle">Round I of III</div> -->
+					<div class="round">
+						<div id="target-4" class="target locked">
+							<div id="length-4" class="length">4</div>
+							<div id="word-4" class="word word-A">
+								<div class="letter">D</div>
+								<div class="letter">D</div>
+								<div class="letter">D</div>
+								<div class="letter">D</div>
+							</div>
+						</div>
+						<div id="target-5" class="target locked">
+							<div id="length-5" class="length">5</div>
+							<div id="word-5" class="word word-B">
+								<div class="letter">E</div>
+								<div class="letter">E</div>
+								<div class="letter">E</div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+							</div>
+						</div>
+						<div id="target-6" class="target locked">
+							<div id="length-6" class="length">6</div>
+							<div id="word-6" class="word word-C">
+								<div class="letter">F</div>
+								<div class="letter">F</div>
+								<div class="letter">F</div>
+								<div class="letter">F</div>
+								<div class="letter">F</div>
+								<div class="letter">F</div>
+							</div>
+						</div>
+					</div>
+					<div class="round">
+						<div id="target-7" class="target locked">
+							<div id="length-7" class="length">7</div>
+							<div id="word-7" class="word word-A">
+								<div class="letter">G</div>
+								<div class="letter">G</div>
+								<div class="letter">G</div>
+								<div class="letter">G</div>
+								<div class="letter">G</div>
+								<div class="letter">G</div>
+								<div class="letter">G</div>
+							</div>
+						</div>
+						<div id="target-8" class="target locked">
+							<div id="length-8" class="length">8</div>
+							<div id="word-8" class="word word-B">
+								<div class="letter">H</div>
+								<div class="letter">H</div>
+								<div class="letter">H</div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+							</div>
+						</div>
+						<div id="target-9" class="target locked">
+							<div id="length-9" class="length">9</div>
+							<div id="word-9" class="word word-C">
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+								<div class="letter">I</div>
+							</div>
+						</div>
+					</div>
+					<div class="round">
+						<div id="target-10" class="target locked">
+							<div id="length-10" class="length">10</div>
+							<div id="word-10" class="word word-A">
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+								<div class="letter">J</div>
+							</div>
+						</div>
+						<div id="target-11" class="target locked">
+							<div id="length-11" class="length">11</div>
+							<div id="word-11" class="word word-B">
+								<div class="letter">K</div>
+								<div class="letter">K</div>
+								<div class="letter">K</div>
+								<div class="letter">K</div>
+								<div class="letter">K</div>
+								<div class="letter">K</div>
+								<div class="letter">K</div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+							</div>
+						</div>
+						<div id="target-12" class="target locked">
+							<div id="length-12" class="length">12</div>
+							<div id="word-12" class="word word-C">
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+								<div class="letter">L</div>
+							</div>
+						</div>
+					</div>
+					<div class="round">
+						<div id="target-13" class="target locked">
+							<div id="length-13" class="length">13</div>
+							<div id="word-13" class="word word-A">
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+								<div class="letter">M</div>
+							</div>
+						</div>
+						<div id="target-14" class="target locked">
+							<div id="length-14" class="length">14</div>
+							<div id="word-14" class="word word-B">
+								<div class="letter">N</div>
+								<div class="letter">N</div>
+								<div class="letter">N</div>
+								<div class="letter">N</div>
+								<div class="letter">N</div>
+								<div class="letter">N</div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+								<div class="letter"></div>
+							</div>
+						</div>
+						<div id="target-15" class="target locked">
+							<div id="length-15" class="length">15</div>
+							<div id="word-15" class="word word-C">
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+								<div class="letter">O</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="keyboard">
+					<div class="keyboard-row">
+						<button
+							id="scrollButton"
+							class="keyboard-key"
+							data-keyname="Q"
+						>
+							Q
+						</button>
+						<button class="keyboard-key" data-keyname="W">W</button>
+						<button class="keyboard-key" data-keyname="E">E</button>
+						<button class="keyboard-key" data-keyname="R">R</button>
+						<button class="keyboard-key" data-keyname="T">T</button>
+						<button class="keyboard-key" data-keyname="Y">Y</button>
+						<button class="keyboard-key" data-keyname="U">U</button>
+						<button class="keyboard-key" data-keyname="I">I</button>
+						<button class="keyboard-key" data-keyname="O">O</button>
+						<button class="keyboard-key" data-keyname="P">P</button>
+					</div>
+					<div class="keyboard-row">
+						<button class="keyboard-key" data-keyname="A">A</button>
+						<button class="keyboard-key" data-keyname="S">S</button>
+						<button class="keyboard-key" data-keyname="D">D</button>
+						<button class="keyboard-key" data-keyname="F">F</button>
+						<button class="keyboard-key" data-keyname="G">G</button>
+						<button class="keyboard-key" data-keyname="H">H</button>
+						<button class="keyboard-key" data-keyname="J">J</button>
+						<button class="keyboard-key" data-keyname="K">K</button>
+						<button class="keyboard-key" data-keyname="L">L</button>
+					</div>
+					<div class="keyboard-row">
+						<button
+							class="keyboard-key"
+							data-enter="true"
+							id="enterKey"
+						>
+							ENTER
+						</button>
+						<button class="keyboard-key" data-keyname="Z">Z</button>
+						<button class="keyboard-key" data-keyname="X">X</button>
+						<button class="keyboard-key" data-keyname="C">C</button>
+						<button class="keyboard-key" data-keyname="V">V</button>
+						<button class="keyboard-key" data-keyname="B">B</button>
+						<button class="keyboard-key" data-keyname="N">N</button>
+						<button class="keyboard-key" data-keyname="M">M</button>
+						<button
+							class="keyboard-key"
+							data-delete="true"
+							id="backspaceKey"
+						>
+							<svg
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								class="game-icon"
+								data-testid="icon-backspace"
+							>
+								<path
+									d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+								></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/interactionHandler.js"></script>
+		<script src="js/modal.js"></script>
+		<script src="js/view.js"></script>
+		<script src="js/stats.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/wordChecker.js"></script>
+	</body>
+</html>
