@@ -27,6 +27,9 @@ const UI_STATE = {
 	word: null,
 
 	startLevel: function (length) {
+		//Start accepting user input
+		startInteraction();
+
 		const roundNum = Math.floor(targetsCompleted / 3) + 1;
 		const roundDiv = this.rounds[roundNum - 1];
 
@@ -97,6 +100,8 @@ const UI_STATE = {
 	},
 
 	handleValidGuess: function (word) {
+		stopInteraction();
+
 		this.target.querySelector(".length").innerHTML =
 			'<i class="fa-solid fa-check"></i>';
 

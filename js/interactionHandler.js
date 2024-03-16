@@ -1,15 +1,20 @@
 //
+const keyboard = document.getElementById("keyboard");
+
 function startInteraction() {
 	document.addEventListener("keydown", handleKeyPress);
-	document.addEventListener("click", handleMouseClick);
+	keyboard.addEventListener("click", handleMouseClick);
+	console.log("interaction started", arguments.callee.caller);
 }
 
 function stopInteraction() {
 	document.removeEventListener("keydown", handleKeyPress);
-	document.removeEventListener("click", handleMouseClick);
+	keyboard.removeEventListener("click", handleMouseClick);
+	console.log("interaction stopped", arguments.callee.caller);
 }
 
 function handleMouseClick(e) {
+	console.log("handling mouse click");
 	if (e.target.matches("[data-enter]")) {
 		submitGuess();
 		return;
@@ -26,6 +31,8 @@ function handleMouseClick(e) {
 }
 
 function handleKeyPress(e) {
+	console.log("handling key press");
+
 	if (e.key === "Enter") {
 		submitGuess();
 		return;

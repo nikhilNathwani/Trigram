@@ -161,7 +161,22 @@ function showScreen(name) {
 
 function hideScreen(name) {
 	document.getElementById(name + "Screen").style.display = "none";
-	startInteraction();
+	if (!isAnyScreenShown()) {
+		console.log("NOW HERE");
+		startInteraction();
+	}
+}
+function isAnyScreenShown() {
+	const screens = document.querySelectorAll(".screen");
+	for (const screen of screens) {
+		const style = window.getComputedStyle(screen);
+		if (style.display != "none") {
+			console.log("HERE", style.display);
+			return true;
+		}
+	}
+	console.log("HERE??", screen);
+	return false;
 }
 
 function setTitleScreenDate() {

@@ -14,7 +14,6 @@ GAME_STATE.wordLength_current = GAME_STATE.wordLength_start;
 GAME_STATE.lettersProvided = new Array(GAME_STATE.wordLength_start).fill(null);
 GAME_STATE.lettersProvided.push("");
 
-startInteraction();
 UI_STATE.startLevel(GAME_STATE.wordLength_current);
 
 /* GAME EVENTS ------------------------------------------------------------ */
@@ -67,7 +66,7 @@ function startLevel() {
 	UI_STATE.startLevel(GAME_STATE.wordLength_current);
 
 	// 4. Advance the game
-	startInteraction(); //i.e. start listening for user input
+	//    n/a
 }
 
 function addLetter(letter) {
@@ -119,7 +118,7 @@ function handleValidGuess() {
 	// n/a
 
 	// 2. Perform the action
-	stopInteraction();
+	//    n/a
 
 	// 3. Inform the UI
 	UI_STATE.handleValidGuess(
