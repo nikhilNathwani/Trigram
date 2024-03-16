@@ -273,7 +273,7 @@ function makeLongestWordDistribution() {
 
 		const count = document.createElement("div");
 		count.classList.add("stat-statDistribution-itemCount");
-		count.textContent = longestWordCounts[index];
+		count.textContent = longestWordCounts[index] || 0;
 		count.style.width = `${
 			histogram_minWidth +
 			histogram_maxWidth * (longestWordCounts[index] / maxWordCount)
