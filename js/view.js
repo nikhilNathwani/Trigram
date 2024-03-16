@@ -4,19 +4,17 @@
 //
 
 // MAIN THREAD ------------------------------------------------------------- //
+var targetsCompleted = 0;
 var nextLetterIndex = 0;
 
-var targetsCompleted = 0;
 const roundTitles = [
 	"Round I of III",
 	"Round II of III",
 	"Final Round!",
 	"BONUS!",
 ];
+var bonusGameInvoked = false;
 const youWinString = "INCREDIBLE!";
-
-var mainGameEnded = false;
-var bonusFirstLength = null;
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
 const UI_STATE = {
@@ -26,7 +24,38 @@ const UI_STATE = {
 	target: null,
 	word: null,
 
-	startLevel: function (length) {
+	newGame: function () {
+		initializeStats();
+	},
+
+	resumeGame: function (wordsProvided) {
+		skipAllModalScreens();
+		initializeStats(wordsProvided);
+		for (let wordIndex = 0; wordIndex < wordsProvided.length; wordIndex++) {
+			//Get the current target and mark as complete
+			this.target = document.getElementById(
+				"target-" + wordsProvided[wordIndex].length
+			);
+			setTargetComplete();
+
+			//Fill in the letters for the completed target
+			this.word = this.target.querySelector(".word");
+			const letters = this.word.querySelectorAll(".letter");
+			letters.forEach((letter, letterIndex) => {
+				letter.textContent = wordsProvided[wordIndex][letterIndex]; //so that letter divs have a height
+			});
+		}
+		//Move app to the current round
+		const roundNum = Math.floor(targetsCompleted / 3) + 1;
+		this.app.classList = "round-" + roundNum;
+
+		//If pre-bonus game was just completed, show You Win
+		if (targetsCompleted == 9) {
+			this.endPreBonusGame();
+		}
+	},
+
+	startLevel: function () {
 		//Start accepting user input
 		startInteraction();
 
@@ -34,8 +63,7 @@ const UI_STATE = {
 		const roundDiv = this.rounds[roundNum - 1];
 
 		//If level is end of pre-bonus game, end game
-		if (targetsCompleted == 9 && !mainGameEnded) {
-			bonusFirstLength = length;
+		if (targetsCompleted == 9 && !bonusGameInvoked) {
 			this.endPreBonusGame();
 			return;
 		}
@@ -102,15 +130,8 @@ const UI_STATE = {
 	handleValidGuess: function (word) {
 		stopInteraction();
 
-		this.target.querySelector(".length").innerHTML =
-			'<i class="fa-solid fa-check"></i>';
-
-		this.target.classList.add("complete");
-		this.target.classList.remove("active");
-		targetsCompleted++;
-
+		setTargetComplete();
 		addToStatsWordList(word);
-
 		this.clearAlerts();
 	},
 
@@ -120,15 +141,15 @@ const UI_STATE = {
 	},
 
 	endPreBonusGame: function () {
-		mainGameEnded = true;
 		showYouWinScreen();
 	},
 
 	startBonusGame: function () {
 		hideYouWinScreen();
+		bonusGameInvoked = true;
 		stopInteraction();
 		setTimeout(() => {
-			this.startLevel(bonusFirstLength);
+			this.startLevel();
 			startInteraction();
 		}, 1000);
 	},
@@ -165,3 +186,18 @@ const UI_STATE = {
 		this.alert.textContent = "";
 	},
 };
+
+//called when loading pre-existing game
+function skipAllModalScreens() {
+	trigramRevealShown = true;
+	document.querySelectorAll(".screen").forEach((screen) => {
+		screen.style.display = "none";
+	});
+}
+
+function setTargetComplete() {
+	UI_STATE.target.querySelector(".length").innerHTML =
+		'<i class="fa-solid fa-check"></i>';
+	UI_STATE.target.classList = "target complete";
+	targetsCompleted++;
+}

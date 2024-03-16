@@ -22,9 +22,9 @@ function getLongestWord() {
 	var currLongest = -1;
 	for (let index = 0; index < pastGames.length; index++) {
 		const game = pastGames[index];
-		if (game.longestWord == GAME_STATE.wordLength_max) {
-			return GAME_STATE.wordLength_max;
-		}
+		// if (game.longestWord == GAME_STATE.wordLength_max) {
+		// 	return GAME_STATE.wordLength_max;
+		// }
 		if (game.longestWord > currLongest) {
 			currLongest = game.longestWord;
 		}
@@ -123,9 +123,11 @@ const statListDiv = document.getElementById("statListValue");
 const statDistributionDiv = document.getElementById("statDistributionValue");
 // const statDetailsDiv = document.getElementById("statDetailsValue");
 
-makeWordList();
-makeStatList();
-makeLongestWordDistribution();
+function initializeStats(wordsProvided = null) {
+	makeWordList(wordsProvided);
+	makeStatList();
+	makeLongestWordDistribution();
+}
 
 function addToStatsWordList(word) {
 	var emptyState = wordListDiv.querySelector("p#wordListEmptyState");
@@ -149,22 +151,28 @@ function addToStatsWordList(word) {
 	wordDiv.classList.add("stat-wordList-word");
 	wordDiv.id = "stat-wordList-word" + length;
 	wordDiv.innerHTML = word.replace(
-		GAME_STATE.trigram,
-		`<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span>`
+		trigram,
+		`<span class="stat-wordList-trigram">${trigram}</span>`
 	);
 	targetDiv.appendChild(wordDiv);
 
 	wordListDiv.appendChild(targetDiv);
 }
 
-function makeWordList() {
-	const emptyState = document.createElement("p");
-	emptyState.id = "wordListEmptyState";
-	emptyState.innerHTML = `
+function makeWordList(wordsProvided) {
+	if (!wordsProvided) {
+		const emptyState = document.createElement("p");
+		emptyState.id = "wordListEmptyState";
+		emptyState.innerHTML = `
 			Your words containing
-			<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span> will appear
+			<span class="stat-wordList-trigram">${trigram}</span> will appear
 			here.`;
-	wordListDiv.appendChild(emptyState);
+		wordListDiv.appendChild(emptyState);
+	} else {
+		wordsProvided.forEach((word) => {
+			addToStatsWordList(word);
+		});
+	}
 }
 
 function makeStatList() {
@@ -239,17 +247,16 @@ function makeLongestWordDistribution() {
 
 	var minLongestWord = 1000;
 	var maxLongestWord = 0;
-	var longestWordCounts = Array.from(
-		{ length: GAME_STATE.wordLength_max + 1 },
-		() => 0
-	);
+
+	var longestWordCounts = {};
 	var maxWordCount = -10;
 
 	for (let index = 0; index < pastGames.length; index++) {
 		const currLongestWord = pastGames[index].longestWord;
 		minLongestWord = Math.min(minLongestWord, currLongestWord);
 		maxLongestWord = Math.max(maxLongestWord, currLongestWord);
-		longestWordCounts[currLongestWord]++;
+		longestWordCounts[currLongestWord] =
+			(longestWordCounts[currLongestWord] || 0) + 1;
 		maxWordCount = Math.max(
 			maxWordCount,
 			longestWordCounts[currLongestWord]
@@ -266,7 +273,7 @@ function makeLongestWordDistribution() {
 
 		const count = document.createElement("div");
 		count.classList.add("stat-statDistribution-itemCount");
-		count.textContent = longestWordCounts[index];
+		count.textContent = longestWordCounts[index] || 0;
 		count.style.width = `${
 			histogram_minWidth +
 			histogram_maxWidth * (longestWordCounts[index] / maxWordCount)

@@ -2,19 +2,27 @@
 // -
 //
 
-/* MAIN THREAD ------------------------------------------------------------- */
-const GAME_STATE = {
-	//Immutable vars (shouldn’t touch after initialization)
-	trigram: "CAT",
-	wordLength_start: 4,
-	wordLength_max: 15,
-};
-//Mutable vars (will update throughout game)
-GAME_STATE.wordLength_current = GAME_STATE.wordLength_start;
-GAME_STATE.lettersProvided = new Array(GAME_STATE.wordLength_start).fill(null);
-GAME_STATE.lettersProvided.push("");
+/*  ------------------------------------------------------------- */
+const trigrams = ["CAT", "ING", "MIS", "RED"];
+const trigramIndex = getTrigramIndex();
+const trigram = trigrams[trigramIndex];
 
-UI_STATE.startLevel(GAME_STATE.wordLength_current);
+const wordLength_start = 4;
+const wordLength_max = 15;
+
+const gameData = loadGameState();
+
+const GAME_STATE = {
+	trigram: trigrams[trigramIndex],
+	wordLength_current: gameData
+		? gameData.wordsProvided.length
+		: wordLength_start,
+	lettersProvided: gameData
+		? gameData.wordsProvided
+		: new Array(wordLength_start).fill(null),
+};
+
+startGame();
 
 /* GAME EVENTS ------------------------------------------------------------ */
 //  (1) Start Game
@@ -31,26 +39,22 @@ UI_STATE.startLevel(GAME_STATE.wordLength_current);
 //      3. Inform the UI
 //      4. Advance the game
 
-function startGame(startLength) {
+function startGame() {
 	// 1. Confirm action can be performed
-	//    n/a
+	//    Done as part of #2
 
 	// 2. Perform the action
-	// GAME_STATE.trigram = getTrigram();
-	// GAME_STATE.wordLength_max = getMaxWordLength(GAME_STATE.trigram);
-	// GAME_STATE.wordLength_start = startLength;
-	// GAME_STATE.wordLength_current = startLength - 1;
-	// GAME_STATE.lettersProvided = new Array(startLength).fill(null);
-	// console.log("Initial GAME_STATE:", GAME_STATE);
+	if (GAME_STATE.wordLength_current == wordLength_start) {
+		UI_STATE.newGame();
+	} else {
+		UI_STATE.resumeGame(GAME_STATE.lettersProvided.slice(wordLength_start));
+	}
 
 	// 3. Inform the UI
-	// UI_STATE.startGame(
-	// 	GAME_STATE.trigram,
-	// 	startLength,
-	// 	GAME_STATE.wordLength_max
-	// );
+	//    Done as part of #2
 
 	// 4. Advance the game
+	startInteraction();
 	startLevel();
 }
 
@@ -59,7 +63,7 @@ function startLevel() {
 	//    n/a
 
 	// 2. Perform the action
-	GAME_STATE.wordLength_current += 1;
+	GAME_STATE.wordLength_current = GAME_STATE.lettersProvided.length;
 	GAME_STATE.lettersProvided.push("");
 
 	// 3. Inform the UI
@@ -119,6 +123,7 @@ function handleValidGuess() {
 
 	// 2. Perform the action
 	//    n/a
+	saveGameState();
 
 	// 3. Inform the UI
 	UI_STATE.handleValidGuess(
@@ -126,7 +131,7 @@ function handleValidGuess() {
 	);
 
 	// 4. Advance the game
-	if (GAME_STATE.wordLength_current == GAME_STATE.wordLength_max) {
+	if (GAME_STATE.wordLength_current == wordLength_max) {
 		endGame();
 	} else {
 		startLevel();
@@ -150,7 +155,6 @@ function handleInvalidGuess(errorReason) {
 function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	var [guessResult, errorReason] = validateWord(word);
-	// console.log(errorReason);
 	if (guessResult) {
 		handleValidGuess();
 	} else {
@@ -163,7 +167,6 @@ function endGame() {
 	//    n/a
 
 	// 2. Perform the action
-	// console.log("GAME ENDED! YOU WIN!");
 	stopInteraction();
 
 	// 3. Inform the UI
@@ -173,19 +176,29 @@ function endGame() {
 	//    tbd
 }
 
-// -----------------------------------------------
-function getTrigram() {
-	return "CAT";
-}
+/* LOCAL STORAGE ------------------------------------------------------------- */
 
-function getMaxWordLength(trigram) {
-	return 12;
-}
-
-function printGameState() {
-	for (let key in GAME_STATE) {
-		console.log(key, GAME_STATE[key]);
+//Returns null if gameData doesn't exist
+function loadGameState() {
+	if (!localStorage.getItem(trigramIndex)) {
+		return null;
 	}
+	return JSON.parse(localStorage.getItem(trigramIndex));
+}
+
+function saveGameState() {
+	localStorage.setItem(
+		trigramIndex,
+		JSON.stringify({
+			trigram: GAME_STATE.trigram,
+			wordsProvided: GAME_STATE.lettersProvided,
+		})
+	);
+}
+
+function isGameStarted() {
+	const gameData = loadGameState();
+	return gameData != null && gameData.wordsProvided.length > wordLength_start;
 }
 
 // -- APPENDIX -----------------------------------
@@ -199,3 +212,10 @@ Flow between the different files:
     (6) uiManager: "ok, I'll let you know... [done now] ok done!"
     (7) game: "thanks! Now I'm moving the game to the next step"
 */
+
+function getTrigramIndex() {
+	const startDate = new Date(2024, 2, 16);
+	const msOffset = Date.now() - startDate;
+	const dayOffset = msOffset / 1000 / 60 / 60 / 24;
+	return Math.floor(dayOffset);
+}
