@@ -47,7 +47,7 @@ function startGame() {
 	if (GAME_STATE.wordLength_current == wordLength_start) {
 		UI_STATE.newGame();
 	} else {
-		UI_STATE.resumeGame(GAME_STATE.lettersProvided);
+		UI_STATE.resumeGame(GAME_STATE.lettersProvided.slice(wordLength_start));
 	}
 
 	// 3. Inform the UI
@@ -214,7 +214,7 @@ Flow between the different files:
 */
 
 function getTrigramIndex() {
-	const startDate = new Date(2024, 2, 15);
+	const startDate = new Date(2024, 2, 16);
 	const msOffset = Date.now() - startDate;
 	const dayOffset = msOffset / 1000 / 60 / 60 / 24;
 	return Math.floor(dayOffset);

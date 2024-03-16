@@ -170,9 +170,7 @@ function makeWordList(wordsProvided) {
 		wordListDiv.appendChild(emptyState);
 	} else {
 		wordsProvided.forEach((word) => {
-			if (word) {
-				addToStatsWordList(word);
-			}
+			addToStatsWordList(word);
 		});
 	}
 }

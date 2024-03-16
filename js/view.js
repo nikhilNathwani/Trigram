@@ -32,13 +32,10 @@ const UI_STATE = {
 		skipAllModalScreens();
 		initializeStats(wordsProvided);
 		for (let wordIndex = 0; wordIndex < wordsProvided.length; wordIndex++) {
-			//Skip initial null entries
-			if (!wordsProvided[wordIndex]) {
-				continue;
-			}
-
 			//Get the current target and mark as complete
-			this.target = document.getElementById("target-" + wordIndex);
+			this.target = document.getElementById(
+				"target-" + wordsProvided[wordIndex].length
+			);
 			setTargetComplete();
 
 			//Fill in the letters for the completed target
