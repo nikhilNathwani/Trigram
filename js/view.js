@@ -1,5 +1,4 @@
 // UP NEXT:
-// -Loading game when 9 levels completed (shows round 4 instead of lingering on round 3 then showing YOU WIN screen, or just showing YOU WIN screen without lingering on round 3)
 // -Stop accepting input when bonus game ends, just show stats and make it indismissable
 // -Bring Round Titles back
 
@@ -55,14 +54,16 @@ const UI_STATE = {
 					letter.textContent = wordsProvided[wordIndex][letterIndex]; //so that letter divs have a height
 				});
 			}
-			//Move app to the current round
-			const roundNum = Math.floor(this.levelsCompleted / 3) + 1;
-			appDiv.classList = "round-" + roundNum;
 
-			//If pre-bonus game was just completed, show You Win
+			//Move app to the current round (or show YOU WIN overlay)
+			var roundNum;
 			if (this.levelsCompleted == 9) {
 				showYouWinScreen();
+				roundNum = 3;
+			} else {
+				roundNum = Math.floor(this.levelsCompleted / 3) + 1;
 			}
+			appDiv.classList = "round-" + roundNum;
 		}
 	},
 
