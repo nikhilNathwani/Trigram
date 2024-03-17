@@ -12,17 +12,17 @@ function stopInteraction() {
 }
 
 function handleMouseClick(e) {
-	if (e.target.matches("[data-enter]")) {
+	if (e.level.matches("[data-enter]")) {
 		submitGuess();
 		return;
 	}
 
-	if (e.target.matches("[data-delete]")) {
+	if (e.level.matches("[data-delete]")) {
 		deleteLetter();
 		return;
 	}
-	if (e.target.matches("[data-keyname]")) {
-		addLetter(e.target.dataset.keyname);
+	if (e.level.matches("[data-keyname]")) {
+		addLetter(e.level.dataset.keyname);
 		return;
 	}
 }

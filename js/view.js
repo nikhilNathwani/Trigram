@@ -1,14 +1,14 @@
 // UP NEXT:
-// -Loading game when 9 targets completed (shows round 4 instead of lingering on round 3 then showing YOU WIN screen, or just showing YOU WIN screen without lingering on round 3)
+// -Loading game when 9 levels completed (shows round 4 instead of lingering on round 3 then showing YOU WIN screen, or just showing YOU WIN screen without lingering on round 3)
 // -Stop accepting input when bonus game ends, just show stats and make it indismissable
-// -Replace "target" with "level" in all files
+// -Replace "level" with "level" in all files
 // -Bring Round Titles back
 
 //UI Elements frequently referenced
 const appDiv = document.getElementById("app");
 const alertDiv = document.getElementById("message");
 const roundDivs = document.querySelectorAll(".round");
-var targetDiv = null; //set by startLevel
+var levelDiv = null; //set by startLevel
 var wordDiv = null; //set by startLevel
 
 //UI Strings
@@ -22,7 +22,7 @@ const youWinString = "INCREDIBLE!";
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
 const UI_STATE = {
-	targetsCompleted: 0,
+	levelsCompleted: 0,
 	nextLetterIndex: 0,
 	bonusGameInvoked: false,
 
@@ -50,25 +50,25 @@ const UI_STATE = {
 				wordIndex < wordsProvided.length;
 				wordIndex++
 			) {
-				//Get the current target and mark as complete
-				targetDiv = document.getElementById(
-					"target-" + wordsProvided[wordIndex].length
+				//Get the current level and mark as complete
+				levelDiv = document.getElementById(
+					"level-" + wordsProvided[wordIndex].length
 				);
-				setTargetComplete();
+				setLevelComplete();
 
-				//Fill in the letters for the completed target
-				wordDiv = targetDiv.querySelector(".word");
+				//Fill in the letters for the completed level
+				wordDiv = levelDiv.querySelector(".word");
 				const letters = wordDiv.querySelectorAll(".letter");
 				letters.forEach((letter, letterIndex) => {
 					letter.textContent = wordsProvided[wordIndex][letterIndex]; //so that letter divs have a height
 				});
 			}
 			//Move app to the current round
-			const roundNum = Math.floor(this.targetsCompleted / 3) + 1;
+			const roundNum = Math.floor(this.levelsCompleted / 3) + 1;
 			appDiv.classList = "round-" + roundNum;
 
 			//If pre-bonus game was just completed, show You Win
-			if (this.targetsCompleted == 9) {
+			if (this.levelsCompleted == 9) {
 				showYouWinScreen();
 			}
 		}
@@ -78,19 +78,19 @@ const UI_STATE = {
 		//Start accepting user input
 		startInteraction();
 
-		const roundNum = Math.floor(this.targetsCompleted / 3) + 1;
+		const roundNum = Math.floor(this.levelsCompleted / 3) + 1;
 		const roundDiv = roundDivs[roundNum - 1];
 
 		//If level is end of pre-bonus game, end game
-		if (this.targetsCompleted == 9 && !this.bonusGameInvoked) {
+		if (this.levelsCompleted == 9 && !this.bonusGameInvoked) {
 			showYouWinScreen();
 			return;
 		}
 
 		//If level is the start of a new round
-		if (this.targetsCompleted % 3 == 0) {
+		if (this.levelsCompleted % 3 == 0) {
 			//If round 1 then begin the round right away
-			if (this.targetsCompleted == 0) {
+			if (this.levelsCompleted == 0) {
 				appDiv.classList = "";
 				appDiv.classList.add("round-" + roundNum);
 			}
@@ -108,14 +108,14 @@ const UI_STATE = {
 			}
 		}
 
-		//Highlight the current target (level)
-		targetDiv = roundDiv.querySelector(
-			`div.target:nth-child(${(this.targetsCompleted % 3) + 1})`
+		//Highlight the current level (level)
+		levelDiv = roundDiv.querySelector(
+			`div.level:nth-child(${(this.levelsCompleted % 3) + 1})`
 		);
-		targetDiv.classList.remove("locked");
-		targetDiv.classList.add("active");
+		levelDiv.classList.remove("locked");
+		levelDiv.classList.add("active");
 
-		wordDiv = targetDiv.querySelector(".word");
+		wordDiv = levelDiv.querySelector(".word");
 		const letters = wordDiv.querySelectorAll(".letter");
 		letters.forEach((letter) => {
 			letter.classList.add("empty");
@@ -148,7 +148,7 @@ const UI_STATE = {
 
 	handleValidGuess: function (word) {
 		stopInteraction();
-		setTargetComplete();
+		setLevelComplete();
 		addToStatsWordList(word);
 		clearAlerts();
 	},
@@ -166,19 +166,19 @@ const UI_STATE = {
 };
 
 // HELPER FUNCTIONS -------------------------------------------------------- //
-function setTargetComplete() {
-	targetDiv.querySelector(".length").innerHTML =
+function setLevelComplete() {
+	levelDiv.querySelector(".length").innerHTML =
 		'<i class="fa-solid fa-check"></i>';
-	targetDiv.classList = "target complete";
-	UI_STATE.targetsCompleted++;
+	levelDiv.classList = "level complete";
+	UI_STATE.levelsCompleted++;
 }
 
-function shakeTarget() {
-	targetDiv.classList.add("shake");
-	targetDiv.addEventListener(
+function shakeLevel() {
+	levelDiv.classList.add("shake");
+	levelDiv.addEventListener(
 		"animationend",
 		() => {
-			targetDiv.classList.remove("shake");
+			levelDiv.classList.remove("shake");
 		},
 		{ once: true }
 	);
@@ -188,7 +188,7 @@ function setAlert(alertText) {
 	alertDiv.textContent = alertText;
 	alertDiv.classList.add("shown");
 	if (alertText != youWinString) {
-		shakeTarget();
+		shakeLevel();
 	}
 }
 

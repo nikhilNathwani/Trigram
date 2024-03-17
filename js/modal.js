@@ -25,6 +25,37 @@ document.getElementById("howToButton").addEventListener("click", function () {
 function hideTitleScreen() {
 	hideScreen("title");
 }
+
+function setTitleScreenDate() {
+	const currentDate = new Date();
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	const month = months[currentDate.getMonth()];
+	const day = currentDate.getDate();
+	const year = currentDate.getFullYear();
+	const formattedDate = `${month} ${day}, ${year}`;
+
+	const dateElement = document.querySelector("#titleScreen #date");
+	dateElement.textContent = formattedDate;
+}
+
+function setTitleScreenGameNumber() {
+	const gameNumElement = document.querySelector("#titleScreen #gameNumber");
+	gameNumElement.textContent = "No. " + getGameIDString();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,6 +105,7 @@ helpScreen.querySelector(".closeButton").addEventListener("click", function () {
 //Clicking outside Help dialog closes it
 helpScreen.addEventListener("click", function (event) {
 	if (event.target === helpScreen) {
+		console.log("here ");
 		hideHelpScreen();
 	}
 });
@@ -193,34 +225,4 @@ function skipAllModalScreens() {
 	document.querySelectorAll(".screen").forEach((screen) => {
 		screen.style.display = "none";
 	});
-}
-
-function setTitleScreenDate() {
-	const currentDate = new Date();
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	];
-	const month = months[currentDate.getMonth()];
-	const day = currentDate.getDate();
-	const year = currentDate.getFullYear();
-	const formattedDate = `${month} ${day}, ${year}`;
-
-	const dateElement = document.querySelector("#titleScreen #date");
-	dateElement.textContent = formattedDate;
-}
-
-function setTitleScreenGameNumber() {
-	const gameNumElement = document.querySelector("#titleScreen #gameNumber");
-	gameNumElement.textContent = "No. " + getGameIDString();
 }

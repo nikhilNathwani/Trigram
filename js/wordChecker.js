@@ -20,7 +20,7 @@ function loadWordList() {
 //    -isValid is true/false indicating whether the inputted word meets the constraints
 //    -errorReason is a string indicating which error message to display
 function validateWord(word) {
-	if (!isTargetLengthReached(word)) {
+	if (!isWordLengthReached(word)) {
 		return [false, lookupErrorString("WRONG-LENGTH")];
 	} else if (!containsTrigram(word)) {
 		return [false, lookupErrorString("TRIGRAM-MISSING")];
@@ -31,7 +31,7 @@ function validateWord(word) {
 	}
 }
 
-function isTargetLengthReached(word) {
+function isWordLengthReached(word) {
 	return GAME_STATE.wordLength_current == word.length;
 }
 

@@ -137,15 +137,15 @@ function addToStatsWordList(word) {
 
 	const length = word.length;
 
-	const targetDiv = document.createElement("div");
-	targetDiv.classList.add("stat-wordList-target");
-	targetDiv.id = "stat-wordList-target" + length;
+	const levelDiv = document.createElement("div");
+	levelDiv.classList.add("stat-wordList-level");
+	levelDiv.id = "stat-wordList-level" + length;
 
 	const lengthDiv = document.createElement("div");
 	lengthDiv.classList.add("stat-wordList-length");
 	lengthDiv.id = "stat-wordList-length" + length;
 	lengthDiv.textContent = length + ":";
-	targetDiv.appendChild(lengthDiv);
+	levelDiv.appendChild(lengthDiv);
 
 	const wordDiv = document.createElement("div");
 	wordDiv.classList.add("stat-wordList-word");
@@ -154,9 +154,9 @@ function addToStatsWordList(word) {
 		GAME_STATE.trigram,
 		`<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span>`
 	);
-	targetDiv.appendChild(wordDiv);
+	levelDiv.appendChild(wordDiv);
 
-	wordListDiv.appendChild(targetDiv);
+	wordListDiv.appendChild(levelDiv);
 }
 
 function makeWordList(wordsProvided) {

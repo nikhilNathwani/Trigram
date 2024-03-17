@@ -58,11 +58,11 @@
 		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
 			var(--game-margin-y)
 	);
-	--target-height: calc(var(--round-height) / 3);
+	--level-height: calc(var(--round-height) / 3);
 	--length-height: 3.5rem;
 	--input-height: max(
 		var(--length-height),
-		calc(2 * var(--target-height) / 3)
+		calc(2 * var(--level-height) / 3)
 	);
 	--letter-border-bottom: 2px;
 
@@ -94,8 +94,8 @@
 		/*         Heights         */
 		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 		--frame-height: 100%;
-		--round-height: calc(3 * (var(--target-height)));
-		--target-height: clamp(
+		--round-height: calc(3 * (var(--level-height)));
+		--level-height: clamp(
 			calc(8rem),
 			calc(
 				(
@@ -560,9 +560,9 @@ body {
 	/* transition: all 1s ease-out; */
 }
 
-.target {
+.level {
 	width: fit-content;
-	height: var(--target-height);
+	height: var(--level-height);
 
 	display: flex;
 	flex-flow: row nowrap;
@@ -570,7 +570,7 @@ body {
 	gap: var(--padding-length-word);
 }
 
-.target.shake {
+.level.shake {
 	animation: shake 300ms ease-in-out;
 }
 
@@ -789,7 +789,7 @@ body {
 	gap: 0.5rem;
 }
 
-.stat-wordList-target {
+.stat-wordList-level {
 	display: flex;
 	flex-flow: row nowrap;
 	gap: 0.5rem;
