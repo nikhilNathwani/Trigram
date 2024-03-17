@@ -104,7 +104,6 @@ helpScreen.querySelector(".closeButton").addEventListener("click", function () {
 //Clicking outside Help dialog closes it
 helpScreen.addEventListener("click", function (event) {
 	if (event.target === helpScreen) {
-		console.log("here ");
 		hideHelpScreen();
 	}
 });
@@ -204,7 +203,7 @@ function showScreen(name) {
 
 function hideScreen(name) {
 	document.getElementById(name + "Screen").style.display = "none";
-	if (!isAnyScreenShown()) {
+	if (!isAnyScreenShown() && UI_STATE.levelsCompleted < 12) {
 		startInteraction();
 	}
 }

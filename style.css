@@ -726,6 +726,17 @@ body {
 	height: 1.0625em;
 }
 
+#keyboard.disabled .keyboard-key {
+	cursor: default;
+}
+#keyboard.disabled .keyboard-key:hover {
+	cursor: default;
+	background-color: var(--c4-dark-hsl);
+	color: var(--c4-light-hsl);
+	border-color: var(--c4-dark-hsl);
+	fill: var(--c4-light-hsl);
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                        MODALS                            */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

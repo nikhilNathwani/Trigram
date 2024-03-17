@@ -1,5 +1,4 @@
 // UP NEXT:
-// -Stop accepting input when bonus game ends, just show stats and make it indismissable
 // -Bring Round Titles back
 
 //UI Elements frequently referenced
@@ -152,6 +151,8 @@ const UI_STATE = {
 
 	endGame: function () {
 		setAlert(youWinString);
+		stopInteraction();
+		disableKeyboardUI();
 		setTimeout(() => {
 			showStatsScreen();
 		}, 2000);
@@ -206,4 +207,9 @@ function setTrigramHeader(trigram) {
 	trigramHeaderTitle.textContent = "Trigram #" + getGameIDString();
 	const trigramElement = document.querySelector(".header-element #trigram");
 	trigramElement.textContent = trigram.split("").join(" ");
+}
+
+function disableKeyboardUI() {
+	const keyboard = document.getElementById("keyboard");
+	keyboard.classList.add("disabled");
 }
