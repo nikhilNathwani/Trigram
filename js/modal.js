@@ -1,5 +1,4 @@
 // UP NEXT:
-// -Title screen dynamically get game number
 // -Trigram Reveal Screen dynamically get trigram from game.js
 // -Trigram Reveal Screen animate trigram reveal
 //
