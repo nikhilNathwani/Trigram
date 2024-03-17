@@ -24,7 +24,7 @@
 				</div>
 				<div id="titleScreenDetails">
 					<p id="date"></p>
-					<p id="gameNumber">No. 001</p>
+					<p id="gameNumber"></p>
 					<p id="editor">Edited by Nikhil Nathwani</p>
 				</div>
 			</div>
@@ -153,10 +153,8 @@
 						</button>
 					</div>
 					<div class="header-element">
-						<div class="header-title trigram-number">
-							Trigram #001
-						</div>
-						<div class="trigram">C A T</div>
+						<div class="header-title" id="trigram-number"></div>
+						<div id="trigram"></div>
 					</div>
 					<div class="header-element">
 						<div class="header-title">Stats</div>
@@ -419,6 +417,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="js/localStorage.js"></script>
 		<script src="js/interactionHandler.js"></script>
 		<script src="js/modal.js"></script>
 		<script src="js/view.js"></script>

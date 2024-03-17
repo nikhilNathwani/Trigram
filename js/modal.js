@@ -11,6 +11,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 setTitleScreenDate();
+setTitleScreenGameNumber();
 
 document.getElementById("playButton").addEventListener("click", function () {
 	hideTitleScreen();
@@ -173,7 +174,6 @@ function showScreen(name) {
 function hideScreen(name) {
 	document.getElementById(name + "Screen").style.display = "none";
 	if (!isAnyScreenShown()) {
-		console.log("NOW HERE");
 		startInteraction();
 	}
 }
@@ -182,11 +182,9 @@ function isAnyScreenShown() {
 	for (const screen of screens) {
 		const style = window.getComputedStyle(screen);
 		if (style.display != "none") {
-			console.log("HERE", style.display);
 			return true;
 		}
 	}
-	console.log("HERE??", screen);
 	return false;
 }
 
@@ -220,4 +218,9 @@ function setTitleScreenDate() {
 
 	const dateElement = document.querySelector("#titleScreen #date");
 	dateElement.textContent = formattedDate;
+}
+
+function setTitleScreenGameNumber() {
+	const gameNumElement = document.querySelector("#titleScreen #gameNumber");
+	gameNumElement.textContent = "No. " + getGameIDString();
 }

@@ -40,8 +40,9 @@ function startGame() {
 		: new Array(wordLength_start).fill(null);
 
 	// 3. Inform the UI
-	const wordsSoFar = GAME_STATE.lettersProvided.slice(wordLength_start);
-	UI_STATE.startGame(wordsSoFar);
+	const wordsProvidedSoFar =
+		GAME_STATE.lettersProvided.slice(wordLength_start);
+	UI_STATE.startGame(GAME_STATE.trigram, wordsProvidedSoFar);
 
 	// 4. Advance the game
 	startLevel();
@@ -111,8 +112,7 @@ function handleValidGuess() {
 	// n/a
 
 	// 2. Perform the action
-	//    n/a
-	saveGameState();
+	saveGameState(GAME_STATE);
 
 	// 3. Inform the UI
 	UI_STATE.handleValidGuess(
@@ -156,40 +156,13 @@ function endGame() {
 	//    n/a
 
 	// 2. Perform the action
-	stopInteraction();
+	//    n/a
 
 	// 3. Inform the UI
 	UI_STATE.endGame();
 
 	// 4. Advance the game
 	//    tbd
-}
-
-/* LOCAL STORAGE ------------------------------------------------------------- */
-
-//Returns null if gameData doesn't exist
-function loadGameState() {
-	const gameID = getGameID();
-	if (!localStorage.getItem(gameID)) {
-		return null;
-	}
-	return JSON.parse(localStorage.getItem(gameID));
-}
-
-function saveGameState() {
-	const gameID = getGameID();
-	localStorage.setItem(
-		gameID,
-		JSON.stringify({
-			trigram: GAME_STATE.trigram,
-			wordsProvided: GAME_STATE.lettersProvided,
-		})
-	);
-}
-
-function isGameStarted() {
-	const gameData = loadGameState();
-	return gameData != null && gameData.wordsProvided.length > wordLength_start;
 }
 
 // -- APPENDIX -----------------------------------
@@ -203,11 +176,3 @@ Flow between the different files:
     (6) uiManager: "ok, I'll let you know... [done now] ok done!"
     (7) game: "thanks! Now I'm moving the game to the next step"
 */
-
-function getGameID() {
-	const startDate = new Date(2024, 2, 16);
-	const msOffset = Date.now() - startDate;
-	const dayOffset = msOffset / 1000 / 60 / 60 / 24;
-	// return Math.floor(dayOffset);
-	return 0;
-}

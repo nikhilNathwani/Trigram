@@ -26,7 +26,17 @@ const UI_STATE = {
 	nextLetterIndex: 0,
 	bonusGameInvoked: false,
 
-	startGame: function (wordsProvided) {
+	startGame: function (trigram, wordsProvided) {
+		//initialize UI
+		const trigramHeaderTitle = document.querySelector(
+			".header-title#trigram-number"
+		);
+		trigramHeaderTitle.textContent = "Trigram #" + getGameIDString();
+		const trigramElement = document.querySelector(
+			".header-element #trigram"
+		);
+		trigramElement.textContent = trigram.split("").join(" ");
+
 		//new game
 		if (wordsProvided.length == 0) {
 			initializeStats();
