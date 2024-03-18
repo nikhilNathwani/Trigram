@@ -9,12 +9,7 @@ var levelDiv = null; //set by startLevel
 var wordDiv = null; //set by startLevel
 
 //UI Strings
-const roundTitles = [
-	"Round I of III",
-	"Round II of III",
-	"Final Round!",
-	"BONUS!",
-];
+const roundTitles = ["Round I", "Round II", "Final Round!", "BONUS!"];
 const youWinString = "INCREDIBLE!";
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
@@ -26,15 +21,13 @@ const UI_STATE = {
 	startGame: function (trigram, wordsProvided) {
 		//initialize UI
 		setTrigramHeader(trigram);
+		initializeStats(wordsProvided);
 
-		//new game
-		if (wordsProvided.length == 0) {
-			initializeStats();
-		}
-		//resume game
-		else {
+		//resume game if it's already begun
+		if (wordsProvided.length > 0) {
 			skipAllModalScreens();
-			initializeStats(wordsProvided);
+
+			//fill in all provided words
 			for (
 				let wordIndex = 0;
 				wordIndex < wordsProvided.length;

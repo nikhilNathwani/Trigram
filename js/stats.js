@@ -160,7 +160,7 @@ function addToStatsWordList(word) {
 }
 
 function makeWordList(wordsProvided) {
-	if (!wordsProvided) {
+	if (!wordsProvided || wordsProvided.length == 0) {
 		const emptyState = document.createElement("p");
 		emptyState.id = "wordListEmptyState";
 		emptyState.innerHTML = `
