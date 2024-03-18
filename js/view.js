@@ -5,16 +5,12 @@
 const appDiv = document.getElementById("app");
 const alertDiv = document.getElementById("message");
 const roundDivs = document.querySelectorAll(".round");
+const roundTitleDiv = document.getElementById("roundTitle");
 var levelDiv = null; //set by startLevel
 var wordDiv = null; //set by startLevel
 
 //UI Strings
-const roundTitles = [
-	"Round I of III",
-	"Round II of III",
-	"Final Round!",
-	"BONUS!",
-];
+const roundTitles = ["Round I", "Round II", "Final Round", "BONUS!"];
 const youWinString = "INCREDIBLE!";
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
@@ -26,6 +22,7 @@ const UI_STATE = {
 	startGame: function (trigram, wordsProvided) {
 		//initialize UI
 		setTrigramHeader(trigram);
+		setRoundTitle(Math.floor(Math.max(wordsProvided.length, 1) / 3) + 1);
 
 		//new game
 		if (wordsProvided.length == 0) {
@@ -89,14 +86,16 @@ const UI_STATE = {
 			//If round >1, wait a bit before sliding to next round
 			//(so you have a chance to see all 3 words in completed state)
 			else {
+				roundTitleDiv.classList = "hideRoundTitle";
 				setTimeout(() => {
 					appDiv.classList = "";
 					appDiv.classList.add("round-" + roundNum);
 					appDiv.classList.add("round-transition");
 					appDiv.addEventListener("transitionend", () => {
 						appDiv.classList.remove("round-transition");
+						setRoundTitle(roundNum);
 					});
-				}, 350);
+				}, 1000);
 			}
 		}
 
@@ -212,4 +211,9 @@ function setTrigramHeader(trigram) {
 function disableKeyboardUI() {
 	const keyboard = document.getElementById("keyboard");
 	keyboard.classList.add("disabled");
+}
+
+function setRoundTitle(roundNum) {
+	roundTitleDiv.textContent = roundTitles[roundNum - 1];
+	roundTitleDiv.classList = "";
 }

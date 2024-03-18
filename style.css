@@ -54,6 +54,7 @@
 	--header-height: 115px;
 	--keyboard-height: 200px;
 	--game-margin-y: 20px;
+	/* --round-title-height: 4rem; */
 	--round-height: calc(
 		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
 			var(--game-margin-y)
@@ -553,10 +554,26 @@ body {
 	overflow: hidden;
 }
 
+#roundTitle {
+	width: 100%;
+	/* height: var(--round-title-height); */
+	/* z-index: 2; */
+	font-weight: bold;
+	text-align: center;
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 3px;
+	transition: color 800ms ease-in;
+}
+
+#roundTitle.hideRoundTitle {
+	color: transparent;
+	transition: color 400ms ease-out;
+}
+
 .round {
 	display: flex;
 	flex-flow: column nowrap;
-
 	/* transition: all 1s ease-out; */
 }
 
