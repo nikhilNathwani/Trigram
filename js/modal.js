@@ -14,10 +14,12 @@ setTitleScreenGameNumber();
 
 document.getElementById("playButton").addEventListener("click", function () {
 	hideTitleScreen();
+	startGame();
 	showHelpScreen();
 });
 document.getElementById("howToButton").addEventListener("click", function () {
 	hideTitleScreen();
+	startGame();
 	showHelpScreen();
 });
 
@@ -203,9 +205,7 @@ function showScreen(name) {
 
 function hideScreen(name) {
 	document.getElementById(name + "Screen").style.display = "none";
-	if (!isAnyScreenShown() && UI_STATE.levelsCompleted < 12) {
-		startInteraction();
-	}
+	startInteraction();
 }
 function isAnyScreenShown() {
 	const screens = document.querySelectorAll(".screen");
