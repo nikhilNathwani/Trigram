@@ -82,12 +82,14 @@ const UI_STATE = {
 			//If round >1, wait a bit before sliding to next round
 			//(so you have a chance to see all 3 words in completed state)
 			else {
+				stopInteraction();
 				setTimeout(() => {
 					appDiv.classList = "";
 					appDiv.classList.add("round-" + roundNum);
 					appDiv.classList.add("round-transition");
 					appDiv.addEventListener("transitionend", () => {
 						appDiv.classList.remove("round-transition");
+						startInteraction();
 					});
 				}, 350);
 			}
