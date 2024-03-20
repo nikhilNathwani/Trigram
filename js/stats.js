@@ -1,3 +1,6 @@
+// UP NEXT:
+// -Hook up Your Stats and Longest Word histogram
+
 const trigramNum = 10;
 // const words = [
 // 	"",

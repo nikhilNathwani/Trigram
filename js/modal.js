@@ -1,7 +1,7 @@
 // UP NEXT:
 // -Trigram Reveal Screen dynamically get trigram from game.js
 // -Trigram Reveal Screen animate trigram reveal
-//
+// -Make Help Screen trigram & word list consistent with stats
 
 ///////////////////////////////////////////////////////////////////////////////
 //

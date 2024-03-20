@@ -1,5 +1,6 @@
 // UP NEXT:
-// -Bring Round Titles back
+// -Load post-bonus state when refreshing after completing
+// -Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
 
 //UI Elements frequently referenced
 const appDiv = document.getElementById("app");
