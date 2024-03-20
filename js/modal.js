@@ -71,6 +71,7 @@ function showTrigramRevealScreen() {
 	//show screen then fade out after 4 seconds
 	showScreen("trigramReveal");
 	const screen = document.getElementById("trigramRevealScreen");
+	screen.classList.add("showTemporarily");
 	screen.addEventListener("animationend", () => {
 		hideTrigramRevealScreen();
 		showRoundTitle(1);
