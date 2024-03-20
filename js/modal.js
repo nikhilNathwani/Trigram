@@ -70,14 +70,12 @@ var trigramRevealShown = false;
 function showTrigramRevealScreen() {
 	//show screen then fade out after 4 seconds
 	showScreen("trigramReveal");
-	setTimeout(() => {
-		const screen = document.getElementById("trigramRevealScreen");
-		screen.classList.add("fade-out");
-		screen.addEventListener("transitionend", () => {
-			hideTrigramRevealScreen();
-		});
-		trigramRevealShown = true;
-	}, 4000);
+	const screen = document.getElementById("trigramRevealScreen");
+	screen.addEventListener("animationend", () => {
+		hideTrigramRevealScreen();
+		showRoundTitle(1);
+	});
+	trigramRevealShown = true;
 }
 
 function hideTrigramRevealScreen() {
@@ -181,15 +179,14 @@ document
 
 function showYouWinScreen() {
 	showScreen("youWin");
-	setTimeout(() => {
-		const screen = document.getElementById("youWinScreen");
-		screen.classList.add("fade-in");
-	}, 1000);
+	const screen = document.getElementById("youWinScreen");
+	screen.classList.add("fade-in");
 }
 function hideYouWinScreen() {
 	const screen = document.getElementById("youWinScreen");
+	// screen.classList.remove("fade-in");
 	screen.classList.add("fade-out");
-	screen.addEventListener("transitionend", () => {
+	screen.addEventListener("animationend", () => {
 		hideScreen("youWin");
 	});
 }
@@ -212,6 +209,7 @@ function isAnyScreenShown() {
 	for (const screen of screens) {
 		const style = window.getComputedStyle(screen);
 		if (style.display != "none") {
+			console.log("showing", screen);
 			return true;
 		}
 	}

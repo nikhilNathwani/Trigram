@@ -60,6 +60,11 @@ const UI_STATE = {
 	},
 
 	startLevel: function () {
+		// console.log(
+		// 	"starting level",
+		// 	this.levelsCompleted,
+		// 	arguments.callee.caller
+		// );
 		//Start accepting user input
 		startInteraction();
 
@@ -89,6 +94,7 @@ const UI_STATE = {
 					appDiv.classList.add("round-transition");
 					appDiv.addEventListener("transitionend", () => {
 						appDiv.classList.remove("round-transition");
+						showRoundTitle(roundNum);
 						startInteraction();
 					});
 				}, 350);
@@ -141,11 +147,11 @@ const UI_STATE = {
 	},
 
 	handleInvalidGuess: function (errorString) {
-		setAlert(errorString);
+		showAlert(errorString);
 	},
 
 	endGame: function () {
-		setAlert(youWinString);
+		showAlert(youWinString);
 		stopInteraction();
 		disableKeyboardUI();
 		setTimeout(() => {
@@ -173,17 +179,33 @@ function shakeLevel() {
 	);
 }
 
-function setAlert(alertText) {
+function showAlert(alertText) {
 	alertDiv.textContent = alertText;
-	alertDiv.classList.add("shown");
+	alertDiv.classList = "message shown";
 	if (alertText != youWinString) {
 		shakeLevel();
 	}
 }
 
+function showRoundTitle(roundNum) {
+	// console.log("showing round title", arguments.callee.caller);
+
+	alertDiv.textContent = roundTitles[roundNum - 1];
+	alertDiv.classList.add("roundTitle");
+	alertDiv.addEventListener(
+		"animationend",
+		() => {
+			alertDiv.classList.remove("roundTitle");
+		},
+		{ once: true }
+	);
+}
+
 function clearAlerts() {
-	alertDiv.classList.remove("shown");
-	alertDiv.textContent = "";
+	if (!alertDiv.classList.contains("roundTitle")) {
+		alertDiv.classList.remove("shown");
+		alertDiv.textContent = "";
+	}
 }
 
 function startBonusGame() {

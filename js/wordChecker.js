@@ -57,7 +57,7 @@ function isLongestPossibleWord(word) {
 }
 
 function lookupErrorString(errorCode) {
-	console.log("Error reason:", errorCode);
+	// console.log("Error reason:", errorCode);
 	switch (errorCode) {
 		case "WRONG-LENGTH":
 			return `Word not ${GAME_STATE.wordLength_current} letters long`;

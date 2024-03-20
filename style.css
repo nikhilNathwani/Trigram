@@ -53,7 +53,7 @@
 	--frame-height: 100dvh;
 	--header-height: 115px;
 	--keyboard-height: 200px;
-	--game-margin-y: 20px;
+	--game-margin-y: 1.5rem;
 	--round-height: calc(
 		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
 			var(--game-margin-y)
@@ -236,7 +236,7 @@ body {
 
 #messageContainer {
 	position: absolute;
-	top: calc(100% + 1rem);
+	top: calc(100% + var(--game-margin-y) / 2);
 	left: 0;
 
 	width: 100%;
@@ -261,6 +261,12 @@ body {
 
 #message.shown {
 	display: block;
+}
+
+#message.roundTitle {
+	display: block;
+	opacity: 0;
+	animation: show-temporarily 3.5s ease-in-out;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -572,27 +578,6 @@ body {
 
 .level.shake {
 	animation: shake 300ms ease-in-out;
-}
-
-@keyframes shake {
-	10% {
-		transform: translateX(-1.5%);
-	}
-	30% {
-		transform: translateX(1.5%);
-	}
-	50% {
-		transform: translateX(-2.5%);
-	}
-	70% {
-		transform: translateX(2.5%);
-	}
-	90% {
-		transform: translateX(-1.5%);
-	}
-	100% {
-		transform: translateX(0%);
-	}
 }
 
 .length {
@@ -1010,11 +995,7 @@ button#howToButton {
 #trigramRevealScreen {
 	background-color: hsla(var(--c1-hue), var(--c1-sat), var(--c1-med), 0.7);
 	color: var(--c1-dark-hsl);
-}
-
-#trigramRevealScreen.fade-out {
-	opacity: 0;
-	transition: opacity 1s ease;
+	animation: show-temporarily 6s ease;
 }
 
 #trigramRevealScreenContent {
@@ -1060,12 +1041,11 @@ button#howToButton {
 
 #youWinScreen.fade-in {
 	opacity: 1;
-	transition: opacity 1s ease;
+	animation: fade-in 2s ease;
 }
 
 #youWinScreen.fade-out {
-	opacity: 0;
-	transition: opacity 1s ease;
+	animation: fade-out 1s ease;
 }
 
 #youWinScreenContent {
@@ -1110,4 +1090,65 @@ button#viewStatsButton {
 #youWinScreenButtons i {
 	padding-right: 0.375rem;
 	/* font-size: 0.875em; */
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                ANIMATIONS                                */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fade-out {
+	15% {
+		opacity: 1;
+	}
+	85% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes show-temporarily {
+	10% {
+		opacity: 1;
+	}
+	80% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes shake {
+	10% {
+		transform: translateX(-1.5%);
+	}
+	30% {
+		transform: translateX(1.5%);
+	}
+	50% {
+		transform: translateX(-2.5%);
+	}
+	70% {
+		transform: translateX(2.5%);
+	}
+	90% {
+		transform: translateX(-1.5%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
 }
