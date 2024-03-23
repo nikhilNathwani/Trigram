@@ -206,7 +206,9 @@ function showAlert(alertText) {
 
 function showRoundTitle(roundNum) {
 	// console.log("showing round title", arguments.callee.caller);
-
+	if (isAnyScreenShown()) {
+		return;
+	}
 	alertDiv.textContent = roundTitles[roundNum - 1];
 	alertDiv.classList.add("roundTitle");
 	alertDiv.addEventListener(
