@@ -14,12 +14,12 @@ setTitleScreenGameNumber();
 
 document.getElementById("playButton").addEventListener("click", function () {
 	hideTitleScreen();
-	startGame();
+	// startGame();
 	showHelpScreen();
 });
 document.getElementById("howToButton").addEventListener("click", function () {
 	hideTitleScreen();
-	startGame();
+	// startGame();
 	showHelpScreen();
 });
 
