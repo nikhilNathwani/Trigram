@@ -21,16 +21,34 @@ const UI_STATE = {
 	isInitialReloadState: false,
 
 	startGame: function (trigram, wordsProvided) {
-		//initialize UI
+		//I) Initialize UI
 		setTrigramHeader(trigram);
 		initializeStats(wordsProvided);
 
-		//resume game if it's already begun
+		//II) Resume game if it's already begun
 		if (wordsProvided.length > 0) {
+			//Resume behavior:
+			// 1) Skip title screen & trigram reveal screen
+			// 2) Fill in all words the user has submitted previously
+			// 3) Drop user into the round containing their next
+			//    level* (without doing the slide-down round transition)
+			// 4) Display the round title
+			// *Exceptions:
+			// A) Pre-bonus game completed (levelsCompleted==9):
+			//    Run end-pre-bonus-game sequence, i.e.:
+			//    i) Show round 3 momentarily
+			//    ii) Display YOU WIN screen & await user input
+			// B) Post-bonus game completed (levelsCompleted==12):
+			//    Run end-post-bonus-game sequence, i.e.:
+			//    i) Show round 4 momentarily
+			//    ii) Display INCREDIBLE alert
+			//    iii) Launch Stats screen
+
+			// 1) Skip title screen & trigram reveal screen
 			this.isInitialReloadState = true;
 			skipAllModalScreens();
 
-			//fill in all provided words
+			// 2) Fill in all words the user has submitted previously
 			for (
 				let wordIndex = 0;
 				wordIndex < wordsProvided.length;
@@ -50,14 +68,21 @@ const UI_STATE = {
 				});
 			}
 
-			//Move app to the current round (or show YOU WIN overlay)
+			// 3) Drop user into the round containing their next
+			//    level (without doing the slide-down round transition)
 			var roundNum;
+			// Exception A) Pre-bonus game completed
 			if (this.levelsCompleted == 9) {
 				showYouWinScreen();
 				roundNum = 3;
-			} else if (this.levelsCompleted == 12) {
+			}
+			//
+			// Exception B) Post-bonus game completed
+			else if (this.levelsCompleted == 12) {
 				roundNum = 4;
-			} else {
+			}
+			//
+			else {
 				roundNum = Math.floor(this.levelsCompleted / 3) + 1;
 			}
 			appDiv.classList = "round-" + roundNum;
