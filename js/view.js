@@ -18,6 +18,7 @@ const UI_STATE = {
 	levelsCompleted: 0,
 	nextLetterIndex: 0,
 	bonusGameInvoked: false,
+	isInitialReloadState: false,
 
 	startGame: function (trigram, wordsProvided) {
 		//initialize UI
@@ -26,6 +27,7 @@ const UI_STATE = {
 
 		//resume game if it's already begun
 		if (wordsProvided.length > 0) {
+			this.isInitialReloadState = true;
 			skipAllModalScreens();
 
 			//fill in all provided words
@@ -80,10 +82,12 @@ const UI_STATE = {
 
 		//If level is the start of a new round
 		if (this.levelsCompleted % 3 == 0) {
-			//If round 1 then begin the round right away
-			if (this.levelsCompleted == 0) {
+			//If round 1 or reloading game, then begin the round right away
+			if (this.levelsCompleted == 0 || this.isInitialReloadState) {
 				appDiv.classList = "";
 				appDiv.classList.add("round-" + roundNum);
+				showRoundTitle(roundNum);
+				this.isInitialReloadState = false;
 			}
 			//If round >1, wait a bit before sliding to next round
 			//(so you have a chance to see all 3 words in completed state)
