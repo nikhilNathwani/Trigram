@@ -27,33 +27,13 @@ const UI_STATE = {
 
 		//II) Resume game if it's already begun
 		if (wordsProvided.length > 0) {
-			//Resume behavior:
-			// 1) Skip title screen & trigram reveal screen
-			// 2) Fill in all words the user has submitted previously
-			// 3) Drop user into the round containing their next
-			//    level* (without doing the slide-down round transition)
-			// 4) Display the round title
-			// *Exceptions:
-			// A) Pre-bonus game completed (levelsCompleted==9):
-			//    Run end-pre-bonus-game sequence, i.e.:
-			//    i) Show round 3 momentarily
-			//    ii) Display YOU WIN screen & await user input
-			// B) Post-bonus game completed (levelsCompleted==12):
-			//    Run end-post-bonus-game sequence, i.e.:
-			//    i) Show round 4 momentarily
-			//    ii) Display INCREDIBLE alert
-			//    iii) Launch Stats screen
-
 			// 1) Skip title screen & trigram reveal screen
 			this.isInitialReloadState = true;
 			skipAllModalScreens();
 
 			// 2) Fill in all words the user has submitted previously
-			for (
-				let wordIndex = 0;
-				wordIndex < wordsProvided.length;
-				wordIndex++
-			) {
+			var numWords = wordsProvided.length;
+			for (let wordIndex = 0; wordIndex < numWords; wordIndex++) {
 				//Get the current level and mark as complete
 				levelDiv = document.getElementById(
 					"level-" + wordsProvided[wordIndex].length
@@ -68,80 +48,71 @@ const UI_STATE = {
 				});
 			}
 
-			// 3) Drop user into the round containing their next
-			//    level (without doing the slide-down round transition)
-			var roundNum;
+			// 3) Drop user into the round containing their next level
+			//    (without doing the slide-down round transition)
+			//
 			// Exception A) Pre-bonus game completed
 			if (this.levelsCompleted == 9) {
+				appDiv.classList = "round-3";
 				showYouWinScreen();
-				roundNum = 3;
 			}
 			//
 			// Exception B) Post-bonus game completed
 			else if (this.levelsCompleted == 12) {
-				roundNum = 4;
+				appDiv.classList = "round-4";
+				this.endGame();
 			}
 			//
 			else {
-				roundNum = Math.floor(this.levelsCompleted / 3) + 1;
-			}
-			appDiv.classList = "round-" + roundNum;
-			if (this.levelsCompleted == 12) {
-				this.endGame();
+				const roundNum = Math.floor(this.levelsCompleted / 3) + 1;
+				appDiv.classList = "round-" + roundNum;
 			}
 		}
 	},
 
 	startLevel: function () {
-		//Start Level behavior:
-		// 1) Advance to next round if needed*
-		// Exceptions:
-		//    A) Pre-bonus game completed (levelsCompleted==9):
-		//   	 Run end-pre-bonus-game sequence, i.e.:
-		//   	 i) Show round 3 momentarily
-		//    	ii) Display YOU WIN screen & await user input
-		//    B) Post-bonus game completed (levelsCompleted==12):
-		//   	 Run end-post-bonus-game sequence, i.e.:
-		//   	 i) Show round 4 momentarily
-		//   	 ii) Display INCREDIBLE alert
-		//   	 iii) Launch Stats screen
-
-		// console.log(
-		// 	"starting level",
-		// 	this.levelsCompleted,
-		// 	arguments.callee.caller
-		// );
-
-		//Start accepting user input
-		startInteraction();
-
+		// 1) Set level to active
 		const roundNum = Math.floor(this.levelsCompleted / 3) + 1;
 		const roundDiv = roundDivs[roundNum - 1];
+		levelDiv = roundDiv.querySelector(
+			`div.level:nth-child(${(this.levelsCompleted % 3) + 1})`
+		);
+		levelDiv.classList.remove("locked");
+		levelDiv.classList.add("active");
 
-		//If level is end of pre-bonus game, end game
-		if (
-			this.levelsCompleted == 9 &&
-			(!this.bonusGameInvoked || this.isInitialReloadState)
-		) {
-			showYouWinScreen();
-			this.isInitialReloadState = false;
-			return;
-		}
+		// 2) Start accepting user input
+		wordDiv = levelDiv.querySelector(".word");
+		const letters = wordDiv.querySelectorAll(".letter");
+		letters.forEach((letter) => {
+			letter.classList.add("empty");
+			letter.textContent = "?"; //so that letter divs have a height
+		});
+		this.nextLetterIndex = 0;
+		startInteraction();
 
-		//If level is the start of a new round
+		// 3) Advance to next round if needed
 		if (this.levelsCompleted % 3 == 0) {
-			//If round 1 or reloading game, then begin the round right away
-			if (
-				this.levelsCompleted == 0 ||
-				(this.isInitialReloadState && this.levelsCompleted != 9)
-			) {
+			//Case A) Round 4 but need to see YOU WIN screen first:
+			//- Show You Win screen
+			if (this.levelsCompleted == 9 && !this.bonusGameInvoked) {
+				showYouWinScreen();
+				this.isInitialReloadState = false;
+				return;
+			}
+			//Case B) Round 1 or Reloading at start of Round 2/3:
+			//- Begin the round (without round-transition animation)
+			//- Display Round Title
+			else if (this.levelsCompleted == 0 || this.isInitialReloadState) {
 				appDiv.classList = "";
 				appDiv.classList.add("round-" + roundNum);
 				showRoundTitle(roundNum);
 				this.isInitialReloadState = false;
 			}
-			//If round >1, wait a bit before sliding to next round
-			//(so you have a chance to see all 3 words in completed state)
+			//Case C) Round 2, 3, or 4 (after YOU WIN screen):
+			//- Disable typing during animation
+			//- Run round-transition animation (after 350ms to see all 3 words in completed state)
+			//- Display Round Title
+			//- Re-enable typing
 			else {
 				stopInteraction();
 				setTimeout(() => {
@@ -156,21 +127,6 @@ const UI_STATE = {
 				}, 350);
 			}
 		}
-
-		//Highlight the current level (level)
-		levelDiv = roundDiv.querySelector(
-			`div.level:nth-child(${(this.levelsCompleted % 3) + 1})`
-		);
-		levelDiv.classList.remove("locked");
-		levelDiv.classList.add("active");
-
-		wordDiv = levelDiv.querySelector(".word");
-		const letters = wordDiv.querySelectorAll(".letter");
-		letters.forEach((letter) => {
-			letter.classList.add("empty");
-			letter.textContent = "?"; //so that letter divs have a height
-		});
-		this.nextLetterIndex = 0;
 	},
 
 	addLetter: function (letter) {
