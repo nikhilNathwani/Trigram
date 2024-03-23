@@ -86,10 +86,26 @@ const UI_STATE = {
 				roundNum = Math.floor(this.levelsCompleted / 3) + 1;
 			}
 			appDiv.classList = "round-" + roundNum;
+			if (this.levelsCompleted == 12) {
+				this.endGame();
+			}
 		}
 	},
 
 	startLevel: function () {
+		//Start Level behavior:
+		// 1) Advance to next round if needed*
+		// Exceptions:
+		//    A) Pre-bonus game completed (levelsCompleted==9):
+		//   	 Run end-pre-bonus-game sequence, i.e.:
+		//   	 i) Show round 3 momentarily
+		//    	ii) Display YOU WIN screen & await user input
+		//    B) Post-bonus game completed (levelsCompleted==12):
+		//   	 Run end-post-bonus-game sequence, i.e.:
+		//   	 i) Show round 4 momentarily
+		//   	 ii) Display INCREDIBLE alert
+		//   	 iii) Launch Stats screen
+
 		// console.log(
 		// 	"starting level",
 		// 	this.levelsCompleted,
@@ -103,14 +119,12 @@ const UI_STATE = {
 		const roundDiv = roundDivs[roundNum - 1];
 
 		//If level is end of pre-bonus game, end game
-		if (this.levelsCompleted == 9 && !this.bonusGameInvoked) {
+		if (
+			this.levelsCompleted == 9 &&
+			(!this.bonusGameInvoked || this.isInitialReloadState)
+		) {
 			showYouWinScreen();
-			return;
-		}
-
-		//If level is end of post-bonus game, show "incredible" alert and show stats
-		if (this.levelsCompleted == 12) {
-			this.endGame();
+			this.isInitialReloadState = false;
 			return;
 		}
 
