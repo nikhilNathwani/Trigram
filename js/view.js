@@ -55,6 +55,8 @@ const UI_STATE = {
 			if (this.levelsCompleted == 9) {
 				showYouWinScreen();
 				roundNum = 3;
+			} else if (this.levelsCompleted == 12) {
+				roundNum = 4;
 			} else {
 				roundNum = Math.floor(this.levelsCompleted / 3) + 1;
 			}
@@ -68,6 +70,7 @@ const UI_STATE = {
 		// 	this.levelsCompleted,
 		// 	arguments.callee.caller
 		// );
+
 		//Start accepting user input
 		startInteraction();
 
@@ -80,10 +83,19 @@ const UI_STATE = {
 			return;
 		}
 
+		//If level is end of post-bonus game, show "incredible" alert and show stats
+		if (this.levelsCompleted == 12) {
+			this.endGame();
+			return;
+		}
+
 		//If level is the start of a new round
 		if (this.levelsCompleted % 3 == 0) {
 			//If round 1 or reloading game, then begin the round right away
-			if (this.levelsCompleted == 0 || this.isInitialReloadState) {
+			if (
+				this.levelsCompleted == 0 ||
+				(this.isInitialReloadState && this.levelsCompleted != 9)
+			) {
 				appDiv.classList = "";
 				appDiv.classList.add("round-" + roundNum);
 				showRoundTitle(roundNum);
