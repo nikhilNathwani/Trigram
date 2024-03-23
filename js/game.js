@@ -59,7 +59,7 @@ function startLevel() {
 	GAME_STATE.lettersProvided.push("");
 
 	// 3. Inform the UI
-	UI_STATE.startLevel(GAME_STATE.wordLength_current);
+	UI_STATE.startLevel();
 
 	// 4. Advance the game
 	//    n/a

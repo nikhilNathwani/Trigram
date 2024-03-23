@@ -1,6 +1,5 @@
 // UP NEXT:
-// -Load post-bonus state when refreshing after completing
-// -Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
+// -(maybe) Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
 
 //UI Elements frequently referenced
 const appDiv = document.getElementById("app");
@@ -96,7 +95,6 @@ const UI_STATE = {
 			//- Show You Win screen
 			if (this.levelsCompleted == 9 && !this.bonusGameInvoked) {
 				showYouWinScreen();
-				this.isInitialReloadState = false;
 				return;
 			}
 			//Case B) Round 1 or Reloading at start of Round 2/3:
@@ -106,7 +104,6 @@ const UI_STATE = {
 				appDiv.classList = "";
 				appDiv.classList.add("round-" + roundNum);
 				showRoundTitle(roundNum);
-				this.isInitialReloadState = false;
 			}
 			//Case C) Round 2, 3, or 4 (after YOU WIN screen):
 			//- Disable typing during animation
@@ -127,6 +124,8 @@ const UI_STATE = {
 				}, 350);
 			}
 		}
+		//4) Reset isInitialReloadState to false (initial reload period ends when any level starts)
+		this.isInitialReloadState = false;
 	},
 
 	addLetter: function (letter) {
