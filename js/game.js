@@ -44,8 +44,10 @@ function startGame() {
 		GAME_STATE.lettersProvided.slice(wordLength_start);
 	UI_STATE.startGame(GAME_STATE.trigram, wordsProvidedSoFar);
 
-	// 4. Advance the game
-	startLevel();
+	// 4. Advance the game (if game isn't already completed)
+	if (GAME_STATE.lettersProvided.length <= wordLength_max) {
+		startLevel();
+	}
 }
 
 function startLevel() {
