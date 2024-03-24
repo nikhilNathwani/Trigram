@@ -2,73 +2,6 @@
 // -Hook up Your Stats and Longest Word histogram
 
 const trigramNum = 10;
-// const words = [
-// 	"",
-// 	"",
-// 	"",
-// 	"",
-// 	"CATS",
-// 	"CATER",
-// 	"CATERS",
-// 	"SCATTER",
-// 	"DELICATE",
-// 	"DELICATES",
-// 	"DELICATELY",
-// 	"CATEGORIZES",
-// 	"CATEGORIZING",
-// 	"AUTHENTICATES",
-// 	"AUTHENTICATING",
-// 	"REAUTHENTICATES",
-// ];
-
-function getLongestWord() {
-	var currLongest = -1;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[index];
-		// if (game.longestWord == GAME_STATE.wordLength_max) {
-		// 	return GAME_STATE.wordLength_max;
-		// }
-		if (game.longestWord > currLongest) {
-			currLongest = game.longestWord;
-		}
-	}
-	return currLongest;
-}
-
-function getCurrentStreak() {
-	var currGameNum = trigramNum;
-	var streakCount = 0;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[pastGames.length - 1 - index];
-		if (game.id == currGameNum - 1) {
-			streakCount++;
-			currGameNum = game.id;
-		} else {
-			break;
-		}
-	}
-	return streakCount;
-}
-
-function getMaxStreak() {
-	var currGameNum = -100;
-	var streakCount = 0;
-	var maxStreak = 0;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[index];
-		if (game.id == currGameNum + 1) {
-			streakCount++;
-			currGameNum = game.id;
-		} else {
-			maxStreak = Math.max(maxStreak, streakCount);
-			streakCount = 1;
-			currGameNum = game.id;
-		}
-	}
-	maxStreak = Math.max(maxStreak, streakCount);
-	return maxStreak;
-}
-
 const pastGames = [
 	{
 		trigram: "ART",
@@ -121,18 +54,38 @@ const pastGames = [
 	},
 ];
 
-const wordListDiv = document.getElementById("wordListValue");
-const statListDiv = document.getElementById("statListValue");
-const statDistributionDiv = document.getElementById("statDistributionValue");
-// const statDetailsDiv = document.getElementById("statDetailsValue");
-
 function initializeStats(wordsProvided = null) {
 	makeWordList(wordsProvided);
 	makeStatList();
 	makeLongestWordDistribution();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*          WORD LIST                         */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+const wordListDiv = document.getElementById("wordListValue");
+
+function makeWordList(wordsProvided) {
+	if (!wordsProvided || wordsProvided.length == 0) {
+		const emptyState = document.createElement("p");
+		emptyState.id = "wordListEmptyState";
+		emptyState.innerHTML = `
+			Your words containing
+			<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span> will appear
+			here.`;
+		wordListDiv.appendChild(emptyState);
+	} else {
+		wordsProvided.forEach((word) => {
+			addToStatsWordList(word);
+		});
+	}
+}
+
 function addToStatsWordList(word) {
+	//Remove empty state UI if it is shown
 	var emptyState = wordListDiv.querySelector("p#wordListEmptyState");
 	if (emptyState != null) {
 		emptyState.remove();
@@ -161,22 +114,15 @@ function addToStatsWordList(word) {
 
 	wordListDiv.appendChild(levelDiv);
 }
+///////////////////////////////////////////////////////////////////////////////
 
-function makeWordList(wordsProvided) {
-	if (!wordsProvided || wordsProvided.length == 0) {
-		const emptyState = document.createElement("p");
-		emptyState.id = "wordListEmptyState";
-		emptyState.innerHTML = `
-			Your words containing
-			<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span> will appear
-			here.`;
-		wordListDiv.appendChild(emptyState);
-	} else {
-		wordsProvided.forEach((word) => {
-			addToStatsWordList(word);
-		});
-	}
-}
+///////////////////////////////////////////////////////////////////////////////
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*          STAT SUMMARY ROW                  */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+const statListDiv = document.getElementById("statListValue");
 
 function makeStatList() {
 	//Games Played div
@@ -243,6 +189,15 @@ function makeStatList() {
 
 	statListDiv.appendChild(longestWordDiv);
 }
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*          LONGEST WORD DISTRIBUTION         */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+const statDistributionDiv = document.getElementById("statDistributionValue");
 
 function makeLongestWordDistribution() {
 	const histogram_minWidth = 2;
@@ -285,4 +240,57 @@ function makeLongestWordDistribution() {
 
 		statDistributionDiv.appendChild(row);
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////
+// HELPER FUNCTIONS --------------------------------//
+//////////////////////////////////////////////////////
+function getLongestWord() {
+	var currLongest = -1;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[index];
+		// if (game.longestWord == GAME_STATE.wordLength_max) {
+		// 	return GAME_STATE.wordLength_max;
+		// }
+		if (game.longestWord > currLongest) {
+			currLongest = game.longestWord;
+		}
+	}
+	return currLongest;
+}
+
+function getCurrentStreak() {
+	var currGameNum = trigramNum;
+	var streakCount = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[pastGames.length - 1 - index];
+		if (game.id == currGameNum - 1) {
+			streakCount++;
+			currGameNum = game.id;
+		} else {
+			break;
+		}
+	}
+	return streakCount;
+}
+
+function getMaxStreak() {
+	var currGameNum = -100;
+	var streakCount = 0;
+	var maxStreak = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[index];
+		if (game.id == currGameNum + 1) {
+			streakCount++;
+			currGameNum = game.id;
+		} else {
+			maxStreak = Math.max(maxStreak, streakCount);
+			streakCount = 1;
+			currGameNum = game.id;
+		}
+	}
+	maxStreak = Math.max(maxStreak, streakCount);
+	return maxStreak;
 }

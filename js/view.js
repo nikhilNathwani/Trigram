@@ -124,6 +124,7 @@ const UI_STATE = {
 				}, 350);
 			}
 		}
+
 		//4) Reset isInitialReloadState to false (initial reload period ends when any level starts)
 		this.isInitialReloadState = false;
 	},
