@@ -121,9 +121,9 @@ function loadPastGameStats() {
 	}
 	//Calculate stats
 	STATS.numGamesPlayed = pastGames.length;
-	STATS.currentStreak = getCurrentStreak(pastGames);
-	STATS.maxStreak = getMaxStreak(pastGames);
-	STATS.longestWordLength = getLongestWord(pastGames);
+	STATS.currentStreak = calcCurrentStreak(pastGames);
+	STATS.maxStreak = calcMaxStreak(pastGames);
+	STATS.longestWordLength = calcLongestWord(pastGames);
 	for (let index = 0; index < pastGames.length; index++) {
 		const currLongestWord = pastGames[index].longestWord;
 		STATS.longestWordCounts[currLongestWord] =
@@ -234,6 +234,58 @@ function setCountingStatsUI() {
 	longestWordDiv.textContent =
 		STATS.longestWordLength == 0 ? "n/a" : STATS.longestWordLength;
 }
+
+//Defaults to 0
+function calcCurrentStreak(pastgames) {
+	var currGameNum = getGameID();
+	var streakCount = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[pastGames.length - 1 - index];
+		if (game.gameID == currGameNum - 1) {
+			streakCount++;
+			currGameNum = game.gameID;
+		} else {
+			break;
+		}
+	}
+	return streakCount;
+}
+
+//Defaults to 0
+function calcMaxStreak(pastGames) {
+	var currGameNum = -100;
+	var streakCount = 0;
+	var maxStreak = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[index];
+		if (game.gameID == currGameNum + 1) {
+			streakCount++;
+			currGameNum = game.gameID;
+		} else {
+			maxStreak = Math.max(maxStreak, streakCount);
+			streakCount = 1;
+			currGameNum = game.gameID;
+		}
+	}
+	maxStreak = Math.max(maxStreak, streakCount);
+	return maxStreak;
+}
+
+//Defaults to 0
+function calcLongestWord(pastGames) {
+	var currLongest = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[index];
+		// if (game.longestWord == GAME_STATE.wordLength_max) {
+		// 	return GAME_STATE.wordLength_max;
+		// }
+		if (game.longestWord > currLongest) {
+			currLongest = game.longestWord;
+		}
+	}
+	return currLongest;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -255,6 +307,7 @@ function setHistogramUI() {
 		return;
 	}
 
+	// Case 2: Data available (populate histogram)
 	const histogram_minWidth = 2;
 	const histogram_maxWidth = 15;
 	var minLongestWord = 1000;
@@ -308,55 +361,4 @@ function getGameIDString() {
 	var numStr = (getGameID() + 1).toString();
 	numStr = numStr.length > 3 ? numStr : numStr.padStart(3, "0");
 	return numStr;
-}
-
-//Defaults to 0
-function getCurrentStreak(pastgames) {
-	var currGameNum = getGameID();
-	var streakCount = 0;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[pastGames.length - 1 - index];
-		if (game.gameID == currGameNum - 1) {
-			streakCount++;
-			currGameNum = game.gameID;
-		} else {
-			break;
-		}
-	}
-	return streakCount;
-}
-
-//Defaults to 0
-function getMaxStreak(pastGames) {
-	var currGameNum = -100;
-	var streakCount = 0;
-	var maxStreak = 0;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[index];
-		if (game.gameID == currGameNum + 1) {
-			streakCount++;
-			currGameNum = game.gameID;
-		} else {
-			maxStreak = Math.max(maxStreak, streakCount);
-			streakCount = 1;
-			currGameNum = game.gameID;
-		}
-	}
-	maxStreak = Math.max(maxStreak, streakCount);
-	return maxStreak;
-}
-
-//Defaults to 0
-function getLongestWord(pastGames) {
-	var currLongest = 0;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[index];
-		// if (game.longestWord == GAME_STATE.wordLength_max) {
-		// 	return GAME_STATE.wordLength_max;
-		// }
-		if (game.longestWord > currLongest) {
-			currLongest = game.longestWord;
-		}
-	}
-	return currLongest;
 }
