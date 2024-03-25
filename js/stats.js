@@ -245,6 +245,16 @@ function setCountingStatsUI() {
 const statDistributionDiv = document.getElementById("statDistributionValue");
 
 function setHistogramUI() {
+	// Case 1: No data (show empty state)
+	if (Object.keys(STATS.longestWordCounts).length == 0) {
+		const emptyState = document.createElement("p");
+		emptyState.textContent =
+			"A graph of your longest words from each game will appear here.";
+		console.log("emptyyyyyyy", emptyState);
+		statDistributionDiv.appendChild(emptyState);
+		return;
+	}
+
 	const histogram_minWidth = 2;
 	const histogram_maxWidth = 15;
 	var minLongestWord = 1000;
