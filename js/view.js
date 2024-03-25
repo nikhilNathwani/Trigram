@@ -1,4 +1,5 @@
 // UP NEXT:
+// -Bug: when reloading after completing level 12, then invoking bonus, bonus doesnt do slide down animation
 // -(maybe) Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
 
 //UI Elements frequently referenced
@@ -22,7 +23,7 @@ const UI_STATE = {
 	startGame: function (trigram, wordsProvided) {
 		//I) Initialize UI
 		setTrigramHeader(trigram);
-		initializeStats(wordsProvided);
+		initializeStatsUI(trigram, wordsProvided);
 
 		//II) Resume game if it's already begun
 		if (wordsProvided.length > 0) {
@@ -154,7 +155,7 @@ const UI_STATE = {
 	handleValidGuess: function (word) {
 		stopInteraction();
 		setLevelComplete();
-		addToStatsWordList(word);
+		updateStatsUI(word);
 		clearAlerts();
 	},
 
@@ -235,7 +236,7 @@ function setTrigramHeader(trigram) {
 	const trigramHeaderTitle = document.querySelector(
 		".header-title#trigram-number"
 	);
-	trigramHeaderTitle.textContent = "Trigram #" + getGameIDString();
+	trigramHeaderTitle.textContent = "Trigram #" + gameIDToString();
 	const trigramElement = document.querySelector(".header-element #trigram");
 	trigramElement.textContent = trigram.split("").join(" ");
 }
@@ -243,4 +244,10 @@ function setTrigramHeader(trigram) {
 function disableKeyboardUI() {
 	const keyboard = document.getElementById("keyboard");
 	keyboard.classList.add("disabled");
+}
+
+function gameIDToString() {
+	var numStr = (getGameID() + 1).toString();
+	numStr = numStr.length > 3 ? numStr : numStr.padStart(3, "0");
+	return numStr;
 }

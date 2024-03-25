@@ -109,7 +109,7 @@ function deleteLetter() {
 	// n/a
 }
 
-function handleValidGuess() {
+function handleValidGuess(word) {
 	// 1. Confirm action can be performed
 	// n/a
 
@@ -117,9 +117,7 @@ function handleValidGuess() {
 	saveGameState(GAME_STATE);
 
 	// 3. Inform the UI
-	UI_STATE.handleValidGuess(
-		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current]
-	);
+	UI_STATE.handleValidGuess(word);
 
 	// 4. Advance the game
 	if (GAME_STATE.wordLength_current == wordLength_max) {
@@ -147,7 +145,7 @@ function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	var [guessResult, errorReason] = validateWord(word);
 	if (guessResult) {
-		handleValidGuess();
+		handleValidGuess(word);
 	} else {
 		handleInvalidGuess(errorReason);
 	}

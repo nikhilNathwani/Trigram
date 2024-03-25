@@ -124,17 +124,63 @@
 				<div id="stats" class="modal-content">
 					<div class="closeRow">
 						<div class="closeButton">
-							<i class="fa-solid fa-xmark"></i>
+							<i class="fa-solid fa-xmark" aria-hidden="true"></i>
 						</div>
 					</div>
-					<h1 id="statsTitle">Words & Stats</h1>
+					<h1 id="statsTitle">Words &amp; Stats</h1>
 					<div id="wordList">
 						<h2 id="wordListTitle">Your Words</h2>
-						<div id="wordListValue"></div>
+						<div id="wordListValue">
+							<p id="wordListEmptyState">
+								Your words containing
+								<span
+									id="stat-wordList-emptyState-trigram"
+									class="stat-wordList-trigram"
+								></span>
+								will appear here.
+							</p>
+						</div>
 					</div>
 					<div id="statList">
 						<h2 id="statListTitle">Your Stats</h2>
-						<div id="statListValue"></div>
+						<div id="statListValue">
+							<div class="stat-statList-item">
+								<div
+									id="stat-numGamesPlayed"
+									class="stat-statList-itemValue"
+								></div>
+								<div class="stat-statList-itemTitle">
+									Played
+								</div>
+							</div>
+							<div class="stat-statList-item">
+								<div
+									id="stat-currentStreak"
+									class="stat-statList-itemValue"
+								></div>
+								<div class="stat-statList-itemTitle">
+									Current Streak
+								</div>
+							</div>
+							<div class="stat-statList-item">
+								<div
+									id="stat-maxStreak"
+									class="stat-statList-itemValue"
+								></div>
+								<div class="stat-statList-itemTitle">
+									Max Streak
+								</div>
+							</div>
+							<div class="stat-statList-item">
+								<div
+									id="stat-longestWordLength"
+									class="stat-statList-itemValue"
+								></div>
+								<div class="stat-statList-itemTitle">
+									Longest Word
+								</div>
+							</div>
+						</div>
 					</div>
 					<div id="statDistribution">
 						<h2 id="statDistributionTitle">
@@ -417,11 +463,11 @@
 				</div>
 			</div>
 		</div>
-		<script src="js/localStorage.js"></script>
+		<!-- <script src="js/localStorage.js"></script> -->
 		<script src="js/interactionHandler.js"></script>
+		<script src="js/stats.js"></script>
 		<script src="js/modal.js"></script>
 		<script src="js/view.js"></script>
-		<script src="js/stats.js"></script>
 		<script src="js/game.js"></script>
 		<script src="js/wordChecker.js"></script>
 	</body>

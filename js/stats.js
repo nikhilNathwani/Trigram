@@ -1,65 +1,157 @@
 // UP NEXT:
-// -Hook up Your Stats and Longest Word histogram
+// -Histogram empty state UI
+// -Remove temp 'return 0' in getGameID()
 
-const trigramNum = 10;
-const pastGames = [
-	{
-		trigram: "ART",
-		trigramNumber: "#001",
-		id: 1,
-		roundsCompleted: 2,
-		longestWord: 11,
-	},
-	{
-		trigram: "BIR",
-		trigramNumber: "#002",
-		id: 2,
-		roundsCompleted: 1,
-		longestWord: 7,
-	},
-	{
-		trigram: "DRI",
-		trigramNumber: "#004",
-		id: 3,
-		roundsCompleted: 3,
-		longestWord: 12,
-	},
-	{
-		trigram: "ELL",
-		trigramNumber: "#005",
-		id: 5,
-		roundsCompleted: 3,
-		longestWord: 12,
-	},
-	{
-		trigram: "FOR",
-		trigramNumber: "#006",
-		id: 6,
-		roundsCompleted: 3,
-		longestWord: 12,
-	},
-	{
-		trigram: "GRI",
-		trigramNumber: "#007",
-		id: 7,
-		roundsCompleted: 2,
-		longestWord: 10,
-	},
-	{
-		trigram: "HEL",
-		trigramNumber: "#008",
-		id: 9,
-		roundsCompleted: 1,
-		longestWord: 7,
-	},
-];
+///////////////////////////////////////////////////////////////////////////////
 
-function initializeStats(wordsProvided = null) {
-	makeWordList(wordsProvided);
-	makeStatList();
-	makeLongestWordDistribution();
+///////////////////////////////////////////////////////////////////////////////
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*       LOCAL STORAGE I/O              */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+
+//Returns null if gameData doesn't exist
+function loadGameState() {
+	const gameID = getGameID();
+	//Case 1: New Game
+	if (!localStorage.getItem(gameID)) {
+		return null;
+	}
+	//Case 2: Resume Game
+	return JSON.parse(localStorage.getItem(gameID));
 }
 
+function saveGameState(gameState) {
+	//Save latest state to local storage
+	const gameID = getGameID();
+	localStorage.setItem(
+		gameID,
+		JSON.stringify({
+			trigram: gameState.trigram,
+			wordsProvided: gameState.lettersProvided,
+		})
+	);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*        STATS UI                      */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+//
+// 3 Stats elements:
+// (1) Word List ("Your Words")
+// (2) Counting Stats ("Your Stats")
+// (3) Histogram ("Longest Word Distribution")
+//
+const STATS = {};
+//Stats used for (2) Counting Stats
+STATS.numGamesPlayed = 0;
+STATS.currentStreak = 0;
+STATS.maxStreak = 0;
+STATS.longestWordLength = 0;
+//Stats used for (3) Histogram
+STATS.longestWordCounts = {};
+
+function initializeStatsUI(trigram, wordsProvided = null) {
+	//Load stats from past games and current game
+	loadPastGameStats();
+	loadCurrentGameStats(); //must be called after loadPastGameStats()
+
+	//Initialize the 3 Stats components
+	setWordListUI(trigram, wordsProvided);
+	setCountingStatsUI();
+	setHistogramUI();
+}
+
+function updateStatsUI(latestWord) {
+	//(1) Word List
+	//    Update Word List component to include latest word
+	addToWordListUI(latestWord);
+
+	//(2) Counting Stats
+	//    Increment Counting Stats if this is the start of the current game
+	if (latestWord.length == wordLength_start) {
+		STATS.numGamesPlayed++;
+		STATS.currentStreak++;
+		STATS.maxStreak = Math.max(STATS.maxStreak, STATS.currentStreak);
+	}
+	STATS.longestWordLength = Math.max(
+		STATS.longestWordLength,
+		latestWord.length
+	);
+	setCountingStatsUI();
+
+	//(3) Histogram
+	//    Update histogram, using the latest word as this game's longest word
+	//Case i) the first word of the game
+	if (latestWord.length == wordLength_start) {
+		STATS.longestWordCounts[wordLength_start] =
+			(STATS.longestWordCounts[wordLength_start] || 0) + 1;
+	}
+	//Case ii) not the first word of the game
+	else {
+		//Decrement count of game's previous longest word length
+		STATS.longestWordCounts[latestWord.length - 1]--;
+		if (STATS.longestWordCounts[latestWord.length - 1] == 0) {
+			delete STATS.longestWordCounts[latestWord.length - 1];
+		}
+		//Increment count of game's current longest word length
+		STATS.longestWordCounts[latestWord.length] =
+			(STATS.longestWordCounts[latestWord.length] || 0) + 1;
+	}
+	setHistogramUI();
+}
+
+function loadPastGameStats() {
+	pastGames = []; //excludes current game
+	for (let i = 0; i < localStorage.length; i++) {
+		const key = localStorage.key(i);
+		if (key == getGameID()) {
+			return;
+		}
+		const value = JSON.parse(localStorage.getItem(key));
+		pastGames.push({
+			gameID: key,
+			trigram: value.trigram,
+			longestWord:
+				value.wordsProvided[value.wordsProvided.length - 1].length,
+		});
+	}
+	//Calculate stats
+	STATS.numGamesPlayed = pastGames.length;
+	STATS.currentStreak = getCurrentStreak(pastGames);
+	STATS.maxStreak = getMaxStreak(pastGames);
+	STATS.longestWordLength = getLongestWord(pastGames);
+	for (let index = 0; index < pastGames.length; index++) {
+		const currLongestWord = pastGames[index].longestWord;
+		STATS.longestWordCounts[currLongestWord] =
+			(STATS.longestWordCounts[currLongestWord] || 0) + 1;
+	}
+}
+
+function loadCurrentGameStats() {
+	const currGameState = loadGameState();
+	//Case 1: New Game, no stats yet
+	if (!currGameState) {
+		return;
+	}
+	//Case 2: Resuming Game, update stats
+	STATS.numGamesPlayed++;
+	STATS.currentStreak++;
+	STATS.maxStreak = Math.max(STATS.maxStreak, STATS.currentStreak);
+	const currLongestWord =
+		currGameState.wordsProvided[currGameState.wordsProvided.length - 1]
+			.length;
+	STATS.longestWordLength = Math.max(
+		STATS.longestWordLength,
+		currLongestWord
+	);
+	STATS.longestWordCounts[currLongestWord] =
+		(STATS.longestWordCounts[currLongestWord] || 0) + 1;
+	setCountingStatsUI();
+}
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -68,23 +160,23 @@ function initializeStats(wordsProvided = null) {
 //
 const wordListDiv = document.getElementById("wordListValue");
 
-function makeWordList(wordsProvided) {
+function setWordListUI(trigram, wordsProvided) {
+	// Case 1: No valid words submitted yet
 	if (!wordsProvided || wordsProvided.length == 0) {
-		const emptyState = document.createElement("p");
-		emptyState.id = "wordListEmptyState";
-		emptyState.innerHTML = `
-			Your words containing
-			<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span> will appear
-			here.`;
-		wordListDiv.appendChild(emptyState);
-	} else {
+		const emptyStateTrigram = document.getElementById(
+			"stat-wordList-emptyState-trigram"
+		);
+		emptyStateTrigram.textContent = trigram;
+	}
+	// Case 2: Valid word(s) have been submitted
+	else {
 		wordsProvided.forEach((word) => {
-			addToStatsWordList(word);
+			addToWordListUI(word);
 		});
 	}
 }
 
-function addToStatsWordList(word) {
+function addToWordListUI(word) {
 	//Remove empty state UI if it is shown
 	var emptyState = wordListDiv.querySelector("p#wordListEmptyState");
 	if (emptyState != null) {
@@ -119,107 +211,55 @@ function addToStatsWordList(word) {
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*          STAT SUMMARY ROW                  */
+/*          COUNTING STATS                    */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 const statListDiv = document.getElementById("statListValue");
 
-function makeStatList() {
+function setCountingStatsUI() {
 	//Games Played div
-	const playedDiv = document.createElement("div");
-	playedDiv.classList.add("stat-statList-item");
-
-	const playedValue = document.createElement("div");
-	playedValue.classList.add("stat-statList-itemValue");
-	playedValue.textContent = pastGames.length;
-	playedDiv.appendChild(playedValue);
-
-	const playedTitle = document.createElement("div");
-	playedTitle.classList.add("stat-statList-itemTitle");
-	playedTitle.textContent = "Played";
-	playedDiv.appendChild(playedTitle);
-
-	statListDiv.appendChild(playedDiv);
+	const numGamesPlayedDiv = document.getElementById("stat-numGamesPlayed");
+	numGamesPlayedDiv.textContent = STATS.numGamesPlayed;
 
 	//Current Streak div
-	const currStreakDiv = document.createElement("div");
-	currStreakDiv.classList.add("stat-statList-item");
-
-	const currStreakValue = document.createElement("div");
-	currStreakValue.classList.add("stat-statList-itemValue");
-	currStreakValue.textContent = getCurrentStreak();
-	currStreakDiv.appendChild(currStreakValue);
-
-	const currStreakTitle = document.createElement("div");
-	currStreakTitle.classList.add("stat-statList-itemTitle");
-	currStreakTitle.textContent = "Current Streak";
-	currStreakDiv.appendChild(currStreakTitle);
-
-	statListDiv.appendChild(currStreakDiv);
+	const currStreakDiv = document.getElementById("stat-currentStreak");
+	currStreakDiv.textContent = STATS.currentStreak;
 
 	//Max Streak div
-	const maxStreakDiv = document.createElement("div");
-	maxStreakDiv.classList.add("stat-statList-item");
-
-	const maxStreakValue = document.createElement("div");
-	maxStreakValue.classList.add("stat-statList-itemValue");
-	maxStreakValue.textContent = getMaxStreak();
-	maxStreakDiv.appendChild(maxStreakValue);
-
-	const maxStreakTitle = document.createElement("div");
-	maxStreakTitle.classList.add("stat-statList-itemTitle");
-	maxStreakTitle.textContent = "Max Streak";
-	maxStreakDiv.appendChild(maxStreakTitle);
-
-	statListDiv.appendChild(maxStreakDiv);
+	const maxStreakDiv = document.getElementById("stat-maxStreak");
+	maxStreakDiv.textContent = STATS.maxStreak;
 
 	//Longest Word div
-	const longestWordDiv = document.createElement("div");
-	longestWordDiv.classList.add("stat-statList-item");
-
-	const longestWordValue = document.createElement("div");
-	longestWordValue.classList.add("stat-statList-itemValue");
-	longestWordValue.textContent = getLongestWord();
-	longestWordDiv.appendChild(longestWordValue);
-
-	const longestWordTitle = document.createElement("div");
-	longestWordTitle.classList.add("stat-statList-itemTitle");
-	longestWordTitle.textContent = "Longest Word";
-	longestWordDiv.appendChild(longestWordTitle);
-
-	statListDiv.appendChild(longestWordDiv);
+	const longestWordDiv = document.getElementById("stat-longestWordLength");
+	longestWordDiv.textContent =
+		STATS.longestWordLength == 0 ? "n/a" : STATS.longestWordLength;
 }
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*          LONGEST WORD DISTRIBUTION         */
+/*           HISTOGRAM                        */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 const statDistributionDiv = document.getElementById("statDistributionValue");
 
-function makeLongestWordDistribution() {
+function setHistogramUI() {
 	const histogram_minWidth = 2;
 	const histogram_maxWidth = 15;
-
 	var minLongestWord = 1000;
 	var maxLongestWord = 0;
-
-	var longestWordCounts = {};
 	var maxWordCount = -10;
 
-	for (let index = 0; index < pastGames.length; index++) {
-		const currLongestWord = pastGames[index].longestWord;
-		minLongestWord = Math.min(minLongestWord, currLongestWord);
-		maxLongestWord = Math.max(maxLongestWord, currLongestWord);
-		longestWordCounts[currLongestWord] =
-			(longestWordCounts[currLongestWord] || 0) + 1;
+	for (const wordLength in STATS.longestWordCounts) {
+		minLongestWord = Math.min(minLongestWord, wordLength);
+		maxLongestWord = Math.max(maxLongestWord, wordLength);
 		maxWordCount = Math.max(
 			maxWordCount,
-			longestWordCounts[currLongestWord]
+			STATS.longestWordCounts[wordLength]
 		);
 	}
+	statDistributionDiv.innerHTML = "";
 	for (let index = minLongestWord; index <= maxLongestWord; index++) {
 		const row = document.createElement("div");
 		row.classList.add("stat-statDistribution-item");
@@ -231,24 +271,74 @@ function makeLongestWordDistribution() {
 
 		const count = document.createElement("div");
 		count.classList.add("stat-statDistribution-itemCount");
-		count.textContent = longestWordCounts[index] || 0;
+		count.textContent = STATS.longestWordCounts[index] || 0;
 		count.style.width = `${
 			histogram_minWidth +
-			histogram_maxWidth * (longestWordCounts[index] / maxWordCount)
+			histogram_maxWidth * (STATS.longestWordCounts[index] / maxWordCount)
 		}ch`;
 		row.appendChild(count);
 
 		statDistributionDiv.appendChild(row);
 	}
 }
-
 ///////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////
 // HELPER FUNCTIONS --------------------------------//
 //////////////////////////////////////////////////////
-function getLongestWord() {
-	var currLongest = -1;
+function getGameID() {
+	const startDate = new Date(2024, 2, 16);
+	const msOffset = Date.now() - startDate;
+	const dayOffset = msOffset / 1000 / 60 / 60 / 24;
+	// return Math.floor(dayOffset);
+	return 0;
+}
+
+function getGameIDString() {
+	var numStr = (getGameID() + 1).toString();
+	numStr = numStr.length > 3 ? numStr : numStr.padStart(3, "0");
+	return numStr;
+}
+
+//Defaults to 0
+function getCurrentStreak(pastgames) {
+	var currGameNum = getGameID();
+	var streakCount = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[pastGames.length - 1 - index];
+		if (game.gameID == currGameNum - 1) {
+			streakCount++;
+			currGameNum = game.gameID;
+		} else {
+			break;
+		}
+	}
+	return streakCount;
+}
+
+//Defaults to 0
+function getMaxStreak(pastGames) {
+	var currGameNum = -100;
+	var streakCount = 0;
+	var maxStreak = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[index];
+		if (game.gameID == currGameNum + 1) {
+			streakCount++;
+			currGameNum = game.gameID;
+		} else {
+			maxStreak = Math.max(maxStreak, streakCount);
+			streakCount = 1;
+			currGameNum = game.gameID;
+		}
+	}
+	maxStreak = Math.max(maxStreak, streakCount);
+	return maxStreak;
+}
+
+//Defaults to 0
+function getLongestWord(pastGames) {
+	var currLongest = 0;
 	for (let index = 0; index < pastGames.length; index++) {
 		const game = pastGames[index];
 		// if (game.longestWord == GAME_STATE.wordLength_max) {
@@ -259,38 +349,4 @@ function getLongestWord() {
 		}
 	}
 	return currLongest;
-}
-
-function getCurrentStreak() {
-	var currGameNum = trigramNum;
-	var streakCount = 0;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[pastGames.length - 1 - index];
-		if (game.id == currGameNum - 1) {
-			streakCount++;
-			currGameNum = game.id;
-		} else {
-			break;
-		}
-	}
-	return streakCount;
-}
-
-function getMaxStreak() {
-	var currGameNum = -100;
-	var streakCount = 0;
-	var maxStreak = 0;
-	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[index];
-		if (game.id == currGameNum + 1) {
-			streakCount++;
-			currGameNum = game.id;
-		} else {
-			maxStreak = Math.max(maxStreak, streakCount);
-			streakCount = 1;
-			currGameNum = game.id;
-		}
-	}
-	maxStreak = Math.max(maxStreak, streakCount);
-	return maxStreak;
 }
