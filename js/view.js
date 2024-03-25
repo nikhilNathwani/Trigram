@@ -1,5 +1,4 @@
 // UP NEXT:
-// -Bug: when reloading after completing level 12, then invoking bonus, bonus doesnt do slide down animation
 // -(maybe) Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
 
 //UI Elements frequently referenced
@@ -96,7 +95,6 @@ const UI_STATE = {
 			//- Show You Win screen
 			if (this.levelsCompleted == 9 && !this.bonusGameInvoked) {
 				showYouWinScreen();
-				return;
 			}
 			//Case B) Round 1 or Reloading at start of Round 2/3:
 			//- Begin the round (without round-transition animation)
@@ -114,6 +112,7 @@ const UI_STATE = {
 			else {
 				stopInteraction();
 				setTimeout(() => {
+					console.log("just finished pre-bonus, now entering bonus");
 					appDiv.classList = "";
 					appDiv.classList.add("round-" + roundNum);
 					appDiv.classList.add("round-transition");
