@@ -186,6 +186,10 @@ body {
 	border-bottom: 3px double;
 
 	font-size: 1rem;
+
+	/* forces the browser to use the GPU for rendering and optimize transition */
+	/* will-change: background-color, color, border-color;
+	transform: translateZ(0); */
 }
 
 .header-element {

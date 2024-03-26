@@ -55,9 +55,8 @@ STATS.longestWordLength = 0;
 STATS.longestWordCounts = {};
 
 function initializeStatsUI(trigram, wordsProvided = null) {
-	//Load stats from past games and current game
-	loadPastGameStats();
-	loadCurrentGameStats(); //must be called after loadPastGameStats()
+	//Load stats from past games and current game (if it exists)
+	loadGameStats();
 
 	//Initialize the 3 Stats components
 	setWordListUI(trigram, wordsProvided);
@@ -104,14 +103,12 @@ function updateStatsUI(latestWord) {
 	setHistogramUI();
 }
 
-function loadPastGameStats() {
+function loadGameStats() {
 	pastGames = []; //excludes current game
-	for (let i = 0; i < localStorage.length; i++) {
-		const key = localStorage.key(i);
-		if (key == getGameID()) {
-			return;
-		}
+	const keys = Object.keys(localStorage).sort();
+	for (const key of keys) {
 		const value = JSON.parse(localStorage.getItem(key));
+		console.log(key, value);
 		pastGames.push({
 			gameID: key,
 			trigram: value.trigram,
@@ -131,27 +128,6 @@ function loadPastGameStats() {
 	}
 }
 
-function loadCurrentGameStats() {
-	const currGameState = loadGameState();
-	//Case 1: New Game, no stats yet
-	if (!currGameState) {
-		return;
-	}
-	//Case 2: Resuming Game, update stats
-	STATS.numGamesPlayed++;
-	STATS.currentStreak++;
-	STATS.maxStreak = Math.max(STATS.maxStreak, STATS.currentStreak);
-	const currLongestWord =
-		currGameState.wordsProvided[currGameState.wordsProvided.length - 1]
-			.length;
-	STATS.longestWordLength = Math.max(
-		STATS.longestWordLength,
-		currLongestWord
-	);
-	STATS.longestWordCounts[currLongestWord] =
-		(STATS.longestWordCounts[currLongestWord] || 0) + 1;
-	setCountingStatsUI();
-}
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -236,12 +212,12 @@ function setCountingStatsUI() {
 }
 
 //Defaults to 0
-function calcCurrentStreak(pastgames) {
+function calcCurrentStreak(pastGames) {
 	var currGameNum = getGameID();
 	var streakCount = 0;
 	for (let index = 0; index < pastGames.length; index++) {
 		const game = pastGames[pastGames.length - 1 - index];
-		if (game.gameID == currGameNum - 1) {
+		if (game.gameID >= currGameNum - 1) {
 			streakCount++;
 			currGameNum = game.gameID;
 		} else {
@@ -257,15 +233,26 @@ function calcMaxStreak(pastGames) {
 	var streakCount = 0;
 	var maxStreak = 0;
 	for (let index = 0; index < pastGames.length; index++) {
-		const game = pastGames[index];
-		if (game.gameID == currGameNum + 1) {
+		const gameID = parseInt(pastGames[index].gameID, 10);
+		console.log(
+			"starting game ID",
+			gameID,
+			"and currGameNum+1 is: ",
+			currGameNum + 1
+		);
+		if (gameID == currGameNum + 1) {
+			console.log("in if", gameID);
 			streakCount++;
-			currGameNum = game.gameID;
+			currGameNum = gameID;
 		} else {
+			console.log("in else", gameID);
 			maxStreak = Math.max(maxStreak, streakCount);
 			streakCount = 1;
-			currGameNum = game.gameID;
+			currGameNum = gameID;
 		}
+		console.log("currGameNum:", currGameNum);
+		console.log("streakCount:", streakCount);
+		console.log("max streak:", maxStreak);
 	}
 	maxStreak = Math.max(maxStreak, streakCount);
 	return maxStreak;
@@ -354,6 +341,9 @@ function getGameID() {
 	const msOffset = Date.now() - startDate;
 	const dayOffset = msOffset / 1000 / 60 / 60 / 24;
 	// return Math.floor(dayOffset);
+	if (DEBUG.forceFakePastStats) {
+		return fakeCurrentGameID;
+	}
 	return 0;
 }
 

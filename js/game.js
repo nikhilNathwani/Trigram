@@ -3,13 +3,26 @@
 //
 
 /*  ------------------------------------------------------------- */
-const trigrams = ["CAT", "ING", "MIS", "RED"];
+const trigrams = [
+	"CAT",
+	"ING",
+	"MIS",
+	"RED",
+	"CAT",
+	"CAT",
+	"CAT",
+	"CAT",
+	"CAT",
+];
 const wordLength_start = 4;
 const wordLength_max = 15;
 const GAME_STATE = {};
 
 if (DEBUG.forceNewGame) {
 	clearCurrentGameData();
+}
+if (DEBUG.forceFakePastStats) {
+	setFakePastGameData();
 }
 startGame();
 
