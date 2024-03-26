@@ -171,7 +171,7 @@ body {
 /*                                                          */
 /*                                                          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-#header {
+.header {
 	width: 100%;
 	height: var(--header-height);
 	padding-inline: var(--frame-padding-inline);
@@ -219,7 +219,7 @@ body {
 	cursor: pointer;
 }
 
-#header #trigram {
+.header #trigram {
 	height: 3.25rem;
 	padding: 1.75rem 1rem;
 	border: 3px solid;
@@ -536,7 +536,10 @@ body {
 .round-2.round-transition *,
 .round-3.round-transition *,
 .round-4.round-transition * {
-	transition: all 1s ease-out;
+	transition: width 1s ease-out, color 1s ease-out,
+		background-color 1s ease-out, border-color 1s ease-out,
+		margin 1s ease-out, transform 1s ease-out, font-size 1s ease-out,
+		fill 1s ease-out;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

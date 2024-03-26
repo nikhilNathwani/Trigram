@@ -8,6 +8,9 @@ const wordLength_start = 4;
 const wordLength_max = 15;
 const GAME_STATE = {};
 
+if (DEBUG.forceNewGame) {
+	clearCurrentGameData();
+}
 startGame();
 
 /* GAME EVENTS ------------------------------------------------------------ */
