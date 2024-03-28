@@ -433,7 +433,6 @@ body {
 	width: fit-content;
 	min-width: var(--length-width);
 	height: var(--length-height);
-	padding-inline: 0.75rem;
 	border: 2px solid;
 	border-radius: 8px;
 
