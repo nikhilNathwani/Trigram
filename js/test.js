@@ -1,5 +1,5 @@
 const DEBUG = {
-	forceNewGame: false,
+	forceNewGame: true,
 	forceFakePastStats: false,
 };
 
