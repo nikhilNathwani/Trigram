@@ -1,3 +1,10 @@
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     STYLE VARIABLES                                      */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 :root {
 	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 	/*         Colors          */
@@ -36,12 +43,12 @@
 	--header-height: 115px;
 	--frame-height: 100vh;
 	--frame-height: 100dvh;
-	--game-margin-y: 1.5rem;
-	--round-height: calc(
+	--game-margin-block: 1.5rem;
+	--game-height: calc(
 		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
-			var(--game-margin-y)
+			var(--game-margin-block)
 	);
-	--level-height: calc(var(--round-height) / 3);
+	--level-height: calc(var(--game-height) / 3);
 	--length-height: 3.5rem;
 	--input-height: max(
 		var(--length-height),
@@ -64,22 +71,23 @@
 	--padding-length-word: 4vw;
 
 	--word-border-width: 2px;
-	--word-px: 2vw;
+	--word-padding-inline: 2vw;
 }
 
+/* Desktop style adjustments */
 @media (min-width: 520px) {
 	:root {
 		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 		/*         Heights         */
 		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
 		--frame-height: 100%;
-		--round-height: calc(3 * (var(--level-height)));
+		--game-height: calc(3 * (var(--level-height)));
 		--level-height: clamp(
 			8rem,
 			calc(
 				(
 						100vh - var(--header-height) - var(--keyboard-height) -
-							2 * var(--game-margin-y)
+							2 * var(--game-margin-block)
 					) / 3
 			),
 			16rem
@@ -100,164 +108,8 @@
 		--padding-length-word: 1.5rem;
 
 		--word-border-width: 2px;
-		--word-px: 0.5rem;
+		--word-padding-inline: 0.5rem;
 	}
-}
-
-@media (max-width: 519px) {
-	.round-4 {
-		--letter-border-bottom: 1px;
-	}
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-body {
-	font-family: sans-serif;
-}
-
-#app {
-	display: flex;
-	flex-flow: column;
-	align-items: center;
-
-	background-color: var(--color-med);
-	color: var(--color-dark);
-}
-
-#frame {
-	width: calc(var(--frame-width));
-	height: var(--frame-height);
-
-	display: flex;
-	flex-flow: column nowrap;
-	align-items: center;
-	justify-content: center;
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*                                                          */
-/*                                                          */
-/*     HEADER                                               */
-/*                                                          */
-/*                                                          */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-.header {
-	width: 100%;
-	height: var(--header-height);
-	padding-inline: var(--frame-padding-inline);
-
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: center;
-	justify-content: space-between;
-	position: relative;
-
-	padding-block: 1rem;
-	border-bottom: 3px double;
-	color: var(
-		--color-dark
-	); /* Needed for transitioning of header bottom border color*/
-
-	font-size: 1rem;
-}
-
-.header-element {
-	display: flex;
-	flex-flow: column nowrap;
-	align-items: center;
-
-	font-weight: bold;
-}
-
-.header-title {
-	padding-bottom: 3px;
-	font-weight: bold;
-	color: var(
-		--color-dark
-	); /* Needed for transitioning of header element titles*/
-}
-
-.header-button {
-	width: 3.25rem;
-	aspect-ratio: 1/1;
-	border: 2px solid;
-	border-bottom: 4px solid;
-	border-radius: 50%;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	font-size: 1.75rem;
-	color: var(
-		--color-dark
-	); /* Needed for transitioning of header button border color*/
-
-	background-color: transparent;
-
-	cursor: pointer;
-}
-
-.header #trigram {
-	height: 3.25rem;
-	padding: 1.75rem 1rem;
-	border: 3px solid;
-	border-radius: 8px;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	background-color: white;
-	color: var(--color-dark); /* Needed for transitioning of trigram color*/
-
-	font-size: 2em;
-}
-
-.header-button i {
-	color: var(
-		--color-dark
-	); /* Needed for transitioning of bottom fontawesome icons*/
-}
-
-#messageContainer {
-	position: absolute;
-	top: calc(100% + var(--game-margin-y) / 2);
-	left: 0;
-
-	width: 100%;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	font-size: var(--message-fs);
-	font-weight: bold;
-
-	z-index: 2;
-}
-
-#message {
-	display: none;
-	width: fit-content;
-	padding: 0.25rem 2ch;
-	background-color: white;
-	border-radius: 6px;
-}
-
-#message.shown {
-	display: block;
-}
-
-#message.roundTitle {
-	display: block;
-	opacity: 0;
-	animation: show-temporarily 3.5s ease-in-out;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -267,6 +119,13 @@ body {
 /*                                                          */
 /*                                                          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.round-transition,
+.round-transition * {
+	transition: width 1s ease-out, color 1s ease-out,
+		background-color 1s ease-out, border-color 1s ease-out,
+		margin 1s ease-out, transform 1s ease-out, font-size 1s ease-out,
+		fill 1s ease-out;
+}
 .round-1 {
 	--round-index: 0;
 	--num-letters-max: 6;
@@ -331,6 +190,7 @@ body {
 	);
 }
 
+/* Desktop style adjustments */
 @media (min-width: 520px) {
 	.round-1 {
 		--letter-mx: 0.5rem;
@@ -357,12 +217,172 @@ body {
 	} */
 }
 
-.round-transition,
-.round-transition * {
-	transition: width 1s ease-out, color 1s ease-out,
-		background-color 1s ease-out, border-color 1s ease-out,
-		margin 1s ease-out, transform 1s ease-out, font-size 1s ease-out,
-		fill 1s ease-out;
+/* Mobile style adjustments */
+@media (max-width: 519px) {
+	.round-4 {
+		--letter-border-bottom: 1px;
+	}
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     APP CONTAINER                                               */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+#app {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+
+	background-color: var(--color-med);
+	color: var(--color-dark);
+}
+
+#frame {
+	width: calc(var(--frame-width));
+	height: var(--frame-height);
+
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     HEADER                                               */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.header {
+	width: 100%;
+	height: var(--header-height);
+	padding-inline: var(--frame-padding-inline);
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+
+	padding-block: 1rem;
+	border-bottom: 3px double;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of header bottom border color*/
+
+	font-size: 1rem;
+}
+
+.header-element {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+
+	font-weight: bold;
+}
+
+.header-title {
+	padding-bottom: 3px;
+	font-weight: bold;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of header element titles*/
+}
+
+.header-button {
+	width: 3.25rem;
+	aspect-ratio: 1/1;
+	border: 2px solid;
+	border-bottom: 4px solid;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 1.75rem;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of header button border color*/
+
+	background-color: transparent;
+
+	cursor: pointer;
+}
+
+.header #trigram {
+	height: 3.25rem;
+	padding: 1.75rem 1rem;
+	border: 3px solid;
+	border-radius: 8px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: white;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of trigram color*/
+
+	font-size: 2em;
+}
+
+.header-button i {
+	color: var(--color-dark);
+	/* ^Needed for transitioning of bottom fontawesome icons*/
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     ALERTS                                               */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#messageContainer {
+	position: absolute;
+	top: calc(100% + var(--game-margin-block) / 2);
+	left: 0;
+
+	width: 100%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: var(--message-fs);
+	font-weight: bold;
+
+	z-index: 2;
+}
+
+#message {
+	display: none;
+	width: fit-content;
+	padding: 0.25rem 2ch;
+	background-color: white;
+	border-radius: 6px;
+}
+
+#message.shown {
+	display: block;
+}
+
+#message.roundTitle {
+	display: block;
+	opacity: 0;
+	animation: show-temporarily 3.5s ease-in-out;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -374,9 +394,9 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #game {
 	width: 100%;
-	height: var(--round-height);
+	height: var(--game-height);
 	padding-inline: var(--frame-padding-inline);
-	margin-block: var(--game-margin-y);
+	margin-block: var(--game-margin-block);
 
 	display: flex;
 	flex-flow: column nowrap;
@@ -389,7 +409,7 @@ body {
 	display: flex;
 	flex-flow: column nowrap;
 
-	transform: translateY(calc(-1 * var(--round-index) * var(--round-height)));
+	transform: translateY(calc(-1 * var(--round-index) * var(--game-height)));
 
 	background-color: var(--color-med);
 	color: var(--color-dark);
@@ -413,7 +433,7 @@ body {
 	width: fit-content;
 	min-width: var(--length-width);
 	height: var(--length-height);
-	padding: var(--tl-padding-block) 0.75rem;
+	padding-inline: 0.75rem;
 	border: 2px solid;
 	border-radius: 8px;
 
@@ -425,7 +445,7 @@ body {
 }
 
 .word {
-	padding-inline: var(--word-px);
+	padding-inline: var(--word-padding-inline);
 	height: var(--input-height);
 
 	border: var(--word-border-width) solid;
@@ -440,7 +460,7 @@ body {
 	--word-width-max: calc(
 		var(--frame-width) - 2 * var(--frame-padding-inline) -
 			var(--length-width) - var(--padding-length-word) - 2 *
-			var(--word-border-width) - 2 * var(--word-px)
+			var(--word-border-width) - 2 * var(--word-padding-inline)
 	);
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
 	width: calc(var(--letter-width) - 2 * var(--letter-mx));
@@ -503,7 +523,7 @@ body {
 	gap: 8px;
 
 	touch-action: manipulation;
-	/* ^ Disables double-tap-to-zoom on mobile */
+	/* ^Disables double-tap-to-zoom on mobile */
 
 	--num-keys: 10;
 	--num-keyGaps: 9;
@@ -526,7 +546,6 @@ body {
 	height: 3.25rem;
 
 	border: 2px solid;
-	/* border-bottom: 4px solid; */
 	border-radius: var(--keyboard-key-border-radius);
 
 	font-size: 1.375rem;
@@ -558,15 +577,14 @@ body {
 	height: 1.0625em;
 }
 
-#keyboard.disabled .keyboard-key {
+#keyboard.disabled {
 	cursor: default;
-}
-#keyboard.disabled .keyboard-key:hover {
-	cursor: default;
-	background-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
-	color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
-	border-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
-	fill: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+	.keyboard-key:hover {
+		background-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+		color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+		border-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+		fill: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+	}
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -606,7 +624,7 @@ body {
 .modal-content h2 {
 	font-size: 1.125rem;
 	margin-block: 1.25rem 0.75rem;
-	border-bottom: 2px solid hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
+	border-bottom: 2px solid var(--color-dark);
 }
 
 .closeRow {
@@ -624,7 +642,6 @@ body {
 
 .fa-xmark {
 	font-size: 1.25rem;
-	/* color: hsl(13, 40%, 20%); */
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -659,7 +676,6 @@ body {
 	margin-right: 0.125rem;
 	background-color: white;
 	letter-spacing: 0.25rem;
-	/* font-weight: bold; */
 }
 
 #statListValue {
@@ -670,11 +686,8 @@ body {
 
 .stat-statList-item {
 	width: 7ch;
-	/* border: 1px solid; */
 	display: flex;
 	flex-flow: column nowrap;
-	/* align-items: ; */
-	/* justify-content: center; */
 	text-align: center;
 }
 
