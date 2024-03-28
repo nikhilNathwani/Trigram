@@ -131,7 +131,6 @@ function setFakePastGameData() {
 		for (let i = 0; i < localStorage.length; i++) {
 			const key = localStorage.key(i);
 			if (key !== getGameID()) {
-				console.log("REMOVING", key);
 				localStorage.removeItem(key);
 			}
 		}

@@ -108,7 +108,6 @@ function loadGameStats() {
 	const keys = Object.keys(localStorage).sort();
 	for (const key of keys) {
 		const value = JSON.parse(localStorage.getItem(key));
-		console.log(key, value);
 		pastGames.push({
 			gameID: key,
 			trigram: value.trigram,
@@ -234,25 +233,14 @@ function calcMaxStreak(pastGames) {
 	var maxStreak = 0;
 	for (let index = 0; index < pastGames.length; index++) {
 		const gameID = parseInt(pastGames[index].gameID, 10);
-		console.log(
-			"starting game ID",
-			gameID,
-			"and currGameNum+1 is: ",
-			currGameNum + 1
-		);
 		if (gameID == currGameNum + 1) {
-			console.log("in if", gameID);
 			streakCount++;
 			currGameNum = gameID;
 		} else {
-			console.log("in else", gameID);
 			maxStreak = Math.max(maxStreak, streakCount);
 			streakCount = 1;
 			currGameNum = gameID;
 		}
-		console.log("currGameNum:", currGameNum);
-		console.log("streakCount:", streakCount);
-		console.log("max streak:", maxStreak);
 	}
 	maxStreak = Math.max(maxStreak, streakCount);
 	return maxStreak;
@@ -289,7 +277,6 @@ function setHistogramUI() {
 		const emptyState = document.createElement("p");
 		emptyState.textContent =
 			"A graph of your longest words from each game will appear here.";
-		console.log("emptyyyyyyy", emptyState);
 		statDistributionDiv.appendChild(emptyState);
 		return;
 	}

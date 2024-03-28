@@ -57,7 +57,6 @@ function isLongestPossibleWord(word) {
 }
 
 function lookupErrorString(errorCode) {
-	// console.log("Error reason:", errorCode);
 	switch (errorCode) {
 		case "WRONG-LENGTH":
 			return `Word not ${GAME_STATE.wordLength_current} letters long`;
@@ -69,10 +68,3 @@ function lookupErrorString(errorCode) {
 			return "An unknown error occurred.";
 	}
 }
-
-// Usage:
-// loadWordList().then(() => {
-// 	const word = "catch";
-// 	const exists = existsInWordList(word);
-// 	console.log(exists); // true or false
-// });

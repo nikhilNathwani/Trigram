@@ -210,7 +210,6 @@ function isAnyScreenShown() {
 	for (const screen of screens) {
 		const style = window.getComputedStyle(screen);
 		if (style.display != "none") {
-			console.log("showing", screen);
 			return true;
 		}
 	}

@@ -2,22 +2,13 @@
 const keyboard = document.getElementById("keyboard");
 
 function startInteraction() {
-	console.log(
-		"trying to start interaction",
-		arguments.callee.caller,
-		isAnyScreenShown(),
-		UI_STATE.levelsCompleted < 12
-	);
-
 	if (!isAnyScreenShown() && UI_STATE.levelsCompleted < 12) {
-		console.log("starting interaction", arguments.callee.caller);
 		document.addEventListener("keydown", handleKeyPress);
 		keyboard.addEventListener("click", handleMouseClick);
 	}
 }
 
 function stopInteraction() {
-	console.log("stopping interaction", arguments.callee.caller);
 	document.removeEventListener("keydown", handleKeyPress);
 	keyboard.removeEventListener("click", handleMouseClick);
 }

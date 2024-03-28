@@ -112,7 +112,6 @@ const UI_STATE = {
 			else {
 				stopInteraction();
 				setTimeout(() => {
-					console.log("just finished pre-bonus, now entering bonus");
 					appDiv.classList = "";
 					appDiv.classList.add("round-" + roundNum);
 					appDiv.classList.add("round-transition");
@@ -200,7 +199,6 @@ function showAlert(alertText) {
 }
 
 function showRoundTitle(roundNum) {
-	// console.log("showing round title", arguments.callee.caller);
 	if (isAnyScreenShown()) {
 		return;
 	}
