@@ -1,6 +1,6 @@
 const DEBUG = {
 	forceNewGame: false,
-	forceFakePastStats: true,
+	forceFakePastStats: false,
 };
 
 const fakeCurrentGameID = 11;
