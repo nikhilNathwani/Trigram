@@ -9,7 +9,7 @@
 /*          TITLE SCREEN          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
-setTitleScreenDate();
+setTitleScreenWeek();
 setTitleScreenGameNumber();
 
 document.getElementById("playButton").addEventListener("click", function () {
@@ -47,6 +47,35 @@ function setTitleScreenDate() {
 	const day = currentDate.getDate();
 	const year = currentDate.getFullYear();
 	const formattedDate = `${month} ${day}, ${year}`;
+
+	const dateElement = document.querySelector("#titleScreen #date");
+	dateElement.textContent = formattedDate;
+}
+
+function setTitleScreenWeek() {
+	const currentDate = new Date();
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) through 6 (Saturday)
+	const mondayOffset = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; // Offset to Monday
+	const mondayDate = new Date(currentDate);
+	mondayDate.setDate(currentDate.getDate() + mondayOffset);
+	const month = months[mondayDate.getMonth()];
+	const day = mondayDate.getDate();
+	const year = mondayDate.getFullYear();
+	const formattedDate = `Week of ${month.slice(0, 3)} ${day}, ${year}`;
 
 	const dateElement = document.querySelector("#titleScreen #date");
 	dateElement.textContent = formattedDate;
