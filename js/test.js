@@ -1,9 +1,9 @@
 const DEBUG = {
 	forceNewGame: false,
-	forceFakePastStats: false,
+	forceFakePastStats: true,
 };
 
-const fakeCurrentGameID = 8;
+const fakeCurrentGameID = 11;
 const fakePastGameData = [
 	{
 		gameID: 0,
@@ -25,7 +25,7 @@ const fakePastGameData = [
 		],
 	},
 	{
-		gameID: 1,
+		gameID: 2,
 		trigram: "CAT",
 		wordsProvided: [
 			null,
@@ -114,6 +114,40 @@ const fakePastGameData = [
 			"CATEGORIZING",
 			"AUTHENTICATES",
 			"AUTHENTICATING",
+		],
+	},
+	{
+		gameID: 9,
+		trigram: "CAT",
+		wordsProvided: [
+			null,
+			null,
+			null,
+			null,
+			"CATS",
+			"CATER",
+			"CATERS",
+			"CATERED",
+			"CATERING",
+		],
+	},
+	{
+		gameID: 10,
+		trigram: "CAT",
+		wordsProvided: [
+			null,
+			null,
+			null,
+			null,
+			"CATS",
+			"CATER",
+			"CATERS",
+			"CATERED",
+			"CATERING",
+			"DELICATES",
+			"CATEGORIES",
+			"CATEGORIZES",
+			"CATEGORIZING",
 		],
 	},
 ];

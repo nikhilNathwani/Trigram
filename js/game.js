@@ -13,6 +13,11 @@ const trigrams = [
 	"CAT",
 	"CAT",
 	"CAT",
+	"CAT",
+	"CAT",
+	"CAT",
+	"CAT",
+	"CAT",
 ];
 const wordLength_start = 4;
 const wordLength_max = 15;

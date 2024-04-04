@@ -48,6 +48,7 @@ function saveGameState(gameState) {
 const STATS = {};
 //Stats used for (2) Counting Stats
 STATS.numGamesPlayed = 0;
+STATS.numGamesWon = 0;
 STATS.currentStreak = 0;
 STATS.maxStreak = 0;
 STATS.longestWordLength = 0;
@@ -75,6 +76,9 @@ function updateStatsUI(latestWord) {
 		STATS.numGamesPlayed++;
 		STATS.currentStreak++;
 		STATS.maxStreak = Math.max(STATS.maxStreak, STATS.currentStreak);
+	}
+	if (latestWord.length == 12) {
+		STATS.numGamesWon++;
 	}
 	STATS.longestWordLength = Math.max(
 		STATS.longestWordLength,
@@ -105,7 +109,9 @@ function updateStatsUI(latestWord) {
 
 function loadGameStats() {
 	pastGames = []; //excludes current game
-	const keys = Object.keys(localStorage).sort();
+	const keys = Object.keys(localStorage)
+		.map((key) => parseInt(key, 10)) //convert keys from strings to ints
+		.sort((a, b) => a - b); //sort ints in ascending order
 	for (const key of keys) {
 		const value = JSON.parse(localStorage.getItem(key));
 		pastGames.push({
@@ -117,6 +123,7 @@ function loadGameStats() {
 	}
 	//Calculate stats
 	STATS.numGamesPlayed = pastGames.length;
+	STATS.numGamesWon = calcNumGamesWon(pastGames);
 	STATS.currentStreak = calcCurrentStreak(pastGames);
 	STATS.maxStreak = calcMaxStreak(pastGames);
 	STATS.longestWordLength = calcLongestWord(pastGames);
@@ -196,6 +203,13 @@ function setCountingStatsUI() {
 	const numGamesPlayedDiv = document.getElementById("stat-numGamesPlayed");
 	numGamesPlayedDiv.textContent = STATS.numGamesPlayed;
 
+	//Win % div
+	const winPercentageDiv = document.getElementById("stat-winPercentage");
+	winPercentageDiv.textContent =
+		STATS.numGamesPlayed == 0
+			? "n/a"
+			: (100 * (STATS.numGamesWon / STATS.numGamesPlayed)).toFixed(1);
+
 	//Current Streak div
 	const currStreakDiv = document.getElementById("stat-currentStreak");
 	currStreakDiv.textContent = STATS.currentStreak;
@@ -204,10 +218,22 @@ function setCountingStatsUI() {
 	const maxStreakDiv = document.getElementById("stat-maxStreak");
 	maxStreakDiv.textContent = STATS.maxStreak;
 
-	//Longest Word div
-	const longestWordDiv = document.getElementById("stat-longestWordLength");
-	longestWordDiv.textContent =
-		STATS.longestWordLength == 0 ? "n/a" : STATS.longestWordLength;
+	//Longest Word div - DEPRECATED
+	// const longestWordDiv = document.getElementById("stat-longestWordLength");
+	// longestWordDiv.textContent =
+	// 	STATS.longestWordLength == 0 ? "n/a" : STATS.longestWordLength;
+}
+
+//Defaults to 0
+function calcNumGamesWon(pastGames) {
+	var numGamesWon = 0;
+	for (let index = 0; index < pastGames.length; index++) {
+		const game = pastGames[index];
+		if (game.longestWord >= 12) {
+			numGamesWon++;
+		}
+	}
+	return numGamesWon;
 }
 
 //Defaults to 0
@@ -232,7 +258,7 @@ function calcMaxStreak(pastGames) {
 	var streakCount = 0;
 	var maxStreak = 0;
 	for (let index = 0; index < pastGames.length; index++) {
-		const gameID = parseInt(pastGames[index].gameID, 10);
+		const gameID = pastGames[index].gameID;
 		if (gameID == currGameNum + 1) {
 			streakCount++;
 			currGameNum = gameID;
