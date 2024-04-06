@@ -205,10 +205,7 @@ function setCountingStatsUI() {
 
 	//Win % div
 	const winPercentageDiv = document.getElementById("stat-winPercentage");
-	winPercentageDiv.textContent =
-		STATS.numGamesPlayed == 0
-			? "n/a"
-			: (100 * (STATS.numGamesWon / STATS.numGamesPlayed)).toFixed(1);
+	winPercentageDiv.textContent = calcWinPercentage();
 
 	//Current Streak div
 	const currStreakDiv = document.getElementById("stat-currentStreak");
@@ -222,6 +219,22 @@ function setCountingStatsUI() {
 	// const longestWordDiv = document.getElementById("stat-longestWordLength");
 	// longestWordDiv.textContent =
 	// 	STATS.longestWordLength == 0 ? "n/a" : STATS.longestWordLength;
+}
+
+function calcWinPercentage() {
+	if (STATS.numGamesPlayed == 0) {
+		return "n/a";
+	}
+	const winPct = 100 * (STATS.numGamesWon / STATS.numGamesPlayed);
+	if (winPct === 100) {
+		return 100;
+	}
+	// If winPct is less than 10, return with 2 decimal places
+	if (winPct < 10) {
+		return parseFloat(winPct.toFixed(2));
+	}
+	// If winPct is two-digit, return with 1 decimal place
+	return parseFloat(winPct.toFixed(1));
 }
 
 //Defaults to 0
