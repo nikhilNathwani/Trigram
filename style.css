@@ -129,7 +129,7 @@
 .round-1 {
 	--round-index: 0;
 	--num-letters-max: 6;
-	--letter-mx: 2vw;
+	--letter-margin-x: 2vw;
 	--color-light: hsl(var(--c1-hue), var(--c1-sat), var(--c1-light));
 	--color-med: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
 	--color-dark: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
@@ -145,7 +145,7 @@
 .round-2 {
 	--round-index: 1;
 	--num-letters-max: 9;
-	--letter-mx: 1vw;
+	--letter-margin-x: 1vw;
 	--color-light: hsl(var(--c2-hue), var(--c2-sat), var(--c2-light));
 	--color-med: hsl(var(--c2-hue), var(--c2-sat), var(--c2-med));
 	--color-dark: hsl(var(--c2-hue), var(--c2-sat), var(--c2-dark));
@@ -161,7 +161,7 @@
 .round-3 {
 	--round-index: 2;
 	--num-letters-max: 12;
-	--letter-mx: 0.5vw;
+	--letter-margin-x: 0.5vw;
 	--color-light: hsl(var(--c3-hue), var(--c3-sat), var(--c3-light));
 	--color-med: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
 	--color-dark: hsl(var(--c3-hue), var(--c3-sat), var(--c3-dark));
@@ -177,7 +177,7 @@
 .round-4 {
 	--round-index: 3;
 	--num-letters-max: 15;
-	--letter-mx: 0.5vw;
+	--letter-margin-x: 0.5vw;
 	--color-light: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
 	--color-med: hsl(var(--c4-hue), var(--c4-sat), var(--c4-med));
 	--color-dark: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
@@ -193,16 +193,16 @@
 /* Desktop style adjustments */
 @media (min-width: 520px) {
 	.round-1 {
-		--letter-mx: 0.5rem;
+		--letter-margin-x: 0.5rem;
 	}
 	.round-2 {
-		--letter-mx: 0.5rem;
+		--letter-margin-x: 0.5rem;
 	}
 	.round-3 {
-		--letter-mx: 0.25rem;
+		--letter-margin-x: 0.25rem;
 	}
 	.round-4 {
-		--letter-mx: 0.25rem;
+		--letter-margin-x: 0.25rem;
 	}
 	/* .keyboard-key:hover,
 	.header-button:hover {
@@ -462,10 +462,10 @@ body {
 			var(--word-border-width) - 2 * var(--word-padding-inline)
 	);
 	--letter-width: var(--word-width-max) / var(--num-letters-max);
-	width: calc(var(--letter-width) - 2 * var(--letter-mx));
-	margin-inline: var(--letter-mx);
+	width: calc(var(--letter-width) - 2 * var(--letter-margin-x));
+	margin-inline: var(--letter-margin-x);
 	border-bottom: var(--letter-border-bottom) solid;
-	font-size: calc(var(--letter-width) - 2 * var(--letter-mx));
+	font-size: calc(var(--letter-width) - 2 * var(--letter-margin-x));
 	text-align: center;
 }
 
