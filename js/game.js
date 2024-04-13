@@ -1,8 +1,9 @@
 // UP NEXT:
-// - Remove temp "return 0" in getGameID()
+// - Remove temp "return 0" in getGameID() in stats.js
 //
 
 /*  ------------------------------------------------------------- */
+let wordList = null;
 const trigrams = [
 	"CAT",
 	"ING",
@@ -51,8 +52,12 @@ function startGame() {
 	//    n/a
 
 	// 2. Perform the action
-	const gameData = loadGameState();
+	//    a) Get trigram and load word list
 	GAME_STATE.trigram = trigrams[getGameID()];
+	loadWordList(GAME_STATE.trigram);
+
+	//    b) Load game state (or initialize to empty state)
+	const gameData = loadGameState();
 	GAME_STATE.wordLength_current = gameData
 		? gameData.wordsProvided.length
 		: wordLength_start;
@@ -164,7 +169,11 @@ function handleInvalidGuess(errorReason) {
 
 function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
-	var [guessResult, errorReason] = validateWord(word);
+	var [guessResult, errorReason] = validateWord(
+		word,
+		trigram,
+		GAME_STATE.wordLength_current
+	);
 	if (guessResult) {
 		handleValidGuess(word);
 	} else {

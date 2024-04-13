@@ -1,9 +1,7 @@
-let wordList = null;
-loadWordList();
-
-function loadWordList() {
+//
+function loadWordList(trigram) {
 	return new Promise((resolve, reject) => {
-		fetch("data/cat_words.json")
+		fetch("data/" + trigram.toLowerCase() + "_words.json")
 			.then((response) => response.json())
 			.then((data) => {
 				wordList = data;
@@ -19,32 +17,32 @@ function loadWordList() {
 // Returns [isValid, errorReason] where:
 //    -isValid is true/false indicating whether the inputted word meets the constraints
 //    -errorReason is a string indicating which error message to display
-function validateWord(word) {
-	if (!isWordLengthReached(word)) {
+function validateWord(word, trigram, currWordLength) {
+	if (!isWordLengthReached(word, currWordLength)) {
 		return [false, lookupErrorString("WRONG-LENGTH")];
-	} else if (!containsTrigram(word)) {
+	} else if (!containsTrigram(word, trigram)) {
 		return [false, lookupErrorString("TRIGRAM-MISSING")];
-	} else if (!existsInWordList(word)) {
+	} else if (!existsInWordList(word, currWordLength)) {
 		return [false, lookupErrorString("NOT-FOUND")];
 	} else {
 		return [true, ""];
 	}
 }
 
-function isWordLengthReached(word) {
-	return GAME_STATE.wordLength_current == word.length;
+function isWordLengthReached(word, currWordLength) {
+	return currWordLength == word.length;
 }
 
-function containsTrigram(word) {
+function containsTrigram(word, trigram) {
 	return word.includes(GAME_STATE.trigram);
 }
 
-function existsInWordList(word) {
+function existsInWordList(word, currWordLength) {
 	if (!wordList) {
 		console.error("Word list not loaded.");
 		return false;
 	}
-	const words = wordList[GAME_STATE.wordLength_current];
+	const words = wordList[currWordLength];
 	if (words && Array.isArray(words)) {
 		return words.includes(word.toLowerCase());
 	}
