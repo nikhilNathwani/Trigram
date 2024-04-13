@@ -1,7 +1,6 @@
 // UP NEXT:
-// -Trigram Reveal Screen dynamically get trigram from game.js
-// -Trigram Reveal Screen animate trigram reveal
-// -Make Help Screen trigram & word list consistent with stats
+// -MAYBE Trigram Reveal Screen animate trigram reveal
+// -MAYBE Make Help Screen trigram & word list consistent with stats
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -95,6 +94,17 @@ function setTitleScreenGameNumber() {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 var trigramRevealShown = false;
+
+function setTrigramRevealScreen(trigram) {
+	const trigramReveal = document.getElementById("trigramReveal");
+	trigramReveal.textContent = trigram;
+
+	const trigramRevealSubtitle = document.getElementById(
+		"trigramRevealSubtitle"
+	);
+	trigramRevealSubtitle.textContent =
+		'Your words must contain "' + trigram + '"';
+}
 
 function showTrigramRevealScreen() {
 	//show screen then fade out after 4 seconds

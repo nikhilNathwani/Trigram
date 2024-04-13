@@ -21,6 +21,7 @@ const UI_STATE = {
 
 	startGame: function (trigram, wordsProvided) {
 		//I) Initialize UI
+		setTrigramRevealScreen(trigram);
 		setTrigramHeader(trigram);
 		initializeStatsUI(trigram, wordsProvided);
 
