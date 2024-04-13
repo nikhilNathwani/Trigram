@@ -606,7 +606,7 @@ body {
 }
 
 .modal-content {
-	width: min(500px, 96vw);
+	width: min(500px, 94vw);
 	height: fit-content;
 	border: 3px solid;
 	margin: 4rem auto;
