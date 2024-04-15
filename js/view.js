@@ -166,6 +166,7 @@ const UI_STATE = {
 		showAlert(youWinString);
 		stopInteraction();
 		disableKeyboardUI();
+		showNextGameCountdownUI();
 		setTimeout(() => {
 			showStatsScreen();
 		}, 2000);

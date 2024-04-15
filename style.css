@@ -774,6 +774,11 @@ li {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                     STATS SCREEN                         */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#nextGameCountdownDiv {
+	display: none;
+	text-align: center;
+}
+
 #wordListValue {
 	display: flex;
 	flex-flow: column nowrap;

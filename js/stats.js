@@ -89,6 +89,7 @@ function initializeStatsUI(trigram, wordsProvided = null) {
 	loadGameStats();
 
 	//Initialize the 3 Stats components
+	setNextGameCountdownUI();
 	setWordListUI(trigram, wordsProvided);
 	setCountingStatsUI();
 	setHistogramUI();
@@ -163,6 +164,30 @@ function loadGameStats() {
 	}
 }
 
+function setNextGameCountdownUI() {
+	const countdownText = document.getElementById("nextGameCountdown");
+	countdownText.textContent =
+		"*" + countdownText.textContent + " " + getNextMondayString() + "*";
+}
+
+function getNextMondayString() {
+	const currentDate = new Date();
+	const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) through 6 (Saturday)
+	const daysUntilNextMonday =
+		currentDayOfWeek === 1 ? 7 : (8 - currentDayOfWeek) % 7; // Calculate days until next Monday
+	const nextMonday = new Date(currentDate);
+	nextMonday.setDate(nextMonday.getDate() + daysUntilNextMonday); // Set to next Monday
+
+	// Format the date as "MMM DD"
+	const options = { month: "short", day: "2-digit" };
+	const formattedDate = nextMonday.toLocaleDateString("en-US", options);
+	return formattedDate;
+}
+
+function showNextGameCountdownUI() {
+	const countdownDiv = document.getElementById("nextGameCountdownDiv");
+	countdownDiv.style.display = "block";
+}
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
