@@ -323,7 +323,7 @@ body {
 
 .header #trigram {
 	height: 3.25rem;
-	padding: 1.75rem 1rem;
+	padding: 1.625rem 0.375rem;
 	border: 3px solid;
 	border-radius: 8px;
 
@@ -336,6 +336,11 @@ body {
 	/* ^Needed for transitioning of trigram color*/
 
 	font-size: 2em;
+}
+
+.header #trigram span {
+	width: 1.875rem;
+	text-align: center;
 }
 
 .header-button i {
@@ -895,9 +900,7 @@ li {
 }
 
 #trigramReveal {
-	letter-spacing: 1.5rem;
-	padding: 1.5rem 1.5rem;
-	padding-right: 0rem;
+	padding: 1.5rem 1rem;
 	border: 6px solid;
 	border-radius: 24px;
 
@@ -909,6 +912,11 @@ li {
 
 	font-size: 4rem;
 	font-weight: bold;
+}
+
+#trigramReveal span {
+	width: 4rem;
+	text-align: center;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

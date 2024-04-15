@@ -97,7 +97,10 @@ var trigramRevealShown = false;
 
 function setTrigramRevealScreen(trigram) {
 	const trigramReveal = document.getElementById("trigramReveal");
-	trigramReveal.textContent = trigram;
+	trigramReveal.innerHTML = trigram
+		.split("")
+		.map((char) => `<span>${char}</span>`)
+		.join("");
 
 	const trigramRevealSubtitle = document.getElementById(
 		"trigramRevealSubtitle"

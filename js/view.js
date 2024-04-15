@@ -236,7 +236,10 @@ function setTrigramHeader(trigram) {
 	);
 	trigramHeaderTitle.textContent = "Trigram #" + gameIDToString();
 	const trigramElement = document.querySelector(".header-element #trigram");
-	trigramElement.textContent = trigram.split("").join(" ");
+	trigramElement.innerHTML = trigram
+		.split("")
+		.map((char) => `<span>${char}</span>`)
+		.join("");
 }
 
 function disableKeyboardUI() {

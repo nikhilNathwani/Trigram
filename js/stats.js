@@ -1,4 +1,6 @@
 // UP NEXT:
+// REMOVE localStorage.clear()!!!
+// REMOVE Math.max in getGameID()
 // -Add Win % to Counting Stats (maybe replacing Longest Word)
 // -Remove temp 'return 0' in getGameID()
 
@@ -10,6 +12,8 @@
 /*       LOCAL STORAGE I/O              */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+
+localStorage.clear();
 
 //Returns null if gameData doesn't exist
 function loadGameState() {
@@ -363,14 +367,23 @@ function setHistogramUI() {
 // HELPER FUNCTIONS --------------------------------//
 //////////////////////////////////////////////////////
 function getGameID() {
-	const startDate = new Date(2024, 2, 16);
-	const msOffset = Date.now() - startDate;
-	const dayOffset = msOffset / 1000 / 60 / 60 / 24;
-	// return Math.floor(dayOffset);
 	if (DEBUG.forceFakePastStats) {
 		return fakeCurrentGameID;
 	}
-	return 0;
+
+	const gameStartDate = new Date("2024-04-15"); // Start date of the game
+
+	// Time since gameStartDate in milliseconds
+	const currentDate = new Date();
+	const timeDifference = currentDate.getTime() - gameStartDate.getTime();
+
+	// Convert milliseconds to weeks
+	const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000; // Milliseconds in a week
+	var weeksDifference = Math.floor(timeDifference / millisecondsInWeek);
+	//Remove this Math.max when game start date occurs
+	weeksDifference = Math.max(weeksDifference, 0);
+	// console.log(weeksDifference);
+	return weeksDifference;
 }
 
 function getGameIDString() {

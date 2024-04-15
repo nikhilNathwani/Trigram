@@ -44,7 +44,7 @@ function existsInWordList(word, currWordLength) {
 	}
 	const words = wordList[currWordLength];
 	if (words && Array.isArray(words)) {
-		return words.includes(word.toLowerCase());
+		return words.includes(word);
 	}
 
 	return false;

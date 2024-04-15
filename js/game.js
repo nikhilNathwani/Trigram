@@ -5,6 +5,8 @@
 /*  ------------------------------------------------------------- */
 let wordList = null;
 const trigrams = [
+	"IST",
+	"REA",
 	"CAT",
 	"ING",
 	"MIS",
@@ -171,7 +173,7 @@ function submitGuess() {
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
 	var [guessResult, errorReason] = validateWord(
 		word,
-		trigram,
+		GAME_STATE.trigram,
 		GAME_STATE.wordLength_current
 	);
 	if (guessResult) {
