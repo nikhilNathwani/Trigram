@@ -1,5 +1,4 @@
 // UP NEXT:
-// - Remove temp "return 0" in getGameID() in stats.js
 //
 
 /*  ------------------------------------------------------------- */
