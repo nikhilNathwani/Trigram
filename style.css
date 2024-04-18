@@ -74,39 +74,6 @@
 	--word-padding-inline: 2vw;
 }
 
-/* Override dark mode styles (for now) */
-@media (prefers-color-scheme: dark) {
-	:root {
-		--c1-hue: 180;
-		--c1-sat: 15%;
-		--c1-light: 85%;
-		--c1-med: 65%;
-		--c1-dark: 30%;
-		--c1-darker: 20%;
-
-		--c2-hue: 220;
-		--c2-sat: 20%;
-		--c2-light: 85%;
-		--c2-med: 65%;
-		--c2-dark: 32%;
-		--c2-darker: 20%;
-
-		--c3-hue: 270;
-		--c3-sat: 15%;
-		--c3-light: 85%;
-		--c3-med: 67%;
-		--c3-dark: 32%;
-		--c3-darker: 20%;
-
-		--c4-hue: 36;
-		--c4-sat: 40%;
-		--c4-light: 88%;
-		--c4-med: 67%;
-		--c4-dark: 28%;
-		--c4-darker: 20%;
-	}
-}
-
 /* Desktop style adjustments */
 @media (min-width: 520px) {
 	:root {
