@@ -425,7 +425,8 @@ function getGameID() {
 
 	// Time since gameStartDate in milliseconds
 	const currentDate = new Date();
-	const timeDifference = currentDate.getTime() - gameStartDate.getTime();
+	const timeZoneOffset = currentDate.getTimezoneOffset() * 60 * 1000;
+	const timeDifference = currentDate.getTime() - timeZoneOffset - gameStartDate.getTime();
 
 	// Convert milliseconds to weeks
 	const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000; // Milliseconds in a week
