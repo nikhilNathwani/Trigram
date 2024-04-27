@@ -1,7 +1,5 @@
 // UP NEXT:
-// REMOVE Math.max in getGameID()
-// -Add Win % to Counting Stats (maybe replacing Longest Word)
-// -Remove temp 'return 0' in getGameID()
+// -
 
 ///////////////////////////////////////////////////////////////////////////////
 

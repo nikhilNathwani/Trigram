@@ -6,6 +6,7 @@ let wordList = null;
 const trigrams = [
 	"IST",
 	"REA",
+	"PLE",
 	"CAT",
 	"ING",
 	"MIS",
