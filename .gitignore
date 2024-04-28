@@ -1,2 +1,6 @@
-# Ignore colorSchemes.txt in the root folder
-colorSchemes.txt
+# Ignore design drafts
+/style/colorSchemes.txt
+/style/design.pptx
+
+# Ignore Insta post content
+/social
