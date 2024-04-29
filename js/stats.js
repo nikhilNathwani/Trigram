@@ -59,7 +59,6 @@ function initializeStatsUI(trigram, wordsProvided = null) {
 	loadStats();
 
 	//Initialize the 3 Stats components
-	setNextGameCountdownUI();
 	setWordListUI(trigram, wordsProvided);
 	setCountingStatsUI();
 	setHistogramUI();
@@ -134,13 +133,11 @@ function loadStats() {
 	}
 }
 
-function setNextGameCountdownUI() {
+function showNextGameCountdownUI() {
 	const countdownText = document.getElementById("nextGameCountdown");
 	countdownText.textContent =
 		"*" + countdownText.textContent + " " + getNextMondayString() + "*";
-}
 
-function showNextGameCountdownUI() {
 	const countdownDiv = document.getElementById("nextGameCountdownDiv");
 	countdownDiv.style.display = "block";
 }
