@@ -4,3 +4,6 @@
 
 # Ignore Insta post content
 /social
+
+# Ignore .DS_Store
+.DS_Store

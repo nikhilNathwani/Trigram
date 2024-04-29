@@ -10,34 +10,6 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 
-removeCAT();
-
-function removeCAT() {
-	// Check if localStorage has key "0" and its value contains the specified trigram
-	if (localStorage.getItem("0")) {
-		// Parse the stored value from localStorage
-		const storedValue = JSON.parse(localStorage.getItem("0"));
-
-		// Check if the stored value is an object
-		if (typeof storedValue === "object") {
-			// Check if storedValue contains the "trigram" key
-			if ("trigram" in storedValue && storedValue.trigram === "CAT") {
-				// If so, remove the row with key "0" from localStorage
-				localStorage.removeItem("0");
-				// console.log("Row removed from localStorage.");
-			} else {
-				// console.log(
-				// 	"Stored value does not contain the 'trigram' key or does not match the specified criteria."
-				// );
-			}
-		} else {
-			// console.log("Stored value is not an object.");
-		}
-	} else {
-		// console.log("Key '0' does not exist in localStorage.");
-	}
-}
-
 //Returns null if gameData doesn't exist
 function loadGameState() {
 	const gameID = getGameID();
