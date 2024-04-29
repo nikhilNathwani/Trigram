@@ -75,3 +75,17 @@ function getWeekString() {
 	const year = mondayDate.getFullYear();
 	return `Week of ${month.slice(0, 3)} ${day}, ${year}`;
 }
+
+function getNextMondayString() {
+	const currentDate = new Date();
+	const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) through 6 (Saturday)
+	const daysUntilNextMonday =
+		currentDayOfWeek === 1 ? 7 : (8 - currentDayOfWeek) % 7; // Calculate days until next Monday
+	const nextMonday = new Date(currentDate);
+	nextMonday.setDate(nextMonday.getDate() + daysUntilNextMonday); // Set to next Monday
+
+	// Format the date as "MMM DD"
+	const options = { month: "short", day: "2-digit" };
+	const formattedDate = nextMonday.toLocaleDateString("en-US", options);
+	return formattedDate;
+}

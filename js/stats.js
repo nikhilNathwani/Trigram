@@ -56,7 +56,7 @@ STATS.longestWordCounts = {};
 
 function initializeStatsUI(trigram, wordsProvided = null) {
 	//Load stats from past games and current game (if it exists)
-	loadGameStats();
+	loadStats();
 
 	//Initialize the 3 Stats components
 	setNextGameCountdownUI();
@@ -107,7 +107,7 @@ function updateStatsUI(latestWord) {
 	setHistogramUI();
 }
 
-function loadGameStats() {
+function loadStats() {
 	pastGames = []; //excludes current game
 	const keys = Object.keys(localStorage)
 		.map((key) => parseInt(key, 10)) //convert keys from strings to ints
@@ -138,20 +138,6 @@ function setNextGameCountdownUI() {
 	const countdownText = document.getElementById("nextGameCountdown");
 	countdownText.textContent =
 		"*" + countdownText.textContent + " " + getNextMondayString() + "*";
-}
-
-function getNextMondayString() {
-	const currentDate = new Date();
-	const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) through 6 (Saturday)
-	const daysUntilNextMonday =
-		currentDayOfWeek === 1 ? 7 : (8 - currentDayOfWeek) % 7; // Calculate days until next Monday
-	const nextMonday = new Date(currentDate);
-	nextMonday.setDate(nextMonday.getDate() + daysUntilNextMonday); // Set to next Monday
-
-	// Format the date as "MMM DD"
-	const options = { month: "short", day: "2-digit" };
-	const formattedDate = nextMonday.toLocaleDateString("en-US", options);
-	return formattedDate;
 }
 
 function showNextGameCountdownUI() {
