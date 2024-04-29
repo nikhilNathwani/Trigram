@@ -6,36 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*       LOCAL STORAGE I/O              */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-//
-
-//Returns null if gameData doesn't exist
-function loadGameState() {
-	const gameID = getGameID();
-	//Case 1: New Game
-	if (!localStorage.getItem(gameID)) {
-		return null;
-	}
-	//Case 2: Resume Game
-	return JSON.parse(localStorage.getItem(gameID));
-}
-
-function saveGameState(gameState) {
-	//Save latest state to local storage
-	const gameID = getGameID();
-	localStorage.setItem(
-		gameID,
-		JSON.stringify({
-			trigram: gameState.trigram,
-			wordsProvided: gameState.lettersProvided,
-		})
-	);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*        STATS UI                      */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
@@ -106,41 +76,6 @@ function updateStatsUI(latestWord) {
 	setHistogramUI();
 }
 
-function loadStats() {
-	pastGames = []; //excludes current game
-	const keys = Object.keys(localStorage)
-		.map((key) => parseInt(key, 10)) //convert keys from strings to ints
-		.sort((a, b) => a - b); //sort ints in ascending order
-	for (const key of keys) {
-		const value = JSON.parse(localStorage.getItem(key));
-		pastGames.push({
-			gameID: key,
-			trigram: value.trigram,
-			longestWord:
-				value.wordsProvided[value.wordsProvided.length - 1].length,
-		});
-	}
-	//Calculate stats
-	STATS.numGamesPlayed = pastGames.length;
-	STATS.numGamesWon = calcNumGamesWon(pastGames);
-	STATS.currentStreak = calcCurrentStreak(pastGames);
-	STATS.maxStreak = calcMaxStreak(pastGames);
-	STATS.longestWordLength = calcLongestWord(pastGames);
-	for (let index = 0; index < pastGames.length; index++) {
-		const currLongestWord = pastGames[index].longestWord;
-		STATS.longestWordCounts[currLongestWord] =
-			(STATS.longestWordCounts[currLongestWord] || 0) + 1;
-	}
-}
-
-function showNextGameCountdownUI() {
-	const countdownText = document.getElementById("nextGameCountdown");
-	countdownText.textContent =
-		"*" + countdownText.textContent + " " + getNextMondayString() + "*";
-
-	const countdownDiv = document.getElementById("nextGameCountdownDiv");
-	countdownDiv.style.display = "block";
-}
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -369,3 +304,39 @@ function setHistogramUI() {
 //////////////////////////////////////////////////////
 // HELPER FUNCTIONS --------------------------------//
 //////////////////////////////////////////////////////
+
+function loadStats() {
+	pastGames = []; //excludes current game
+	const keys = Object.keys(localStorage)
+		.map((key) => parseInt(key, 10)) //convert keys from strings to ints
+		.sort((a, b) => a - b); //sort ints in ascending order
+	for (const key of keys) {
+		const value = JSON.parse(localStorage.getItem(key));
+		pastGames.push({
+			gameID: key,
+			trigram: value.trigram,
+			longestWord:
+				value.wordsProvided[value.wordsProvided.length - 1].length,
+		});
+	}
+	//Calculate stats
+	STATS.numGamesPlayed = pastGames.length;
+	STATS.numGamesWon = calcNumGamesWon(pastGames);
+	STATS.currentStreak = calcCurrentStreak(pastGames);
+	STATS.maxStreak = calcMaxStreak(pastGames);
+	STATS.longestWordLength = calcLongestWord(pastGames);
+	for (let index = 0; index < pastGames.length; index++) {
+		const currLongestWord = pastGames[index].longestWord;
+		STATS.longestWordCounts[currLongestWord] =
+			(STATS.longestWordCounts[currLongestWord] || 0) + 1;
+	}
+}
+
+function showNextGameCountdownUI() {
+	const countdownText = document.getElementById("nextGameCountdown");
+	countdownText.textContent =
+		"*" + countdownText.textContent + " " + getNextMondayString() + "*";
+
+	const countdownDiv = document.getElementById("nextGameCountdownDiv");
+	countdownDiv.style.display = "block";
+}
