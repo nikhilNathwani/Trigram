@@ -1,9 +1,11 @@
 # Ignore design drafts
-/style/colorSchemes.txt
-/style/design.pptx
+/view/mockups
 
 # Ignore Insta post content
 /social
+
+# Ignore vscode files
+/.vscode
 
 # Ignore .DS_Store
 .DS_Store
