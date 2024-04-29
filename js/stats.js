@@ -386,29 +386,3 @@ function setHistogramUI() {
 //////////////////////////////////////////////////////
 // HELPER FUNCTIONS --------------------------------//
 //////////////////////////////////////////////////////
-function getGameID() {
-	if (DEBUG.forceFakePastStats) {
-		return fakeCurrentGameID;
-	}
-
-	const gameStartDate = new Date("2024-04-15"); // Start date of the game
-
-	// Time since gameStartDate in milliseconds
-	const currentDate = new Date();
-	const timeZoneOffset = currentDate.getTimezoneOffset() * 60 * 1000;
-	const timeDifference =
-		currentDate.getTime() - timeZoneOffset - gameStartDate.getTime();
-
-	// Convert milliseconds to weeks
-	const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000; // Milliseconds in a week
-	var weeksDifference = Math.floor(timeDifference / millisecondsInWeek);
-
-	// console.log(weeksDifference);
-	return weeksDifference;
-}
-
-function getGameIDString() {
-	var numStr = (getGameID() + 1).toString();
-	numStr = numStr.length > 3 ? numStr : numStr.padStart(3, "0");
-	return numStr;
-}
