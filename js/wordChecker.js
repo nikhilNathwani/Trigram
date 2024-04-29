@@ -1,3 +1,5 @@
+let wordList = null;
+
 //
 function loadWordList(trigram) {
 	return new Promise((resolve, reject) => {
