@@ -52,10 +52,6 @@ function existsInWordList(word, currWordLength) {
 	return false;
 }
 
-function isLongestPossibleWord(word) {
-	return false;
-}
-
 function lookupErrorString(errorCode) {
 	switch (errorCode) {
 		case "WRONG-LENGTH":
