@@ -235,7 +235,7 @@ function setTrigramHeader(trigram) {
 	const trigramHeaderTitle = document.querySelector(
 		".header-title#trigram-number"
 	);
-	trigramHeaderTitle.textContent = "Trigram #" + gameIDToString();
+	trigramHeaderTitle.textContent = "Trigram #" + getGameIDString();
 	const trigramElement = document.querySelector(".header-element #trigram");
 	trigramElement.innerHTML = trigram
 		.split("")
@@ -246,10 +246,4 @@ function setTrigramHeader(trigram) {
 function disableKeyboardUI() {
 	const keyboard = document.getElementById("keyboard");
 	keyboard.classList.add("disabled");
-}
-
-function gameIDToString() {
-	var numStr = (getGameID() + 1).toString();
-	numStr = numStr.length > 3 ? numStr : numStr.padStart(3, "0");
-	return numStr;
 }
