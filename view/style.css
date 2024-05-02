@@ -1044,7 +1044,7 @@ button#viewStatsButton {
 	color: white;
 }
 
-#noLandscapeMessage:nth-child(2) {
+#noLandscapeMessage:last-child {
 	font-weight: bold;
 }
 
