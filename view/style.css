@@ -1022,6 +1022,34 @@ button#viewStatsButton {
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                NO LANDSCAPE SCREEN                       */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#noLandscapeScreen {
+	display: none;
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	background-color: black;
+}
+
+#noLandscapeMessage {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
+	color: white;
+}
+
+#noLandscapeMessage:nth-child(2) {
+	font-weight: bold;
+}
+
+@media screen and (orientation: landscape) {
+	#noLandscapeScreen {
+		display: block;
+	}
+}
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                ANIMATIONS                                */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
