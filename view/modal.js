@@ -214,9 +214,11 @@ window.addEventListener("resize", function () {
 });
 
 // Initial check on page load
-if (isLandscape()) {
-	document.getElementById("noLandscapeScreen").style.display = "block";
-}
+window.addEventListener("load", function () {
+	if (isMobileDevice() && isLandscape()) {
+		document.getElementById("noLandscapeScreen").style.display = "block";
+	}
+});
 
 //////////////////////////////////////////////////////
 // HELPER FUNCTIONS --------------------------------//
