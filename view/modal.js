@@ -192,10 +192,11 @@ function hideYouWinScreen() {
 /*          ROTATE SCREEN          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+let isMobile = false;
 
 // Check if the device is a mobile device
-function isMobileDevice() {
-	return /Mobi|Android/i.test(navigator.userAgent);
+function checkIsMobileDevice() {
+	isMobile = /Mobi|Android/i.test(navigator.userAgent);
 }
 
 // Check if the device is in landscape mode
@@ -203,20 +204,23 @@ function isLandscape() {
 	return window.innerHeight < window.innerWidth;
 }
 
-// Check orientation when the window is resized,
-// and show noLandscape screen accordingly
-window.addEventListener("resize", function () {
-	if (isMobileDevice() && isLandscape()) {
-		document.getElementById("noLandscapeScreen").style.display = "block";
-	} else {
-		document.getElementById("noLandscapeScreen").style.display = "none";
+// Initial check for landscape mode on page load
+window.addEventListener("load", function () {
+	checkIsMobileDevice();
+	if (isMobile && isLandscape()) {
+		showScreen("noLandscape");
 	}
 });
 
-// Initial check on page load
-window.addEventListener("load", function () {
-	if (isMobileDevice() && isLandscape()) {
-		document.getElementById("noLandscapeScreen").style.display = "block";
+// Check orientation when the window is resized,
+// and show noLandscape screen accordingly
+window.addEventListener("resize", function () {
+	if (isMobile) {
+		if (isLandscape()) {
+			showScreen("noLandscape");
+		} else {
+			hideScreen("noLandscape");
+		}
 	}
 });
 
