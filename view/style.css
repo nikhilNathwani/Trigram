@@ -1046,8 +1046,9 @@ button#viewStatsButton {
 }
 
 #noLandscapeMessage img {
-	max-width: 50%;
+	max-width: 25%;
 	height: auto;
+	margin-bottom: 1.5rem;
 }
 
 #noLandscapeMessage p:last-child {
