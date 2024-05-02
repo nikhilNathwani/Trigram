@@ -688,7 +688,7 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #titleScreen {
 	position: fixed;
-	z-index: 4;
+	z-index: 5;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -1026,6 +1026,7 @@ button#viewStatsButton {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #noLandscapeScreen {
 	display: none;
+	z-index: 4;
 	width: 100vw;
 	height: 100vh;
 	height: 100dvh;
