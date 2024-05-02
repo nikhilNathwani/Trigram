@@ -1042,6 +1042,7 @@ button#viewStatsButton {
 	align-items: center;
 	justify-content: center;
 	color: white;
+	font-size: 1.25rem;
 }
 
 #noLandscapeMessage p:last-child {
