@@ -1045,6 +1045,11 @@ button#viewStatsButton {
 	font-size: 1.25rem;
 }
 
+#noLandscapeMessage img {
+	max-width: 100%;
+	height: auto;
+}
+
 #noLandscapeMessage p:last-child {
 	font-weight: bold;
 }
