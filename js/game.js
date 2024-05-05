@@ -20,9 +20,10 @@ startGame();
 //  (2) Start Level
 //  (3) Add Letter
 //  (4) Delete Letter
-//  (5) Handle Valid Guess
-//  (6) Handle Invalid Guess
-//  (7) End Game
+//  (5) Submit Guess
+//  (6) Handle Valid Guess
+//  (7) Handle Invalid Guess
+//  (8) End Game
 //
 //  Events consist of the following steps:
 //      1. Confirm action can be performed
@@ -118,6 +119,29 @@ function deleteLetter() {
 	// n/a
 }
 
+function submitGuess() {
+	// 1. Confirm action can be performed
+	//    n/a
+
+	// 2. Perform the action
+	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
+	var [guessResult, errorReason] = validateWord(
+		word,
+		GAME_STATE.trigram,
+		GAME_STATE.wordLength_current
+	);
+
+	// 3. Inform the UI
+	//    n/a
+
+	// 4. Advance the game
+	if (guessResult) {
+		handleValidGuess(word);
+	} else {
+		handleInvalidGuess(errorReason);
+	}
+}
+
 function handleValidGuess(word) {
 	// 1. Confirm action can be performed
 	// n/a
@@ -141,27 +165,13 @@ function handleInvalidGuess(errorReason) {
 	// n/a
 
 	// 2. Perform the action
-	// tbd
+	// n/a
 
 	// 3. Inform the UI
 	UI_STATE.handleInvalidGuess(errorReason);
 
 	// 4. Advance the game
 	// n/a
-}
-
-function submitGuess() {
-	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
-	var [guessResult, errorReason] = validateWord(
-		word,
-		GAME_STATE.trigram,
-		GAME_STATE.wordLength_current
-	);
-	if (guessResult) {
-		handleValidGuess(word);
-	} else {
-		handleInvalidGuess(errorReason);
-	}
 }
 
 function endGame() {
@@ -177,15 +187,3 @@ function endGame() {
 	// 4. Advance the game
 	//    tbd
 }
-
-// -- APPENDIX -----------------------------------
-/*
-Flow between the different files:
-    (1) interactionHandler: "user wants to add letter"
-    (2) game: "lemme check if they can"
-    (3) game: "ok, user can add letter. I'll update the game state. uiManager, can you update the UI accordingly"
-    (4) uiManager: "ok!"
-    (5) game: "thanks! once you're done, I'll move the game to the next step"
-    (6) uiManager: "ok, I'll let you know... [done now] ok done!"
-    (7) game: "thanks! Now I'm moving the game to the next step"
-*/

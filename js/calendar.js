@@ -6,9 +6,6 @@ const trigrams = [
 	"PLE", //current
 	"MON",
 	"UNI",
-	"ING",
-	"MIS",
-	"RED",
 	"CAT",
 	"CAT",
 	"CAT",
