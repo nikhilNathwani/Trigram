@@ -313,12 +313,19 @@ function loadStats() {
 		.sort((a, b) => a - b); //sort ints in ascending order
 	for (const key of keys) {
 		const value = JSON.parse(localStorage.getItem(key));
-		pastGames.push({
-			gameID: key,
-			trigram: value.trigram,
-			longestWord:
-				value.wordsProvided[value.wordsProvided.length - 1].length,
-		});
+		if (
+			value &&
+			value.trigram &&
+			value.wordsProvided &&
+			Array.isArray(value.wordsProvided)
+		) {
+			pastGames.push({
+				gameID: key,
+				trigram: value.trigram,
+				longestWord:
+					value.wordsProvided[value.wordsProvided.length - 1].length,
+			});
+		}
 	}
 	//Calculate stats
 	STATS.numGamesPlayed = pastGames.length;
