@@ -322,6 +322,7 @@ body {
 }
 
 .header #trigram {
+	width: 7.25rem;
 	height: 3.25rem;
 	padding: 1.625rem 0.5rem;
 	border: 3px solid;
@@ -329,7 +330,7 @@ body {
 
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-around;
 
 	background-color: white;
 	color: var(--color-dark);
@@ -338,10 +339,10 @@ body {
 	font-size: 2em;
 }
 
-.header #trigram span {
+/* .header #trigram span {
 	width: 1.875rem;
 	text-align: center;
-}
+} */
 
 .header-button i {
 	color: var(--color-dark);
@@ -939,13 +940,14 @@ li {
 }
 
 #trigramReveal {
+	width: 14.75rem;
 	padding: 1.5rem 1rem;
 	border: 6px solid;
 	border-radius: 24px;
 
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-around;
 
 	background-color: white;
 
@@ -953,10 +955,10 @@ li {
 	font-weight: bold;
 }
 
-#trigramReveal span {
+/* #trigramReveal span {
 	width: 4rem;
 	text-align: center;
-}
+} */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                YOU WIN OVERLAY                           */
