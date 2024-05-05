@@ -1,6 +1,5 @@
 // UP NEXT:
-// -MAYBE Trigram Reveal Screen animate trigram reveal
-// -MAYBE Make Help Screen trigram & word list consistent with stats
+// -
 
 ///////////////////////////////////////////////////////////////////////////////
 //
