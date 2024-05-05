@@ -308,6 +308,7 @@ function setHistogramUI() {
 function loadStats() {
 	pastGames = []; //excludes current game
 	const keys = Object.keys(localStorage)
+		.filter((key) => /^\d+$/.test(key)) // filter keys that are not integers
 		.map((key) => parseInt(key, 10)) //convert keys from strings to ints
 		.sort((a, b) => a - b); //sort ints in ascending order
 	for (const key of keys) {
