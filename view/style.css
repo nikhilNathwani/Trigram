@@ -72,6 +72,15 @@
 
 	--word-border-width: 2px;
 	--word-padding-inline: 2vw;
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	/*   Layers                */
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	--z-titleScreen: 5; /*Title Screen*/
+	--z-noLandscape: 4; /*Rotate Device CTA*/
+	--z-modalScreen: 3; /*Help or Stats*/
+	--z-overlay: 2; /*Trigram Reveal or You Win*/
+	--z-messageContainer: 1; /*Round Title or Error Alert*/
 }
 
 /* Desktop style adjustments */
@@ -370,7 +379,7 @@ body {
 	font-size: var(--message-fs);
 	font-weight: bold;
 
-	z-index: 2;
+	z-index: var(--z-messageContainer);
 }
 
 #message {
@@ -634,7 +643,7 @@ body {
 .modal-screen {
 	display: none;
 	position: fixed;
-	z-index: 3;
+	z-index: var(--z-modalScreen);
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -689,7 +698,7 @@ body {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #titleScreen {
 	position: fixed;
-	z-index: 5;
+	z-index: var(--z-titleScreen);
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -891,7 +900,7 @@ li {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 .overlay {
 	position: fixed;
-	z-index: 1;
+	z-index: var(--z-overlay);
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -1028,7 +1037,7 @@ button#viewStatsButton {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #noLandscapeScreen {
 	display: none;
-	z-index: 4;
+	z-index: var(--z-noLandscape);
 	width: 100%;
 	height: 100%;
 	background-color: black;
