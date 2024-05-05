@@ -4,8 +4,8 @@ const trigrams = [
 	"IST",
 	"REA",
 	"PLE", //current
+	"MON",
 	"UNI",
-	"CAT",
 	"ING",
 	"MIS",
 	"RED",
