@@ -53,15 +53,21 @@ const deleteButton = document.getElementById("backspaceKey");
 let deleteTimeout;
 
 // Event listener for mouse down and touch start on delete button
-// deleteButton.addEventListener("mousedown", handleDeleteStart);
-deleteButton.addEventListener("touchstart", handleDeleteStart);
+deleteButton.addEventListener("mousedown", function (event) {
+	event.preventDefault(); // Prevent default button behavior
+	handleDeleteStart();
+});
+deleteButton.addEventListener("touchstart", function (event) {
+	event.preventDefault(); // Prevent default button behavior
+	handleDeleteStart();
+});
 
 // Event listener for mouse up and touch end on delete button
-// deleteButton.addEventListener("mouseup", handleDeleteEnd);
+deleteButton.addEventListener("mouseup", handleDeleteEnd);
 deleteButton.addEventListener("touchend", handleDeleteEnd);
 
 // Event listener for mouse leave and touch cancel on delete button (in case user moves cursor/finger away while holding)
-// deleteButton.addEventListener("mouseleave", handleDeleteEnd);
+deleteButton.addEventListener("mouseleave", handleDeleteEnd);
 deleteButton.addEventListener("touchcancel", handleDeleteEnd);
 
 // Function to handle delete button press (start deletion)
