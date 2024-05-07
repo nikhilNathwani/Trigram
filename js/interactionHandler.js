@@ -54,15 +54,15 @@ let deleteTimeout;
 
 // Event listener for mouse down and touch start on delete button
 deleteButton.addEventListener("mousedown", handleDeleteStart);
-deleteButton.addEventListener("touchstart", handleDeleteStart);
+// deleteButton.addEventListener("touchstart", handleDeleteStart);
 
 // Event listener for mouse up and touch end on delete button
 deleteButton.addEventListener("mouseup", handleDeleteEnd);
-deleteButton.addEventListener("touchend", handleDeleteEnd);
+// deleteButton.addEventListener("touchend", handleDeleteEnd);
 
 // Event listener for mouse leave and touch cancel on delete button (in case user moves cursor/finger away while holding)
 deleteButton.addEventListener("mouseleave", handleDeleteEnd);
-deleteButton.addEventListener("touchcancel", handleDeleteEnd);
+// deleteButton.addEventListener("touchcancel", handleDeleteEnd);
 
 // Function to handle delete button press (start deletion)
 function handleDeleteStart() {
