@@ -5,10 +5,10 @@ const trigrams = [
 	"REA",
 	"PLE",
 	"MON",
-	"UNI", //current
-	"ENT",
-	"CAT",
-	"CAT",
+	"UNI",
+	"ENT", //current
+	"ALL",
+	"AND",
 	"CAT",
 	"CAT",
 	"CAT",
