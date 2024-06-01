@@ -6,11 +6,11 @@ const trigrams = [
 	"PLE",
 	"MON",
 	"UNI",
-	"ENT", //current
-	"ALL",
+	"ENT",
+	"ALL", //current
+	"EVI",
+	"CAT",
 	"AND",
-	"CAT",
-	"CAT",
 	"CAT",
 	"CAT",
 	"CAT",
