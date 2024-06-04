@@ -7,8 +7,8 @@ const trigrams = [
 	"MON",
 	"UNI",
 	"ENT",
-	"ALL", //current
-	"EVI",
+	"ALL",
+	"EVI", //current
 	"CAT",
 	"AND",
 	"CAT",
