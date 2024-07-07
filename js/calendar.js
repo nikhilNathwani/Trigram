@@ -12,8 +12,8 @@ const trigrams = [
 	"TOU",
 	"AND",
 	"NER",
-	"OSE", //current
-	"CAT",
+	"OSE",
+	"LAM", //current
 	"CAT",
 	"CAT",
 ];
