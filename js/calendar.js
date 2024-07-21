@@ -14,8 +14,8 @@ const trigrams = [
 	"NER",
 	"OSE",
 	"LAM",
-	"ISC", //current
-	"CAT",
+	"ISC",
+	"ERE", //current
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
