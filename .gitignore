@@ -4,8 +4,7 @@
 # Ignore Insta post content
 /social
 
-# Ignore vscode files
 /.vscode
-
-# Ignore .DS_Store
 .DS_Store
+/startTrigram.sh
+/Trigram\ Update\ Routine.txt

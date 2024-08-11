@@ -20,9 +20,8 @@ Trigram Update Routine:
 
 
 LINKS
-- Spreadsheet: https://docs.google.com/spreadsheets/d/1dGoCrCKV4KPb9CTcymot01hcmlGYWx5D/edit?gid=2105180696#gid=2105180696
-- Powerpoint: https://docs.google.com/presentation/d/1aBWkWpo-1Q7h3fMU64EZnwQ_tq_sGwfq/edit#slide=id.g2e789a1db20_0_33
-
+- Spreadsheet: https://docs.google.com/spreadsheets/d/1_GHU8MLunmLTphSwR-xF5q89bxt-r4IQ/edit?gid=2105180696#gid=2105180696
+- Powerpoint: https://docs.google.com/presentation/d/1qAtTYh2dhpshTlBgWO3lt4e6n3ah6FBg/edit#slide=id.p1
 
 *If new trigram needs to be found:
 1) Pick an un-triaged trigram (e.g. "ORD") from spreadsheet
