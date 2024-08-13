@@ -776,7 +776,7 @@ button#howToButton {
 	gap: 0.75rem;
 }
 
-#links a {
+#titleScreen a {
 	color: var(--color-dark);
 }
 
