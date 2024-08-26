@@ -914,7 +914,7 @@ li {
 
 .overlayContent {
 	width: var(--frame-width);
-	height: calc(100% - var(--keyboard-height));
+	height: calc(var(--header-height) + var(--game-height) + 2*var(--game-margin-block));
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -935,7 +935,6 @@ li {
 }
 
 #trigramRevealScreenContent {
-	height: calc(var(--header-height) + var(--game-height) + 2*var(--game-margin-block));
 	background-color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
 }
 
