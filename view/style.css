@@ -926,7 +926,6 @@ li {
 /*                TODAY'S TRIGRAM IS...                     */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #trigramRevealScreen {
-	height: calc(var(--header-height) + var(--game-height) + 2*var(--game-margin-block));
 	background-color: hsla(var(--c1-hue), var(--c1-sat), var(--c1-med), 0.7);
 	color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
 }
@@ -936,6 +935,7 @@ li {
 }
 
 #trigramRevealScreenContent {
+		height: calc(var(--header-height) + var(--game-height) + 2*var(--game-margin-block));
 	background-color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
 }
 
