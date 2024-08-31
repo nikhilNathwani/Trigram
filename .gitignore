@@ -1,0 +1,10 @@
+# Ignore design drafts
+/view/mockups
+
+# Ignore Insta post content
+/social
+
+/.vscode
+.DS_Store
+/startTrigram.sh
+/Trigram\ Update\ Routine.txt
