@@ -26,8 +26,8 @@ const trigrams = [
 	"INF",
 	"CED",
 	"TRA",
-	"ATO", //current
-	"EMP",
+	"ATO",
+	"EMP", //current
 	"ION",
 ];
 
