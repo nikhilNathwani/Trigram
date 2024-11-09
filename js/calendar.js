@@ -30,7 +30,8 @@ const trigrams = [
 	"EMP",
 	"ION",
 	"CRU",
-	"FEA", //current
+	"FEA",
+	"EXT", //current
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
