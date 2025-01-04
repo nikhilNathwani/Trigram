@@ -38,7 +38,8 @@ const trigrams = [
 	"SEN",
 	"ROA",
 	"TAM",
-	"CUS", //current
+	"CUS",
+	"NCH", //current
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
