@@ -45,7 +45,8 @@ const trigrams = [
 	"BRO",
 	"KIN",
 	"OUS",
-	"SPE", //current
+	"SPE",
+	"DLY", //current
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
