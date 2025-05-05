@@ -55,7 +55,8 @@ const trigrams = [
 	"BIL",
 	"GUL",
 	"CEN",
-	"WOR", //current
+	"WOR",
+	"NAP", //current
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
