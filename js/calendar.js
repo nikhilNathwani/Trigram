@@ -66,7 +66,8 @@ const trigrams = [
 	"ITE",
 	"KNO",
 	"SUR",
-	"DAT", //current
+	"DAT",
+	"PEC", //current
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
