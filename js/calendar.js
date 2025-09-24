@@ -76,7 +76,8 @@ const trigrams = [
 	"EER",
 	"GON",
 	"LAU",
-	"DIV", //current
+	"DIV",
+	"UBS", //current
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
