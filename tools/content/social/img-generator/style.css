@@ -1,0 +1,72 @@
+:root {
+	--clr-bg: hsl(182, 16%, 65%);
+	--clr-border: hsl(186, 15%, 27%);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Calibri", Arial, sans-serif;
+	width: 1080px;
+	height: 1080px;
+	margin: 0;
+
+	display: grid;
+	grid-template-rows: 1fr 360px 1fr;
+	justify-items: center;
+	align-items: center;
+
+	background: var(--clr-bg);
+	color: var(--clr-border);
+}
+
+.game-number {
+	font-size: 52px;
+	font-weight: bold;
+
+	height: 100%;
+	margin-bottom: 120px;
+	/* border: 2px solid red; */
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-end;
+}
+
+.trigram {
+	width: 740px;
+	height: 370px;
+	padding-block: 24px;
+	padding-inline: 36px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: white;
+	border: 18px solid var(--clr-border);
+	border-radius: 48px;
+
+	text-transform: uppercase;
+	font-size: 220px;
+	white-space: nowrap; /* keep in single line */
+	overflow: hidden; /* clip if it overflows */
+	text-align: center;
+}
+
+.date {
+	font-size: 52px;
+
+	height: 100%;
+	margin-bottom: 172px;
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-end;
+}
