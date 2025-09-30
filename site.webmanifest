@@ -1,19 +1,38 @@
 {
-	"name": "",
-	"short_name": "",
+	"name": "Trigram - a weekly word game",
+	"short_name": "Trigram",
+	"description": "A weekly word game. Make words containing a 3-letter sequence.",
+	"start_url": "/",
+	"scope": "/",
+	"display": "standalone",
+	"orientation": "portrait-primary",
+	"theme_color": "#ffffff",
+	"background_color": "#ffffff",
 	"icons": [
 		{
-			"src": "/view/icons/android-chrome-192x192.png",
+			"src": "/app/assets/icons/android-chrome-192x192.png",
 			"sizes": "192x192",
 			"type": "image/png"
 		},
 		{
-			"src": "/view/icons/android-chrome-512x512.png",
+			"src": "/app/assets/icons/android-chrome-512x512.png",
 			"sizes": "512x512",
 			"type": "image/png"
+		},
+		{
+			"src": "/app/assets/icons/apple-touch-icon.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		},
+		{
+			"src": "/app/assets/icons/favicon-32x32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "/app/assets/icons/favicon-16x16.png",
+			"sizes": "16x16",
+			"type": "image/png"
 		}
-	],
-	"theme_color": "#ffffff",
-	"background_color": "#ffffff",
-	"display": "standalone"
+	]
 }

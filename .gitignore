@@ -1,10 +1,18 @@
 # Ignore design drafts
-/view/mockups
+app/styles/mockups/
 
-# Ignore Insta post content
-/Trigram\ Social
+# Ignore social media content (large image files)
+tools/content/social/img-generator/img/
+tools/content/social/img-generator/*.png
 
-/.vscode
+# Ignore IDE and system files
+.vscode/
 .DS_Store
-/startTrigram.sh
-/Trigram\ Update\ Routine.txt
+
+# Ignore large dictionary files that change infrequently
+data/dictionaries/sowpods*.txt
+data/dictionaries/all_trigrams*.txt
+
+# Ignore setup scripts
+startTrigram.sh
+Trigram\ Update\ Routine.txt
