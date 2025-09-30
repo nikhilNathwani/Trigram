@@ -9,9 +9,8 @@ tools/content/social/img-generator/*.png
 .vscode/
 .DS_Store
 
-# Ignore large dictionary files that change infrequently
-data/dictionaries/sowpods*.txt
-data/dictionaries/all_trigrams*.txt
+# Ignore entire dictionaries folder (large source files)
+data/dictionaries/
 
 # Ignore setup scripts
 startTrigram.sh
