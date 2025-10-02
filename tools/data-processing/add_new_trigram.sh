@@ -50,14 +50,22 @@ echo "=================================================="
 # STEP 1: Generate Trigram Dictionary   #
 #                                       #
 #########################################
-echo -e "${YELLOW}📝 Generating word dictionary for trigram: ${TRIGRAM_UPPER}${NC}"
-cd generate-trigrams
-python make_trigram_dict_json.py "$TRIGRAM"
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ Failed to generate trigram dictionary${NC}"
-    exit 1
+JSON_FILE="../data/game-data/${TRIGRAM_LOWER}_words.json"
+if [ -f "$JSON_FILE" ]; then
+    echo -e "${YELLOW}📝 Dictionary already exists: ${TRIGRAM_UPPER}${NC}"
+else
+    echo -e "${YELLOW}📝 Generating word dictionary for trigram: ${TRIGRAM_UPPER}${NC}"
+    cd generate-trigrams
+    python3 make_trigram_dict_json.py "$TRIGRAM"
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}❌ Failed to generate trigram dictionary${NC}"
+        exit 1
+    fi
+    cd ..
 fi
-cd ..
+
+# Ensure we're back in data-processing directory
+cd "$(dirname "$0")"
 
 #########################################
 #                                       #
@@ -65,7 +73,7 @@ cd ..
 #                                       #
 #########################################
 echo -e "${YELLOW}📅 Updating calendar.js with trigram: ${TRIGRAM_UPPER}${NC}"
-python update_calendar_trigrams.py "$TRIGRAM"
+python3 update_calendar_trigrams.py "$TRIGRAM"
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}❌ Failed to update calendar.js${NC}"
@@ -77,14 +85,20 @@ fi
 # STEP 3: Generate Announcement Image   #
 #                                       #
 #########################################
-echo -e "${YELLOW}🖼️  Generating announcement image for trigram: ${TRIGRAM_UPPER}${NC}"
 cd ../content/social/img-generator
-python generate_image.py "$TRIGRAM"
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ Failed to generate announcement image${NC}"
-    exit 1
+IMAGE_FILE="img/trigram_announce_$(python3 -c "import sys; sys.path.append('../../../utils'); from calendar_utils import get_game_number_for_trigram; print(get_game_number_for_trigram('$TRIGRAM_UPPER', '../../../../app/js/calendar.js'))").png"
+if [ -f "$IMAGE_FILE" ]; then
+    echo -e "${YELLOW}🖼️  Image already exists: ${TRIGRAM_UPPER}${NC}"
+else
+    echo -e "${YELLOW}🖼️  Generating announcement image for trigram: ${TRIGRAM_UPPER}${NC}"
+    python3 generate_image.py "$TRIGRAM"
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}❌ Failed to generate announcement image${NC}"
+        exit 1
+    fi
 fi
-cd ../../data-processing
+
+cd ../../../data-processing
 
 #########################################
 #                                       #
@@ -97,17 +111,17 @@ echo -e "${YELLOW}🚀 Committing and pushing changes for trigram: ${TRIGRAM_UPP
 cd ../..
 
 # Calculate game number for the image filename using shared utility
-GAME_NUMBER=$(python -c "
+GAME_NUMBER=$(python3 -c "
 import sys
-sys.path.append('../utils')
+sys.path.append('tools/utils')
 from calendar_utils import get_game_number_for_trigram
-print(get_game_number_for_trigram('$TRIGRAM_UPPER', '../../app/js/calendar.js'))
+print(get_game_number_for_trigram('$TRIGRAM_UPPER', 'app/js/calendar.js'))
 ")
 
 # Check if files exist
 JSON_FILE="data/game-data/${TRIGRAM_LOWER}_words.json"
 CALENDAR_FILE="app/js/calendar.js"
-IMAGE_FILE="tools/content/social/img-generator/trigram_announce_${GAME_NUMBER}.png"
+IMAGE_FILE="tools/content/social/img-generator/img/trigram_announce_${GAME_NUMBER}.png"
 
 if [ ! -f "$JSON_FILE" ]; then
     echo -e "${RED}❌ Error: $JSON_FILE not found${NC}"
@@ -119,23 +133,35 @@ if [ ! -f "$CALENDAR_FILE" ]; then
     exit 1
 fi
 
-if [ ! -f "$IMAGE_FILE" ]; then
-    echo -e "${RED}❌ Error: $IMAGE_FILE not found${NC}"
+# Note: Image file is generated but not added to git (excluded by .gitignore)
+
+# Git add the files (skip image since it's in .gitignore)
+echo -e "${BLUE}📁 Adding files: $JSON_FILE, $CALENDAR_FILE${NC}"
+git add "$JSON_FILE" "$CALENDAR_FILE"
+
+if [ $? -ne 0 ]; then
+    echo -e "${RED}❌ Failed to add files to git${NC}"
     exit 1
 fi
 
-# Git add the files
-echo -e "${BLUE}📁 Adding files: $JSON_FILE, $CALENDAR_FILE, $IMAGE_FILE${NC}"
-git add "$JSON_FILE" "$CALENDAR_FILE" "$IMAGE_FILE"
-
 # Git commit
-COMMIT_MSG="Add trigram ${TRIGRAM_UPPER}: generated word list, updated calendar, and created announcement image"
+COMMIT_MSG="Add trigram ${TRIGRAM_UPPER}: generated word list and updated calendar"
 echo -e "${BLUE}💾 Committing: $COMMIT_MSG${NC}"
 git commit -m "$COMMIT_MSG"
+
+if [ $? -ne 0 ]; then
+    echo -e "${RED}❌ Failed to commit changes${NC}"
+    exit 1
+fi
 
 # Git push
 echo -e "${BLUE}🌐 Pushing to remote repository...${NC}"
 git push
+
+if [ $? -ne 0 ]; then
+    echo -e "${RED}❌ Failed to push to remote repository${NC}"
+    exit 1
+fi
 
 echo "=================================================="
 echo -e "${GREEN}🎉 SUCCESS! Trigram ${TRIGRAM_UPPER} has been fully added and deployed!${NC}"
