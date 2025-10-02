@@ -1,8 +1,11 @@
 import os
 import sys
-from datetime import datetime
 from html2image import Html2Image
 import platform
+
+# Add utils to path for importing shared modules
+sys.path.append('../../../utils')
+from calendar_utils import get_game_number_for_trigram, get_formatted_game_date
 
 def getGameNumberString(game_number):
     numStr = str(game_number)
@@ -107,14 +110,15 @@ def load_template():
     return html
 
 def make_trigram_image(trigram, game_number=1, output_file=None):
-    today = datetime.today().strftime("%B %d, %Y")
+    # Calculate the date based on game number and start date
+    formatted_date = get_formatted_game_date(game_number)
 
     # Load HTML template
     html = load_template()
 
     # Replace game number and date placeholders
     html = html.replace("{{GAME_NUMBER}}", f"Trigram #{getGameNumberString(game_number)}")
-    html = html.replace("{{DATE}}", f"Week of {today}")
+    html = html.replace("{{DATE}}", f"Week of {formatted_date}")
 
     # Calculate font-size for the trigram
     font_size_px = calculate_font_size(trigram, container_width=740, container_height=370)
@@ -151,9 +155,18 @@ def make_trigram_image(trigram, game_number=1, output_file=None):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python generate_image.py <trigram> [game_number]")
+        print("  If game_number is not provided, it will be calculated from calendar.js")
         sys.exit(1)
 
     trigram = sys.argv[1]
-    game_number = int(sys.argv[2]) if len(sys.argv) >= 3 else 1
+    
+    if len(sys.argv) >= 3:
+        # Manual game number provided
+        game_number = int(sys.argv[2])
+    else:
+        # Auto-calculate game number from calendar.js
+        # Pass the correct relative path from img-generator to calendar.js
+        game_number = get_game_number_for_trigram(trigram, "../../../../app/js/calendar.js")
+        print(f"📊 Calculated game number {game_number} for trigram {trigram.upper()}")
 
     make_trigram_image(trigram, game_number)
