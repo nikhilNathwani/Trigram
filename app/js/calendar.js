@@ -78,6 +78,7 @@ const trigram_calendar = [
 	"LAU",
 	"DIV",
 	"UBS", //current
+	"WEA",
 ];
 
 // Returns 0-indexed game ID (to index into trigram list)
