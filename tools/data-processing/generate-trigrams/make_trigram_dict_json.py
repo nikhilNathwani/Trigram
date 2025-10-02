@@ -27,6 +27,9 @@ def getWordsWithTrigramByLength(trigram):
    
 if len(sys.argv) > 1:
     input_trigram = sys.argv[1]
+    print(f"Generating word dictionary for trigram: {input_trigram.upper()}")
     getWordsWithTrigramByLength(input_trigram)
+    print(f"✅ Created {input_trigram.lower()}_words.json")
 else:
     print("No command-line argument provided.")
+    print("Usage: python make_trigram_dict_json.py <TRIGRAM>")

@@ -37,7 +37,7 @@ function startGame() {
 
 	// 2. Perform the action
 	//    a) Get trigram and load word list
-	GAME_STATE.trigram = trigrams[getGameID()];
+	GAME_STATE.trigram = trigram_calendar[getGameID()];
 	loadWordList(GAME_STATE.trigram);
 
 	//    b) Load game state (or initialize to empty state)

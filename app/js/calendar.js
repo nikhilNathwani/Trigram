@@ -1,6 +1,6 @@
 // Trigrams in the order they'll be used in games
-// -use gameID to index into this array for current trigram
-const trigrams = [
+// Each trigram corresponds to one week of gameplay
+const trigram_calendar = [
 	"IST",
 	"REA",
 	"PLE",
