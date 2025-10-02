@@ -9,6 +9,11 @@ tools/content/social/img-generator/*.png
 .vscode/
 .DS_Store
 
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
 # Ignore entire dictionaries folder (large source files)
 data/dictionaries/
 
