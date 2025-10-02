@@ -77,7 +77,7 @@ const trigram_calendar = [
 	"GON",
 	"LAU",
 	"DIV",
-	"UBS", //current
+	"UBS",
 	"WEA",
 ];
 
