@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../utils')
 from read_word_list import read_word_list
-CORPUS_FILE_ROOT = "../../data/dictionaries/sowpods_"
+CORPUS_FILE_ROOT = "../../data/corpus/sowpods_"
 CORPUS_FILE_SUFFIX= ".txt"
 
 #output all trigrams that appear in words of length 4 through 15
