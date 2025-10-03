@@ -157,7 +157,7 @@ def add_trigram_to_calendar(new_trigram, calendar_path=None):
     # Check if trigram already exists
     if f'"{new_trigram.upper()}"' in content:
         print(f"⚠️  Trigram {new_trigram.upper()} already exists in calendar.js")
-        return False
+        return True  # Return True since the trigram is in the calendar (goal achieved)
     
     # Add new trigram before the closing bracket
     new_trigram_line = f'\t"{new_trigram.upper()}",\n'

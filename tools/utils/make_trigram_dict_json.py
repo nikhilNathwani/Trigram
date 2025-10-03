@@ -1,10 +1,10 @@
 import sys
 import json
-sys.path.append('../../utils')
+sys.path.append('.')
 from read_word_list import read_word_list
-CORPUS_FILE_ROOT = "../../../data/dictionaries/sowpods_"
+CORPUS_FILE_ROOT = "../../data/corpus/sowpods_"
 CORPUS_FILE_SUFFIX= ".txt"
-OUTPUT_FILE_ROOT= "../../../data/game-data/"
+OUTPUT_FILE_ROOT= "../../data/trigram-word-lists/"
 OUTPUT_FILE_SUFFIX= "_words.json"
 
 #output all trigrams that appear in words of length 4 through 15

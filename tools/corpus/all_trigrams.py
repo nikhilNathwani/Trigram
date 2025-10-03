@@ -1,8 +1,8 @@
 import sys
-sys.path.append('../../utils')
+sys.path.append('../utils')
 from read_word_list import read_word_list
-CORPUS_FILE_PATH = "../../../data/dictionaries/sowpods.txt"
-OUTPUT_FILE_PATH = "../../../data/dictionaries/all_trigrams.txt"
+CORPUS_FILE_PATH = "../../data/corpus/sowpods.txt"
+OUTPUT_FILE_PATH = "../../data/corpus/all_trigrams.txt"
 
 def getAllTrigrams():
     trigram_set= set()

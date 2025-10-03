@@ -3,7 +3,9 @@ let wordList = null;
 //
 function loadWordList(trigram) {
 	return new Promise((resolve, reject) => {
-		fetch("data/game-data/" + trigram.toLowerCase() + "_words.json")
+		fetch(
+			"data/trigram-word-lists/" + trigram.toLowerCase() + "_words.json"
+		)
 			.then((response) => response.json())
 			.then((data) => {
 				wordList = data;

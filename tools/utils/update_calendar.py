@@ -2,11 +2,11 @@
 """
 Script to update the trigrams list in calendar.js
 
-Usage: python update_calendar_trigrams.py <TRIGRAM>
+Usage: python update_calendar.py <TRIGRAM>
 """
 
 import sys
-sys.path.append('../utils')
+sys.path.append('.')
 from calendar_utils import add_trigram_to_calendar
 
 CALENDAR_JS_PATH = "../../app/js/calendar.js"

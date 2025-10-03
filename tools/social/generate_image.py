@@ -4,7 +4,7 @@ from html2image import Html2Image
 import platform
 
 # Add utils to path for importing shared modules
-sys.path.append('../../../utils')
+sys.path.append('../utils')
 from calendar_utils import get_game_number_for_trigram, get_formatted_game_date
 
 def getGameNumberString(game_number):
@@ -134,23 +134,35 @@ def make_trigram_image(trigram, game_number=1, output_file=None):
 
     # Default output filename
     if output_file is None:
-        output_file = f"trigram_announce_{game_number}.png"
+        filename = f"trigram_announce_{game_number}.png"
+        output_dir = "../../app/assets/social"
+    else:
+        if "/" in output_file:
+            output_dir = os.path.dirname(output_file)
+            filename = os.path.basename(output_file)
+        else:
+            output_dir = "."
+            filename = output_file
+
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
 
     # Render to PNG
-    hti = Html2Image()
+    hti = Html2Image(output_path=output_dir)
     hti.screenshot(
         html_str=html,
-        save_as=output_file,
+        save_as=filename,
         size=(1080, 1080)  # Force square output
     )
 
     # Open the image automatically
+    full_output_path = os.path.join(output_dir, filename)
     if platform.system() == "Darwin":       # macOS
-        os.system(f"open {output_file}")
+        os.system(f"open {full_output_path}")
     elif platform.system() == "Windows":    # Windows
-        os.startfile(output_file)
+        os.startfile(full_output_path)
     else:                                   # Linux
-        os.system(f"xdg-open {output_file}")
+        os.system(f"xdg-open {full_output_path}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
