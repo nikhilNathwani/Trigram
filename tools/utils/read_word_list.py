@@ -1,5 +1,5 @@
-CORPUS_FILE_PATH = "../../data/dictionaries/sowpods.txt"
-FREQUENCY_FILE_PATH = "../../data/dictionaries/word_frequency.txt"
+CORPUS_FILE_PATH = "../../data/corpus/sowpods.txt"
+FREQUENCY_FILE_PATH = "../../data/corpus/word_frequency.txt"
 
 def read_word_list(path):
     try:    

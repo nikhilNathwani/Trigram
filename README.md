@@ -26,40 +26,43 @@ Trigram/
 │       └── images/
 │
 ├── 📊 data/                    # GAME DATA
-│   ├── dictionaries/           # Source word lists and dictionaries
+│   ├── corpus/                 # Source word lists and corpora
 │   │   ├── sowpods.txt         # Main word list
 │   │   ├── sowpods_4.txt       # 4-letter words
 │   │   ├── sowpods_5.txt       # 5-letter words
 │   │   ├── ...                 # Other length-specific word lists
 │   │   ├── word_frequency.txt  # Word frequency data
 │   │   └── all_trigrams*.txt   # All possible trigrams
-│   └── game-data/              # Generated data for each weekly trigram
+│   └── trigram-word-lists/     # Word lists for each trigram
 │       ├── abc_words.json      # Words containing "abc"
 │       ├── xyz_words.json      # Words containing "xyz"
 │       └── ...                 # Other trigram-specific word lists
 │
 └── 🔧 tools/                   # PERIPHERAL TOOLS
+    ├── automation/             # Trigram workflow tools
+    │   ├── get_words.py        # Validate trigram words
+    │   └── add_new_trigram.sh  # Add trigram to game
+    ├── corpus/                 # Build word dictionaries
+    │   ├── all_trigrams.py
+    │   ├── all_trigrams_4_to_15.py
+    │   └── sowpods_by_length.py
+    ├── social/                 # Social media content generation
+    │   ├── generate_image.py
+    │   ├── template.html
+    │   └── style.css
     ├── utils/                  # Shared utilities
-    │   └── read_word_list.py   # Word list reading functions
-    ├── data-processing/        # Data pipeline scripts
-    │   ├── build-corpus/       # Build word dictionaries
-    │   │   ├── all_trigrams.py
-    │   │   ├── sowpods_by_length.py
-    │   │   └── ...
-    │   └── generate-trigrams/  # Generate game data
-    │       ├── make_trigram_dict_json.py
-    │       ├── getWords.py
-    │       └── ...
-    └── content/                # Content generation
-        └── social/             # Social media content
-            └── img-generator/
+    │   ├── calendar_utils.py
+    │   ├── read_word_list.py
+    │   ├── make_trigram_dict_json.py
+    │   └── update_calendar.py
+    └── deprecated/             # Archived files
 ```
 
 ## Data Flow
 
-1. **Build Dictionaries**: `tools/data-processing/build-corpus/` creates word lists in `data/dictionaries/`
-2. **Generate Game Data**: `tools/data-processing/generate-trigrams/` reads from `data/dictionaries/` and outputs JSON files to `data/game-data/`
-3. **Game Uses Data**: `app/` reads from `data/game-data/` to power the game
+1. **Build Corpus**: `tools/corpus/` creates word lists in `data/corpus/`
+2. **Generate Trigram Data**: `tools/utils/` reads from `data/corpus/` and outputs JSON files to `data/trigram-word-lists/`
+3. **Game Uses Data**: `app/` reads from `data/trigram-word-lists/` to power the game
 
 ## Usage
 
@@ -70,16 +73,17 @@ Open `index.html` in a web browser. All game files are in the `app/` folder.
 ### Generating Data for New Trigrams
 
 ```bash
-cd tools/data-processing/generate-trigrams/
-python make_trigram_dict_json.py ABC
+cd tools/automation/
+python get_words.py ABC    # Validate trigram has enough words
+./add_new_trigram.sh ABC   # Add trigram to game (full workflow)
 ```
 
-This creates `data/game-data/abc_words.json` with all words containing "ABC".
+This creates `data/trigram-word-lists/abc_words.json` with all words containing "ABC".
 
 ## Clear File Organization
 
 -   **🎯 `app/`** - Everything for the web game (JS, CSS, assets)
--   **📊 `data/`** - Game data and word dictionaries
+-   **📊 `data/`** - Game data and word corpora
 -   **🔧 `tools/`** - Scripts for data processing and content generation
 
 ## Development

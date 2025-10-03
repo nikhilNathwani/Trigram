@@ -84,7 +84,7 @@ fi
 #                                       #
 #########################################
 cd ../social
-IMAGE_FILE="img/trigram_announce_$(python3 -c "import sys; sys.path.append('../utils'); from calendar_utils import get_game_number_for_trigram; print(get_game_number_for_trigram('$TRIGRAM_UPPER', '../../app/js/calendar.js'))").png"
+IMAGE_FILE="../../app/assets/social/trigram_announce_$(python3 -c "import sys; sys.path.append('../utils'); from calendar_utils import get_game_number_for_trigram; print(get_game_number_for_trigram('$TRIGRAM_UPPER', '../../app/js/calendar.js'))").png"
 if [ -f "$IMAGE_FILE" ]; then
     echo -e "${YELLOW}🖼️  Image already exists: ${TRIGRAM_UPPER}${NC}"
 else
@@ -119,7 +119,7 @@ print(get_game_number_for_trigram('$TRIGRAM_UPPER', 'app/js/calendar.js'))
 # Check if files exist
 JSON_FILE="data/trigram-word-lists/${TRIGRAM_LOWER}_words.json"
 CALENDAR_FILE="app/js/calendar.js"
-IMAGE_FILE="tools/content/social/img-generator/img/trigram_announce_${GAME_NUMBER}.png"
+IMAGE_FILE="app/assets/social/trigram_announce_${GAME_NUMBER}.png"
 
 if [ ! -f "$JSON_FILE" ]; then
     echo -e "${RED}❌ Error: $JSON_FILE not found${NC}"

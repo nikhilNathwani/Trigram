@@ -1,8 +1,8 @@
 import sys
-sys.path.append('../../utils')
+sys.path.append('../utils')
 from read_word_list import read_word_list
-CORPUS_FILE_PATH = "../../../data/dictionaries/sowpods.txt"
-TRIGRAM_FILE_PATH = "../../../data/dictionaries/all_trigrams.txt"
+CORPUS_FILE_PATH = "../../data/corpus/sowpods.txt"
+TRIGRAM_FILE_PATH = "../../data/corpus/all_trigrams.txt"
 OUTPUT_FILE_PATH = "../../../data/dictionaries/all_trigrams_4_to_15.txt"
 
 #output all trigrams that appear in words of length 4 through 15
