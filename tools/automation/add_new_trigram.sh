@@ -4,7 +4,7 @@
 # 
 # This script handles the complete workflow:
 # 1. Generate trigram word dictionary (via Python)
-# 2. Update calendar.js trigrams list (via Python) 
+# 2. Update trigram_calendar.json (via Python) 
 # 3. Commit and push changes to git (native bash)
 #
 # Usage: ./add_new_trigram.sh <TRIGRAM>
@@ -67,14 +67,14 @@ cd "$(dirname "$0")"
 
 #########################################
 #                                       #
-# STEP 2: Update Calendar.js            #
+# STEP 2: Update Trigram Calendar       #
 #                                       #
 #########################################
-echo -e "${YELLOW}📅 Updating calendar.js with trigram: ${TRIGRAM_UPPER}${NC}"
+echo -e "${YELLOW}📅 Updating trigram calendar with trigram: ${TRIGRAM_UPPER}${NC}"
 python3 ../utils/update_calendar.py "$TRIGRAM"
 
 if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ Failed to update calendar.js${NC}"
+    echo -e "${RED}❌ Failed to update trigram calendar${NC}"
     exit 1
 fi
 
@@ -84,7 +84,7 @@ fi
 #                                       #
 #########################################
 cd ../social
-IMAGE_FILE="../../app/assets/social/trigram_announce_$(python3 -c "import sys; sys.path.append('../utils'); from calendar_utils import get_game_number_for_trigram; print(get_game_number_for_trigram('$TRIGRAM_UPPER', '../../app/js/calendar.js'))").png"
+IMAGE_FILE="../social/instagram_posts/trigram_announce_$(python3 -c "import sys; sys.path.append('../utils'); from calendar_utils import get_game_number_for_trigram; print(get_game_number_for_trigram('$TRIGRAM_UPPER', '../../data/trigram_calendar.json'))").png"
 if [ -f "$IMAGE_FILE" ]; then
     echo -e "${YELLOW}🖼️  Image already exists: ${TRIGRAM_UPPER}${NC}"
 else
@@ -113,13 +113,13 @@ GAME_NUMBER=$(python3 -c "
 import sys
 sys.path.append('tools/utils')
 from calendar_utils import get_game_number_for_trigram
-print(get_game_number_for_trigram('$TRIGRAM_UPPER', 'app/js/calendar.js'))
+print(get_game_number_for_trigram('$TRIGRAM_UPPER', 'data/trigram_calendar.json'))
 ")
 
 # Check if files exist
 JSON_FILE="data/trigram-word-lists/${TRIGRAM_LOWER}_words.json"
-CALENDAR_FILE="app/js/calendar.js"
-IMAGE_FILE="app/assets/social/trigram_announce_${GAME_NUMBER}.png"
+CALENDAR_FILE="data/trigram_calendar.json"
+IMAGE_FILE="tools/social/instagram_posts/trigram_announce_${GAME_NUMBER}.png"
 
 if [ ! -f "$JSON_FILE" ]; then
     echo -e "${RED}❌ Error: $JSON_FILE not found${NC}"

@@ -135,7 +135,7 @@ def make_trigram_image(trigram, game_number=1, output_file=None):
     # Default output filename
     if output_file is None:
         filename = f"trigram_announce_{game_number}.png"
-        output_dir = "../../app/assets/social"
+        output_dir = "instagram_posts"
     else:
         if "/" in output_file:
             output_dir = os.path.dirname(output_file)

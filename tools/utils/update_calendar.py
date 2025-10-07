@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script to update the trigrams list in calendar.js
+Script to update the trigrams list in trigram_calendar.json
 
 Usage: python update_calendar.py <TRIGRAM>
 """
@@ -9,11 +9,11 @@ import sys
 sys.path.append('.')
 from calendar_utils import add_trigram_to_calendar
 
-CALENDAR_JS_PATH = "../../app/js/calendar.js"
+CALENDAR_JSON_PATH = "../../data/trigram_calendar.json"
 
 def update_calendar_trigrams(new_trigram):
-    """Add a new trigram to the trigrams array in calendar.js"""
-    return add_trigram_to_calendar(new_trigram, CALENDAR_JS_PATH)
+    """Add a new trigram to the trigrams array in trigram_calendar.json"""
+    return add_trigram_to_calendar(new_trigram, CALENDAR_JSON_PATH)
 
 def main():
     if len(sys.argv) != 2:
