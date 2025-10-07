@@ -3,7 +3,7 @@
 Utility functions for working with the trigrams calendar.
 """
 
-import re
+import json
 import os
 from datetime import datetime, timedelta
 
@@ -12,11 +12,11 @@ GAME_START_DATE = datetime(2024, 4, 15)
 
 def get_game_number_for_trigram(trigram, calendar_path=None):
     """
-    Calculate game number based on trigram position in calendar.js
+    Calculate game number based on trigram position in trigram_calendar.json
     
     Args:
         trigram: The trigram to find (e.g., "ABC")
-        calendar_path: Optional path to calendar.js. If None, uses default relative path.
+        calendar_path: Optional path to trigram_calendar.json. If None, uses default relative path.
         
     Returns:
         int: Game number (1-indexed position in trigrams array)
@@ -30,22 +30,29 @@ def get_game_number_for_trigram(trigram, calendar_path=None):
         position = trigrams.index(trigram.upper()) + 1
         return position
     except ValueError:
-        print(f"Warning: Trigram {trigram.upper()} not found in calendar.js, using game number 1")
+        print(f"Warning: Trigram {trigram.upper()} not found in trigram_calendar.json, using game number 1")
         return 1
 
 def get_trigram_calendar(calendar_path=None):
     """
-    Get the trigram calendar from the calendar.js file
+    Get the trigram calendar from the trigram_calendar.json file
     
     Args:
-        calendar_path: Optional path to calendar.js. If None, uses default relative path.
+        calendar_path: Optional path to trigram_calendar.json. If None, uses default relative path.
         
     Returns:
         list: List of trigrams in weekly game order
     """
-    # Parse the calendar file
-    content, trigrams_start, closing_bracket = parse_calendar_file(calendar_path)
-    if content is None:
+    # Set default path if none provided
+    if calendar_path is None:
+        calendar_path = "../../data/trigram_calendar.json"
+    
+    try:
+        with open(calendar_path, 'r') as f:
+            trigrams = json.load(f)
+        return trigrams
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Error loading trigram calendar from {calendar_path}: {e}")
         return []
     
     # Extract the trigrams array section
@@ -98,78 +105,38 @@ def get_formatted_game_date(game_number, format_string="%B %d, %Y"):
     game_date = get_game_date(game_number)
     return game_date.strftime(format_string)
 
-def parse_calendar_file(calendar_path=None):
-    """
-    Parse the calendar.js file and return the content and trigrams array boundaries
-    
-    Args:
-        calendar_path: Optional path to calendar.js
-        
-    Returns:
-        tuple: (content, trigrams_start, closing_bracket) or (None, None, None) if error
-    """
-    if calendar_path is None:
-        calendar_path = "../../app/js/calendar.js"
-    
-    try:
-        with open(calendar_path, 'r') as file:
-            content = file.read()
-        
-        # Find the trigrams array
-        trigrams_start = content.find('const trigram_calendar')
-        if trigrams_start == -1:
-            print("❌ Error: Could not find 'const trigram_calendar' in calendar.js")
-            return None, None, None
-        
-        closing_bracket = content.find('];', trigrams_start)
-        if closing_bracket == -1:
-            print("❌ Error: Could not find closing bracket ]; for trigrams array")
-            return None, None, None
-        
-        return content, trigrams_start, closing_bracket
-        
-    except FileNotFoundError:
-        print(f"❌ Error: Could not find calendar.js at {calendar_path}")
-        return None, None, None
-    except Exception as e:
-        print(f"❌ Error reading calendar.js: {e}")
-        return None, None, None
-
 def add_trigram_to_calendar(new_trigram, calendar_path=None):
     """
-    Add a new trigram to the trigrams array in calendar.js
+    Add a new trigram to the trigrams array in trigram_calendar.json
     
     Args:
         new_trigram: The trigram to add (e.g., "ABC")
-        calendar_path: Optional path to calendar.js
+        calendar_path: Optional path to trigram_calendar.json
         
     Returns:
         bool: True if successful, False otherwise
     """
     if calendar_path is None:
-        calendar_path = "../../app/js/calendar.js"
+        calendar_path = "../../data/trigram_calendar.json"
     
-    # Parse the calendar file
-    content, trigrams_start, closing_bracket = parse_calendar_file(calendar_path)
-    if content is None:
-        return False
+    # Load existing trigrams
+    trigrams = get_trigram_calendar(calendar_path)
     
     # Check if trigram already exists
-    if f'"{new_trigram.upper()}"' in content:
-        print(f"⚠️  Trigram {new_trigram.upper()} already exists in calendar.js")
+    if new_trigram.upper() in trigrams:
+        print(f"⚠️  Trigram {new_trigram.upper()} already exists in trigram_calendar.json")
         return True  # Return True since the trigram is in the calendar (goal achieved)
     
-    # Add new trigram before the closing bracket
-    new_trigram_line = f'\t"{new_trigram.upper()}",\n'
-    new_content = content[:closing_bracket] + new_trigram_line + content[closing_bracket:]
+    # Add new trigram to the end
+    trigrams.append(new_trigram.upper())
     
     # Save the updated file
     try:
         with open(calendar_path, 'w') as file:
-            file.write(new_content)
+            json.dump(trigrams, file, indent=1)
         
-        print(f"✅ Added {new_trigram.upper()} to trigrams list in calendar.js")
+        print(f"✅ Added {new_trigram.upper()} to trigrams list in trigram_calendar.json")
         return True
     except Exception as e:
-        print(f"❌ Error saving calendar.js: {e}")
+        print(f"❌ Error saving trigram_calendar.json: {e}")
         return False

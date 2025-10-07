@@ -1,85 +1,17 @@
-// Trigrams in the order they'll be used in games
-// Each trigram corresponds to one week of gameplay
-const trigram_calendar = [
-	"IST",
-	"REA",
-	"PLE",
-	"MON",
-	"UNI",
-	"ENT",
-	"ALL",
-	"EVI",
-	"TOU",
-	"AND",
-	"NER",
-	"OSE",
-	"LAM",
-	"ISC",
-	"ERE",
-	"UMP",
-	"TAB",
-	"ICK",
-	"MEA",
-	"ROO",
-	"UES",
-	"SPA",
-	"INF",
-	"CED",
-	"TRA",
-	"ATO",
-	"EMP",
-	"ION",
-	"CRU",
-	"FEA",
-	"EXT",
-	"MOR",
-	"HIS",
-	"ABL",
-	"SEN",
-	"ROA",
-	"TAM",
-	"CUS",
-	"NCH",
-	"EDE",
-	"GAL",
-	"BRO",
-	"KIN",
-	"OUS",
-	"SPE",
-	"DLY",
-	"PAR",
-	"QUI",
-	"LOG",
-	"VES",
-	"FAC",
-	"BIL",
-	"GUL",
-	"CEN",
-	"WOR",
-	"NAP",
-	"RIM",
-	"THE",
-	"UAL",
-	"HOO",
-	"MIS",
-	"BEA",
-	"ITE",
-	"KNO",
-	"SUR",
-	"DAT",
-	"PEC",
-	"ZIN",
-	"TOG",
-	"FUN",
-	"ACH",
-	"TIE",
-	"EER",
-	"GON",
-	"LAU",
-	"DIV",
-	"UBS",
-	"WEA",
-];
+// Trigram calendar data - loaded from JSON
+let trigram_calendar = [];
+
+// Load trigram calendar data
+async function loadTrigramCalendar() {
+	try {
+		const response = await fetch("../../data/trigram_calendar.json");
+		trigram_calendar = await response.json();
+	} catch (error) {
+		console.error("Error loading trigram calendar:", error);
+		// Fallback to empty array if loading fails
+		trigram_calendar = [];
+	}
+}
 
 // Returns 0-indexed game ID (to index into trigram list)
 function getGameID() {

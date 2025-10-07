@@ -13,7 +13,13 @@ if (DEBUG.forceFakePastStats) {
 	setFakePastGameData();
 }
 
-startGame();
+// Initialize the app
+async function initApp() {
+	await loadTrigramCalendar();
+	startGame();
+}
+
+initApp();
 
 /* GAME EVENTS ------------------------------------------------------------ */
 //  (1) Start Game

@@ -2,7 +2,8 @@
 app/styles/mockups/
 
 # Ignore social media content (large image files)
-app/assets/social/
+tools/social/instagram_posts/
+data/trigram_calendar.json
 
 # Ignore IDE and system files
 .vscode/
