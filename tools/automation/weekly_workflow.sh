@@ -17,13 +17,15 @@
 /usr/local/bin/code "/Users/nikhilnathwani/Documents/Projects/Trigram"
 sleep 1
 
-# Open automation script for editing
-/usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation/add_new_trigram.sh"
-sleep 0.5
-
 # Open workflow documentation
 /usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/WEEKLY-WORKFLOW.md"
+sleep 0.5
+
+# Open trigram calendar to confirm new trigram is appended
+/usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/data/trigram_calendar.json"
 sleep 1
+
+
 
 # -----------------------------------------------------------------------------
 # STEP 2: Setup Terminal Windows
