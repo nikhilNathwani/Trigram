@@ -50,6 +50,7 @@ def get_trigram_calendar(calendar_path=None):
     try:
         with open(calendar_path, 'r') as f:
             trigrams = json.load(f)
+            print(f"Loaded {len(trigrams)} trigrams from {calendar_path}")  
         return trigrams
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Error loading trigram calendar from {calendar_path}: {e}")

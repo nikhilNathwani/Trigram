@@ -167,7 +167,7 @@ def make_trigram_image(trigram, game_number=1, output_file=None):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python generate_image.py <trigram> [game_number]")
-        print("  If game_number is not provided, it will be calculated from calendar.js")
+        print("  If game_number is not provided, it will be calculated from trigram_calendar.json")
         sys.exit(1)
 
     trigram = sys.argv[1]
@@ -176,9 +176,9 @@ if __name__ == "__main__":
         # Manual game number provided
         game_number = int(sys.argv[2])
     else:
-        # Auto-calculate game number from calendar.js
-        # Pass the correct relative path from img-generator to calendar.js
-        game_number = get_game_number_for_trigram(trigram, "../../../../app/js/calendar.js")
+        # Auto-calculate game number from trigram_calendar.json
+        # Pass the correct relative path from img-generator to trigram_calendar.json
+        game_number = get_game_number_for_trigram(trigram, "../../data/trigram_calendar.json")
         print(f"📊 Calculated game number {game_number} for trigram {trigram.upper()}")
 
     make_trigram_image(trigram, game_number)
