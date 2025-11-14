@@ -597,6 +597,13 @@ body {
 	color: var(--color-light);
 	border-color: var(--color-dark);
 	fill: var(--color-light);
+
+	/* Prevent text selection on mobile & desktop*/
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-touch-callout: none;
 }
 
 .keyboard-key#backspaceKey,
@@ -914,7 +921,9 @@ li {
 
 .overlayContent {
 	width: var(--frame-width);
-	height: calc(var(--header-height) + var(--game-height) + 2*var(--game-margin-block));
+	height: calc(
+		var(--header-height) + var(--game-height) + 2 * var(--game-margin-block)
+	);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -963,7 +972,6 @@ li {
 	font-size: 4rem;
 	font-weight: bold;
 }
-
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                YOU WIN OVERLAY                           */
