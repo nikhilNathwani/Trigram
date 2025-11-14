@@ -438,6 +438,13 @@ body {
 	flex-flow: row nowrap;
 	align-items: center;
 	gap: var(--padding-length-word);
+
+	/* Prevent text selection on game tiles */
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-touch-callout: none;
 }
 
 .level.shake {
