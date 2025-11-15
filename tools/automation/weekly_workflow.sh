@@ -50,7 +50,12 @@ tell application "Terminal"
         delay 1
         tell application "System Events"
             tell process "Terminal"
-                keystroke "./add_new_trigram.sh "
+                # Use key code 47 for periods to bypass Karabiner interference
+                # (keystroke "." gets intercepted by Karabiner remapping)
+                key code 47 -- period
+                keystroke "/add_new_trigram"
+                key code 47 -- period
+                keystroke "sh "
             end tell
         end tell
         
@@ -60,7 +65,10 @@ tell application "Terminal"
         do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation'"
         delay 1
         tell application "System Events"
-            keystroke "python3 get_words.py "
+            # Use key code 47 for period to bypass Karabiner interference
+            keystroke "python3 get_words"
+            key code 47 -- period
+            keystroke "py "
         end tell
     else
         # Terminal not running: Use auto-launched window + create 1 more
@@ -70,7 +78,11 @@ tell application "Terminal"
         delay 1
         tell application "System Events"
             tell process "Terminal"
-                keystroke "./add_new_trigram.sh "
+                # Use key code 47 for periods to bypass Karabiner interference
+                key code 47 -- period
+                keystroke "/add_new_trigram"
+                key code 47 -- period
+                keystroke "sh "
             end tell
         end tell
         
@@ -80,7 +92,10 @@ tell application "Terminal"
         do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation'"
         delay 1
         tell application "System Events"
-            keystroke "python3 get_words.py "
+            # Use key code 47 for period to bypass Karabiner interference
+            keystroke "python3 get_words"
+            key code 47 -- period
+            keystroke "py "
         end tell
     end if
 end tell
