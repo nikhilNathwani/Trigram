@@ -1,6 +1,22 @@
 // UP NEXT:
 // -
 
+// Load Font Awesome after title screen loads (icons only used in game screens)
+// This gives it time to load before user clicks Play, avoiding pop-in
+let fontAwesomeLoaded = false;
+function loadFontAwesome() {
+	if (fontAwesomeLoaded) return;
+	fontAwesomeLoaded = true;
+
+	const script = document.createElement("script");
+	script.src = "https://kit.fontawesome.com/caba6ce64c.js";
+	script.crossOrigin = "anonymous";
+	document.head.appendChild(script);
+}
+
+// Load Font Awesome after a short delay to avoid blocking title screen render
+setTimeout(loadFontAwesome, 100);
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
