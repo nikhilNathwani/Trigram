@@ -156,13 +156,13 @@ def make_trigram_image(trigram, game_number=1, output_file=None):
     )
 
     # Open the image automatically
-    full_output_path = os.path.join(output_dir, filename)
-    if platform.system() == "Darwin":       # macOS
-        os.system(f"open {full_output_path}")
-    elif platform.system() == "Windows":    # Windows
-        os.startfile(full_output_path)
-    else:                                   # Linux
-        os.system(f"xdg-open {full_output_path}")
+    # full_output_path = os.path.join(output_dir, filename)
+    # if platform.system() == "Darwin":       # macOS
+    #     os.system(f"open {full_output_path}")
+    # elif platform.system() == "Windows":    # Windows
+    #     os.startfile(full_output_path)
+    # else:                                   # Linux
+    #     os.system(f"xdg-open {full_output_path}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

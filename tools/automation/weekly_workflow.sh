@@ -4,31 +4,14 @@
 # Trigram Weekly Workflow Automation Script
 # 
 # This script automates the complete setup for weekly trigram publication:
-# - Opens VS Code with workflow files
 # - Opens 2 Terminal windows with commands ready to run
-# - Opens Chrome with spreadsheet and Instagram
-# - Auto-scrolls Instagram to see latest posts
+# - Opens Chrome with spreadsheet 
+# - Opens VS Code with workflow files
 # =============================================================================
 
-# -----------------------------------------------------------------------------
-# STEP 1: Open VS Code Files
-# -----------------------------------------------------------------------------
-# Open project workspace
-/usr/local/bin/code "/Users/nikhilnathwani/Documents/Projects/Trigram"
-sleep 1
-
-# Open workflow documentation
-/usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/WEEKLY-WORKFLOW.md"
-sleep 0.5
-
-# Open trigram calendar to confirm new trigram is appended
-/usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/data/trigram_calendar.json"
-sleep 1
-
-
 
 # -----------------------------------------------------------------------------
-# STEP 2: Setup Terminal Windows
+# STEP 1: Setup Terminal Windows
 # -----------------------------------------------------------------------------
 osascript <<EOF > /dev/null
 # Check if Terminal app is already running
@@ -103,7 +86,7 @@ EOF
 sleep 0.5
 
 # -----------------------------------------------------------------------------
-# STEP 3: Open Web Resources
+# STEP 2: Open Web Resources
 # -----------------------------------------------------------------------------
 # Open trigram tracking spreadsheet (background window)
 open -na "Google Chrome" --args --new-window \
@@ -111,28 +94,44 @@ open -na "Google Chrome" --args --new-window \
 sleep 2
 
 # Open Instagram page (foreground window)
-open -na "Google Chrome" --args --new-window \
-"https://www.instagram.com/playtrigram/"
-sleep 1.5
+# open -na "Google Chrome" --args --new-window \
+# "https://www.instagram.com/playtrigram/"
+# sleep 1.5
 
 # Auto-scroll Instagram to see recent posts
-osascript <<EOF > /dev/null
-tell application "Google Chrome"
-    activate
-    # Focus on Instagram tab
-    tell front window
-        set active tab index to 1
-    end tell
-    delay 0.5
+# osascript <<EOF > /dev/null
+# tell application "Google Chrome"
+#     activate
+#     # Focus on Instagram tab
+#     tell front window
+#         set active tab index to 1
+#     end tell
+#     delay 0.5
     
-    # Scroll down using arrow keys (more reliable than JavaScript)
-    tell application "System Events"
-        tell process "Google Chrome"
-            repeat 12 times
-                key code 125 -- down arrow key
-                delay 0.1
-            end repeat
-        end tell
-    end tell
-end tell
-EOF
+#     # Scroll down using arrow keys (more reliable than JavaScript)
+#     tell application "System Events"
+#         tell process "Google Chrome"
+#             repeat 12 times
+#                 key code 125 -- down arrow key
+#                 delay 0.1
+#             end repeat
+#         end tell
+#     end tell
+# end tell
+# EOF
+
+
+# -----------------------------------------------------------------------------
+# STEP 3: Open VS Code Files
+# -----------------------------------------------------------------------------
+# Open project workspace
+/usr/local/bin/code "/Users/nikhilnathwani/Documents/Projects/Trigram"
+sleep 1
+
+# Open workflow documentation
+/usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/WEEKLY-WORKFLOW.md"
+sleep 0.5
+
+# Open trigram calendar to confirm new trigram is appended
+/usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/data/trigram_calendar.json"
+sleep 1
