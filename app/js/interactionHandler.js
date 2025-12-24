@@ -63,7 +63,8 @@ function createDeleteHandler({ delay, interval }) {
 		start: function () {
 			deleteLetter(); // Delete one letter immediately on press
 			delayTimeout = setTimeout(() => {
-				// Delete another letter after delay, then continue deleting more letters at 100ms intervals
+				// Delete another letter after delay,
+				// then continue deleting more letters at 100ms intervals
 				deleteLetter();
 				repeatInterval = setInterval(deleteLetter, interval);
 			}, delay);

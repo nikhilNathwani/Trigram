@@ -38,7 +38,7 @@ function isWordLengthReached(word, currWordLength) {
 }
 
 function containsTrigram(word, trigram) {
-	return word.includes(GAME_STATE.trigram);
+	return word.includes(trigram);
 }
 
 function existsInWordList(word, currWordLength) {
