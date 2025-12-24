@@ -46,41 +46,49 @@ function handleKeyPress(e) {
 
 //
 // Make holding down Delete button progressively delete each letter (like with physical keyboard)
+// Behavior: Immediate delete → 500ms grace period → continuous deletion every 100ms
 //
 const deleteButton = document.getElementById("backspaceKey");
 
-// Timeout ID for continuous delete
-let deleteTimeout;
+const deleteHandler = createDeleteHandler({
+	delay: 500,
+	interval: 100,
+});
+
+function createDeleteHandler({ delay, interval }) {
+	let delayTimeout;
+	let repeatInterval;
+
+	return {
+		start: function () {
+			deleteLetter(); // Delete one letter immediately on press
+			delayTimeout = setTimeout(() => {
+				// Delete another letter after delay, then continue deleting more letters at 100ms intervals
+				deleteLetter();
+				repeatInterval = setInterval(deleteLetter, interval);
+			}, delay);
+		},
+		stop: function () {
+			clearTimeout(delayTimeout);
+			clearInterval(repeatInterval);
+		},
+	};
+}
 
 // Event listener for mouse down and touch start on delete button
 deleteButton.addEventListener("mousedown", function (event) {
 	event.preventDefault(); // Prevent default button behavior
-	handleDeleteStart();
+	deleteHandler.start();
 });
 deleteButton.addEventListener("touchstart", function (event) {
 	event.preventDefault(); // Prevent default button behavior
-	handleDeleteStart();
+	deleteHandler.start();
 });
 
 // Event listener for mouse up and touch end on delete button
-deleteButton.addEventListener("mouseup", handleDeleteEnd);
-deleteButton.addEventListener("touchend", handleDeleteEnd);
+deleteButton.addEventListener("mouseup", deleteHandler.stop);
+deleteButton.addEventListener("touchend", deleteHandler.stop);
 
 // Event listener for mouse leave and touch cancel on delete button (in case user moves cursor/finger away while holding)
-deleteButton.addEventListener("mouseleave", handleDeleteEnd);
-deleteButton.addEventListener("touchcancel", handleDeleteEnd);
-
-// Function to handle delete button press (start deletion)
-function handleDeleteStart() {
-	deleteLetter(); // Delete immediately on press
-	// Set a timeout for continuous deletion while button is held
-	deleteTimeout = setTimeout(function () {
-		deleteTimeout = setInterval(deleteLetter, 100);
-	}, 500);
-}
-
-// Function to handle delete button release (end deletion)
-function handleDeleteEnd() {
-	// Clear the timeout to stop continuous deletion
-	clearInterval(deleteTimeout);
-}
+deleteButton.addEventListener("mouseleave", deleteHandler.stop);
+deleteButton.addEventListener("touchcancel", deleteHandler.stop);
