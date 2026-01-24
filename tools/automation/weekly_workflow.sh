@@ -29,7 +29,7 @@ tell application "Terminal"
         # Terminal already running: Create 2 fresh windows to preserve existing work
         
         # Window 1: Upload script (add_new_trigram.sh)
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation'"
+        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../.venv/bin/activate"
         delay 1
         tell application "System Events"
             tell process "Terminal"
@@ -45,7 +45,7 @@ tell application "Terminal"
         delay 1
         
         # Window 2: Word finder script (get_words.py)
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation'"
+        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../.venv/bin/activate"
         delay 1
         tell application "System Events"
             # Use key code 47 for period to bypass Karabiner interference

@@ -45,6 +45,9 @@ fi
 echo -e "${BLUE}🎯 Starting automated trigram addition for: ${TRIGRAM_UPPER}${NC}"
 echo "=================================================="
 
+# Activate virtual environment
+source ../.venv/bin/activate
+
 #########################################
 #                                       #
 # STEP 1: Generate Trigram Dictionary   #

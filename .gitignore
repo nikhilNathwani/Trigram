@@ -13,6 +13,9 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Ignore Python virtual environments
+.venv/
+
 # Ignore entire corpus folder (large source files)
 data/corpus/
 
