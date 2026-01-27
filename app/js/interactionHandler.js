@@ -49,47 +49,38 @@ function handleKeyPress(e) {
 // Behavior: Immediate delete → 500ms grace period → continuous deletion every 100ms
 //
 const deleteButton = document.getElementById("backspaceKey");
+let deleteTimeout;
+let deleteInterval;
 
-const deleteHandler = createDeleteHandler({
-	delay: 500,
-	interval: 100,
-});
+function handleDeleteStart(delay = 500, interval = 100) {
+	deleteLetter(); // Delete one letter immediately on press
+	deleteTimeout = setTimeout(() => {
+		// Delete another letter after delay,
+		// then continue deleting more letters at interval
+		deleteLetter();
+		deleteInterval = setInterval(deleteLetter, interval);
+	}, delay);
+}
 
-function createDeleteHandler({ delay, interval }) {
-	let delayTimeout;
-	let repeatInterval;
-
-	return {
-		start: function () {
-			deleteLetter(); // Delete one letter immediately on press
-			delayTimeout = setTimeout(() => {
-				// Delete another letter after delay,
-				// then continue deleting more letters at 100ms intervals
-				deleteLetter();
-				repeatInterval = setInterval(deleteLetter, interval);
-			}, delay);
-		},
-		stop: function () {
-			clearTimeout(delayTimeout);
-			clearInterval(repeatInterval);
-		},
-	};
+function handleDeleteStop() {
+	clearTimeout(deleteTimeout);
+	clearInterval(deleteInterval);
 }
 
 // Event listener for mouse down and touch start on delete button
 deleteButton.addEventListener("mousedown", function (event) {
 	event.preventDefault(); // Prevent default button behavior
-	deleteHandler.start();
+	handleDeleteStart();
 });
 deleteButton.addEventListener("touchstart", function (event) {
 	event.preventDefault(); // Prevent default button behavior
-	deleteHandler.start();
+	handleDeleteStart();
 });
 
 // Event listener for mouse up and touch end on delete button
-deleteButton.addEventListener("mouseup", deleteHandler.stop);
-deleteButton.addEventListener("touchend", deleteHandler.stop);
+deleteButton.addEventListener("mouseup", handleDeleteStop);
+deleteButton.addEventListener("touchend", handleDeleteStop);
 
 // Event listener for mouse leave and touch cancel on delete button (in case user moves cursor/finger away while holding)
-deleteButton.addEventListener("mouseleave", deleteHandler.stop);
-deleteButton.addEventListener("touchcancel", deleteHandler.stop);
+deleteButton.addEventListener("mouseleave", handleDeleteStop);
+deleteButton.addEventListener("touchcancel", handleDeleteStop);
