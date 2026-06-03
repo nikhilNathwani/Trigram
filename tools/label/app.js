@@ -680,12 +680,16 @@ onAuthStateChanged(auth, async (user) => {
 		return;
 	}
 
-	if (AUTHORIZED_UID && user.uid !== AUTHORIZED_UID) {
-		const msg =
-			AUTHORIZED_UID === "REPLACE_WITH_YOUR_UID"
-				? `Setup: set AUTHORIZED_UID = "${user.uid}" in firebase-config.js`
-				: "Unauthorized account.";
-		$("#auth-error").textContent = msg;
+	if (!AUTHORIZED_UID || AUTHORIZED_UID === "REPLACE_WITH_YOUR_UID") {
+		// First-time setup: show the UID so the user can paste it into firebase-config.js
+		$("#auth-error").textContent =
+			`Setup: paste this into AUTHORIZED_UID in firebase-config.js → ${user.uid}`;
+		await signOut(auth);
+		return;
+	}
+
+	if (user.uid !== AUTHORIZED_UID) {
+		$("#auth-error").textContent = "Unauthorized account.";
 		await signOut(auth);
 		return;
 	}
