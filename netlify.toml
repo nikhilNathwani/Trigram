@@ -1,0 +1,10 @@
+# Serve /label as a clean URL pointing to the label tool
+[[redirects]]
+  from = "/label"
+  to   = "/tools/label/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/label/"
+  to   = "/tools/label/index.html"
+  status = 200
