@@ -8,6 +8,9 @@ tools/social/instagram_posts/
 .vscode/
 .DS_Store
 
+# Firebase Admin service account — NEVER commit this
+tools/scripts/serviceAccount.json
+
 # Ignore Python cache files
 __pycache__/
 *.pyc

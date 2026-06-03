@@ -1,0 +1,109 @@
+{
+    "4": [
+        "TOEA",
+        "ZOEA"
+    ],
+    "5": [
+        "ZOEAL",
+        "ZOEAE",
+        "ZOEAS",
+        "ZOOEA",
+        "TOEAS"
+    ],
+    "6": [
+        "ZOOEAL",
+        "APNOEA",
+        "ZOOEAE",
+        "ZOOEAS"
+    ],
+    "7": [
+        "APNOEAL",
+        "EUPNOEA",
+        "KOEKOEA",
+        "APNOEAS",
+        "IPOMOEA"
+    ],
+    "8": [
+        "DYSPNOEA",
+        "ZOOGLOEA",
+        "PARANOEA",
+        "EUPNOEAS",
+        "IPOMOEAS"
+    ],
+    "9": [
+        "HYPOPNOEA",
+        "ZOOGLOEAL",
+        "ZOOGLOEAS",
+        "RHOEADINE",
+        "PARANOEAS",
+        "CANOEABLE",
+        "DYSPNOEAL",
+        "DYSPNOEAS",
+        "MESOGLOEA",
+        "PYORRHOEA",
+        "DIARRHOEA",
+        "OTORRHOEA",
+        "ZOOGLOEAE"
+    ],
+    "10": [
+        "TACHYPNOEA",
+        "OTORRHOEAS",
+        "LOGORRHOEA",
+        "HYPERPNOEA",
+        "GONORRHOEA",
+        "PYORRHOEAL",
+        "DIARRHOEAL",
+        "PYORRHOEAS",
+        "MESOGLOEAS",
+        "ORTHOPNOEA",
+        "MENORRHOEA",
+        "HYPOPNOEAS",
+        "SEBORRHOEA",
+        "DIARRHOEAS",
+        "RHOEADINES"
+    ],
+    "11": [
+        "LOGORRHOEAS",
+        "AMENORRHOEA",
+        "HYPERPNOEAS",
+        "TACHYPNOEAS",
+        "SEBORRHOEAL",
+        "SEBORRHOEAS",
+        "MENORRHOEAS",
+        "SIALORRHOEA",
+        "LEUCORRHOEA",
+        "GONORRHOEAS",
+        "GONORRHOEAL",
+        "RHINORRHOEA",
+        "ORTHOPNOEAS"
+    ],
+    "12": [
+        "RHINORRHOEAL",
+        "LEUCORRHOEAL",
+        "STEATORRHOEA",
+        "LEUCORRHOEAS",
+        "SIALORRHOEAS",
+        "AMENORRHOEAS",
+        "BLENNORRHOEA",
+        "RHINORRHOEAS"
+    ],
+    "13": [
+        "STEATORRHOEAS",
+        "DYSMENORRHOEA",
+        "BLENNORRHOEAS",
+        "GALACTORRHOEA"
+    ],
+    "14": [
+        "DYSMENORRHOEAL",
+        "HYPOMENORRHOEA",
+        "SPERMATORRHOEA",
+        "GALACTORRHOEAS",
+        "DYSMENORRHOEAS"
+    ],
+    "15": [
+        "POLYPHLOESBOEAN",
+        "HYPOMENORRHOEAS",
+        "MICROEARTHQUAKE",
+        "SPERMATORRHOEAS"
+    ]
+}
