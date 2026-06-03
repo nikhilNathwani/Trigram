@@ -1,16 +1,5 @@
-import {
-	firebaseConfig,
-	AUTHORIZED_UID,
-} from "/tools/label/firebase-config.js";
+import { firebaseConfig } from "/tools/label/firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-	getAuth,
-	GoogleAuthProvider,
-	signInWithRedirect,
-	getRedirectResult,
-	signOut,
-	onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
 	getFirestore,
 	collection,
@@ -53,9 +42,7 @@ const S = {
 
 // ── Firebase ─────────────────────────────────────────────────
 const fbApp = initializeApp(firebaseConfig);
-const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
-const provider = new GoogleAuthProvider();
 
 // ── DOM helpers ──────────────────────────────────────────────
 const $ = (sel) => document.querySelector(sel);
@@ -75,20 +62,7 @@ function mk(tag, attrs = {}, children = []) {
 }
 
 // ── Auth ─────────────────────────────────────────────────────
-$("#sign-in-btn").onclick = async () => {
-	try {
-		await signInWithRedirect(auth, provider);
-	} catch (err) {
-		$("#auth-error").textContent = "Sign-in failed. Please try again.";
-	}
-};
-
-// Handle the redirect result when the page loads after Google sign-in
-getRedirectResult(auth).catch((err) => {
-	$("#auth-error").textContent = `Sign-in error: ${err.message}`;
-});
-
-$("#sign-out-btn").onclick = () => signOut(auth);
+// No auth — internal tool, access controlled by obscure URL only.
 
 // ── Data Loading ─────────────────────────────────────────────
 async function loadTrigrams() {
@@ -682,35 +656,7 @@ function buildBarChart(title, labels, totalFn, yesFn) {
 }
 
 // ── Bootstrap ────────────────────────────────────────────────
-onAuthStateChanged(auth, async (user) => {
-	if (!user) {
-		$("#auth-screen").hidden = false;
-		$("#app").hidden = true;
-		return;
-	}
-
-	if (!AUTHORIZED_UID || AUTHORIZED_UID === "REPLACE_WITH_YOUR_UID") {
-		// First-time setup: show the UID so the user can paste it into firebase-config.js
-		$("#auth-error").textContent =
-			`Setup: paste this into AUTHORIZED_UID in firebase-config.js → ${user.uid}`;
-		await signOut(auth);
-		return;
-	}
-
-	if (user.uid !== AUTHORIZED_UID) {
-		$("#auth-error").textContent = "Unauthorized account.";
-		await signOut(auth);
-		return;
-	}
-
-	$("#auth-screen").hidden = true;
-	$("#app").hidden = false;
-	try {
-		await initApp();
-	} catch (err) {
-		console.error("initApp failed:", err);
-		$("#app").hidden = true;
-		$("#auth-screen").hidden = false;
-		$("#auth-error").textContent = `Error: ${err.message}`;
-	}
+initApp().catch((err) => {
+	console.error("initApp failed:", err);
+	document.body.innerHTML = `<p style="padding:2rem;color:red">Error loading app: ${err.message}</p>`;
 });
