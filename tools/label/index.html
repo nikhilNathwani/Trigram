@@ -1,101 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Trigram Label</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=no"
+		/>
+		<meta name="robots" content="noindex, nofollow" />
+		<title>Trigram Label</title>
+		<link rel="stylesheet" href="/tools/label/style.css" />
+	</head>
+	<body>
+		<!-- ── Auth Screen ────────────────────────────────────────── -->
+		<div id="auth-screen">
+			<div class="auth-card">
+				<h1>Trigram</h1>
+				<p class="auth-subtitle">Internal labeling tool</p>
+				<button id="sign-in-btn">Sign in with Google</button>
+				<p id="auth-error"></p>
+			</div>
+		</div>
 
-    <!-- ── Auth Screen ────────────────────────────────────────── -->
-    <div id="auth-screen">
-      <div class="auth-card">
-        <h1>Trigram</h1>
-        <p class="auth-subtitle">Internal labeling tool</p>
-        <button id="sign-in-btn">Sign in with Google</button>
-        <p id="auth-error"></p>
-      </div>
-    </div>
+		<!-- ── App (shown after auth) ─────────────────────────────── -->
+		<div id="app" hidden>
+			<header id="app-header">
+				<span id="view-title">Label</span>
+				<button id="sign-out-btn">Sign out</button>
+			</header>
 
-    <!-- ── App (shown after auth) ─────────────────────────────── -->
-    <div id="app" hidden>
+			<main id="main-content">
+				<!-- Queue -->
+				<section id="view-queue" class="view">
+					<div id="queue-progress" class="progress-text"></div>
+					<div id="queue-content" class="view-scroll"></div>
+				</section>
 
-      <header id="app-header">
-        <span id="view-title">Label</span>
-        <button id="sign-out-btn">Sign out</button>
-      </header>
+				<!-- Search -->
+				<section id="view-search" class="view" hidden>
+					<div class="search-bar">
+						<input
+							id="search-input"
+							type="text"
+							maxlength="3"
+							placeholder="Type trigram (e.g. ENT)"
+							autocomplete="off"
+							autocapitalize="characters"
+							spellcheck="false"
+						/>
+					</div>
+					<div id="search-content" class="view-scroll">
+						<p class="hint-text">Type a 3-letter trigram above</p>
+					</div>
+				</section>
 
-      <main id="main-content">
+				<!-- Review -->
+				<section id="view-review" class="view" hidden>
+					<div id="review-content" class="view-scroll"></div>
+				</section>
 
-        <!-- Queue -->
-        <section id="view-queue" class="view">
-          <div id="queue-progress" class="progress-text"></div>
-          <div id="queue-content" class="view-scroll"></div>
-        </section>
+				<!-- Calendar -->
+				<section id="view-calendar" class="view" hidden>
+					<div id="calendar-content" class="view-scroll"></div>
+				</section>
 
-        <!-- Search -->
-        <section id="view-search" class="view" hidden>
-          <div class="search-bar">
-            <input
-              id="search-input"
-              type="text"
-              maxlength="3"
-              placeholder="Type trigram (e.g. ENT)"
-              autocomplete="off"
-              autocapitalize="characters"
-              spellcheck="false"
-            />
-          </div>
-          <div id="search-content" class="view-scroll">
-            <p class="hint-text">Type a 3-letter trigram above</p>
-          </div>
-        </section>
+				<!-- Stats -->
+				<section id="view-stats" class="view" hidden>
+					<div id="stats-content" class="view-scroll"></div>
+				</section>
+			</main>
 
-        <!-- Review -->
-        <section id="view-review" class="view" hidden>
-          <div id="review-content" class="view-scroll"></div>
-        </section>
+			<!-- Bottom Nav -->
+			<nav id="bottom-nav">
+				<button data-view="queue" class="active">
+					<span class="nav-icon">🎯</span>
+					<span class="nav-label">Label</span>
+				</button>
+				<button data-view="search">
+					<span class="nav-icon">🔍</span>
+					<span class="nav-label">Search</span>
+				</button>
+				<button data-view="review">
+					<span class="nav-icon">📝</span>
+					<span class="nav-label">Review</span>
+				</button>
+				<button data-view="calendar">
+					<span class="nav-icon">📅</span>
+					<span class="nav-label">Calendar</span>
+				</button>
+				<button data-view="stats">
+					<span class="nav-icon">📊</span>
+					<span class="nav-label">Stats</span>
+				</button>
+			</nav>
+		</div>
 
-        <!-- Calendar -->
-        <section id="view-calendar" class="view" hidden>
-          <div id="calendar-content" class="view-scroll"></div>
-        </section>
-
-        <!-- Stats -->
-        <section id="view-stats" class="view" hidden>
-          <div id="stats-content" class="view-scroll"></div>
-        </section>
-
-      </main>
-
-      <!-- Bottom Nav -->
-      <nav id="bottom-nav">
-        <button data-view="queue" class="active">
-          <span class="nav-icon">🎯</span>
-          <span class="nav-label">Label</span>
-        </button>
-        <button data-view="search">
-          <span class="nav-icon">🔍</span>
-          <span class="nav-label">Search</span>
-        </button>
-        <button data-view="review">
-          <span class="nav-icon">📝</span>
-          <span class="nav-label">Review</span>
-        </button>
-        <button data-view="calendar">
-          <span class="nav-icon">📅</span>
-          <span class="nav-label">Calendar</span>
-        </button>
-        <button data-view="stats">
-          <span class="nav-icon">📊</span>
-          <span class="nav-label">Stats</span>
-        </button>
-      </nav>
-
-    </div>
-
-    <script type="module" src="app.js"></script>
-  </body>
+		<script type="module" src="/tools/label/app.js"></script>
+	</body>
 </html>
