@@ -1,4 +1,7 @@
-import { firebaseConfig, AUTHORIZED_UID } from "/tools/label/firebase-config.js";
+import {
+	firebaseConfig,
+	AUTHORIZED_UID,
+} from "/tools/label/firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
 	getAuth,
@@ -696,5 +699,12 @@ onAuthStateChanged(auth, async (user) => {
 
 	$("#auth-screen").hidden = true;
 	$("#app").hidden = false;
-	await initApp();
+	try {
+		await initApp();
+	} catch (err) {
+		console.error("initApp failed:", err);
+		$("#app").hidden = true;
+		$("#auth-screen").hidden = false;
+		$("#auth-error").textContent = `Error: ${err.message}`;
+	}
 });
