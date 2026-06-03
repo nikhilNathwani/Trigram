@@ -23,4 +23,4 @@ export const firebaseConfig = {
 };
 
 // Your Google account UID — paste after first sign-in attempt
-export const AUTHORIZED_UID = "";
+export const AUTHORIZED_UID = "lWOveohKt4Ywiri2smYzxcADRbh1";
