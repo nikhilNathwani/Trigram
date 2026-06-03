@@ -6,7 +6,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
 	getAuth,
 	GoogleAuthProvider,
-	signInWithPopup,
+	signInWithRedirect,
+	getRedirectResult,
 	signOut,
 	onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -76,11 +77,16 @@ function mk(tag, attrs = {}, children = []) {
 // ── Auth ─────────────────────────────────────────────────────
 $("#sign-in-btn").onclick = async () => {
 	try {
-		await signInWithPopup(auth, provider);
+		await signInWithRedirect(auth, provider);
 	} catch (err) {
 		$("#auth-error").textContent = "Sign-in failed. Please try again.";
 	}
 };
+
+// Handle the redirect result when the page loads after Google sign-in
+getRedirectResult(auth).catch((err) => {
+	$("#auth-error").textContent = `Sign-in error: ${err.message}`;
+});
 
 $("#sign-out-btn").onclick = () => signOut(auth);
 
