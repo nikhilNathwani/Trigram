@@ -83,8 +83,28 @@ function setupHoldButton(el, speed) {
 	});
 }
 
-setupHoldButton(document.getElementById("btn-rewind"), -12);
-setupHoldButton(document.getElementById("btn-forward"), 12);
+setupHoldButton(document.getElementById("btn-rewind"), -5);
+setupHoldButton(document.getElementById("btn-forward"), 5);
+
+document.getElementById("btn-jump").addEventListener("click", () => {
+	// Find all length-header elements and their offsets
+	const headers = [...wordArea.querySelectorAll(".len-hdr")];
+	if (!headers.length) return;
+	// Current scroll position — find which header is near the top of the viewport
+	const viewTop = wordArea.scrollTop;
+	// Find the last header at or above the current view top
+	let currentIdx = -1;
+	for (let i = 0; i < headers.length; i++) {
+		if (headers[i].offsetTop <= viewTop + 8) currentIdx = i;
+		else break;
+	}
+	const nextIdx = currentIdx + 1;
+	if (nextIdx < headers.length) {
+		// Scroll so the next header is a few items below the top
+		const offset = Math.max(0, headers[nextIdx].offsetTop - 48);
+		wordArea.scrollTop = offset;
+	}
+});
 
 // ── Data loading ──────────────────────────────────────────────
 async function loadAll() {
