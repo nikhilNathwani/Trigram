@@ -93,8 +93,8 @@ input {
 }
 
 .word-item {
-	padding: 8px 16px;
-	font-size: 17px;
+	padding: 16px 16px;
+	font-size: 28px;
 	font-weight: 500;
 	background: var(--c-surface);
 	border-bottom: 1px solid var(--c-border);
