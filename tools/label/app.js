@@ -83,8 +83,27 @@ function setupHoldButton(el, speed) {
 	});
 }
 
-setupHoldButton(document.getElementById("btn-rewind"), -5);
-setupHoldButton(document.getElementById("btn-forward"), 5);
+setupHoldButton(document.getElementById("btn-rewind"), -8);
+setupHoldButton(document.getElementById("btn-forward"), 8);
+
+// Pause auto-scroll while user is touching the word area
+wordArea.addEventListener(
+	"touchstart",
+	() => {
+		manualSpeed = 0;
+	},
+	{ passive: true },
+);
+wordArea.addEventListener(
+	"touchend",
+	() => {
+		manualSpeed = null;
+	},
+	{ passive: true },
+);
+
+// Stored section scroll positions (populated when word list DOM is built)
+let sectionTops = [];
 
 document.getElementById("btn-jump").addEventListener("click", () => {
 	if (!sectionTops.length) return;
