@@ -83,21 +83,19 @@ function setupHoldButton(el, speed) {
 	});
 }
 
-setupHoldButton(document.getElementById("btn-rewind"), -8);
 setupHoldButton(document.getElementById("btn-forward"), 8);
 
-// Pause auto-scroll while user is touching the word area
+// Tap word area to toggle pause/resume
+let paused = false;
 wordArea.addEventListener(
-	"touchstart",
+	"click",
 	() => {
-		manualSpeed = 0;
-	},
-	{ passive: true },
-);
-wordArea.addEventListener(
-	"touchend",
-	() => {
-		manualSpeed = null;
+		paused = !paused;
+		if (paused) {
+			manualSpeed = 0;
+		} else {
+			manualSpeed = null;
+		}
 	},
 	{ passive: true },
 );
@@ -105,10 +103,22 @@ wordArea.addEventListener(
 // Stored section scroll positions (populated when word list DOM is built)
 let sectionTops = [];
 
+document.getElementById("btn-rewind").addEventListener("click", () => {
+	if (!sectionTops.length) return;
+	const scrollTop = wordArea.scrollTop;
+	// Find the last section that starts strictly before current scroll
+	let currentIdx = 0;
+	for (let i = 0; i < sectionTops.length; i++) {
+		if (sectionTops[i] <= scrollTop + 2) currentIdx = i;
+	}
+	// Jump back one section (or stay at first)
+	const prevIdx = Math.max(0, currentIdx - 1);
+	wordArea.scrollTop = sectionTops[prevIdx];
+});
+
 document.getElementById("btn-jump").addEventListener("click", () => {
 	if (!sectionTops.length) return;
 	const scrollTop = wordArea.scrollTop;
-	// Find the last section that starts at or before current scroll position
 	let currentIdx = 0;
 	for (let i = 0; i < sectionTops.length; i++) {
 		if (sectionTops[i] <= scrollTop + 2) currentIdx = i;
@@ -188,6 +198,8 @@ function skipLabeled() {
 async function showCard() {
 	stopAutoScroll();
 	hidePrompt();
+	paused = false;
+	manualSpeed = null;
 	skipLabeled();
 
 	const labeled = Object.keys(S.labels).length;
