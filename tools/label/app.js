@@ -115,19 +115,18 @@ setupHoldButton(document.getElementById("btn-forward"), 5);
 document.getElementById("btn-jump").addEventListener("click", () => {
 	const headers = [...wordArea.querySelectorAll(".len-hdr")];
 	if (!headers.length) return;
-	const areaTop = wordArea.getBoundingClientRect().top;
-	// Find the first header whose top edge is clearly below the visible top
-	// (more than 60px below areaTop means it hasn't scrolled past yet)
-	const next = headers.find(
-		(h) => h.getBoundingClientRect().top - areaTop > 60,
-	);
-	if (next) {
-		// Scroll so the header lands ~80px below the top of the area (a couple words above it visible)
-		const targetScroll =
-			wordArea.scrollTop +
-			(next.getBoundingClientRect().top - areaTop) -
-			80;
-		wordArea.scrollTop = Math.max(0, targetScroll);
+	const scrollTop = wordArea.scrollTop;
+	// Find the last header whose natural position is at or above current scroll position
+	// (offsetTop is relative to wordArea since headers are direct children)
+	let currentIdx = 0;
+	for (let i = 0; i < headers.length; i++) {
+		if (headers[i].offsetTop <= scrollTop + 1) currentIdx = i;
+	}
+	const nextIdx = currentIdx + 1;
+	if (nextIdx < headers.length) {
+		// Scroll exactly to the next section header; the padding-bottom on .len-hdr
+		// gives breathing room so the first word doesn't immediately scroll away
+		wordArea.scrollTop = headers[nextIdx].offsetTop;
 	}
 });
 
