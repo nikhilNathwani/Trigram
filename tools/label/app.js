@@ -50,30 +50,7 @@ const promptCancel = document.getElementById("prompt-cancel");
 
 // ── Auto-scroll ───────────────────────────────────────────────
 let animFrame = null;
-let manualSpeed = null; // null = auto-scroll, number = manual override
-let userScrolling = false;
-let userScrollTimer = null;
-
-// Pause auto-scroll when user manually scrolls
-wordArea.addEventListener(
-	"touchstart",
-	() => {
-		userScrolling = true;
-		clearTimeout(userScrollTimer);
-	},
-	{ passive: true },
-);
-wordArea.addEventListener(
-	"touchend",
-	() => {
-		// Resume auto-scroll 2s after user lifts finger
-		clearTimeout(userScrollTimer);
-		userScrollTimer = setTimeout(() => {
-			userScrolling = false;
-		}, 2000);
-	},
-	{ passive: true },
-);
+let manualSpeed = null; // null = auto-scroll, number = manual override (hold buttons or touch)
 
 function startAutoScroll() {
 	cancelAnimationFrame(animFrame);
@@ -82,11 +59,8 @@ function startAutoScroll() {
 		if (last == null) last = ts;
 		const dt = Math.min(ts - last, 50);
 		last = ts;
-		if (manualSpeed !== null) {
-			wordArea.scrollTop += manualSpeed * (dt / 16);
-		} else if (!userScrolling) {
-			wordArea.scrollTop += 0.4 * (dt / 16);
-		}
+		const speed = manualSpeed !== null ? manualSpeed : 1.2;
+		wordArea.scrollTop += speed * (dt / 16);
 		animFrame = requestAnimationFrame(step);
 	}
 	animFrame = requestAnimationFrame(step);
@@ -113,35 +87,35 @@ setupHoldButton(document.getElementById("btn-rewind"), -5);
 setupHoldButton(document.getElementById("btn-forward"), 5);
 
 document.getElementById("btn-jump").addEventListener("click", () => {
-	const headers = [...wordArea.querySelectorAll(".len-hdr")];
-	if (!headers.length) return;
+	if (!sectionTops.length) return;
 	const scrollTop = wordArea.scrollTop;
-	// Find the last header whose natural position is at or above current scroll position
-	// (offsetTop is relative to wordArea since headers are direct children)
+	// Find the last section that starts at or before current scroll position
 	let currentIdx = 0;
-	for (let i = 0; i < headers.length; i++) {
-		if (headers[i].offsetTop <= scrollTop + 1) currentIdx = i;
+	for (let i = 0; i < sectionTops.length; i++) {
+		if (sectionTops[i] <= scrollTop + 2) currentIdx = i;
 	}
 	const nextIdx = currentIdx + 1;
-	if (nextIdx < headers.length) {
-		// Scroll exactly to the next section header; the padding-bottom on .len-hdr
-		// gives breathing room so the first word doesn't immediately scroll away
-		wordArea.scrollTop = headers[nextIdx].offsetTop;
+	if (nextIdx < sectionTops.length) {
+		wordArea.scrollTop = sectionTops[nextIdx];
 	}
 });
 
 // ── Data loading ──────────────────────────────────────────────
-async function loadAll() {
-	const [triText, calData, snap] = await Promise.all([
+async function loadFast() {
+	// Load only the static CDN files — fast, no Firestore blocking
+	const [triText, calData] = await Promise.all([
 		fetch("/tools/label/trigrams.txt").then((r) => r.text()),
 		fetch("/data/trigram_calendar.json").then((r) => r.json()),
-		getDocs(collection(db, "trigrams")),
 	]);
 	S.allTrigrams = triText
 		.split("\n")
 		.map((t) => t.trim().toUpperCase())
 		.filter(Boolean);
 	S.doneTrigrams = new Set(calData.map((t) => t.toUpperCase()));
+}
+
+async function loadLabels() {
+	const snap = await getDocs(collection(db, "trigrams"));
 	S.labels = {};
 	snap.forEach((d) => {
 		S.labels[d.id] = d.data();
@@ -230,6 +204,8 @@ async function showCard() {
 	}
 
 	const frag = document.createDocumentFragment();
+	sectionTops = []; // reset
+	const measuringDivs = []; // collect headers for position measurement
 	for (const len of LENGTH_ORDER) {
 		const list = words[len] || [];
 		if (!list.length) continue;
@@ -237,6 +213,7 @@ async function showCard() {
 		hdr.className = "len-hdr";
 		hdr.textContent = `\u2500\u2500 ${len} letters (${list.length}) \u2500\u2500`;
 		frag.appendChild(hdr);
+		measuringDivs.push(hdr);
 		for (const w of list) {
 			const d = document.createElement("div");
 			d.className = "word-item";
@@ -246,6 +223,10 @@ async function showCard() {
 	}
 	wordArea.innerHTML = "";
 	wordArea.appendChild(frag);
+	// Measure positions AFTER insertion (layout is now computed)
+	// Use offsetTop relative to wordArea by subtracting wordArea's own offsetTop
+	const areaOffsetTop = wordArea.offsetTop;
+	sectionTops = measuringDivs.map((h) => h.offsetTop - areaOffsetTop);
 	startAutoScroll();
 }
 
@@ -321,9 +302,17 @@ promptCancel.onclick = () => {
 // ── Bootstrap ─────────────────────────────────────────────────
 (async () => {
 	try {
-		await loadAll();
+		// Fast path: load CDN data and show first card immediately
+		await loadFast();
 		buildQueue();
 		await showCard();
+		// Slow path: load Firestore labels in background, then rebuild queue
+		await loadLabels();
+		buildQueue();
+		// Update progress display without re-rendering the current card
+		const labeled = Object.keys(S.labels).length;
+		const remaining = S.queue.length - S.queueIndex;
+		progressDisp.textContent = `${labeled} labeled \u00b7 ${remaining} left`;
 	} catch (err) {
 		console.error(err);
 		document.body.innerHTML = `<p style="padding:2rem;color:red">Error: ${err.message}</p>`;
