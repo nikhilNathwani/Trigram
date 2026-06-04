@@ -1,10 +1,245 @@
-/* ── Reset & Variables ──────────────────────────────────── */
+/* ── Reset & Variables ───────────────────────────────────── */
 *,
 *::before,
 *::after {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+}
+
+:root {
+	--c-bg: #f4f4f5;
+	--c-surface: #ffffff;
+	--c-border: #e4e4e7;
+	--c-text: #18181b;
+	--c-muted: #71717a;
+	--c-yes: #16a34a;
+	--c-yes-bg: #dcfce7;
+	--c-no: #dc2626;
+	--c-no-bg: #fee2e2;
+	--c-maybe: #d97706;
+	--c-maybe-bg: #fef3c7;
+	--radius: 10px;
+}
+
+html,
+body {
+	height: 100%;
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	background: var(--c-bg);
+	color: var(--c-text);
+	-webkit-text-size-adjust: 100%;
+}
+
+button {
+	cursor: pointer;
+	font-family: inherit;
+}
+textarea,
+input {
+	font-family: inherit;
+}
+
+/* ── App Shell ───────────────────────────────────────────── */
+#app {
+	display: flex;
+	flex-direction: column;
+	height: 100dvh;
+	overflow: hidden;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+#hdr {
+	flex-shrink: 0;
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	padding: 14px 16px 10px;
+	background: var(--c-surface);
+	border-bottom: 1px solid var(--c-border);
+}
+
+#trigram-display {
+	font-size: 40px;
+	font-weight: 800;
+	letter-spacing: -1px;
+	line-height: 1;
+}
+
+#progress-display {
+	font-size: 12px;
+	color: var(--c-muted);
+}
+
+/* ── Word Area ───────────────────────────────────────────── */
+#word-area {
+	flex: 1;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior: contain;
+}
+
+.len-hdr {
+	padding: 10px 16px 4px;
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--c-muted);
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	background: var(--c-bg);
+	position: sticky;
+	top: 0;
+}
+
+.word-item {
+	padding: 8px 16px;
+	font-size: 17px;
+	font-weight: 500;
+	background: var(--c-surface);
+	border-bottom: 1px solid var(--c-border);
+}
+
+.loading-msg,
+.empty-state {
+	padding: 32px 16px;
+	text-align: center;
+	color: var(--c-muted);
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.empty-state code {
+	display: block;
+	margin-top: 8px;
+	font-size: 12px;
+}
+
+/* ── Scroll Controls ─────────────────────────────────────── */
+#scroll-controls {
+	flex-shrink: 0;
+	display: flex;
+	gap: 8px;
+	padding: 8px 16px;
+	background: var(--c-surface);
+	border-top: 1px solid var(--c-border);
+}
+
+#scroll-controls button {
+	flex: 1;
+	padding: 9px;
+	background: var(--c-bg);
+	border: 1px solid var(--c-border);
+	border-radius: var(--radius);
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--c-muted);
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: none;
+}
+
+#scroll-controls button:active {
+	background: #e4e4e7;
+}
+
+/* ── Bottom (actions + prompt) ───────────────────────────── */
+#bottom {
+	flex-shrink: 0;
+	background: var(--c-surface);
+	border-top: 1px solid var(--c-border);
+}
+
+#action-btns {
+	display: flex;
+	gap: 10px;
+	padding: 12px 16px;
+	padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+.act {
+	flex: 1;
+	padding: 18px 0;
+	border: none;
+	border-radius: var(--radius);
+	font-size: 15px;
+	font-weight: 700;
+	letter-spacing: 0.3px;
+}
+
+.act.yes {
+	background: var(--c-yes-bg);
+	color: var(--c-yes);
+}
+.act.no {
+	background: var(--c-no-bg);
+	color: var(--c-no);
+}
+.act.maybe {
+	background: var(--c-maybe-bg);
+	color: var(--c-maybe);
+}
+
+.act:disabled {
+	opacity: 0.4;
+}
+
+/* ── Prompt ──────────────────────────────────────────────── */
+#prompt:not([hidden]) {
+	display: flex;
+}
+
+#prompt {
+	flex-direction: column;
+	gap: 10px;
+	padding: 14px 16px;
+	padding-bottom: max(14px, env(safe-area-inset-bottom));
+}
+
+#prompt-msg {
+	font-size: 15px;
+	font-weight: 600;
+}
+
+#prompt-input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1.5px solid var(--c-border);
+	border-radius: var(--radius);
+	font-size: 15px;
+	resize: none;
+	height: 72px;
+	outline: none;
+}
+
+#prompt-input:focus {
+	border-color: var(--c-text);
+}
+
+.prompt-row {
+	display: flex;
+	gap: 10px;
+}
+
+#prompt-confirm {
+	flex: 2;
+	padding: 14px;
+	background: var(--c-text);
+	color: #fff;
+	border: none;
+	border-radius: var(--radius);
+	font-size: 15px;
+	font-weight: 700;
+}
+
+#prompt-cancel {
+	flex: 1;
+	padding: 14px;
+	background: var(--c-bg);
+	color: var(--c-muted);
+	border: 1px solid var(--c-border);
+	border-radius: var(--radius);
+	font-size: 15px;
 }
 
 :root {
