@@ -302,7 +302,8 @@ promptConfirm.onclick = async () => {
 	if (pendingLabel === "NO" || pendingLabel === "MAYBE") {
 		const reason = promptInput.value.trim();
 		if (!reason) {
-			promptInput.style.borderColor = pendingLabel === "NO" ? "var(--c-no)" : "var(--c-maybe)";
+			promptInput.style.borderColor =
+				pendingLabel === "NO" ? "var(--c-no)" : "var(--c-maybe)";
 			promptInput.focus();
 			return;
 		}
