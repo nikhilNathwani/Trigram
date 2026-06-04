@@ -82,15 +82,13 @@ input {
 }
 
 .len-hdr {
-	padding: 10px 16px 16px;
+	padding: 10px 16px 20px;
 	font-size: 11px;
 	font-weight: 600;
 	color: var(--c-muted);
 	letter-spacing: 0.5px;
 	text-transform: uppercase;
 	background: var(--c-bg);
-	position: sticky;
-	top: 0;
 }
 
 .word-item {
