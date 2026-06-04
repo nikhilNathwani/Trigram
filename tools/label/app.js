@@ -293,27 +293,22 @@ document.getElementById("btn-no").onclick = () => {
 	showPrompt("Why NO? (required):", true);
 };
 
-document.getElementById("btn-maybe").onclick = async () => {
-	const trigram = S.queue[S.queueIndex];
-	actionBtns.querySelectorAll("button").forEach((b) => {
-		b.disabled = true;
-	});
-	await saveLabel(trigram, "MAYBE");
-	S.queueIndex++;
-	showCard();
+document.getElementById("btn-maybe").onclick = () => {
+	pendingLabel = "MAYBE";
+	showPrompt("Why MAYBE? (required):", true);
 };
 
 promptConfirm.onclick = async () => {
-	if (pendingLabel === "NO") {
+	if (pendingLabel === "NO" || pendingLabel === "MAYBE") {
 		const reason = promptInput.value.trim();
 		if (!reason) {
-			promptInput.style.borderColor = "var(--c-no)";
+			promptInput.style.borderColor = pendingLabel === "NO" ? "var(--c-no)" : "var(--c-maybe)";
 			promptInput.focus();
 			return;
 		}
 		const trigram = S.queue[S.queueIndex];
 		hidePrompt();
-		await saveLabel(trigram, "NO", reason);
+		await saveLabel(trigram, pendingLabel, reason);
 	} else {
 		const trigram = S.queue[S.queueIndex];
 		hidePrompt();
