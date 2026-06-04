@@ -1,3 +1,34 @@
+---
+start of Revised Plan
+
+currently the label tool is a mess, lots of parts dont work. so i want to pare things down and simplify so that we can get a v1 working.
+
+Off-the-bat we can remove these tabs:
+-Search capability
+-Stats
+-Calendar
+-Review
+
+This leaves just the 'Label' tab, so we dont even need the bottom nav, since this will be the only view. 
+
+
+We can also remove the SKIP option, so the labels are just YES/NO/MAYBE. If I want to skip a trigram, I can just not label it and move on to the next one.
+
+So the scope of v1 will be: Show me one trigram at a time that I can label YES/NO/MAYBE, and optionally add a comment. Then it saves that data to the database and shows me the next trigram to label.
+
+The ui should show the current trigram at the top, and at the bottom are the yes/no/maybe buttons.
+
+In the middle we show the word lists. Make it more like this which will be more usable for me:
+- Instead of separate tabs for lengths 4-15 that I have to click through, just slowly auto-scroll down the full list, starting with length-4 words, then length-5, etc. up through 15 (and some indiction of what word length I'm currently looking at).
+- The words should be a top-to-bottom list, not like the current bersion where words are listed in rows across the page
+- Would be nice to have a rewind and forward button to hold down and quickly go up/down the list
+- If I tap NO, then prompt me for a required comment to say why. when I tap YES, prompt me with an "are you sure" where i have to hit confirm. this will prevent accidental yes/no's. I dont mind if i do an accidental MAYBE (ill eventually review those again anyway) so no need for secondary prompt on MAYBE selection
+
+Note that right nowm none of the label buttons work, clicking one doesnt perform the label or advance ot the next trigram. so you have to still make things actually work too. hopefully the above simplifications will enable easier debugging of the core CRUD functionality.
+
+end of Revised Plan
+---
+
 Goal: Build a mobile-friendly trigram labeling tool for my internal use.
 
 Purpose:
