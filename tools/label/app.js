@@ -51,6 +51,29 @@ const promptCancel = document.getElementById("prompt-cancel");
 // ── Auto-scroll ───────────────────────────────────────────────
 let animFrame = null;
 let manualSpeed = null; // null = auto-scroll, number = manual override
+let userScrolling = false;
+let userScrollTimer = null;
+
+// Pause auto-scroll when user manually scrolls
+wordArea.addEventListener(
+	"touchstart",
+	() => {
+		userScrolling = true;
+		clearTimeout(userScrollTimer);
+	},
+	{ passive: true },
+);
+wordArea.addEventListener(
+	"touchend",
+	() => {
+		// Resume auto-scroll 2s after user lifts finger
+		clearTimeout(userScrollTimer);
+		userScrollTimer = setTimeout(() => {
+			userScrolling = false;
+		}, 2000);
+	},
+	{ passive: true },
+);
 
 function startAutoScroll() {
 	cancelAnimationFrame(animFrame);
@@ -59,8 +82,11 @@ function startAutoScroll() {
 		if (last == null) last = ts;
 		const dt = Math.min(ts - last, 50);
 		last = ts;
-		const speed = manualSpeed !== null ? manualSpeed : 0.4;
-		wordArea.scrollTop += speed * (dt / 16);
+		if (manualSpeed !== null) {
+			wordArea.scrollTop += manualSpeed * (dt / 16);
+		} else if (!userScrolling) {
+			wordArea.scrollTop += 0.4 * (dt / 16);
+		}
 		animFrame = requestAnimationFrame(step);
 	}
 	animFrame = requestAnimationFrame(step);
@@ -87,22 +113,21 @@ setupHoldButton(document.getElementById("btn-rewind"), -5);
 setupHoldButton(document.getElementById("btn-forward"), 5);
 
 document.getElementById("btn-jump").addEventListener("click", () => {
-	// Find all length-header elements and their offsets
 	const headers = [...wordArea.querySelectorAll(".len-hdr")];
 	if (!headers.length) return;
-	// Current scroll position — find which header is near the top of the viewport
-	const viewTop = wordArea.scrollTop;
-	// Find the last header at or above the current view top
-	let currentIdx = -1;
-	for (let i = 0; i < headers.length; i++) {
-		if (headers[i].offsetTop <= viewTop + 8) currentIdx = i;
-		else break;
-	}
-	const nextIdx = currentIdx + 1;
-	if (nextIdx < headers.length) {
-		// Scroll so the next header is a few items below the top
-		const offset = Math.max(0, headers[nextIdx].offsetTop - 48);
-		wordArea.scrollTop = offset;
+	const areaTop = wordArea.getBoundingClientRect().top;
+	// Find the first header whose top edge is clearly below the visible top
+	// (more than 60px below areaTop means it hasn't scrolled past yet)
+	const next = headers.find(
+		(h) => h.getBoundingClientRect().top - areaTop > 60,
+	);
+	if (next) {
+		// Scroll so the header lands ~80px below the top of the area (a couple words above it visible)
+		const targetScroll =
+			wordArea.scrollTop +
+			(next.getBoundingClientRect().top - areaTop) -
+			80;
+		wordArea.scrollTop = Math.max(0, targetScroll);
 	}
 });
 
