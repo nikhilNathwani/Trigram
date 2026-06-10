@@ -1,91 +1,74 @@
-# Trigram - A Weekly Word Game
+# Trigram
 
-A weekly word puzzle game using trigrams. Make words containing a 3-letter sequence.
+Weekly word puzzle game where every answer must contain a required 3-letter trigram.
+
+## Overview
+
+Trigram is a browser-based game that releases a new challenge each week. Players build increasingly longer valid words that include the week's trigram. The project includes both the game client and a robust content pipeline for generating trigram-specific dictionaries and weekly releases.
+
+## Highlights
+
+- Progressive challenge from 4-letter through 15-letter words
+- Deterministic weekly puzzle calendar
+- Local persistence for streaks/stats
+- Automated release workflow for adding new trigrams
+- Data tooling for corpus processing and social asset generation
+
+## Tech Stack
+
+- Vanilla JavaScript, HTML, CSS
+- PWA manifest for installable web experience
+- Python + Bash tooling for data generation and release automation
 
 ## Project Structure
 
-```
-Trigram/
-├── README.md                    # This file
-├── index.html                   # Main game interface
-├── site.webmanifest            # PWA manifest
-│
-├── 🎯 app/                     # WEB APPLICATION
-│   ├── js/                     # Game logic
-│   │   ├── game.js
-│   │   ├── wordChecker.js
-│   │   ├── storage.js
-│   │   └── ...
-│   ├── styles/                 # UI components and styles
-│   │   ├── style.css
-│   │   ├── view.js
-│   │   ├── stats.js
-│   │   └── modal.js
-│   └── assets/                 # Static assets
-│       ├── icons/
-│       └── images/
-│
-├── 📊 data/                    # GAME DATA
-│   ├── corpus/                 # Source word lists and corpora
-│   │   ├── sowpods.txt         # Main word list
-│   │   ├── sowpods_4.txt       # 4-letter words
-│   │   ├── sowpods_5.txt       # 5-letter words
-│   │   ├── ...                 # Other length-specific word lists
-│   │   ├── word_frequency.txt  # Word frequency data
-│   │   └── all_trigrams*.txt   # All possible trigrams
-│   └── trigram-word-lists/     # Word lists for each trigram
-│       ├── abc_words.json      # Words containing "abc"
-│       ├── xyz_words.json      # Words containing "xyz"
-│       └── ...                 # Other trigram-specific word lists
-│
-└── 🔧 tools/                   # PERIPHERAL TOOLS
-    ├── automation/             # Trigram workflow tools
-    │   ├── get_words.py        # Validate trigram words
-    │   └── add_new_trigram.sh  # Add trigram to game
-    ├── corpus/                 # Build word dictionaries
-    │   ├── all_trigrams.py
-    │   ├── all_trigrams_4_to_15.py
-    │   └── sowpods_by_length.py
-    ├── social/                 # Social media content generation
-    │   ├── generate_image.py
-    │   ├── template.html
-    │   └── style.css
-    ├── utils/                  # Shared utilities
-    │   ├── calendar_utils.py
-    │   ├── read_word_list.py
-    │   ├── make_trigram_dict_json.py
-    │   └── update_calendar.py
-    └── deprecated/             # Archived files
+```text
+app/
+    js/                    # Core game logic, validation, storage, UI orchestration
+    css/                   # Styles
+    assets/                # Icons and static assets
+
+data/
+    trigram_calendar.json  # Weekly trigram schedule
+    trigram-word-lists/    # One JSON word list per trigram
+    corpus/                # Source dictionaries and supporting corpus files
+
+tools/
+    automation/            # One-command weekly trigram workflow
+    utils/                 # Dictionary and calendar update scripts
+    social/                # Social image generation
+    corpus/                # Corpus preprocessing helpers
 ```
 
-## Data Flow
+## Running the Game
 
-1. **Build Corpus**: `tools/corpus/` creates word lists in `data/corpus/`
-2. **Generate Trigram Data**: `tools/utils/` reads from `data/corpus/` and outputs JSON files to `data/trigram-word-lists/`
-3. **Game Uses Data**: `app/` reads from `data/trigram-word-lists/` to power the game
+Open `index.html` in a browser, or serve the repo as static files with any local HTTP server.
 
-## Usage
+## Weekly Content Workflow
 
-### Running the Game
-
-Open `index.html` in a web browser. All game files are in the `app/` folder.
-
-### Generating Data for New Trigrams
+From `tools/automation`:
 
 ```bash
-cd tools/automation/
-python get_words.py ABC    # Validate trigram has enough words
-./add_new_trigram.sh ABC   # Add trigram to game (full workflow)
+./add_new_trigram.sh ABC
 ```
 
-This creates `data/trigram-word-lists/abc_words.json` with all words containing "ABC".
+This workflow validates/generates dictionary data, updates the trigram calendar, and commits/pushes repository changes.
 
-## Clear File Organization
+For full operational steps, see `WEEKLY-WORKFLOW.md`.
 
--   **🎯 `app/`** - Everything for the web game (JS, CSS, assets)
--   **📊 `data/`** - Game data and word corpora
--   **🔧 `tools/`** - Scripts for data processing and content generation
+## Tooling Setup (Python)
 
-## Development
+If you use social-generation/data scripts, install requirements from `tools/requirements.txt`.
 
-The game is a Progressive Web App (PWA) that can be installed on mobile devices.
+Example:
+
+```bash
+cd tools
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Why This Project
+
+Trigram demonstrates product thinking plus workflow engineering: a polished user-facing puzzle experience backed by practical automation for long-term, low-friction content operations.
