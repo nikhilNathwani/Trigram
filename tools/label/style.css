@@ -83,7 +83,7 @@ input {
 }
 
 .len-hdr {
-	padding: 10px 16px 6rem;
+	padding: 6rem 16px 6rem;
 	font-size: 11px;
 	font-weight: 600;
 	color: var(--c-muted);
