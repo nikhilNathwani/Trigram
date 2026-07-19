@@ -1,6 +1,5 @@
 import { getGameIDString } from "../calendar.js";
 import { startInteraction, stopInteraction } from "../interactionHandler.js";
-import { initializeStatsUI, updateStatsUI, showNextGameCountdownUI } from "./stats.js";
 import {
 	showYouWinScreen,
 	hideYouWinScreen,
@@ -9,7 +8,7 @@ import {
 	isAnyScreenShown,
 	setTrigramRevealScreen,
 } from "./modal.js";
-import { GAME_STATE } from "../game.js";
+import { gameEvents } from "../game.js";
 
 // UP NEXT:
 // -(maybe) Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
@@ -36,7 +35,6 @@ export const UI_STATE = {
 		//I) Initialize UI
 		setTrigramRevealScreen(trigram);
 		setTrigramHeader(trigram);
-		initializeStatsUI(trigram, wordsProvided);
 
 		//II) Resume game if it's already begun
 		if (wordsProvided.length > 0) {
@@ -167,24 +165,42 @@ export const UI_STATE = {
 	handleValidGuess: function (word) {
 		stopInteraction();
 		setLevelComplete();
-		updateStatsUI(word);
 		clearAlerts();
 	},
 
-	handleInvalidGuess: function (errorCode) {
-		showAlert(lookupErrorString(errorCode));
+	handleInvalidGuess: function (errorCode, wordLength, trigram) {
+		showAlert(lookupErrorString(errorCode, wordLength, trigram));
 	},
 
 	endGame: function () {
 		showAlert(youWinString);
 		stopInteraction();
 		disableKeyboardUI();
-		showNextGameCountdownUI();
 		setTimeout(() => {
 			showStatsScreen();
 		}, 2000);
 	},
 };
+
+// GAME EVENT SUBSCRIPTIONS ------------------------------------------------ //
+// game.js narrates what happened; it has no idea view.js is listening.
+// ui/stats.js subscribes to the same events independently — see its own
+// "GAME EVENT SUBSCRIPTIONS" section. Don't assume ordering between the two.
+gameEvents.addEventListener("game:started", (e) =>
+	UI_STATE.startGame(e.detail.trigram, e.detail.wordsProvided)
+);
+gameEvents.addEventListener("level:started", () => UI_STATE.startLevel());
+gameEvents.addEventListener("letter:added", (e) =>
+	UI_STATE.addLetter(e.detail.letter)
+);
+gameEvents.addEventListener("letter:deleted", () => UI_STATE.deleteLetter());
+gameEvents.addEventListener("guess:valid", (e) =>
+	UI_STATE.handleValidGuess(e.detail.word)
+);
+gameEvents.addEventListener("guess:invalid", (e) =>
+	UI_STATE.handleInvalidGuess(e.detail.errorCode, e.detail.wordLength, e.detail.trigram)
+);
+gameEvents.addEventListener("game:ended", () => UI_STATE.endGame());
 
 // HELPER FUNCTIONS -------------------------------------------------------- //
 function setLevelComplete() {
@@ -205,12 +221,12 @@ function shakeLevel() {
 	);
 }
 
-function lookupErrorString(errorCode) {
+function lookupErrorString(errorCode, wordLength, trigram) {
 	switch (errorCode) {
 		case "WRONG-LENGTH":
-			return `Word not ${GAME_STATE.wordLength_current} letters long`;
+			return `Word not ${wordLength} letters long`;
 		case "TRIGRAM-MISSING":
-			return `Doesn't contain ${GAME_STATE.trigram}`;
+			return `Doesn't contain ${trigram}`;
 		case "NOT-FOUND":
 			return "Not in word list";
 		default:

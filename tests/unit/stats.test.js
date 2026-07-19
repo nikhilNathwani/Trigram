@@ -13,9 +13,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // telling Vitest "when anything asks for this module, hand back this stub
 // instead." Vitest hoists vi.mock() calls above the imports below
 // automatically, so it takes effect before ui/stats.js is ever loaded.
+//
+// stats.js also subscribes to gameEvents at module load time
+// (gameEvents.addEventListener(...)), so the mock needs a real EventTarget
+// here too — otherwise that call throws on an undefined gameEvents.
 vi.mock("../../app/js/game.js", () => ({
 	GAME_STATE: {},
 	wordLength_start: 4,
+	gameEvents: new EventTarget(),
 }));
 
 import {

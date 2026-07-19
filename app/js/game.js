@@ -1,13 +1,7 @@
-// Import order matters here: debug.js/calendar.js (a two-way cycle with each
-// other) must fully evaluate before ui/view.js is imported, since ui/view.js
-// transitively pulls in ui/modal.js, which calls calendar.js's getWeekString/
-// getGameIDString immediately at its own top level (setTitleScreenWeek() /
-// setTitleScreenGameNumber() run as soon as modal.js loads, not lazily).
 import { DEBUG, clearCurrentGameData, setFakePastGameData } from "./debug.js";
 import { loadTrigramCalendar, getGameID, trigram_calendar } from "./calendar.js";
 import { loadWordList, validateWord } from "./wordChecker.js";
 import { loadGameState, saveGameState } from "./storage.js";
-import { UI_STATE } from "./ui/view.js";
 
 // UP NEXT:
 //
@@ -16,6 +10,13 @@ import { UI_STATE } from "./ui/view.js";
 export const wordLength_start = 4;
 const wordLength_max = 15;
 export const GAME_STATE = {};
+
+// game.js has no idea who's listening — it just narrates what happened.
+// ui/view.js and ui/stats.js each subscribe independently (see the
+// "GAME EVENT SUBSCRIPTIONS" section near the top of each). Subscribers
+// shouldn't assume ordering relative to each other: events fire in
+// registration order, not some guaranteed priority.
+export const gameEvents = new EventTarget();
 
 if (DEBUG.forceNewGame) {
 	clearCurrentGameData();
@@ -67,7 +68,11 @@ function startGame() {
 	// 3. Inform the UI
 	const wordsProvidedSoFar =
 		GAME_STATE.lettersProvided.slice(wordLength_start);
-	UI_STATE.startGame(GAME_STATE.trigram, wordsProvidedSoFar);
+	gameEvents.dispatchEvent(
+		new CustomEvent("game:started", {
+			detail: { trigram: GAME_STATE.trigram, wordsProvided: wordsProvidedSoFar },
+		})
+	);
 
 	// 4. Advance the game (if game isn't already completed)
 	if (GAME_STATE.lettersProvided.length <= wordLength_max) {
@@ -84,7 +89,7 @@ function startLevel() {
 	GAME_STATE.lettersProvided.push("");
 
 	// 3. Inform the UI
-	UI_STATE.startLevel();
+	gameEvents.dispatchEvent(new CustomEvent("level:started"));
 
 	// 4. Advance the game
 	//    n/a
@@ -104,7 +109,7 @@ export function addLetter(letter) {
 	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] += letter;
 
 	// 3. Inform the UI
-	UI_STATE.addLetter(letter);
+	gameEvents.dispatchEvent(new CustomEvent("letter:added", { detail: { letter } }));
 
 	// 4. Advance the game
 	nextLetterPosition++;
@@ -128,7 +133,7 @@ export function deleteLetter() {
 	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] = letterRemoved;
 
 	// 3. Inform the UI
-	UI_STATE.deleteLetter();
+	gameEvents.dispatchEvent(new CustomEvent("letter:deleted"));
 
 	// 4. Advance the game
 	// n/a
@@ -166,7 +171,7 @@ function handleValidGuess(word) {
 	saveGameState(GAME_STATE);
 
 	// 3. Inform the UI
-	UI_STATE.handleValidGuess(word);
+	gameEvents.dispatchEvent(new CustomEvent("guess:valid", { detail: { word } }));
 
 	// 4. Advance the game
 	if (GAME_STATE.wordLength_current == wordLength_max) {
@@ -184,7 +189,15 @@ function handleInvalidGuess(errorCode) {
 	// n/a
 
 	// 3. Inform the UI
-	UI_STATE.handleInvalidGuess(errorCode);
+	gameEvents.dispatchEvent(
+		new CustomEvent("guess:invalid", {
+			detail: {
+				errorCode,
+				wordLength: GAME_STATE.wordLength_current,
+				trigram: GAME_STATE.trigram,
+			},
+		})
+	);
 
 	// 4. Advance the game
 	// n/a
@@ -198,7 +211,7 @@ function endGame() {
 	//    n/a
 
 	// 3. Inform the UI
-	UI_STATE.endGame();
+	gameEvents.dispatchEvent(new CustomEvent("game:ended"));
 
 	// 4. Advance the game
 	//    tbd

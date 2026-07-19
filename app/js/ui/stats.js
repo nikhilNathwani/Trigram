@@ -1,6 +1,6 @@
 import { getGameID, getNextMondayString } from "../calendar.js";
 import { loadPastGames } from "../storage.js";
-import { GAME_STATE, wordLength_start } from "../game.js";
+import { GAME_STATE, wordLength_start, gameEvents } from "../game.js";
 
 // UP NEXT:
 // -
@@ -37,6 +37,16 @@ export function initializeStatsUI(trigram, wordsProvided = null) {
 	setCountingStatsUI();
 	setHistogramUI();
 }
+
+// GAME EVENT SUBSCRIPTIONS ------------------------------------------------ //
+// game.js narrates what happened; it has no idea stats.js is listening.
+// ui/view.js subscribes to the same events independently — see its own
+// "GAME EVENT SUBSCRIPTIONS" section. Don't assume ordering between the two.
+gameEvents.addEventListener("game:started", (e) =>
+	initializeStatsUI(e.detail.trigram, e.detail.wordsProvided)
+);
+gameEvents.addEventListener("guess:valid", (e) => updateStatsUI(e.detail.word));
+gameEvents.addEventListener("game:ended", () => showNextGameCountdownUI());
 
 export function updateStatsUI(latestWord) {
 	//(1) Word List
