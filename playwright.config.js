@@ -10,10 +10,11 @@ export default defineConfig({
 		baseURL: `http://localhost:${PORT}`,
 		trace: "on-first-retry",
 	},
-	// Serves the repo exactly as Netlify would (plain static files, no
-	// build step) and waits for it to respond before any test starts.
+	// Builds app/js (real ES modules, can't be served as classic scripts)
+	// into app/dist/bundle.js, then serves the repo exactly as Netlify would
+	// (plain static files) and waits for it to respond before any test starts.
 	webServer: {
-		command: `npx http-server . -p ${PORT} -c-1 --silent`,
+		command: `npm run build && npx http-server . -p ${PORT} -c-1 --silent`,
 		url: `http://localhost:${PORT}/index.html`,
 		reuseExistingServer: !process.env.CI,
 		timeout: 30_000,

@@ -303,16 +303,20 @@ the real `index.html`, and drive it with real keyboard input.
 
 ```js
 await page.goto("/index.html");
-await page.waitForFunction(() => Boolean(GAME_STATE.trigram), { timeout: 10_000 });
+await page.waitForFunction(
+  () => document.querySelectorAll(".header-element #trigram span").length > 0,
+  { timeout: 10_000 }
+);
 await page.click("#playButton");
 await page.click("#helpScreen .closeButton");
 ```
 (from `tests/e2e/helpers.js`)
 
 `playwright.config.js` boots a real static file server (`http-server`) that
-serves this repo exactly the way Netlify does in production — no shortcuts,
-no test-only code paths. If a test passes, it's because the actual
-production files behaved correctly in an actual browser.
+serves this repo exactly the way Netlify does in production, after first
+running `npm run build` (see §8 — `app/js` is bundled before the app can run
+at all now). No shortcuts, no test-only code paths. If a test passes, it's
+because the actual production files behaved correctly in an actual browser.
 
 ### The flakiness bug this doc's author actually hit (and how it was fixed)
 
@@ -349,31 +353,43 @@ waiting a fixed amount, whether too little (flaky) or too much (slow for no
 reason). `page.waitForFunction`'s `timeout` is a ceiling ("give up and fail
 after this long"), not a target duration.
 
-### A Playwright-specific gotcha: `page.evaluate` runs in the *page's* scope
+### Why these tests never touch `GAME_STATE`, `UI_STATE`, or `wordList` directly
 
-`tests/e2e/helpers.js` and `tests/e2e/gameplay.spec.js` reference `GAME_STATE`
-directly:
+An earlier version of this suite did reach into app internals from
+Playwright — `page.evaluate(() => GAME_STATE.trigram)` and similar. That
+stopped being merely bad practice and became **structurally impossible**
+once `app/js` was bundled by Vite (§8): the bundle wraps the entire app in
+one big function (an IIFE — see §8), so `GAME_STATE`/`UI_STATE`/`wordList`
+are genuine closure-private variables. There is no way to reach them from
+outside, not even via `page.evaluate` (which runs code in the page's real
+global scope, the same place DevTools Console would) — a closure variable
+isn't in global scope, by definition, regardless of which tool is asking.
+
+The fix ended up being a better test either way: `tests/e2e/helpers.js`
+reads the trigram straight off the rendered header
+(`.header-element #trigram span`, what a real player actually sees) instead
+of an internal variable, and fetches the matching word-list JSON via
+Playwright's own HTTP client (`page.request.get`) — the same file the app
+itself fetches, requested independently rather than read out of the app's
+memory:
 
 ```js
-await page.waitForFunction(() => Boolean(GAME_STATE.trigram), { timeout: 10_000 });
+export async function firstLevelWord(page) {
+  const trigram = await currentTrigram(page); // reads rendered DOM text
+  const response = await page.request.get(
+    `/data/trigram-word-lists/${trigram.toLowerCase()}_words.json`
+  );
+  const wordList = await response.json();
+  return (wordList[4] || [])[0] || null;
+}
 ```
 
-Note this is bare `GAME_STATE`, not `globalThis.GAME_STATE` or
-`window.GAME_STATE`. That's deliberate, and it's the opposite fix from a
-similar-looking problem in the unit tests (§7) — worth contrasting directly:
-
-- **Vitest test code** runs in a sandboxed Node module, *separate* from
-  wherever `loadAppScript()` evaluated the app's source — so it can't see
-  the app's top-level `let`/`const` variables as bare names.
-- **Playwright's `page.evaluate`/`waitForFunction`** send a function to run
-  *inside the real browser tab*, in that page's actual global scope — the
-  same scope you'd be typing into if you opened DevTools and used the
-  Console tab by hand. From there, `GAME_STATE` (declared with `const` at
-  the top of `app/js/game.js`) resolves exactly like it would if you typed
-  it into DevTools yourself.
-
-Same underlying JS rule (§8 explains it in full) — opposite practical
-consequence in each tool, because of *where* the code actually executes.
+This is the general lesson from §7 ("prefer driving code through real,
+public entry points over reaching into private state") applied one layer
+up, at the E2E level: testing through what a user or the network can
+observe is more robust than testing through internals, *and* it keeps
+working even when a refactor (like the bundler) makes those internals
+literally unreachable.
 
 ---
 
@@ -400,10 +416,12 @@ wordList = { 4: ["CATS", "PITA"] }; // ReferenceError: wordList is not defined
 ```
 
 This isn't a bug — it's a genuine, spec-correct rule about how `let`/`const`
-variables work (§8), combined with how Vitest isolates each test file's
-code from the code loaded via `loadAppScript()`. The only way to get
-`wordList` into a known state for a test was to go around through the real
-`loadWordList()` function with a mocked `fetch` — workable, but it meant
+variables work (§8), combined with how the test file's code was isolated
+from the code loaded via `loadAppScript()`, the eval-based loader this
+project used before `app/js` had real `export` statements (§8 covers what
+replaced it). The only way to get `wordList` into a known state for a test
+was to go around through the real `loadWordList()` function with a mocked
+`fetch` — workable, but it meant
 *every* test of `validateWord`/`existsInWordList`, even ones with nothing
 conceptually to do with networking, had to first mock a network call just
 to get set up. It also meant one test had to run before every other test in
@@ -482,93 +500,221 @@ parameter everywhere wouldn't be the same clear win. Not every instance of
 just data flowing from one function to another with nowhere useful to live
 in between.
 
+### A different tool for a different problem: `vi.mock()`
+
+`app/js/ui/stats.js` imports `GAME_STATE` and `wordLength_start` from
+`app/js/game.js` (§8 has the full dependency graph). That's a real problem
+for `tests/unit/stats.test.js`: `game.js` is the app's entry point and has
+a top-level `initApp()` call that does a real `fetch()` and touches DOM
+elements a bare test document doesn't have. Importing `ui/stats.js` for
+real would transitively try to boot the entire app inside a unit test.
+
+The fix here isn't dependency injection (stats.js's calc functions
+genuinely don't need `GAME_STATE` — only the DOM-rendering functions this
+suite doesn't unit-test do) — it's `vi.mock()`, which replaces an entire
+module, side effects included, with a stand-in you control:
+
+```js
+vi.mock("../../app/js/game.js", () => ({
+  GAME_STATE: {},
+  wordLength_start: 4,
+}));
+
+import { calcNumGamesWon, /* ...etc */ } from "../../app/js/ui/stats.js";
+```
+
+Vitest hoists `vi.mock()` calls above the imports below them automatically
+(this looks like it runs "too late" to matter, but it doesn't) — so by the
+time `ui/stats.js` is loaded and it asks for `../game.js`, Vitest hands
+back the fake module instead of running the real one. `game.js`'s
+`initApp()` never executes at all in this test file. This is the standard
+way to cut a module out of an import graph for testing purposes: not by
+testing around its behavior, but by declaring "when anything asks for this
+module, use this instead."
+
 ---
 
-## 8. "No `export` statements — every function is a bare global." What does that actually mean?
+## 8. Case study: from classic scripts to real ES modules + a bundler
 
-This app predates any build tooling: `index.html` loads each file with a
+Like §7, this section used to describe a limitation and a hypothetical fix.
+The app has since actually been converted, so this is now a real before/after
+story — including the circular-dependency problem that originally motivated
+it and a hand-verified trace of why the fix is safe.
+
+### The problem
+
+This app predated any build tooling: `index.html` loaded each file with a
 plain classic `<script>` tag —
 
 ```html
+<script src="app/js/debug.js"></script>
 <script src="app/js/calendar.js"></script>
-<script src="app/js/storage.js"></script>
 ...
 <script src="app/js/game.js"></script>
 ```
 
-— and every function in those files is declared the ordinary way:
-`function loadGameState() { ... }`, with no `export` keyword anywhere. This
-is **not** a mistake or something left unfinished; it's simply how nearly
-all JavaScript was written before ES Modules existed, and it still works
-fine in a browser today.
+— and every function was declared the ordinary way: `function loadGameState() { ... }`,
+no `export` keyword anywhere. When a browser runs a classic script, top-level
+`function` declarations become properties of the global object (`window`)
+automatically — that's *why* `game.js` could call `loadGameState()` (defined
+in `storage.js`) without ever writing an `import`: every previously-loaded
+script's functions were just sitting there as ordinary global names.
 
-### What a classic script actually does
-
-When the browser runs a classic `<script>` tag, top-level `function`
-declarations become properties of the global object (`window`) —
-automatically, with no keyword needed. That's *why* `app/js/game.js` can
-call `loadGameState()` (defined in `storage.js`) or `validateWord()`
-(defined in `wordChecker.js`) without ever writing an `import`: by the time
-`game.js` runs, every previously-loaded script's functions are just sitting
-there as ordinary global names, available to everyone, forever, for the
-rest of the page's life.
-
-The tradeoffs of this approach:
-- **No explicit dependency list.** Nothing in `game.js` declares "I need
-  `loadGameState` from `storage.js`" — you have to read `index.html`'s
-  script order and infer it. Load order becomes a hidden dependency graph.
+This has two real costs, not just one:
+- **No explicit dependency list.** Nothing in `game.js` declared "I need
+  `loadGameState` from `storage.js`" — you had to read `index.html`'s script
+  order and infer it. Load order *was* the dependency graph, just invisibly.
 - **No encapsulation.** Every function and top-level variable in every file
-  is visible to (and overwritable by) every other file. Two files that
-  happen to declare a same-named `function` or `var` would silently
-  clobber each other — modules don't have this problem, because each
-  module's names are private by default.
-- **It's also exactly why `tests/unit/helpers/loadAppScript.js` exists.**
-  A test file can't `import { validateWord } from "../../app/js/wordChecker.js"`,
-  because there's nothing to import — `validateWord` isn't exported, it's
-  just a name that becomes global the moment the file's code runs, exactly
-  like it does in the browser. `loadAppScript()` works around this by
-  literally re-creating what a `<script>` tag does (see the comment in that
-  file for the exact mechanism), so the tests can load the real file and
-  get access to its global functions the same way a browser would — no
-  rewrite of the app required.
+  was visible to (and overwritable by) every other file.
 
-### What `export`/`import` (ES Modules) would look like instead
+In practice, the load-order problem is worse than it sounds, because this
+app's files don't form a clean chain — they form a **genuine multi-way
+circular dependency**. Tracing every real cross-file function call (not
+just "what's defined where," but "what's actually *called* from where")
+turns up:
 
-If `wordChecker.js` were converted to a module, it would look like this:
+- `calendar.js` ↔ `debug.js` (`getGameID()` reads `DEBUG`; `debug.js`'s
+  helpers call `getGameID()`)
+- `game.js` → `ui/view.js` → `ui/modal.js` → `interactionHandler.js` →
+  `game.js` (a four-file cycle: interaction handling needs `game.js`'s
+  `submitGuess`/`addLetter`/`deleteLetter`; the UI layer needs
+  `interactionHandler.js`'s `startInteraction`/`stopInteraction`; the modal
+  layer and view layer call into each other's screen-transition functions)
+- `ui/stats.js` → `game.js` (for `GAME_STATE`/`wordLength_start`) closes yet
+  another loop back through `ui/view.js`
+
+With classic scripts, this "worked" only because of load order and because
+every actual cross-reference happened to be inside a function body (called
+later) rather than executed immediately at script-load time — a fact that
+was never checked or enforced anywhere, just true by luck and convention.
+This is exactly the kind of thing that breaks in a confusing way once a
+codebase grows past what one person can hold in their head — which matches
+this project's own history of hitting a circular dependency and having to
+restructure around it.
+
+### The fix
+
+Every function that's used outside its own file got `export`; every file
+that uses something from another file got an explicit `import` at the top.
+`app/js/game.js`, for instance:
 
 ```js
-// app/js/wordChecker.js (as a module)
-export function validateWord(word, trigram, currWordLength) { ... }
-export function isWordLengthReached(word, currWordLength) { ... }
-// wordList would stay un-exported — genuinely private now, not just "not written to globalThis"
+// Import order matters here: debug.js/calendar.js (a two-way cycle with each
+// other) must fully evaluate before ui/view.js is imported, since ui/view.js
+// transitively pulls in ui/modal.js, which calls calendar.js's getWeekString/
+// getGameIDString immediately at its own top level...
+import { DEBUG, clearCurrentGameData, setFakePastGameData } from "./debug.js";
+import { loadTrigramCalendar, getGameID, trigram_calendar } from "./calendar.js";
+import { loadWordList, validateWord } from "./wordChecker.js";
+import { loadGameState, saveGameState } from "./storage.js";
+import { UI_STATE } from "./ui/view.js";
 ```
+
+**Does ES modules actually tolerate that circular graph?** Yes, but not
+unconditionally — this is worth understanding rather than taking on faith,
+since getting it wrong would silently crash a live app. The rule: ES module
+evaluation happens in two phases per module — *instantiation* (all
+top-level `function` declarations become available immediately, hoisted,
+regardless of import order) and *evaluation* (the module's actual top-level
+statements run, in dependency order, skipping anything already in
+progress for a cycle). Two things have to both be true for a circular
+import to be safe:
+
+1. Every cross-file reference that's a *function* is fine, always — function
+   declarations are hoisted, so they're callable the instant any module in
+   the graph starts evaluating, even before the exporting module's own body
+   has run.
+2. Every cross-file reference that's a *value* (a `const`/`let`, like
+   `DEBUG` or `GAME_STATE`) is only fine if nothing reads it **immediately**
+   at another module's top level, before the defining module has had a
+   chance to run its own initializer. Reading it from *inside* a function
+   body is fine, because that function won't actually get called until
+   later, by which point everything has finished evaluating.
+
+This codebase satisfies rule 2 by accident of how it was already written
+(every cross-file value read happens inside a function/event-handler body,
+never at a module's own top level) — checked by hand, file by file, before
+making this change, not assumed. The one place that looked risky at first
+— `ui/modal.js` calls `setTitleScreenWeek()`/`setTitleScreenGameNumber()`
+immediately at its own top level, and those read `calendar.js`'s `getWeekString`/`getGameIDString` — turned out to be safe because `calendar.js`
+has no such immediate reads of its own, so it always finishes evaluating
+early, well before `modal.js` is ever reached. `npm run build` (Vite/Rollup)
+transformed and bundled all 9 files with zero errors, and the full test
+suite (unit + E2E, including a real page load in a real browser) passing
+is the actual proof, not just the trace.
+
+One more thing this conversion caught, as a bonus: `app/js/storage.js` had
+`pastGames = []` (no `let`/`const`/`var`) inside `loadPastGames()` — a
+classic-script implicit global, silently legal in non-strict mode. ES
+modules are always strict mode, where that same line throws
+`ReferenceError`. This bug was invisible until the module conversion
+surfaced it — a real, if minor, example of §7's broader point: cleaning up
+one thing (testability, encapsulation) can reveal problems that were never
+visible before.
+
+### Vite: what it's doing here, and how it fits your stack
+
+Real `import`/`export` syntax works natively in every modern browser via
+`<script type="module">` — no bundler is *required* to use ES modules at
+all. This app uses one anyway (**Vite**), but in a scoped way worth being
+precise about, because "add a build tool" can mean very different amounts
+of change:
+
+- **ES modules** are a language/browser feature: the `import`/`export`
+  syntax and module-loading semantics described above. Free, native, no
+  tooling needed.
+- **A build tool** (Vite, Webpack, esbuild, Rollup) is a separate, optional
+  layer that *consumes* that syntax and does more: bundling many files into
+  fewer network requests, minification, a dev server with hot-reload,
+  importing non-JS assets like CSS or images as part of the module graph.
+
+This project uses Vite in its narrowest useful mode — **as a bundler only**,
+not its usual "app" mode (`index.html` as the entry, dev server, hot
+module reload). `vite.config.js` points straight at `app/js/game.js` and
+outputs one fixed-name file:
 
 ```js
-// app/js/game.js (as a module)
-import { validateWord } from "./wordChecker.js";
+build: {
+  outDir: "app/dist",
+  rollupOptions: {
+    input: resolve(__dirname, "app/js/game.js"),
+    output: { format: "iife", entryFileNames: "bundle.js" },
+  },
+}
 ```
 
-```html
-<script type="module" src="app/js/game.js"></script>
-```
+`index.html` just has one `<script src="app/dist/bundle.js"></script>` now,
+referencing that fixed output path directly — Vite never touches
+`index.html` itself. `npm run build` produces the file; `npm run build:watch`
+rebuilds on save (no dev server/hot-reload — just rebuild-and-manually-refresh).
 
-With this shape:
-- Every dependency is an explicit `import` line — you can read a file and
-  know exactly what it needs, with no guessing from script order.
-- Nothing leaks into global scope by accident; a module's internal names
-  are private unless explicitly `export`ed.
-- Test files could `import { validateWord } from "../../app/js/wordChecker.js"`
-  directly — no `loadAppScript()` trick needed. It would also make the
-  general *shape* of the §7 problem structurally rarer: each module's `let`/`const`
-  state is genuinely private to that module and easy to reason about in
-  isolation, rather than merely "not written to `globalThis`" while still
-  being globally reachable-in-spirit the way classic scripts are.
+The reason for this narrow scope: Vite's normal "app" mode wants to own
+*every* static asset a page needs (consolidating them into a `public/`
+folder it copies verbatim into its build output), which would have meant
+moving `data/` — written to directly by seven-plus Python scripts in
+`tools/` as part of the weekly content pipeline — and rethinking
+`tools/label/`, a second, separate static page this same repo serves.
+Scoping Vite to just `app/js` means none of that: `data/`, `tools/label/`,
+`site.webmanifest`, `og-image.png`, and Netlify's publish settings are all
+completely untouched. The trade-off is giving up Vite's dev-server/hot-reload
+experience — a fair trade here, since the actual problem being solved was
+correctness (the circular-dependency bug), not developer-experience polish.
 
-**This is not a recommendation to convert the app right now.** It would
-touch every source file and `index.html`'s script tags, and — for a live
-app with real users — that's a real, if probably-low, risk for a purely
-structural win. It's flagged here so the tradeoff is understood, in case
-it's ever worth revisiting deliberately, not as an implicit todo.
+### What this meant for the test suite
+
+- `tests/unit/helpers/loadAppScript.js` (the eval-based loader from earlier
+  versions of this doc) is gone. Every unit test file now imports the real
+  module directly: `import { validateWord } from "../../app/js/wordChecker.js"`.
+- §7's `wordList` problem and its "must run first" test-ordering workaround
+  are fully resolved (real exports mean nothing needs the eval trick to
+  begin with) — but a *new*, different problem showed up: `ui/stats.js`
+  now really imports `game.js`, whose top-level `initApp()` call does a
+  real `fetch()`. §7's "A different tool for a different problem" section
+  covers the fix (`vi.mock()`).
+- E2E tests can no longer reach `GAME_STATE`/`UI_STATE`/`wordList` at all —
+  Vite's IIFE bundle (`(function(){ ... })()`) makes them genuine
+  closure-private variables, not just "not on `window`." §6's "Why these
+  tests never touch `GAME_STATE`..." section covers what replaced those reads.
 
 ---
 
@@ -620,16 +766,26 @@ extend this suite.
 ## 10. Running and extending the suite
 
 ```bash
-npm test              # unit tests (Vitest), ~1s
-npm run test:watch    # unit tests, re-run automatically on file save
-npm run test:e2e      # E2E tests (Playwright), ~8s
-npm run test:e2e:ui   # E2E tests with Playwright's interactive UI/debugger
-npm run test:all      # everything
+npm run build          # bundle app/js -> app/dist/bundle.js (needed before the app can run at all — see §8)
+npm run build:watch    # same, rebuilding on every save
+npm test               # unit tests (Vitest), ~1s
+npm run test:watch     # unit tests, re-run automatically on file save
+npm run test:e2e       # E2E tests (Playwright), ~8s (builds automatically first, see playwright.config.js)
+npm run test:e2e:ui    # E2E tests with Playwright's interactive UI/debugger
+npm run test:all       # everything
 ```
 
 To add a new unit test: add a file under `tests/unit/` ending in
-`.test.js`, `loadAppScript("theFile.js")` in a `beforeAll`, and write
-`describe`/`it` blocks the way `wordChecker.test.js` does. To add a new
-E2E test: add a `.spec.js` file under `tests/e2e/`, reuse
+`.test.js`, `import` what you need directly from the real file under
+`app/js/`, and write `describe`/`it` blocks the way `wordChecker.test.js`
+does. If the file you're testing imports something with side effects you
+don't want in a test (a real `fetch`, DOM access `jsdom` won't have) —
+like `ui/stats.js` importing `game.js` — reach for `vi.mock()` (§7) rather
+than trying to avoid the import.
+
+To add a new E2E test: add a `.spec.js` file under `tests/e2e/`, reuse
 `playThroughToInteractive(page)` from `helpers.js` to skip past the title
 screens, and drive the rest with `page.keyboard`/`page.click`/`expect(page.locator(...))`.
+Read state from the DOM or the network (`page.request`), never from app
+internals — see §6's "Why these tests never touch `GAME_STATE`..." for why
+that's not just style, but structurally required now.

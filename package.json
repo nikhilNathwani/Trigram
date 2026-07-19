@@ -3,6 +3,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"build": "vite build",
+		"build:watch": "vite build --watch",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:e2e": "playwright test",
@@ -13,6 +15,7 @@
 		"@playwright/test": "^1.55.0",
 		"http-server": "^14.1.1",
 		"jsdom": "^25.0.1",
+		"vite": "^7.3.6",
 		"vitest": "^3.2.4"
 	}
 }

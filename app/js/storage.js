@@ -1,3 +1,5 @@
+import { getGameID } from "./calendar.js";
+
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*       LOCAL STORAGE I/O              */
@@ -5,7 +7,7 @@
 //
 
 //Returns null if gameData doesn't exist
-function loadGameState() {
+export function loadGameState() {
 	const gameID = getGameID();
 	//Case 1: New Game
 	if (!localStorage.getItem(gameID)) {
@@ -15,7 +17,7 @@ function loadGameState() {
 	return JSON.parse(localStorage.getItem(gameID));
 }
 
-function saveGameState(gameState) {
+export function saveGameState(gameState) {
 	//Save latest state to local storage
 	const gameID = getGameID();
 	localStorage.setItem(
@@ -29,8 +31,8 @@ function saveGameState(gameState) {
 
 // Returns array of objects representing past games (excludes current game)
 // Past games represented by objects containing gameID, trigram, and wordsProvided array
-function loadPastGames() {
-	pastGames = []; //excludes current game
+export function loadPastGames() {
+	let pastGames = []; //excludes current game
 	const keys = Object.keys(localStorage)
 		.filter((key) => /^\d+$/.test(key)) // filter keys that are not integers
 		.map((key) => parseInt(key, 10)) //convert keys from strings to ints

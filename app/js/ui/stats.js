@@ -1,3 +1,7 @@
+import { getGameID, getNextMondayString } from "../calendar.js";
+import { loadPastGames } from "../storage.js";
+import { GAME_STATE, wordLength_start } from "../game.js";
+
 // UP NEXT:
 // -
 
@@ -24,7 +28,7 @@ STATS.longestWordLength = 0;
 //Stats used for (3) Histogram
 STATS.longestWordCounts = {};
 
-function initializeStatsUI(trigram, wordsProvided = null) {
+export function initializeStatsUI(trigram, wordsProvided = null) {
 	//Load stats from past games and current game (if it exists)
 	loadStats();
 
@@ -34,7 +38,7 @@ function initializeStatsUI(trigram, wordsProvided = null) {
 	setHistogramUI();
 }
 
-function updateStatsUI(latestWord) {
+export function updateStatsUI(latestWord) {
 	//(1) Word List
 	//    Update Word List component to include latest word
 	addToWordListUI(latestWord);
@@ -163,7 +167,7 @@ function setCountingStatsUI() {
 	// 	STATS.longestWordLength == 0 ? "n/a" : STATS.longestWordLength;
 }
 
-function calcWinPercentage() {
+export function calcWinPercentage() {
 	if (STATS.numGamesPlayed == 0) {
 		return "n/a";
 	}
@@ -180,7 +184,7 @@ function calcWinPercentage() {
 }
 
 //Defaults to 0
-function calcNumGamesWon(pastGames) {
+export function calcNumGamesWon(pastGames) {
 	var numGamesWon = 0;
 	for (let index = 0; index < pastGames.length; index++) {
 		const game = pastGames[index];
@@ -192,7 +196,7 @@ function calcNumGamesWon(pastGames) {
 }
 
 //Defaults to 0
-function calcCurrentStreak(pastGames) {
+export function calcCurrentStreak(pastGames) {
 	var currGameNum = getGameID();
 	var streakCount = 0;
 	for (let index = 0; index < pastGames.length; index++) {
@@ -208,7 +212,7 @@ function calcCurrentStreak(pastGames) {
 }
 
 //Defaults to 0
-function calcMaxStreak(pastGames) {
+export function calcMaxStreak(pastGames) {
 	var currGameNum = -100;
 	var streakCount = 0;
 	var maxStreak = 0;
@@ -228,7 +232,7 @@ function calcMaxStreak(pastGames) {
 }
 
 //Defaults to 0
-function calcLongestWord(pastGames) {
+export function calcLongestWord(pastGames) {
 	var currLongest = 0;
 	for (let index = 0; index < pastGames.length; index++) {
 		const game = pastGames[index];
@@ -305,7 +309,7 @@ function setHistogramUI() {
 // HELPER FUNCTIONS --------------------------------//
 //////////////////////////////////////////////////////
 
-function loadStats() {
+export function loadStats() {
 	let pastGames = loadPastGames();
 
 	//Calculate stats
@@ -321,7 +325,7 @@ function loadStats() {
 	}
 }
 
-function showNextGameCountdownUI() {
+export function showNextGameCountdownUI() {
 	const countdownText = document.getElementById("nextGameCountdown");
 	countdownText.textContent =
 		"*" + countdownText.textContent + " " + getNextMondayString() + "*";

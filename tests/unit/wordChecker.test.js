@@ -1,5 +1,11 @@
-import { beforeAll, describe, expect, it, vi } from "vitest";
-import { loadAppScript } from "./helpers/loadAppScript.js";
+import { describe, expect, it, vi } from "vitest";
+import {
+	containsTrigram,
+	existsInWordList,
+	isWordLengthReached,
+	loadWordList,
+	validateWord,
+} from "../../app/js/wordChecker.js";
 
 // wordChecker.js is pure validation logic: given a word, the week's
 // trigram, the expected word length, and the current word list, decide
@@ -7,11 +13,10 @@ import { loadAppScript } from "./helpers/loadAppScript.js";
 // wordList is passed in as a parameter rather than read from module-private
 // state, so tests can just call a function and check what came back, with
 // no setup, no mocking, and no dependency on what any other test did first.
+//
+// app/js/wordChecker.js is a real ES module now (see TESTING_GUIDE.md §8),
+// so this file imports it directly — no eval-based loader needed.
 describe("wordChecker", () => {
-	beforeAll(() => {
-		loadAppScript("wordChecker.js");
-	});
-
 	const fixtureWordList = { 4: ["CATS", "PITA"], 5: ["CATER"] };
 
 	describe("isWordLengthReached", () => {

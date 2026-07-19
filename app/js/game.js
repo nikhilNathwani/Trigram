@@ -1,10 +1,21 @@
+// Import order matters here: debug.js/calendar.js (a two-way cycle with each
+// other) must fully evaluate before ui/view.js is imported, since ui/view.js
+// transitively pulls in ui/modal.js, which calls calendar.js's getWeekString/
+// getGameIDString immediately at its own top level (setTitleScreenWeek() /
+// setTitleScreenGameNumber() run as soon as modal.js loads, not lazily).
+import { DEBUG, clearCurrentGameData, setFakePastGameData } from "./debug.js";
+import { loadTrigramCalendar, getGameID, trigram_calendar } from "./calendar.js";
+import { loadWordList, validateWord } from "./wordChecker.js";
+import { loadGameState, saveGameState } from "./storage.js";
+import { UI_STATE } from "./ui/view.js";
+
 // UP NEXT:
 //
 
 /*  ------------------------------------------------------------- */
-const wordLength_start = 4;
+export const wordLength_start = 4;
 const wordLength_max = 15;
-const GAME_STATE = {};
+export const GAME_STATE = {};
 
 if (DEBUG.forceNewGame) {
 	clearCurrentGameData();
@@ -79,7 +90,7 @@ function startLevel() {
 	//    n/a
 }
 
-function addLetter(letter) {
+export function addLetter(letter) {
 	// 1. Confirm action can be performed
 	var letter = letter.toUpperCase();
 	var nextLetterPosition =
@@ -102,7 +113,7 @@ function addLetter(letter) {
 	}
 }
 
-function deleteLetter() {
+export function deleteLetter() {
 	// 1. Confirm action can be performed
 	var latestLetterPosition =
 		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current].length - 1;
@@ -123,7 +134,7 @@ function deleteLetter() {
 	// n/a
 }
 
-function submitGuess() {
+export function submitGuess() {
 	// 1. Confirm action can be performed
 	//    n/a
 

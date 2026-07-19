@@ -1,3 +1,16 @@
+import { getGameIDString } from "../calendar.js";
+import { startInteraction, stopInteraction } from "../interactionHandler.js";
+import { initializeStatsUI, updateStatsUI, showNextGameCountdownUI } from "./stats.js";
+import {
+	showYouWinScreen,
+	hideYouWinScreen,
+	showStatsScreen,
+	skipAllModalScreens,
+	isAnyScreenShown,
+	setTrigramRevealScreen,
+} from "./modal.js";
+import { GAME_STATE } from "../game.js";
+
 // UP NEXT:
 // -(maybe) Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
 
@@ -13,7 +26,7 @@ const roundTitles = ["Round I", "Round II", "Final Round!", "BONUS!"];
 const youWinString = "INCREDIBLE!";
 
 // MAIN FUNCTIONS ---------------------------------------------------------- //
-const UI_STATE = {
+export const UI_STATE = {
 	levelsCompleted: 0,
 	nextLetterIndex: 0,
 	bonusGameInvoked: false,
@@ -213,7 +226,7 @@ function showAlert(alertText) {
 	}
 }
 
-function showRoundTitle(roundNum) {
+export function showRoundTitle(roundNum) {
 	if (isAnyScreenShown()) {
 		return;
 	}
@@ -235,7 +248,7 @@ function clearAlerts() {
 	}
 }
 
-function startBonusGame() {
+export function startBonusGame() {
 	hideYouWinScreen();
 	UI_STATE.bonusGameInvoked = true;
 	stopInteraction();

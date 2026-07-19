@@ -1,3 +1,7 @@
+import { getWeekString, getGameIDString } from "../calendar.js";
+import { startInteraction, stopInteraction } from "../interactionHandler.js";
+import { showRoundTitle, startBonusGame } from "./view.js";
+
 // UP NEXT:
 // -
 
@@ -61,7 +65,7 @@ function setTitleScreenGameNumber() {
 //
 var trigramRevealShown = false;
 
-function setTrigramRevealScreen(trigram) {
+export function setTrigramRevealScreen(trigram) {
 	const trigramReveal = document.getElementById("trigramReveal");
 	trigramReveal.innerHTML = trigram
 		.split("")
@@ -157,7 +161,7 @@ statsScreen.addEventListener("click", function (event) {
 });
 
 //Show/Hide functions for Stats screen
-function showStatsScreen() {
+export function showStatsScreen() {
 	showScreen("stats");
 }
 function hideStatsScreen() {
@@ -186,12 +190,12 @@ document
 		startBonusGame();
 	});
 
-function showYouWinScreen() {
+export function showYouWinScreen() {
 	showScreen("youWin");
 	const screen = document.getElementById("youWinScreen");
 	screen.classList.add("fade-in");
 }
-function hideYouWinScreen() {
+export function hideYouWinScreen() {
 	const screen = document.getElementById("youWinScreen");
 	// screen.classList.remove("fade-in");
 	screen.classList.add("fade-out");
@@ -251,7 +255,7 @@ function hideScreen(name) {
 	document.getElementById(name + "Screen").style.display = "none";
 	startInteraction();
 }
-function isAnyScreenShown() {
+export function isAnyScreenShown() {
 	const screens = document.querySelectorAll(".screen");
 	for (const screen of screens) {
 		const style = window.getComputedStyle(screen);
@@ -262,7 +266,7 @@ function isAnyScreenShown() {
 	return false;
 }
 
-function skipAllModalScreens() {
+export function skipAllModalScreens() {
 	trigramRevealShown = true;
 	document.querySelectorAll(".screen").forEach((screen) => {
 		screen.style.display = "none";

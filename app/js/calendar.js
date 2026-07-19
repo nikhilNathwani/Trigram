@@ -1,8 +1,10 @@
+import { DEBUG, fakeCurrentGameID } from "./debug.js";
+
 // Trigram calendar data - loaded from JSON
-let trigram_calendar = [];
+export let trigram_calendar = [];
 
 // Load trigram calendar data
-async function loadTrigramCalendar() {
+export async function loadTrigramCalendar() {
 	try {
 		const response = await fetch("../../data/trigram_calendar.json");
 		trigram_calendar = await response.json();
@@ -14,7 +16,7 @@ async function loadTrigramCalendar() {
 }
 
 // Returns 0-indexed game ID (to index into trigram list)
-function getGameID() {
+export function getGameID() {
 	if (DEBUG.forceFakePastStats) {
 		return fakeCurrentGameID;
 	}
@@ -36,14 +38,14 @@ function getGameID() {
 }
 
 // Returns 1-indexed game ID with 3 digits (prepended with 0s if needed)
-function getGameIDString() {
+export function getGameIDString() {
 	var numStr = (getGameID() + 1).toString();
 	numStr = numStr.length > 3 ? numStr : numStr.padStart(3, "0");
 	return numStr;
 }
 
 // Returns "Week of <month abbrev> <date>, <year>"
-function getWeekString() {
+export function getWeekString() {
 	const currentDate = new Date();
 	const months = [
 		"January",
@@ -69,7 +71,7 @@ function getWeekString() {
 	return `Week of ${month.slice(0, 3)} ${day}, ${year}`;
 }
 
-function getNextMondayString() {
+export function getNextMondayString() {
 	const currentDate = new Date();
 	const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) through 6 (Saturday)
 	const daysUntilNextMonday =

@@ -1,5 +1,10 @@
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { loadAppScript } from "./helpers/loadAppScript.js";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+	getGameID,
+	getGameIDString,
+	getNextMondayString,
+	getWeekString,
+} from "../../app/js/calendar.js";
 
 // calendar.js turns "today's date" into a puzzle number, which is the one
 // piece of this app's logic that's inherently about time. Time-based code is
@@ -10,17 +15,12 @@ import { loadAppScript } from "./helpers/loadAppScript.js";
 // vitest.config.js also pins TZ=UTC for this same reason: getGameID() calls
 // Date.getTimezoneOffset(), and without a fixed timezone this test's
 // expected values would shift depending on the machine running them.
+//
+// calendar.js imports DEBUG from debug.js (a real, two-way circular import —
+// see the comment at the top of app/js/game.js). We don't need to mock it:
+// debug.js's DEBUG.forceFakePastStats defaults to false, which is exactly
+// the branch these tests want to exercise (real date-based game IDs).
 describe("calendar", () => {
-	beforeAll(() => {
-		// getGameID() references a global DEBUG object (normally defined by
-		// app/js/debug.js) but only reads DEBUG.forceFakePastStats. We set
-		// that directly as a real globalThis property rather than loading
-		// debug.js, to avoid coupling these tests to that dev-fixture file's
-		// unrelated behavior (it can clear localStorage as a side effect).
-		globalThis.DEBUG = { forceNewGame: false, forceFakePastStats: false };
-		loadAppScript("calendar.js");
-	});
-
 	afterEach(() => {
 		vi.useRealTimers();
 	});

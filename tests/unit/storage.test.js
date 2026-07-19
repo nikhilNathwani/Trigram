@@ -1,18 +1,13 @@
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { loadAppScript } from "./helpers/loadAppScript.js";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { loadGameState, saveGameState, loadPastGames } from "../../app/js/storage.js";
 
 // storage.js is the localStorage read/write layer. Vitest's jsdom
 // environment provides a real (in-memory) localStorage implementation, so
 // these tests exercise the exact same API calls the browser would run —
 // no mocking needed for storage itself, only for "today's date" (via
-// getGameID, which storage.js calls to know which save-slot is current).
+// getGameID, which storage.js imports from calendar.js to know which
+// save-slot is current).
 describe("storage", () => {
-	beforeAll(() => {
-		globalThis.DEBUG = { forceNewGame: false, forceFakePastStats: false };
-		loadAppScript("calendar.js"); // storage.js calls getGameID() from here
-		loadAppScript("storage.js");
-	});
-
 	beforeEach(() => {
 		localStorage.clear();
 		vi.useFakeTimers();

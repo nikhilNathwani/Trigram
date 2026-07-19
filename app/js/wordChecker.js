@@ -1,5 +1,5 @@
 //
-function loadWordList(trigram) {
+export function loadWordList(trigram) {
 	return fetch(
 		"data/trigram-word-lists/" + trigram.toLowerCase() + "_words.json"
 	)
@@ -14,7 +14,7 @@ function loadWordList(trigram) {
 //    -isValid is true/false indicating whether the inputted word meets the constraints
 //    -errorCode is a string code identifying which validation failed
 //     (mapped to a display string by UI_STATE.handleInvalidGuess)
-function validateWord(word, trigram, currWordLength, wordList) {
+export function validateWord(word, trigram, currWordLength, wordList) {
 	if (!isWordLengthReached(word, currWordLength)) {
 		return [false, "WRONG-LENGTH"];
 	} else if (!containsTrigram(word, trigram)) {
@@ -26,15 +26,15 @@ function validateWord(word, trigram, currWordLength, wordList) {
 	}
 }
 
-function isWordLengthReached(word, currWordLength) {
+export function isWordLengthReached(word, currWordLength) {
 	return currWordLength == word.length;
 }
 
-function containsTrigram(word, trigram) {
+export function containsTrigram(word, trigram) {
 	return word.includes(trigram);
 }
 
-function existsInWordList(word, currWordLength, wordList) {
+export function existsInWordList(word, currWordLength, wordList) {
 	if (!wordList) {
 		console.error("Word list not loaded.");
 		return false;

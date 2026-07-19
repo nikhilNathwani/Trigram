@@ -1,5 +1,31 @@
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { loadAppScript } from "./helpers/loadAppScript.js";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+// ui/stats.js imports GAME_STATE and wordLength_start from game.js — but
+// game.js is the app's entry point and has a top-level `initApp()` call that
+// does a real fetch() and touches DOM elements this test's bare jsdom
+// document doesn't have. Importing the real game.js here would try to boot
+// the whole app inside a unit test.
+//
+// vi.mock() replaces the *entire* game.js module with this lightweight fake
+// before anything imports it — including its top-level side effects, which
+// simply never run. This is the standard way to cut a module out of an
+// import graph for a test: not by testing around game.js's behavior, but by
+// telling Vitest "when anything asks for this module, hand back this stub
+// instead." Vitest hoists vi.mock() calls above the imports below
+// automatically, so it takes effect before ui/stats.js is ever loaded.
+vi.mock("../../app/js/game.js", () => ({
+	GAME_STATE: {},
+	wordLength_start: 4,
+}));
+
+import {
+	calcCurrentStreak,
+	calcLongestWord,
+	calcMaxStreak,
+	calcNumGamesWon,
+	calcWinPercentage,
+	loadStats,
+} from "../../app/js/ui/stats.js";
 
 // stats.js mixes pure math (win %, streaks, histograms) with DOM rendering.
 // We only unit-test the math here — calcNumGamesWon, calcCurrentStreak, etc.
@@ -14,12 +40,6 @@ import { loadAppScript } from "./helpers/loadAppScript.js";
 // covered separately by the Playwright E2E tests, which run against the
 // real page.
 describe("stats", () => {
-	beforeAll(() => {
-		globalThis.DEBUG = { forceNewGame: false, forceFakePastStats: false };
-		loadAppScript("calendar.js"); // calcCurrentStreak calls getGameID()
-		loadAppScript("ui/stats.js");
-	});
-
 	describe("calcNumGamesWon", () => {
 		it("counts a game as won once its longest word reaches 12 letters", () => {
 			const pastGames = [
@@ -110,10 +130,6 @@ describe("stats", () => {
 	// loadPastGames + loadStats + calcWinPercentage together, closer to how
 	// they actually run in the app.
 	describe("calcWinPercentage (via loadStats)", () => {
-		beforeAll(() => {
-			loadAppScript("storage.js"); // loadPastGames, used by loadStats
-		});
-
 		beforeEach(() => {
 			localStorage.clear();
 		});

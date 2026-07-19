@@ -1,14 +1,18 @@
+import { isAnyScreenShown } from "./ui/modal.js";
+import { UI_STATE } from "./ui/view.js";
+import { submitGuess, addLetter, deleteLetter } from "./game.js";
+
 //
 const keyboard = document.getElementById("keyboard");
 
-function startInteraction() {
+export function startInteraction() {
 	if (!isAnyScreenShown() && UI_STATE.levelsCompleted < 12) {
 		document.addEventListener("keydown", handleKeyPress);
 		keyboard.addEventListener("click", handleMouseClick);
 	}
 }
 
-function stopInteraction() {
+export function stopInteraction() {
 	document.removeEventListener("keydown", handleKeyPress);
 	keyboard.removeEventListener("click", handleMouseClick);
 }

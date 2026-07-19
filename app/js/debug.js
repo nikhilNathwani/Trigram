@@ -1,9 +1,11 @@
-const DEBUG = {
+import { getGameID } from "./calendar.js";
+
+export const DEBUG = {
 	forceNewGame: false,
 	forceFakePastStats: false,
 };
 
-const fakeCurrentGameID = 11;
+export const fakeCurrentGameID = 11;
 const fakePastGameData = [
 	{
 		gameID: 0,
@@ -152,12 +154,12 @@ const fakePastGameData = [
 	},
 ];
 
-function clearCurrentGameData() {
+export function clearCurrentGameData() {
 	const gameID = getGameID();
 	localStorage.removeItem(gameID);
 }
 
-function setFakePastGameData() {
+export function setFakePastGameData() {
 	//clear local storage (except for curr game if DEBUG.forceNewGame==false)
 	if (DEBUG.forceNewGame) {
 		localStorage.clear();
