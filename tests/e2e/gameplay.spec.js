@@ -80,6 +80,33 @@ test.describe("gameplay", () => {
 	});
 });
 
+test.describe("stats dialog", () => {
+	// Regression test: ui/stats.js is only ever wired up by app/js/main.js
+	// importing it directly (nothing else in the module graph reaches it —
+	// it subscribes to gameEvents itself rather than being called by
+	// ui/view.js). If that import is ever dropped, the stats screen still
+	// *opens* (it's plain markup in index.html) but silently never gets
+	// populated — a bug the "loads without console/page errors" and
+	// gameplay tests above can't catch, since none of them look inside the
+	// stats screen. This test exists specifically to catch that class of
+	// bug by checking the dialog's actual content, not just that it opens.
+	test("shows the submitted word and updated counting stats", async ({ page }) => {
+		await playThroughToInteractive(page);
+		const word = await firstLevelWord(page);
+		test.skip(!word, "no word available for today's trigram/length");
+
+		for (const letter of word) {
+			await page.keyboard.press(letter.toLowerCase());
+		}
+		await expect(page.locator(`#level-${word.length}`)).toHaveClass(/complete/);
+
+		await page.click("#statsButton");
+
+		await expect(page.locator("#wordListValue")).toContainText(word.toUpperCase());
+		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("1");
+	});
+});
+
 test.describe("persistence", () => {
 	test("a completed word survives a page reload", async ({ page }) => {
 		await playThroughToInteractive(page);
