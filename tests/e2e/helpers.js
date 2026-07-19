@@ -4,13 +4,13 @@
 // a real first-time player sees.
 //
 // Everything here observes the DOM and network only, never app internals.
-// That's not just style: app/js is now bundled by Vite into a single IIFE
-// (see vite.config.js), so GAME_STATE/UI_STATE/wordList are genuinely
-// closure-private — there is no way to reach them from Playwright even in
-// principle, unlike before the bundler existed. Testing through what a real
-// user/network observes is more robust anyway (see TESTING_GUIDE.md §7's
-// "prefer public, observable behavior over internals" point, applied here
-// one layer up, at the E2E level).
+// That's not just style: app/js's game/view state (trigram, wordList,
+// levelsCompleted, ...) are real ES module bindings, not globals — there is
+// no way to reach them from Playwright (which only has access to `window`)
+// even in principle. Testing through what a real user/network observes is
+// more robust anyway (see TESTING_GUIDE.md §7's "prefer public, observable
+// behavior over internals" point, applied here one layer up, at the E2E
+// level).
 //
 // The trigram-reveal screen dismisses itself via a CSS animation
 // (`animationend` in app/js/ui/modal.js), not a fixed delay, so we wait on

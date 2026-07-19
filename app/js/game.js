@@ -9,7 +9,16 @@ import { loadGameState, saveGameState } from "./storage.js";
 /*  ------------------------------------------------------------- */
 export const wordLength_start = 4;
 const wordLength_max = 15;
-export const GAME_STATE = {};
+
+// Live-binding exports: anyone who does `import { trigram } from "./game.js"`
+// always sees the current value, no object wrapper needed to stay in sync.
+// wordList/wordLength_current/lettersProvided are read only inside this
+// file, so they don't need exporting at all — trigram is the only piece of
+// game state anything outside game.js (ui/stats.js) actually reads.
+export let trigram;
+let wordList;
+let wordLength_current;
+let lettersProvided;
 
 // game.js has no idea who's listening — it just narrates what happened.
 // ui/view.js and ui/stats.js each subscribe independently (see the
@@ -28,8 +37,8 @@ if (DEBUG.forceFakePastStats) {
 // Initialize the app
 async function initApp() {
 	await loadTrigramCalendar();
-	GAME_STATE.trigram = trigram_calendar[getGameID()];
-	GAME_STATE.wordList = await loadWordList(GAME_STATE.trigram);
+	trigram = trigram_calendar[getGameID()];
+	wordList = await loadWordList(trigram);
 	startGame();
 }
 
@@ -58,24 +67,23 @@ function startGame() {
 	// 2. Perform the action
 	//    Load game state (or initialize to empty state)
 	const gameData = loadGameState();
-	GAME_STATE.wordLength_current = gameData
+	wordLength_current = gameData
 		? gameData.wordsProvided.length
 		: wordLength_start;
-	GAME_STATE.lettersProvided = gameData
+	lettersProvided = gameData
 		? gameData.wordsProvided
 		: new Array(wordLength_start).fill(null);
 
 	// 3. Inform the UI
-	const wordsProvidedSoFar =
-		GAME_STATE.lettersProvided.slice(wordLength_start);
+	const wordsProvidedSoFar = lettersProvided.slice(wordLength_start);
 	gameEvents.dispatchEvent(
 		new CustomEvent("game:started", {
-			detail: { trigram: GAME_STATE.trigram, wordsProvided: wordsProvidedSoFar },
+			detail: { trigram, wordsProvided: wordsProvidedSoFar },
 		})
 	);
 
 	// 4. Advance the game (if game isn't already completed)
-	if (GAME_STATE.lettersProvided.length <= wordLength_max) {
+	if (lettersProvided.length <= wordLength_max) {
 		startLevel();
 	}
 }
@@ -85,8 +93,8 @@ function startLevel() {
 	//    n/a
 
 	// 2. Perform the action
-	GAME_STATE.wordLength_current = GAME_STATE.lettersProvided.length;
-	GAME_STATE.lettersProvided.push("");
+	wordLength_current = lettersProvided.length;
+	lettersProvided.push("");
 
 	// 3. Inform the UI
 	gameEvents.dispatchEvent(new CustomEvent("level:started"));
@@ -98,39 +106,35 @@ function startLevel() {
 export function addLetter(letter) {
 	// 1. Confirm action can be performed
 	var letter = letter.toUpperCase();
-	var nextLetterPosition =
-		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current].length;
-	if (nextLetterPosition >= GAME_STATE.wordLength_current) {
+	var nextLetterPosition = lettersProvided[wordLength_current].length;
+	if (nextLetterPosition >= wordLength_current) {
 		submitGuess();
 		return;
 	}
 
 	// 2. Perform the action
-	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] += letter;
+	lettersProvided[wordLength_current] += letter;
 
 	// 3. Inform the UI
 	gameEvents.dispatchEvent(new CustomEvent("letter:added", { detail: { letter } }));
 
 	// 4. Advance the game
 	nextLetterPosition++;
-	if (nextLetterPosition >= GAME_STATE.wordLength_current) {
+	if (nextLetterPosition >= wordLength_current) {
 		submitGuess();
 	}
 }
 
 export function deleteLetter() {
 	// 1. Confirm action can be performed
-	var latestLetterPosition =
-		GAME_STATE.lettersProvided[GAME_STATE.wordLength_current].length - 1;
+	var latestLetterPosition = lettersProvided[wordLength_current].length - 1;
 	if (latestLetterPosition < 0) {
 		return;
 	}
 
 	// 2. Perform the action
-	var letterRemoved = GAME_STATE.lettersProvided[
-		GAME_STATE.wordLength_current
-	].slice(0, -1);
-	GAME_STATE.lettersProvided[GAME_STATE.wordLength_current] = letterRemoved;
+	var letterRemoved = lettersProvided[wordLength_current].slice(0, -1);
+	lettersProvided[wordLength_current] = letterRemoved;
 
 	// 3. Inform the UI
 	gameEvents.dispatchEvent(new CustomEvent("letter:deleted"));
@@ -144,12 +148,12 @@ export function submitGuess() {
 	//    n/a
 
 	// 2. Perform the action
-	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
+	var word = lettersProvided[wordLength_current];
 	var [guessResult, errorCode] = validateWord(
 		word,
-		GAME_STATE.trigram,
-		GAME_STATE.wordLength_current,
-		GAME_STATE.wordList
+		trigram,
+		wordLength_current,
+		wordList
 	);
 
 	// 3. Inform the UI
@@ -168,13 +172,13 @@ function handleValidGuess(word) {
 	// n/a
 
 	// 2. Perform the action
-	saveGameState(GAME_STATE);
+	saveGameState({ trigram, lettersProvided });
 
 	// 3. Inform the UI
 	gameEvents.dispatchEvent(new CustomEvent("guess:valid", { detail: { word } }));
 
 	// 4. Advance the game
-	if (GAME_STATE.wordLength_current == wordLength_max) {
+	if (wordLength_current == wordLength_max) {
 		endGame();
 	} else {
 		startLevel();
@@ -191,11 +195,7 @@ function handleInvalidGuess(errorCode) {
 	// 3. Inform the UI
 	gameEvents.dispatchEvent(
 		new CustomEvent("guess:invalid", {
-			detail: {
-				errorCode,
-				wordLength: GAME_STATE.wordLength_current,
-				trigram: GAME_STATE.trigram,
-			},
+			detail: { errorCode, wordLength: wordLength_current, trigram },
 		})
 	);
 

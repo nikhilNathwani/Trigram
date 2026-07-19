@@ -24,190 +24,193 @@ var wordDiv = null; //set by startLevel
 const roundTitles = ["Round I", "Round II", "Final Round!", "BONUS!"];
 const youWinString = "INCREDIBLE!";
 
+// View state. Live-binding exports (see game.js for the same trick): the
+// one piece anything outside this file needs — levelsCompleted, read by
+// interactionHandler.js — stays correct on every read with no object
+// wrapper or manual sync required.
+export let levelsCompleted = 0;
+let nextLetterIndex = 0;
+let bonusGameInvoked = false;
+let isInitialReloadState = false;
+
 // MAIN FUNCTIONS ---------------------------------------------------------- //
-export const UI_STATE = {
-	levelsCompleted: 0,
-	nextLetterIndex: 0,
-	bonusGameInvoked: false,
-	isInitialReloadState: false,
+// Named handle<EventName> to match the gameEvents names 1:1 (see the
+// subscriptions below) and to stay unambiguous from game.js's own
+// same-purpose-sounding internal functions (e.g. its private startLevel()).
+function handleGameStarted(trigram, wordsProvided) {
+	//I) Initialize UI
+	setTrigramRevealScreen(trigram);
+	setTrigramHeader(trigram);
 
-	startGame: function (trigram, wordsProvided) {
-		//I) Initialize UI
-		setTrigramRevealScreen(trigram);
-		setTrigramHeader(trigram);
+	//II) Resume game if it's already begun
+	if (wordsProvided.length > 0) {
+		// 1) Skip title screen & trigram reveal screen
+		isInitialReloadState = true;
+		skipAllModalScreens();
 
-		//II) Resume game if it's already begun
-		if (wordsProvided.length > 0) {
-			// 1) Skip title screen & trigram reveal screen
-			this.isInitialReloadState = true;
-			skipAllModalScreens();
+		// 2) Fill in all words the user has submitted previously
+		var numWords = wordsProvided.length;
+		for (let wordIndex = 0; wordIndex < numWords; wordIndex++) {
+			//Get the current level and mark as complete
+			levelDiv = document.getElementById(
+				"level-" + wordsProvided[wordIndex].length
+			);
+			setLevelComplete();
 
-			// 2) Fill in all words the user has submitted previously
-			var numWords = wordsProvided.length;
-			for (let wordIndex = 0; wordIndex < numWords; wordIndex++) {
-				//Get the current level and mark as complete
-				levelDiv = document.getElementById(
-					"level-" + wordsProvided[wordIndex].length
-				);
-				setLevelComplete();
-
-				//Fill in the letters for the completed level
-				wordDiv = levelDiv.querySelector(".word");
-				const letters = wordDiv.querySelectorAll(".letter");
-				letters.forEach((letter, letterIndex) => {
-					letter.textContent = wordsProvided[wordIndex][letterIndex]; //so that letter divs have a height
-				});
-			}
-
-			// 3) Drop user into the round containing their next level
-			//    (without doing the slide-down round transition)
-			//
-			// Exception A) Pre-bonus game completed
-			if (this.levelsCompleted == 9) {
-				appDiv.classList = "round-3";
-				showYouWinScreen();
-			}
-			//
-			// Exception B) Post-bonus game completed
-			else if (this.levelsCompleted == 12) {
-				appDiv.classList = "round-4";
-				this.endGame();
-			}
-			//
-			else {
-				const roundNum = Math.floor(this.levelsCompleted / 3) + 1;
-				appDiv.classList = "round-" + roundNum;
-			}
+			//Fill in the letters for the completed level
+			wordDiv = levelDiv.querySelector(".word");
+			const letters = wordDiv.querySelectorAll(".letter");
+			letters.forEach((letter, letterIndex) => {
+				letter.textContent = wordsProvided[wordIndex][letterIndex]; //so that letter divs have a height
+			});
 		}
-	},
 
-	startLevel: function () {
-		// 1) Set level to active
-		const roundNum = Math.floor(this.levelsCompleted / 3) + 1;
-		const roundDiv = roundDivs[roundNum - 1];
-		levelDiv = roundDiv.querySelector(
-			`div.level:nth-child(${(this.levelsCompleted % 3) + 1})`
-		);
-		levelDiv.classList.remove("locked");
-		levelDiv.classList.add("active");
+		// 3) Drop user into the round containing their next level
+		//    (without doing the slide-down round transition)
+		//
+		// Exception A) Pre-bonus game completed
+		if (levelsCompleted == 9) {
+			appDiv.classList = "round-3";
+			showYouWinScreen();
+		}
+		//
+		// Exception B) Post-bonus game completed
+		else if (levelsCompleted == 12) {
+			appDiv.classList = "round-4";
+			handleGameEnded();
+		}
+		//
+		else {
+			const roundNum = Math.floor(levelsCompleted / 3) + 1;
+			appDiv.classList = "round-" + roundNum;
+		}
+	}
+}
 
-		// 2) Start accepting user input
-		wordDiv = levelDiv.querySelector(".word");
-		const letters = wordDiv.querySelectorAll(".letter");
-		letters.forEach((letter) => {
-			letter.classList.add("empty");
-			letter.textContent = "?"; //so that letter divs have a height
-		});
-		this.nextLetterIndex = 0;
-		startInteraction();
+function handleLevelStarted() {
+	// 1) Set level to active
+	const roundNum = Math.floor(levelsCompleted / 3) + 1;
+	const roundDiv = roundDivs[roundNum - 1];
+	levelDiv = roundDiv.querySelector(
+		`div.level:nth-child(${(levelsCompleted % 3) + 1})`
+	);
+	levelDiv.classList.remove("locked");
+	levelDiv.classList.add("active");
 
-		// 3) Advance to next round if needed
-		if (this.levelsCompleted % 3 == 0) {
-			//Case A) Round 4 but need to see YOU WIN screen first:
-			//- Show You Win screen
-			if (this.levelsCompleted == 9 && !this.bonusGameInvoked) {
-				showYouWinScreen();
-			}
-			//Case B) Round 1 or Reloading at start of Round 2/3:
-			//- Begin the round (without round-transition animation)
-			//- Display Round Title
-			else if (this.levelsCompleted == 0 || this.isInitialReloadState) {
+	// 2) Start accepting user input
+	wordDiv = levelDiv.querySelector(".word");
+	const letters = wordDiv.querySelectorAll(".letter");
+	letters.forEach((letter) => {
+		letter.classList.add("empty");
+		letter.textContent = "?"; //so that letter divs have a height
+	});
+	nextLetterIndex = 0;
+	startInteraction();
+
+	// 3) Advance to next round if needed
+	if (levelsCompleted % 3 == 0) {
+		//Case A) Round 4 but need to see YOU WIN screen first:
+		//- Show You Win screen
+		if (levelsCompleted == 9 && !bonusGameInvoked) {
+			showYouWinScreen();
+		}
+		//Case B) Round 1 or Reloading at start of Round 2/3:
+		//- Begin the round (without round-transition animation)
+		//- Display Round Title
+		else if (levelsCompleted == 0 || isInitialReloadState) {
+			appDiv.classList = "";
+			appDiv.classList.add("round-" + roundNum);
+			showRoundTitle(roundNum);
+		}
+		//Case C) Round 2, 3, or 4 (after YOU WIN screen):
+		//- Disable typing during animation
+		//- Run round-transition animation (after 350ms to see all 3 words in completed state)
+		//- Display Round Title
+		//- Re-enable typing
+		else {
+			stopInteraction();
+			setTimeout(() => {
 				appDiv.classList = "";
 				appDiv.classList.add("round-" + roundNum);
-				showRoundTitle(roundNum);
-			}
-			//Case C) Round 2, 3, or 4 (after YOU WIN screen):
-			//- Disable typing during animation
-			//- Run round-transition animation (after 350ms to see all 3 words in completed state)
-			//- Display Round Title
-			//- Re-enable typing
-			else {
-				stopInteraction();
-				setTimeout(() => {
-					appDiv.classList = "";
-					appDiv.classList.add("round-" + roundNum);
-					appDiv.classList.add("round-transition");
-					appDiv.addEventListener("transitionend", () => {
-						appDiv.classList.remove("round-transition");
-						showRoundTitle(roundNum);
-						startInteraction();
-					});
-				}, 350);
-			}
+				appDiv.classList.add("round-transition");
+				appDiv.addEventListener("transitionend", () => {
+					appDiv.classList.remove("round-transition");
+					showRoundTitle(roundNum);
+					startInteraction();
+				});
+			}, 350);
 		}
+	}
 
-		//4) Reset isInitialReloadState to false (initial reload period ends when any level starts)
-		this.isInitialReloadState = false;
-	},
+	//4) Reset isInitialReloadState to false (initial reload period ends when any level starts)
+	isInitialReloadState = false;
+}
 
-	addLetter: function (letter) {
-		clearAlerts();
+function handleLetterAdded(letter) {
+	clearAlerts();
 
-		const nextLetter = wordDiv.querySelector(
-			`.letter:nth-child(${this.nextLetterIndex + 1})`
-		);
-		nextLetter.textContent = letter;
-		nextLetter.classList.remove("empty");
-		this.nextLetterIndex++;
-	},
+	const nextLetter = wordDiv.querySelector(
+		`.letter:nth-child(${nextLetterIndex + 1})`
+	);
+	nextLetter.textContent = letter;
+	nextLetter.classList.remove("empty");
+	nextLetterIndex++;
+}
 
-	deleteLetter: function () {
-		clearAlerts();
+function handleLetterDeleted() {
+	clearAlerts();
 
-		const latestLetter = wordDiv.querySelector(
-			`.letter:nth-child(${this.nextLetterIndex})`
-		);
-		latestLetter.classList.add("empty");
-		latestLetter.textContent = "?"; //so letter cell has a height
-		this.nextLetterIndex--;
-	},
+	const latestLetter = wordDiv.querySelector(
+		`.letter:nth-child(${nextLetterIndex})`
+	);
+	latestLetter.classList.add("empty");
+	latestLetter.textContent = "?"; //so letter cell has a height
+	nextLetterIndex--;
+}
 
-	handleValidGuess: function (word) {
-		stopInteraction();
-		setLevelComplete();
-		clearAlerts();
-	},
+function handleGuessValid(word) {
+	stopInteraction();
+	setLevelComplete();
+	clearAlerts();
+}
 
-	handleInvalidGuess: function (errorCode, wordLength, trigram) {
-		showAlert(lookupErrorString(errorCode, wordLength, trigram));
-	},
+function handleGuessInvalid(errorCode, wordLength, trigram) {
+	showAlert(lookupErrorString(errorCode, wordLength, trigram));
+}
 
-	endGame: function () {
-		showAlert(youWinString);
-		stopInteraction();
-		disableKeyboardUI();
-		setTimeout(() => {
-			showStatsScreen();
-		}, 2000);
-	},
-};
+function handleGameEnded() {
+	showAlert(youWinString);
+	stopInteraction();
+	disableKeyboardUI();
+	setTimeout(() => {
+		showStatsScreen();
+	}, 2000);
+}
 
 // GAME EVENT SUBSCRIPTIONS ------------------------------------------------ //
 // game.js narrates what happened; it has no idea view.js is listening.
 // ui/stats.js subscribes to the same events independently — see its own
 // "GAME EVENT SUBSCRIPTIONS" section. Don't assume ordering between the two.
 gameEvents.addEventListener("game:started", (e) =>
-	UI_STATE.startGame(e.detail.trigram, e.detail.wordsProvided)
+	handleGameStarted(e.detail.trigram, e.detail.wordsProvided)
 );
-gameEvents.addEventListener("level:started", () => UI_STATE.startLevel());
+gameEvents.addEventListener("level:started", handleLevelStarted);
 gameEvents.addEventListener("letter:added", (e) =>
-	UI_STATE.addLetter(e.detail.letter)
+	handleLetterAdded(e.detail.letter)
 );
-gameEvents.addEventListener("letter:deleted", () => UI_STATE.deleteLetter());
-gameEvents.addEventListener("guess:valid", (e) =>
-	UI_STATE.handleValidGuess(e.detail.word)
-);
+gameEvents.addEventListener("letter:deleted", handleLetterDeleted);
+gameEvents.addEventListener("guess:valid", (e) => handleGuessValid(e.detail.word));
 gameEvents.addEventListener("guess:invalid", (e) =>
-	UI_STATE.handleInvalidGuess(e.detail.errorCode, e.detail.wordLength, e.detail.trigram)
+	handleGuessInvalid(e.detail.errorCode, e.detail.wordLength, e.detail.trigram)
 );
-gameEvents.addEventListener("game:ended", () => UI_STATE.endGame());
+gameEvents.addEventListener("game:ended", handleGameEnded);
 
 // HELPER FUNCTIONS -------------------------------------------------------- //
 function setLevelComplete() {
 	levelDiv.querySelector(".length").innerHTML =
 		'<i class="fa-solid fa-check"></i>';
 	levelDiv.classList = "level complete";
-	UI_STATE.levelsCompleted++;
+	levelsCompleted++;
 }
 
 function shakeLevel() {
@@ -266,10 +269,10 @@ function clearAlerts() {
 
 export function startBonusGame() {
 	hideYouWinScreen();
-	UI_STATE.bonusGameInvoked = true;
+	bonusGameInvoked = true;
 	stopInteraction();
 	setTimeout(() => {
-		UI_STATE.startLevel();
+		handleLevelStarted();
 	}, 1000);
 }
 

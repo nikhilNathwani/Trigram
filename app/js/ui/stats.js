@@ -1,6 +1,6 @@
 import { getGameID, getNextMondayString } from "../calendar.js";
 import { loadPastGames } from "../storage.js";
-import { GAME_STATE, wordLength_start, gameEvents } from "../game.js";
+import { trigram, wordLength_start, gameEvents } from "../game.js";
 
 // UP NEXT:
 // -
@@ -18,15 +18,14 @@ import { GAME_STATE, wordLength_start, gameEvents } from "../game.js";
 // (2) Counting Stats ("Your Stats")
 // (3) Histogram ("Longest Word Distribution")
 //
-const STATS = {};
 //Stats used for (2) Counting Stats
-STATS.numGamesPlayed = 0;
-STATS.numGamesWon = 0;
-STATS.currentStreak = 0;
-STATS.maxStreak = 0;
-STATS.longestWordLength = 0;
+let numGamesPlayed = 0;
+let numGamesWon = 0;
+let currentStreak = 0;
+let maxStreak = 0;
+let longestWordLength = 0;
 //Stats used for (3) Histogram
-STATS.longestWordCounts = {};
+let longestWordCounts = {};
 
 export function initializeStatsUI(trigram, wordsProvided = null) {
 	//Load stats from past games and current game (if it exists)
@@ -56,36 +55,33 @@ export function updateStatsUI(latestWord) {
 	//(2) Counting Stats
 	//    Increment Counting Stats if this is the start of the current game
 	if (latestWord.length == wordLength_start) {
-		STATS.numGamesPlayed++;
-		STATS.currentStreak++;
-		STATS.maxStreak = Math.max(STATS.maxStreak, STATS.currentStreak);
+		numGamesPlayed++;
+		currentStreak++;
+		maxStreak = Math.max(maxStreak, currentStreak);
 	}
 	if (latestWord.length == 12) {
-		STATS.numGamesWon++;
+		numGamesWon++;
 	}
-	STATS.longestWordLength = Math.max(
-		STATS.longestWordLength,
-		latestWord.length
-	);
+	longestWordLength = Math.max(longestWordLength, latestWord.length);
 	setCountingStatsUI();
 
 	//(3) Histogram
 	//    Update histogram, using the latest word as this game's longest word
 	//Case i) the first word of the game
 	if (latestWord.length == wordLength_start) {
-		STATS.longestWordCounts[wordLength_start] =
-			(STATS.longestWordCounts[wordLength_start] || 0) + 1;
+		longestWordCounts[wordLength_start] =
+			(longestWordCounts[wordLength_start] || 0) + 1;
 	}
 	//Case ii) not the first word of the game
 	else {
 		//Decrement count of game's previous longest word length
-		STATS.longestWordCounts[latestWord.length - 1]--;
-		if (STATS.longestWordCounts[latestWord.length - 1] == 0) {
-			delete STATS.longestWordCounts[latestWord.length - 1];
+		longestWordCounts[latestWord.length - 1]--;
+		if (longestWordCounts[latestWord.length - 1] == 0) {
+			delete longestWordCounts[latestWord.length - 1];
 		}
 		//Increment count of game's current longest word length
-		STATS.longestWordCounts[latestWord.length] =
-			(STATS.longestWordCounts[latestWord.length] || 0) + 1;
+		longestWordCounts[latestWord.length] =
+			(longestWordCounts[latestWord.length] || 0) + 1;
 	}
 	setHistogramUI();
 }
@@ -137,8 +133,8 @@ function addToWordListUI(word) {
 	wordDiv.classList.add("stat-wordList-word");
 	wordDiv.id = "stat-wordList-word" + length;
 	wordDiv.innerHTML = word.replace(
-		GAME_STATE.trigram,
-		`<span class="stat-wordList-trigram">${GAME_STATE.trigram}</span>`
+		trigram,
+		`<span class="stat-wordList-trigram">${trigram}</span>`
 	);
 	levelDiv.appendChild(wordDiv);
 
@@ -157,7 +153,7 @@ const statListDiv = document.getElementById("statListValue");
 function setCountingStatsUI() {
 	//Games Played div
 	const numGamesPlayedDiv = document.getElementById("stat-numGamesPlayed");
-	numGamesPlayedDiv.textContent = STATS.numGamesPlayed;
+	numGamesPlayedDiv.textContent = numGamesPlayed;
 
 	//Win % div
 	const winPercentageDiv = document.getElementById("stat-winPercentage");
@@ -165,23 +161,23 @@ function setCountingStatsUI() {
 
 	//Current Streak div
 	const currStreakDiv = document.getElementById("stat-currentStreak");
-	currStreakDiv.textContent = STATS.currentStreak;
+	currStreakDiv.textContent = currentStreak;
 
 	//Max Streak div
 	const maxStreakDiv = document.getElementById("stat-maxStreak");
-	maxStreakDiv.textContent = STATS.maxStreak;
+	maxStreakDiv.textContent = maxStreak;
 
 	//Longest Word div - DEPRECATED
 	// const longestWordDiv = document.getElementById("stat-longestWordLength");
 	// longestWordDiv.textContent =
-	// 	STATS.longestWordLength == 0 ? "n/a" : STATS.longestWordLength;
+	// 	longestWordLength == 0 ? "n/a" : longestWordLength;
 }
 
 export function calcWinPercentage() {
-	if (STATS.numGamesPlayed == 0) {
+	if (numGamesPlayed == 0) {
 		return "n/a";
 	}
-	const winPct = 100 * (STATS.numGamesWon / STATS.numGamesPlayed);
+	const winPct = 100 * (numGamesWon / numGamesPlayed);
 	if (winPct === 100) {
 		return 100;
 	}
@@ -246,9 +242,6 @@ export function calcLongestWord(pastGames) {
 	var currLongest = 0;
 	for (let index = 0; index < pastGames.length; index++) {
 		const game = pastGames[index];
-		// if (game.longestWord == GAME_STATE.wordLength_max) {
-		// 	return GAME_STATE.wordLength_max;
-		// }
 		if (game.longestWord > currLongest) {
 			currLongest = game.longestWord;
 		}
@@ -268,7 +261,7 @@ const statDistributionDiv = document.getElementById("statDistributionValue");
 
 function setHistogramUI() {
 	// Case 1: No data (show empty state)
-	if (Object.keys(STATS.longestWordCounts).length == 0) {
+	if (Object.keys(longestWordCounts).length == 0) {
 		const emptyState = document.createElement("p");
 		emptyState.textContent =
 			"A graph of your longest words from each game will appear here.";
@@ -283,13 +276,10 @@ function setHistogramUI() {
 	var maxLongestWord = 0;
 	var maxWordCount = -10;
 
-	for (const wordLength in STATS.longestWordCounts) {
+	for (const wordLength in longestWordCounts) {
 		minLongestWord = Math.min(minLongestWord, wordLength);
 		maxLongestWord = Math.max(maxLongestWord, wordLength);
-		maxWordCount = Math.max(
-			maxWordCount,
-			STATS.longestWordCounts[wordLength]
-		);
+		maxWordCount = Math.max(maxWordCount, longestWordCounts[wordLength]);
 	}
 	statDistributionDiv.innerHTML = "";
 	for (let index = minLongestWord; index <= maxLongestWord; index++) {
@@ -303,10 +293,10 @@ function setHistogramUI() {
 
 		const count = document.createElement("div");
 		count.classList.add("stat-statDistribution-itemCount");
-		count.textContent = STATS.longestWordCounts[index] || 0;
+		count.textContent = longestWordCounts[index] || 0;
 		count.style.width = `${
 			histogram_minWidth +
-			histogram_maxWidth * (STATS.longestWordCounts[index] / maxWordCount)
+			histogram_maxWidth * (longestWordCounts[index] / maxWordCount)
 		}ch`;
 		row.appendChild(count);
 
@@ -323,15 +313,15 @@ export function loadStats() {
 	let pastGames = loadPastGames();
 
 	//Calculate stats
-	STATS.numGamesPlayed = pastGames.length;
-	STATS.numGamesWon = calcNumGamesWon(pastGames);
-	STATS.currentStreak = calcCurrentStreak(pastGames);
-	STATS.maxStreak = calcMaxStreak(pastGames);
-	STATS.longestWordLength = calcLongestWord(pastGames);
+	numGamesPlayed = pastGames.length;
+	numGamesWon = calcNumGamesWon(pastGames);
+	currentStreak = calcCurrentStreak(pastGames);
+	maxStreak = calcMaxStreak(pastGames);
+	longestWordLength = calcLongestWord(pastGames);
 	for (let index = 0; index < pastGames.length; index++) {
 		const currLongestWord = pastGames[index].longestWord;
-		STATS.longestWordCounts[currLongestWord] =
-			(STATS.longestWordCounts[currLongestWord] || 0) + 1;
+		longestWordCounts[currLongestWord] =
+			(longestWordCounts[currLongestWord] || 0) + 1;
 	}
 }
 

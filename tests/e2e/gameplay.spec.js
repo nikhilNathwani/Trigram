@@ -95,7 +95,7 @@ test.describe("persistence", () => {
 		await waitForReady(page);
 
 		// On reload with an in-progress game, the app skips the title/help
-		// screens entirely (see UI_STATE.startGame in app/js/ui/view.js) and
+		// screens entirely (see handleGameStarted in app/js/ui/view.js) and
 		// re-renders previously completed levels directly.
 		await expect(page.locator(`#level-${word.length}`)).toHaveClass(/complete/);
 		const letters = await page
