@@ -16,6 +16,8 @@ if (DEBUG.forceFakePastStats) {
 // Initialize the app
 async function initApp() {
 	await loadTrigramCalendar();
+	GAME_STATE.trigram = trigram_calendar[getGameID()];
+	GAME_STATE.wordList = await loadWordList(GAME_STATE.trigram);
 	startGame();
 }
 
@@ -42,11 +44,7 @@ function startGame() {
 	//    n/a
 
 	// 2. Perform the action
-	//    a) Get trigram and load word list
-	GAME_STATE.trigram = trigram_calendar[getGameID()];
-	loadWordList(GAME_STATE.trigram);
-
-	//    b) Load game state (or initialize to empty state)
+	//    Load game state (or initialize to empty state)
 	const gameData = loadGameState();
 	GAME_STATE.wordLength_current = gameData
 		? gameData.wordsProvided.length
@@ -131,10 +129,11 @@ function submitGuess() {
 
 	// 2. Perform the action
 	var word = GAME_STATE.lettersProvided[GAME_STATE.wordLength_current];
-	var [guessResult, errorReason] = validateWord(
+	var [guessResult, errorCode] = validateWord(
 		word,
 		GAME_STATE.trigram,
-		GAME_STATE.wordLength_current
+		GAME_STATE.wordLength_current,
+		GAME_STATE.wordList
 	);
 
 	// 3. Inform the UI
@@ -144,7 +143,7 @@ function submitGuess() {
 	if (guessResult) {
 		handleValidGuess(word);
 	} else {
-		handleInvalidGuess(errorReason);
+		handleInvalidGuess(errorCode);
 	}
 }
 
@@ -166,7 +165,7 @@ function handleValidGuess(word) {
 	}
 }
 
-function handleInvalidGuess(errorReason) {
+function handleInvalidGuess(errorCode) {
 	// 1. Confirm action can be performed
 	// n/a
 
@@ -174,7 +173,7 @@ function handleInvalidGuess(errorReason) {
 	// n/a
 
 	// 3. Inform the UI
-	UI_STATE.handleInvalidGuess(errorReason);
+	UI_STATE.handleInvalidGuess(errorCode);
 
 	// 4. Advance the game
 	// n/a

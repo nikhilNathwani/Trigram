@@ -158,8 +158,8 @@ const UI_STATE = {
 		clearAlerts();
 	},
 
-	handleInvalidGuess: function (errorString) {
-		showAlert(errorString);
+	handleInvalidGuess: function (errorCode) {
+		showAlert(lookupErrorString(errorCode));
 	},
 
 	endGame: function () {
@@ -190,6 +190,19 @@ function shakeLevel() {
 		},
 		{ once: true }
 	);
+}
+
+function lookupErrorString(errorCode) {
+	switch (errorCode) {
+		case "WRONG-LENGTH":
+			return `Word not ${GAME_STATE.wordLength_current} letters long`;
+		case "TRIGRAM-MISSING":
+			return `Doesn't contain ${GAME_STATE.trigram}`;
+		case "NOT-FOUND":
+			return "Not in word list";
+		default:
+			return "An unknown error occurred.";
+	}
 }
 
 function showAlert(alertText) {

@@ -1,33 +1,26 @@
-let wordList = null;
-
 //
 function loadWordList(trigram) {
-	return new Promise((resolve, reject) => {
-		fetch(
-			"data/trigram-word-lists/" + trigram.toLowerCase() + "_words.json"
-		)
-			.then((response) => response.json())
-			.then((data) => {
-				wordList = data;
-				resolve();
-			})
-			.catch((error) => {
-				console.error("Error loading word list:", error);
-				reject(error);
-			});
-	});
+	return fetch(
+		"data/trigram-word-lists/" + trigram.toLowerCase() + "_words.json"
+	)
+		.then((response) => response.json())
+		.catch((error) => {
+			console.error("Error loading word list:", error);
+			throw error;
+		});
 }
 
-// Returns [isValid, errorReason] where:
+// Returns [isValid, errorCode] where:
 //    -isValid is true/false indicating whether the inputted word meets the constraints
-//    -errorReason is a string indicating which error message to display
-function validateWord(word, trigram, currWordLength) {
+//    -errorCode is a string code identifying which validation failed
+//     (mapped to a display string by UI_STATE.handleInvalidGuess)
+function validateWord(word, trigram, currWordLength, wordList) {
 	if (!isWordLengthReached(word, currWordLength)) {
-		return [false, lookupErrorString("WRONG-LENGTH")];
+		return [false, "WRONG-LENGTH"];
 	} else if (!containsTrigram(word, trigram)) {
-		return [false, lookupErrorString("TRIGRAM-MISSING")];
-	} else if (!existsInWordList(word, currWordLength)) {
-		return [false, lookupErrorString("NOT-FOUND")];
+		return [false, "TRIGRAM-MISSING"];
+	} else if (!existsInWordList(word, currWordLength, wordList)) {
+		return [false, "NOT-FOUND"];
 	} else {
 		return [true, ""];
 	}
@@ -41,7 +34,7 @@ function containsTrigram(word, trigram) {
 	return word.includes(trigram);
 }
 
-function existsInWordList(word, currWordLength) {
+function existsInWordList(word, currWordLength, wordList) {
 	if (!wordList) {
 		console.error("Word list not loaded.");
 		return false;
@@ -52,17 +45,4 @@ function existsInWordList(word, currWordLength) {
 	}
 
 	return false;
-}
-
-function lookupErrorString(errorCode) {
-	switch (errorCode) {
-		case "WRONG-LENGTH":
-			return `Word not ${GAME_STATE.wordLength_current} letters long`;
-		case "TRIGRAM-MISSING":
-			return `Doesn't contain ${GAME_STATE.trigram}`;
-		case "NOT-FOUND":
-			return "Not in word list";
-		default:
-			return "An unknown error occurred.";
-	}
 }

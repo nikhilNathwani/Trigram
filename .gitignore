@@ -25,3 +25,10 @@ data/corpus/
 # Ignore setup scripts
 startTrigram.sh
 Trigram\ Update\ Routine.txtINTERVIEW_STORIES.md
+
+# Node tooling (test suite)
+node_modules/
+playwright-report/
+test-results/
+coverage/
+
