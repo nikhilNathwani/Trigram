@@ -1,12 +1,30 @@
 import { isAnyScreenShown } from "./ui/modal.js";
-import { levelsCompleted } from "./ui/view.js";
-import { submitGuess, addLetter, deleteLetter } from "./game.js";
+import { submitGuess, addLetter, deleteLetter, gameEvents } from "./game.js";
 
 //
 const keyboard = document.getElementById("keyboard");
 
+// Whether the whole game (all 12 levels) is over — Model state, so it comes
+// from game.js's events rather than reading ui/view.js's levelsCompleted,
+// which removes the interactionHandler.js -> ui/view.js import (view.js
+// already imports back from here for startInteraction). Two ways this
+// becomes true: finishing the last level live ("game:ended"), or reloading
+// a page whose save data was already complete — game.js doesn't re-fire
+// "game:ended" in that case (it only calls startLevel(), which it correctly
+// skips when there's nothing left to start), so "game:started" carrying all
+// 12 already-provided words is the only signal that moment produces.
+let gameEnded = false;
+gameEvents.addEventListener("game:started", (e) => {
+	if (e.detail.wordsProvided.length >= 12) {
+		gameEnded = true;
+	}
+});
+gameEvents.addEventListener("game:ended", () => {
+	gameEnded = true;
+});
+
 export function startInteraction() {
-	if (!isAnyScreenShown() && levelsCompleted < 12) {
+	if (!isAnyScreenShown() && !gameEnded) {
 		document.addEventListener("keydown", handleKeyPress);
 		keyboard.addEventListener("click", handleMouseClick);
 	}
