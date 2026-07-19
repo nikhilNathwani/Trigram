@@ -1,9 +1,7 @@
-# Bundle app/js (ES modules) into app/dist/bundle.js before publishing.
-# Everything else in the repo (data/, tools/label/, index.html itself,
-# site.webmanifest, og-image.png, app/assets/, app/css/) is untouched by
-# this build step and continues to be served exactly as it is in the repo.
+# No build step: index.html loads app/js/game.js as a native ES module and
+# the browser resolves its whole import graph itself. The repo is published
+# as-is.
 [build]
-  command = "npm run build"
   publish = "."
 
 # Serve /label as a clean URL pointing to the label tool

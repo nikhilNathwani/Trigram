@@ -551,7 +551,8 @@
 				</div>
 			</div>
 		</div>
-		<!-- Built by Vite (npm run build) from the ES modules in app/js/ -->
-		<script src="app/dist/bundle.js"></script>
+		<!-- Native ES module: the browser resolves and fetches game.js's whole
+		     import graph itself, no build step required. -->
+		<script type="module" src="app/js/game.js"></script>
 	</body>
 </html>

@@ -8,8 +8,7 @@ import {
 
 // These tests drive the real app in a real browser — the same file
 // index.html loads in production, served exactly the way Netlify serves it
-// (plain static files, no build step, except app/dist/bundle.js which is
-// built by `npm run build` before these tests run — see playwright.config.js).
+// (plain static files, no build step — see playwright.config.js).
 // This is the layer that covers everything the unit tests structurally
 // can't: DOM rendering, the screen transitions, keyboard event wiring, and
 // localStorage persisting across a real page reload.
