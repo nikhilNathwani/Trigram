@@ -33,9 +33,11 @@ export function saveGameState(gameState) {
 // Past games represented by objects containing gameID, trigram, and wordsProvided array
 export function loadPastGames() {
 	let pastGames = []; //excludes current game
+	const currentGameID = getGameID();
 	const keys = Object.keys(localStorage)
 		.filter((key) => /^\d+$/.test(key)) // filter keys that are not integers
 		.map((key) => parseInt(key, 10)) //convert keys from strings to ints
+		.filter((key) => key !== currentGameID) // exclude current (still in-progress) game
 		.sort((a, b) => a - b); //sort ints in ascending order
 	for (const key of keys) {
 		const value = JSON.parse(localStorage.getItem(key));

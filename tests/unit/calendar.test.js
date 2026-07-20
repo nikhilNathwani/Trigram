@@ -15,11 +15,6 @@ import {
 // vitest.config.js also pins TZ=UTC for this same reason: getGameID() calls
 // Date.getTimezoneOffset(), and without a fixed timezone this test's
 // expected values would shift depending on the machine running them.
-//
-// calendar.js imports DEBUG from debug.js (a real, two-way circular import —
-// see the comment at the top of public/js/game.js). We don't need to mock it:
-// debug.js's DEBUG.forceFakePastStats defaults to false, which is exactly
-// the branch these tests want to exercise (real date-based game IDs).
 describe("calendar", () => {
 	afterEach(() => {
 		vi.useRealTimers();

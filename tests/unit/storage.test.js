@@ -48,24 +48,47 @@ describe("storage", () => {
 			expect(loadPastGames()).toEqual([]);
 		});
 
-		it("excludes the current game and ignores non-game keys", () => {
+		it("ignores non-game keys", () => {
+			// Override the outer beforeEach's frozen date so "today" is
+			// gameID 1 — leaving gameID 0 as a genuine past game, not today's.
+			vi.setSystemTime(new Date("2024-04-22T00:00:00Z")); // gameID 1
+
 			localStorage.setItem(
 				"0",
 				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "CATS"] })
-			);
-			localStorage.setItem(
-				"1",
-				JSON.stringify({ trigram: "DOG", wordsProvided: [null, "DOGS", "DOGES"] })
 			);
 			// Keys that aren't purely numeric should be ignored, e.g. app
 			// settings or feature flags stored under the same localStorage.
 			localStorage.setItem("some-unrelated-setting", "true");
 
-			const pastGames = loadPastGames();
-
-			expect(pastGames).toEqual([
+			expect(loadPastGames()).toEqual([
 				{ gameID: 0, trigram: "CAT", longestWord: 4 }, // "CATS".length
-				{ gameID: 1, trigram: "DOG", longestWord: 5 }, // "DOGES".length
+			]);
+		});
+
+		// Regression test: loadPastGames() used to scan every numeric
+		// localStorage key with no exclusion at all, despite its own comment
+		// claiming otherwise — so a resumed, still-in-progress game got
+		// double-counted as a completed "past game" the moment it had any
+		// saved progress, inflating numGamesPlayed/win %/streaks. Caught by
+		// tests/e2e/statsDialog.spec.js seeding a real in-progress current
+		// game alongside past-game history and checking the rendered counts.
+		it("excludes the current game, even once it has saved progress", () => {
+			// Override the outer beforeEach's frozen date so "today" is
+			// gameID 2 — leaving room for gameID 0 to be a genuine past game.
+			vi.setSystemTime(new Date("2024-04-29T00:00:00Z")); // gameID 2
+
+			localStorage.setItem(
+				"0",
+				JSON.stringify({ trigram: "DOG", wordsProvided: [null, "DOGS", "DOGES"] })
+			);
+			localStorage.setItem(
+				"2", // today's game, already has progress from an earlier session
+				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "CATS"] })
+			);
+
+			expect(loadPastGames()).toEqual([
+				{ gameID: 0, trigram: "DOG", longestWord: 5 }, // "DOGES".length
 			]);
 		});
 

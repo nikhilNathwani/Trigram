@@ -1,10 +1,10 @@
-import { DEBUG, clearCurrentGameData, setFakePastGameData } from "./debug.js";
-import { loadTrigramCalendar, getGameID, trigram_calendar } from "./calendar.js";
+import {
+	loadTrigramCalendar,
+	getGameID,
+	trigram_calendar,
+} from "./calendar.js";
 import { loadWordList, validateWord } from "./wordChecker.js";
 import { loadGameState, saveGameState } from "./storage.js";
-
-// UP NEXT:
-//
 
 /*  ------------------------------------------------------------- */
 export const wordLength_start = 4;
@@ -26,13 +26,6 @@ let lettersProvided;
 // shouldn't assume ordering relative to each other: events fire in
 // registration order, not some guaranteed priority.
 export const gameEvents = new EventTarget();
-
-if (DEBUG.forceNewGame) {
-	clearCurrentGameData();
-}
-if (DEBUG.forceFakePastStats) {
-	setFakePastGameData();
-}
 
 // Initialize the app
 async function initApp() {
@@ -79,7 +72,7 @@ function startGame() {
 	gameEvents.dispatchEvent(
 		new CustomEvent("game:started", {
 			detail: { trigram, wordsProvided: wordsProvidedSoFar },
-		})
+		}),
 	);
 
 	// 4. Advance the game (if game isn't already completed)
@@ -116,7 +109,9 @@ export function addLetter(letter) {
 	lettersProvided[wordLength_current] += letter;
 
 	// 3. Inform the UI
-	gameEvents.dispatchEvent(new CustomEvent("letter:added", { detail: { letter } }));
+	gameEvents.dispatchEvent(
+		new CustomEvent("letter:added", { detail: { letter } }),
+	);
 
 	// 4. Advance the game
 	nextLetterPosition++;
@@ -153,7 +148,7 @@ export function submitGuess() {
 		word,
 		trigram,
 		wordLength_current,
-		wordList
+		wordList,
 	);
 
 	// 3. Inform the UI
@@ -175,7 +170,9 @@ function handleValidGuess(word) {
 	saveGameState({ trigram, lettersProvided });
 
 	// 3. Inform the UI
-	gameEvents.dispatchEvent(new CustomEvent("guess:valid", { detail: { word } }));
+	gameEvents.dispatchEvent(
+		new CustomEvent("guess:valid", { detail: { word } }),
+	);
 
 	// 4. Advance the game
 	if (wordLength_current == wordLength_max) {
@@ -196,7 +193,7 @@ function handleInvalidGuess(errorCode) {
 	gameEvents.dispatchEvent(
 		new CustomEvent("guess:invalid", {
 			detail: { errorCode, wordLength: wordLength_current, trigram },
-		})
+		}),
 	);
 
 	// 4. Advance the game

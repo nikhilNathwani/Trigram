@@ -46,7 +46,7 @@ echo -e "${BLUE}🎯 Starting automated trigram addition for: ${TRIGRAM_UPPER}${
 echo "=================================================="
 
 # Activate virtual environment
-source ../.venv/bin/activate
+source ../../.venv/bin/activate
 
 #########################################
 #                                       #
