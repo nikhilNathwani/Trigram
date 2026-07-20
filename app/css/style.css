@@ -667,16 +667,27 @@ body {
 	background-color: var(--color-translucent);
 }
 
+/* helpScreen/statsScreen are real <dialog> elements (opened via
+   .showModal()/.close() in ui/modal.js) instead of .modal-screen divs, for
+   the accessibility ui/modal.js couldn't give them for free: Escape-to-
+   close, a focus trap, and the rest of the page becoming inert while open.
+   The dialog itself is the content box; .modal-content no longer needs a
+   separate backdrop wrapper — ::backdrop covers that role below. */
 .modal-content {
 	width: min(500px, 94vw);
-	height: fit-content;
+	max-height: 85vh;
+	overflow: auto;
 	border: 3px solid;
 	margin: 4rem auto;
 	padding: 1.5rem;
-	cursor: default;
 	background-color: var(--color-light);
 	color: var(--color-darker);
 	border-color: var(--color-darker);
+}
+
+.modal-content::backdrop {
+	cursor: pointer;
+	background-color: var(--color-translucent);
 }
 
 .modal-content h1 {

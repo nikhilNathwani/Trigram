@@ -102,6 +102,11 @@ function hideTrigramRevealScreen() {
 /*           HELP SCREEN          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+// A real <dialog> (see index.html + the .modal-content::backdrop rule in
+// style.css), opened/closed via .showModal()/.close() below instead of the
+// display-toggling showScreen()/hideScreen() the other screens use — for
+// the Escape-to-close, focus trap, and inert-background behavior a plain
+// div can't give for free.
 const helpScreen = document.getElementById("helpScreen");
 
 // Help button in game header
@@ -111,25 +116,30 @@ document.getElementById("helpButton").addEventListener("click", function () {
 
 //Close (X) button in Help dialog
 helpScreen.querySelector(".closeButton").addEventListener("click", function () {
-	hideHelpScreen();
+	helpScreen.close();
 });
 
 //Clicking outside Help dialog closes it
 helpScreen.addEventListener("click", function (event) {
 	if (event.target === helpScreen) {
-		hideHelpScreen();
+		helpScreen.close();
 	}
 });
 
-//Show/Hide functions for Help screen
-function showHelpScreen() {
-	showScreen("help");
-}
-function hideHelpScreen() {
-	hideScreen("help");
+// "close" fires no matter how the dialog closed — the button above, the
+// outside click above, or the browser's own Escape-key handling, which
+// bypasses both of those. Centralizing side effects here (rather than only
+// in the button/click handlers) is what makes Escape behave correctly too.
+helpScreen.addEventListener("close", function () {
+	startInteraction();
 	if (!trigramRevealShown) {
 		showTrigramRevealScreen();
 	}
+});
+
+function showHelpScreen() {
+	stopInteraction();
+	helpScreen.showModal();
 }
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -139,6 +149,7 @@ function hideHelpScreen() {
 /*          STATS SCREEN          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+// Also a real <dialog> — see the comment on helpScreen above.
 const statsScreen = document.getElementById("statsScreen");
 
 // Stats button in game header
@@ -150,22 +161,24 @@ document.getElementById("statsButton").addEventListener("click", function () {
 statsScreen
 	.querySelector(".closeButton")
 	.addEventListener("click", function () {
-		hideStatsScreen();
+		statsScreen.close();
 	});
 
 //Clicking outside Stats dialog closes it
 statsScreen.addEventListener("click", function (event) {
 	if (event.target === statsScreen) {
-		hideStatsScreen();
+		statsScreen.close();
 	}
 });
 
-//Show/Hide functions for Stats screen
+// See the matching comment on helpScreen's "close" listener above.
+statsScreen.addEventListener("close", function () {
+	startInteraction();
+});
+
 export function showStatsScreen() {
-	showScreen("stats");
-}
-function hideStatsScreen() {
-	hideScreen("stats");
+	stopInteraction();
+	statsScreen.showModal();
 }
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -269,6 +282,10 @@ export function isAnyScreenShown() {
 export function skipAllModalScreens() {
 	trigramRevealShown = true;
 	document.querySelectorAll(".screen").forEach((screen) => {
-		screen.style.display = "none";
+		if (screen.tagName === "DIALOG") {
+			screen.close(); // no-op if not open
+		} else {
+			screen.style.display = "none";
+		}
 	});
 }

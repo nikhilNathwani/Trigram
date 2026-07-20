@@ -110,165 +110,161 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-screen screen" id="helpScreen">
-				<div class="modal-content">
-					<div class="closeRow">
-						<div class="closeButton">
-							<i class="fa-solid fa-xmark"></i>
-						</div>
+			<dialog class="modal-content screen" id="helpScreen">
+				<div class="closeRow">
+					<div class="closeButton">
+						<i class="fa-solid fa-xmark"></i>
 					</div>
-					<h1>How to play Trigram</h1>
-					<ul>
-						<li>
-							A <em>Trigram</em> is a sequence of 3 letters, like
-							<span class="help-trigram">CAT</span>
-						</li>
-						<li>Make words containing the Trigram of the week.</li>
-						<li>
-							First a 4-letter word, then a 5-letter word, then
-							6... and so on. See how far you can go!
-						</li>
-					</ul>
-
-					<h2>Example</h2>
-					<p>
-						Trigram of the day:
+				</div>
+				<h1>How to play Trigram</h1>
+				<ul>
+					<li>
+						A <em>Trigram</em> is a sequence of 3 letters, like
 						<span class="help-trigram">CAT</span>
-					</p>
-					<ul>
-						<li>
-							4-letter word:
-							<span class="help-trigram-subtle">CAT</span>S
-						</li>
-						<li>
-							5-letter word:
-							<span class="help-trigram-subtle">CAT</span>ER
-						</li>
-						<li>
-							6-letter word:
-							<span class="help-trigram-subtle">CAT</span>SUP
-						</li>
-						<li>
-							7-letter word: S<span class="help-trigram-subtle"
-								>CAT</span
-							>TER
-						</li>
-						<li>
-							8-letter word: DELI<span class="help-trigram-subtle"
-								>CAT</span
-							>E
-						</li>
-						<li>
-							9-letter word: DELI<span class="help-trigram-subtle"
-								>CAT</span
-							>ES
-						</li>
-						<!-- <li>
-							10-letter word: DELI<span
-								class="help-trigram-subtle"
-								>CAT</span
-							>ELY
-						</li> -->
-						<li>Can you continue the streak??</li>
-					</ul>
-					<h2>Notes</h2>
-					<ul>
-						<li>
-							Plurals and other suffixes (like
-							<em>-ed</em> and <em>-ing</em>) are perfectly valid!
-						</li>
-						<li>
-							Words must contain the Trigram (like "CAT") as is,
-							with no letters in between.
-						</li>
-					</ul>
-					<h2>Contact</h2>
-					To report any issues, make business inquiries, or share a
-					funny <span class="help-trigram">CAT</span> video, contact
-					me at <b>playtrigram@gmail.com</b>.
-				</div>
-			</div>
-			<div class="modal-screen screen" id="statsScreen">
-				<div id="stats" class="modal-content">
-					<div class="closeRow">
-						<div class="closeButton">
-							<i class="fa-solid fa-xmark" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div id="nextGameCountdownDiv">
-						<p id="nextGameCountdown">Next game starts on Monday</p>
-						<br />
-					</div>
-					<h1 id="statsTitle">Words &amp; Stats</h1>
-					<div id="wordList">
-						<h2 id="wordListTitle">Your Words</h2>
-						<div id="wordListValue">
-							<p id="wordListEmptyState">
-								Your words containing
-								<span
-									id="stat-wordList-emptyState-trigram"
-									class="stat-wordList-trigram"
-								></span>
-								will appear here.
-							</p>
-						</div>
-					</div>
-					<div id="statList">
-						<h2 id="statListTitle">Your Stats</h2>
-						<div id="statListValue">
-							<div class="stat-statList-item">
-								<div
-									id="stat-numGamesPlayed"
-									class="stat-statList-itemValue"
-								></div>
-								<div class="stat-statList-itemTitle">
-									Played
-								</div>
-							</div>
-							<div class="stat-statList-item">
-								<div
-									id="stat-winPercentage"
-									class="stat-statList-itemValue"
-								></div>
-								<div class="stat-statList-itemTitle">Win %</div>
-							</div>
-							<div class="stat-statList-item">
-								<div
-									id="stat-currentStreak"
-									class="stat-statList-itemValue"
-								></div>
-								<div class="stat-statList-itemTitle">
-									Current Streak
-								</div>
-							</div>
-							<div class="stat-statList-item">
-								<div
-									id="stat-maxStreak"
-									class="stat-statList-itemValue"
-								></div>
-								<div class="stat-statList-itemTitle">
-									Max Streak
-								</div>
-							</div>
-							<!-- <div class="stat-statList-item">
-								<div
-									id="stat-longestWordLength"
-									class="stat-statList-itemValue"
-								></div>
-								<div class="stat-statList-itemTitle">
-									Longest Word
-								</div>
-							</div> -->
-						</div>
-					</div>
-					<div id="statDistribution">
-						<h2 id="statDistributionTitle">
-							Longest Word Distribution
-						</h2>
-						<div id="statDistributionValue"></div>
+					</li>
+					<li>Make words containing the Trigram of the week.</li>
+					<li>
+						First a 4-letter word, then a 5-letter word, then
+						6... and so on. See how far you can go!
+					</li>
+				</ul>
+
+				<h2>Example</h2>
+				<p>
+					Trigram of the day:
+					<span class="help-trigram">CAT</span>
+				</p>
+				<ul>
+					<li>
+						4-letter word:
+						<span class="help-trigram-subtle">CAT</span>S
+					</li>
+					<li>
+						5-letter word:
+						<span class="help-trigram-subtle">CAT</span>ER
+					</li>
+					<li>
+						6-letter word:
+						<span class="help-trigram-subtle">CAT</span>SUP
+					</li>
+					<li>
+						7-letter word: S<span class="help-trigram-subtle"
+							>CAT</span
+						>TER
+					</li>
+					<li>
+						8-letter word: DELI<span class="help-trigram-subtle"
+							>CAT</span
+						>E
+					</li>
+					<li>
+						9-letter word: DELI<span class="help-trigram-subtle"
+							>CAT</span
+						>ES
+					</li>
+					<!-- <li>
+						10-letter word: DELI<span
+							class="help-trigram-subtle"
+							>CAT</span
+						>ELY
+					</li> -->
+					<li>Can you continue the streak??</li>
+				</ul>
+				<h2>Notes</h2>
+				<ul>
+					<li>
+						Plurals and other suffixes (like
+						<em>-ed</em> and <em>-ing</em>) are perfectly valid!
+					</li>
+					<li>
+						Words must contain the Trigram (like "CAT") as is,
+						with no letters in between.
+					</li>
+				</ul>
+				<h2>Contact</h2>
+				To report any issues, make business inquiries, or share a
+				funny <span class="help-trigram">CAT</span> video, contact
+				me at <b>playtrigram@gmail.com</b>.
+			</dialog>
+			<dialog class="modal-content screen" id="statsScreen">
+				<div class="closeRow">
+					<div class="closeButton">
+						<i class="fa-solid fa-xmark" aria-hidden="true"></i>
 					</div>
 				</div>
-			</div>
+				<div id="nextGameCountdownDiv">
+					<p id="nextGameCountdown">Next game starts on Monday</p>
+					<br />
+				</div>
+				<h1 id="statsTitle">Words &amp; Stats</h1>
+				<div id="wordList">
+					<h2 id="wordListTitle">Your Words</h2>
+					<div id="wordListValue">
+						<p id="wordListEmptyState">
+							Your words containing
+							<span
+								id="stat-wordList-emptyState-trigram"
+								class="stat-wordList-trigram"
+							></span>
+							will appear here.
+						</p>
+					</div>
+				</div>
+				<div id="statList">
+					<h2 id="statListTitle">Your Stats</h2>
+					<div id="statListValue">
+						<div class="stat-statList-item">
+							<div
+								id="stat-numGamesPlayed"
+								class="stat-statList-itemValue"
+							></div>
+							<div class="stat-statList-itemTitle">
+								Played
+							</div>
+						</div>
+						<div class="stat-statList-item">
+							<div
+								id="stat-winPercentage"
+								class="stat-statList-itemValue"
+							></div>
+							<div class="stat-statList-itemTitle">Win %</div>
+						</div>
+						<div class="stat-statList-item">
+							<div
+								id="stat-currentStreak"
+								class="stat-statList-itemValue"
+							></div>
+							<div class="stat-statList-itemTitle">
+								Current Streak
+							</div>
+						</div>
+						<div class="stat-statList-item">
+							<div
+								id="stat-maxStreak"
+								class="stat-statList-itemValue"
+							></div>
+							<div class="stat-statList-itemTitle">
+								Max Streak
+							</div>
+						</div>
+						<!-- <div class="stat-statList-item">
+							<div
+								id="stat-longestWordLength"
+								class="stat-statList-itemValue"
+							></div>
+							<div class="stat-statList-itemTitle">
+								Longest Word
+							</div>
+						</div> -->
+					</div>
+				</div>
+				<div id="statDistribution">
+					<h2 id="statDistributionTitle">
+						Longest Word Distribution
+					</h2>
+					<div id="statDistributionValue"></div>
+				</div>
+			</dialog>
 			<div class="modal-screen screen" id="noLandscapeScreen">
 				<div id="noLandscapeMessage">
 					<img
