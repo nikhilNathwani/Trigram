@@ -3,7 +3,7 @@ import { startInteraction, stopInteraction } from "../interactionHandler.js";
 import {
 	showYouWinScreen,
 	hideYouWinScreen,
-	showStatsScreen,
+	showStatsDialog,
 	skipAllModalScreens,
 	isAnyScreenShown,
 	setTrigramRevealScreen,
@@ -183,7 +183,7 @@ function handleGameEnded() {
 	stopInteraction();
 	disableKeyboardUI();
 	setTimeout(() => {
-		showStatsScreen();
+		showStatsDialog();
 	}, 2000);
 }
 

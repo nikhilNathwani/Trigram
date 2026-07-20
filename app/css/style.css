@@ -667,7 +667,7 @@ body {
 	background-color: var(--color-translucent);
 }
 
-/* helpScreen/statsScreen are real <dialog> elements (opened via
+/* helpDialog/statsDialog are real <dialog> elements (opened via
    .showModal()/.close() in ui/modal.js) instead of .modal-screen divs, for
    the accessibility ui/modal.js couldn't give them for free: Escape-to-
    close, a focus trap, and the rest of the page becoming inert while open.

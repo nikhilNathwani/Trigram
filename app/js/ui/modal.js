@@ -5,6 +5,22 @@ import { showRoundTitle, startBonusGame } from "./view.js";
 // UP NEXT:
 // -
 
+// Naming convention for the six full-page overlays in index.html, split
+// into two categories that behave differently on purpose:
+//
+// *Screen (titleScreen, trigramRevealScreen, youWinScreen,
+// noLandscapeScreen) — the app shows/hides these on its own schedule, via
+// the generic showScreen()/hideScreen() below. None are user-dismissable:
+// no close button, no backdrop click, no Escape handling. That's
+// intentional per-screen (e.g. youWinScreen forces a Bonus Round/View
+// Stats choice), not an oversight.
+//
+// *Dialog (helpDialog, statsDialog) — real <dialog> elements the user
+// opens and closes at will (close button, backdrop click, or Escape all
+// work). This is the only category where "dismissable" is actually wanted,
+// which is why only these two are <dialog>-based — see each one's own
+// section below for why the others aren't.
+
 // Load Font Awesome after title screen loads (icons only used in game screens)
 // This gives it time to load before user clicks Play, avoiding pop-in
 let fontAwesomeLoaded = false;
@@ -27,18 +43,21 @@ setTimeout(loadFontAwesome, 100);
 /*          TITLE SCREEN          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+// *Screen, not *Dialog: this isn't an overlay on top of other content at
+// all — it's the app's base/first screen, so <dialog> semantics (a
+// temporary interruption over primary content) don't apply.
 setTitleScreenWeek();
 setTitleScreenGameNumber();
 
 document.getElementById("playButton").addEventListener("click", function () {
 	hideTitleScreen();
 	// startGame();
-	showHelpScreen();
+	showHelpDialog();
 });
 document.getElementById("howToButton").addEventListener("click", function () {
 	hideTitleScreen();
 	// startGame();
-	showHelpScreen();
+	showHelpDialog();
 });
 
 function hideTitleScreen() {
@@ -63,6 +82,10 @@ function setTitleScreenGameNumber() {
 /*     TRIGRAM REVEAL OVERLAY     */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+// *Screen, not *Dialog: this is a timed splash with no user-facing dismiss
+// action today. Making it a <dialog> would need to *add* a "cancel"
+// listener suppressing Escape (dialogs close on Escape by default) just to
+// preserve that — more code to fight the platform default, not less.
 var trigramRevealShown = false;
 
 export function setTrigramRevealScreen(trigram) {
@@ -99,30 +122,32 @@ function hideTrigramRevealScreen() {
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*           HELP SCREEN          */
+/*           HELP DIALOG          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 // A real <dialog> (see index.html + the .modal-content::backdrop rule in
 // style.css), opened/closed via .showModal()/.close() below instead of the
-// display-toggling showScreen()/hideScreen() the other screens use — for
+// display-toggling showScreen()/hideScreen() the *Screen elements use — for
 // the Escape-to-close, focus trap, and inert-background behavior a plain
-// div can't give for free.
-const helpScreen = document.getElementById("helpScreen");
+// div can't give for free. The user genuinely dismisses this at will, so
+// (unlike trigramRevealScreen/youWinScreen/noLandscapeScreen) that's a
+// behavior worth having, not one to suppress.
+const helpDialog = document.getElementById("helpDialog");
 
 // Help button in game header
 document.getElementById("helpButton").addEventListener("click", function () {
-	showHelpScreen();
+	showHelpDialog();
 });
 
 //Close (X) button in Help dialog
-helpScreen.querySelector(".closeButton").addEventListener("click", function () {
-	helpScreen.close();
+helpDialog.querySelector(".closeButton").addEventListener("click", function () {
+	helpDialog.close();
 });
 
 //Clicking outside Help dialog closes it
-helpScreen.addEventListener("click", function (event) {
-	if (event.target === helpScreen) {
-		helpScreen.close();
+helpDialog.addEventListener("click", function (event) {
+	if (event.target === helpDialog) {
+		helpDialog.close();
 	}
 });
 
@@ -130,55 +155,55 @@ helpScreen.addEventListener("click", function (event) {
 // outside click above, or the browser's own Escape-key handling, which
 // bypasses both of those. Centralizing side effects here (rather than only
 // in the button/click handlers) is what makes Escape behave correctly too.
-helpScreen.addEventListener("close", function () {
+helpDialog.addEventListener("close", function () {
 	startInteraction();
 	if (!trigramRevealShown) {
 		showTrigramRevealScreen();
 	}
 });
 
-function showHelpScreen() {
+function showHelpDialog() {
 	stopInteraction();
-	helpScreen.showModal();
+	helpDialog.showModal();
 }
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*          STATS SCREEN          */
+/*          STATS DIALOG          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
-// Also a real <dialog> — see the comment on helpScreen above.
-const statsScreen = document.getElementById("statsScreen");
+// Also a real <dialog> — see the comment on helpDialog above.
+const statsDialog = document.getElementById("statsDialog");
 
 // Stats button in game header
 document.getElementById("statsButton").addEventListener("click", function () {
-	showStatsScreen();
+	showStatsDialog();
 });
 
 //Close (X) button in Stats screen
-statsScreen
+statsDialog
 	.querySelector(".closeButton")
 	.addEventListener("click", function () {
-		statsScreen.close();
+		statsDialog.close();
 	});
 
 //Clicking outside Stats dialog closes it
-statsScreen.addEventListener("click", function (event) {
-	if (event.target === statsScreen) {
-		statsScreen.close();
+statsDialog.addEventListener("click", function (event) {
+	if (event.target === statsDialog) {
+		statsDialog.close();
 	}
 });
 
-// See the matching comment on helpScreen's "close" listener above.
-statsScreen.addEventListener("close", function () {
+// See the matching comment on helpDialog's "close" listener above.
+statsDialog.addEventListener("close", function () {
 	startInteraction();
 });
 
-export function showStatsScreen() {
+export function showStatsDialog() {
 	stopInteraction();
-	statsScreen.showModal();
+	statsDialog.showModal();
 }
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -188,12 +213,14 @@ export function showStatsScreen() {
 /*     YOU WIN OVERLAY     */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+// *Screen, not *Dialog: the player must choose Bonus Round or View Stats —
+// this is deliberately not dismissable by backdrop click or Escape.
 
 //View Stats button in You Win overlay
 document
 	.getElementById("viewStatsButton")
 	.addEventListener("click", function () {
-		showStatsScreen();
+		showStatsDialog();
 	});
 
 //Bonus Round button in You Win overlay
@@ -224,6 +251,10 @@ export function hideYouWinScreen() {
 /*          ROTATE SCREEN          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
+// *Screen, not *Dialog: there's no dismiss action at all today (only a
+// device-rotation resize handler hides it) — dismissing it wouldn't make
+// the app fit the viewport anyway, so a <dialog>'s free Escape-to-close
+// would need suppressing, not using.
 let isMobile = false;
 
 // Check if the device is a mobile device

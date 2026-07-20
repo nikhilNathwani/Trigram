@@ -37,7 +37,7 @@ export async function playThroughToInteractive(page) {
 	await waitForReady(page);
 
 	await page.click("#playButton");
-	await page.click("#helpScreen .closeButton");
+	await page.click("#helpDialog .closeButton");
 
 	await page.waitForFunction(
 		() =>
