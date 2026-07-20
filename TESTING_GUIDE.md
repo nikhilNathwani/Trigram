@@ -328,7 +328,7 @@ await page.waitForTimeout(4500); // guessed 4.5 seconds — WRONG
 ```
 
 This intermittently failed, because the CSS animation it was waiting on
-(`#trigramRevealScreen.showTemporarily` in `app/css/style.css`) actually
+(`#trigramRevealScreen.showTemporarily` in `app/css/screens.css`) actually
 takes **5 seconds**. The guessed delay was too short, so the test's next
 keystrokes landed while the app was still ignoring input — not because the
 app was broken, but because the *test* was racing against an animation and

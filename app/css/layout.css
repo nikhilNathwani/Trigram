@@ -1,0 +1,416 @@
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     APP CONTAINER                                               */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+#app {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+
+	background-color: var(--color-med);
+	color: var(--color-dark);
+}
+
+#frame {
+	width: calc(var(--frame-width));
+	height: var(--frame-height);
+
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     HEADER                                               */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.header {
+	width: 100%;
+	height: var(--header-height);
+	padding-inline: var(--frame-padding-inline);
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+
+	padding-block: 1rem;
+	border-bottom: 3px double;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of header bottom border color*/
+
+	font-size: 1rem;
+}
+
+.header-element {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+
+	font-weight: bold;
+}
+
+.header-title {
+	padding-bottom: 3px;
+	font-weight: bold;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of header element titles*/
+}
+
+.header-button {
+	width: 3.25rem;
+	aspect-ratio: 1/1;
+	border: 2px solid;
+	border-bottom: 4px solid;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 1.75rem;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of header button border color*/
+
+	background-color: transparent;
+
+	cursor: pointer;
+}
+
+.header #trigram {
+	width: 7.25rem;
+	height: 3.25rem;
+	padding: 1.625rem 0.5rem;
+	border: 3px solid;
+	border-radius: 8px;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+
+	background-color: white;
+	color: var(--color-dark);
+	/* ^Needed for transitioning of trigram color*/
+
+	font-size: 2em;
+}
+
+/* .header #trigram span {
+	width: 1.875rem;
+	text-align: center;
+} */
+
+.header-button i {
+	color: var(--color-dark);
+	/* ^Needed for transitioning of bottom fontawesome icons*/
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     ALERTS                                               */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#messageContainer {
+	position: absolute;
+	top: calc(100% + var(--game-margin-block) / 2);
+	left: 0;
+
+	width: 100%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: var(--message-fs);
+	font-weight: bold;
+
+	z-index: var(--z-messageContainer);
+}
+
+#message {
+	display: none;
+	width: fit-content;
+	padding: 0.25rem 2ch;
+	background-color: white;
+	border-radius: 6px;
+}
+
+#message.shown {
+	display: block;
+}
+
+#message.roundTitle {
+	display: block;
+	opacity: 0;
+	animation: show-temporarily 3.5s ease-in-out;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     GAME                                                 */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#game {
+	width: 100%;
+	height: var(--game-height);
+	padding-inline: var(--frame-padding-inline);
+	margin-block: var(--game-margin-block);
+
+	display: flex;
+	flex-flow: column nowrap;
+	position: relative;
+
+	overflow: hidden;
+}
+
+.round {
+	display: flex;
+	flex-flow: column nowrap;
+
+	transform: translateY(calc(-1 * var(--round-index) * var(--game-height)));
+
+	background-color: var(--color-med);
+	color: var(--color-dark);
+}
+
+.level {
+	width: fit-content;
+	height: var(--level-height);
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	gap: var(--padding-length-word);
+
+	/* Prevent text selection on game tiles */
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+.level.shake {
+	animation: shake 300ms ease-in-out;
+}
+
+.length {
+	width: fit-content;
+	min-width: var(--length-width);
+	height: var(--length-height);
+	border: 2px solid;
+	border-radius: 8px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: var(--length-fs);
+}
+
+.word {
+	padding-inline: var(--word-padding-inline);
+	height: var(--input-height);
+
+	border: var(--word-border-width) solid;
+	border-radius: 8px;
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+
+.letter {
+	--word-width-max: calc(
+		var(--frame-width) - 2 * var(--frame-padding-inline) -
+			var(--length-width) - var(--padding-length-word) - 2 *
+			var(--word-border-width) - 2 * var(--word-padding-inline)
+	);
+	--letter-width: var(--word-width-max) / var(--num-letters-max);
+	width: calc(var(--letter-width) - 2 * var(--letter-margin-x));
+	margin-inline: var(--letter-margin-x);
+	border-bottom: var(--letter-border-bottom) solid;
+	font-size: calc(var(--letter-width) - 2 * var(--letter-margin-x));
+	text-align: center;
+}
+
+.letter.empty {
+	border-color: var(--color-dark);
+	color: transparent;
+}
+
+/* Replacing nested rules since they seem unsupported in some environements */
+/* .complete {
+	.letter {
+		border: none;
+	}
+} */
+.complete .letter {
+	border: none;
+}
+
+/* Replacing nested rules since they seem unsupported in some environements */
+/* .active {
+	.length,
+	.word {
+		border-width: 3px;
+		box-shadow: 0px 0px 18px white;
+		font-weight: bold;
+		background-color: var(--color-light);
+	}
+	.letter {
+		border-width: 3px;
+	}
+} */
+.active .length,
+.active .word {
+	border-width: 3px;
+	box-shadow: 0px 0px 18px white;
+	font-weight: bold;
+	background-color: var(--color-light);
+}
+.active .letter {
+	border-width: 3px;
+}
+
+/* Replacing nested rules since they seem unsupported in some environements */
+/* .locked {
+	.letter {
+		border: none;
+	}
+	.word {
+		border-color: var(--color-dark);
+		color: transparent;
+	}
+} */
+.locked .letter {
+	border: none;
+}
+.locked .word {
+	border-color: var(--color-dark);
+	color: transparent;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     KEYBOARD                                             */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#keyboard {
+	width: min(100%, 100vw);
+	height: var(--keyboard-height);
+	padding-inline: var(--keyboard-padding-inline);
+	padding-block: 1rem;
+	border-top: 3px double;
+
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	touch-action: manipulation;
+	/* ^Disables double-tap-to-zoom on mobile */
+
+	--num-keys: 10;
+	--num-keyGaps: 9;
+	--key-width: 9%;
+	--key-gap: calc(
+		(100% - (var(--num-keys) * var(--key-width))) / (var(--num-keyGaps))
+	);
+}
+
+.keyboard-row {
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	gap: var(--key-gap);
+}
+
+.keyboard-key {
+	width: var(--key-width);
+	height: 3.25rem;
+
+	border: 2px solid;
+	border-radius: var(--keyboard-key-border-radius);
+
+	font-size: 1.375rem;
+
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: var(--color-dark);
+	color: var(--color-light);
+	border-color: var(--color-dark);
+	fill: var(--color-light);
+
+	/* Prevent text selection on mobile & desktop*/
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+.keyboard-key#backspaceKey,
+.keyboard-key#enterKey {
+	width: calc(1.5 * var(--key-width) + var(--key-gap));
+}
+
+.keyboard-key#enterKey {
+	font-size: 0.75em;
+}
+
+.keyboard-key svg {
+	pointer-events: none;
+	width: 1.0625em;
+	height: 1.0625em;
+}
+
+/* Replacing nested rules since they seem unsupported in some environements */
+/* #keyboard.disabled {
+	.keyboard-key {
+		cursor: default;
+	}
+	.keyboard-key:hover {
+		background-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+		color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+		border-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+		fill: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+	}
+} */
+#keyboard.disabled .keyboard-key {
+	cursor: default;
+}
+#keyboard.disabled .keyboard-key:hover {
+	background-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+	color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+	border-color: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+	fill: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+}

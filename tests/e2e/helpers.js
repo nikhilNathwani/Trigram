@@ -17,7 +17,7 @@
 // the actual resulting DOM state (`display` flipping to "none") instead of
 // guessing a sleep duration. A guessed duration is exactly what made an
 // earlier, throwaway manual test of this app flaky — the animation is 5s in
-// app/css/style.css, and a shorter guessed wait silently ate every keystroke
+// app/css/screens.css, and a shorter guessed wait silently ate every keystroke
 // because the app was still ignoring input.
 // The header's trigram letters are only rendered once initApp() has fully
 // resolved (calendar fetch, then word-list fetch, then startGame()) — see

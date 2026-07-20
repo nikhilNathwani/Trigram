@@ -8,7 +8,16 @@
 			name="description"
 			content="Weekly word game. Make words containing a three-letter sequence, called the trigram. New trigram available each Monday. Perfect challenge for people who love Wordle, but would like to make some longer words."
 		/>
-		<link rel="stylesheet" href="app/css/style.css" />
+		<!-- Split by concern rather than one style.css. Load order here is
+		     just readability, not a real dependency: none of these files
+		     define overlapping selectors, and CSS custom properties/
+		     @keyframes resolve by name at compute time regardless of which
+		     <link> defined them or in what order. -->
+		<link rel="stylesheet" href="app/css/variables.css" />
+		<link rel="stylesheet" href="app/css/layout.css" />
+		<link rel="stylesheet" href="app/css/dialogs.css" />
+		<link rel="stylesheet" href="app/css/screens.css" />
+		<link rel="stylesheet" href="app/css/animations.css" />
 		<link
 			rel="apple-touch-icon"
 			sizes="180x180"

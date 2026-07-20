@@ -1,0 +1,234 @@
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     STYLE VARIABLES                                      */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+:root {
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	/*         Colors          */
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	--c1-hue: 180;
+	--c1-sat: 15%;
+	--c1-light: 85%;
+	--c1-med: 65%;
+	--c1-dark: 30%;
+	--c1-darker: 20%;
+
+	--c2-hue: 220;
+	--c2-sat: 20%;
+	--c2-light: 85%;
+	--c2-med: 65%;
+	--c2-dark: 32%;
+	--c2-darker: 20%;
+
+	--c3-hue: 270;
+	--c3-sat: 15%;
+	--c3-light: 85%;
+	--c3-med: 67%;
+	--c3-dark: 32%;
+	--c3-darker: 20%;
+
+	--c4-hue: 36;
+	--c4-sat: 40%;
+	--c4-light: 88%;
+	--c4-med: 67%;
+	--c4-dark: 28%;
+	--c4-darker: 20%;
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	/*         Heights         */
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	--header-height: 115px;
+	--frame-height: 100vh;
+	--frame-height: 100dvh;
+	--game-margin-block: 1.5rem;
+	--game-height: calc(
+		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
+			var(--game-margin-block)
+	);
+	--level-height: calc(var(--game-height) / 3);
+	--length-height: 3.5rem;
+	--input-height: max(
+		var(--length-height),
+		calc(2 * var(--level-height) / 3)
+	);
+	--letter-border-bottom: 2px;
+	--keyboard-height: 200px;
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	/*   Widths & Font Sizes   */
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	--frame-width: 100vw;
+	--frame-padding-inline: 6vw;
+	--keyboard-padding-inline: 2vw;
+	--keyboard-key-border-radius: 4px;
+
+	--message-fs: 1rem;
+	--length-fs: 6vw;
+	--length-width: 12vw;
+	--padding-length-word: 4vw;
+
+	--word-border-width: 2px;
+	--word-padding-inline: 2vw;
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	/*   Layers                */
+	/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+	--z-titleScreen: 5; /*Title Screen*/
+	--z-noLandscape: 4; /*Rotate Device CTA*/
+	--z-modalScreen: 3; /*Help or Stats*/
+	--z-overlay: 2; /*Trigram Reveal or You Win*/
+	--z-messageContainer: 1; /*Round Title or Error Alert*/
+}
+
+/* Desktop style adjustments */
+@media (min-width: 520px) {
+	:root {
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		/*         Heights         */
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		--frame-height: 100%;
+		--game-height: calc(3 * (var(--level-height)));
+		--level-height: clamp(
+			8rem,
+			calc(
+				(
+						100vh - var(--header-height) - var(--keyboard-height) -
+							2 * var(--game-margin-block)
+					) / 3
+			),
+			16rem
+		);
+		--input-height: 5.5rem;
+
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		/*   Widths & Font Sizes   */
+		/* ~~~~~~~~~~~~~~~~~~~~~~~ */
+		--frame-width: calc(30rem + 2 * var(--frame-padding-inline));
+		--frame-padding-inline: 1.25rem;
+		--keyboard-padding-inline: var(--frame-padding-inline);
+		--keyboard-key-border-radius: 6px;
+
+		--message-fs: 1.125rem;
+		--length-fs: 2rem;
+		--length-width: 3.25rem;
+		--padding-length-word: 1.5rem;
+
+		--word-border-width: 2px;
+		--word-padding-inline: 0.5rem;
+	}
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*                                                          */
+/*                                                          */
+/*     ROUND VARIATIONS                                     */
+/*                                                          */
+/*                                                          */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.round-transition,
+.round-transition * {
+	transition: width 1s ease-out, color 1s ease-out,
+		background-color 1s ease-out, border-color 1s ease-out,
+		margin 1s ease-out, transform 1s ease-out, font-size 1s ease-out,
+		fill 1s ease-out;
+}
+.round-1 {
+	--round-index: 0;
+	--num-letters-max: 6;
+	--letter-margin-x: 2vw;
+	--color-light: hsl(var(--c1-hue), var(--c1-sat), var(--c1-light));
+	--color-med: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
+	--color-dark: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
+	--color-darker: hsl(var(--c1-hue), var(--c1-sat), var(--c1-darker));
+	--color-translucent: hsla(
+		var(--c1-hue),
+		var(--c1-sat),
+		var(--c1-darker),
+		0.9
+	);
+}
+
+.round-2 {
+	--round-index: 1;
+	--num-letters-max: 9;
+	--letter-margin-x: 1vw;
+	--color-light: hsl(var(--c2-hue), var(--c2-sat), var(--c2-light));
+	--color-med: hsl(var(--c2-hue), var(--c2-sat), var(--c2-med));
+	--color-dark: hsl(var(--c2-hue), var(--c2-sat), var(--c2-dark));
+	--color-darker: hsl(var(--c2-hue), var(--c2-sat), var(--c2-darker));
+	--color-translucent: hsla(
+		var(--c2-hue),
+		var(--c2-sat),
+		var(--c2-darker),
+		0.9
+	);
+}
+
+.round-3 {
+	--round-index: 2;
+	--num-letters-max: 12;
+	--letter-margin-x: 0.5vw;
+	--color-light: hsl(var(--c3-hue), var(--c3-sat), var(--c3-light));
+	--color-med: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
+	--color-dark: hsl(var(--c3-hue), var(--c3-sat), var(--c3-dark));
+	--color-darker: hsl(var(--c3-hue), var(--c3-sat), var(--c3-darker));
+	--color-translucent: hsla(
+		var(--c3-hue),
+		var(--c3-sat),
+		var(--c3-darker),
+		0.9
+	);
+}
+
+.round-4 {
+	--round-index: 3;
+	--num-letters-max: 15;
+	--letter-margin-x: 0.5vw;
+	--color-light: hsl(var(--c4-hue), var(--c4-sat), var(--c4-light));
+	--color-med: hsl(var(--c4-hue), var(--c4-sat), var(--c4-med));
+	--color-dark: hsl(var(--c4-hue), var(--c4-sat), var(--c4-dark));
+	--color-darker: hsl(var(--c4-hue), var(--c4-sat), var(--c4-darker));
+	--color-translucent: hsla(
+		var(--c4-hue),
+		var(--c4-sat),
+		var(--c4-darker),
+		0.9
+	);
+}
+
+/* Desktop style adjustments */
+@media (min-width: 520px) {
+	.round-1 {
+		--letter-margin-x: 0.5rem;
+	}
+	.round-2 {
+		--letter-margin-x: 0.5rem;
+	}
+	.round-3 {
+		--letter-margin-x: 0.25rem;
+	}
+	.round-4 {
+		--letter-margin-x: 0.25rem;
+	}
+	/* .keyboard-key:hover,
+	.header-button:hover {
+		background-color: var(--color-light);
+		color: var(--color-dark);
+	}
+	.keyboard-key:active,
+	.header-button:active {
+		background-color: var(--color-dark);
+		color: var(--color-light);
+		border-color: var(--color-dark);
+	} */
+}
+
+/* Mobile style adjustments */
+@media (max-width: 519px) {
+	.round-4 {
+		--letter-border-bottom: 1px;
+	}
+}

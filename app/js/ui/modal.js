@@ -126,7 +126,7 @@ function hideTrigramRevealScreen() {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 // A real <dialog> (see index.html + the .modal-content::backdrop rule in
-// style.css), opened/closed via .showModal()/.close() below instead of the
+// dialogs.css), opened/closed via .showModal()/.close() below instead of the
 // display-toggling showScreen()/hideScreen() the *Screen elements use — for
 // the Escape-to-close, focus trap, and inert-background behavior a plain
 // div can't give for free. The user genuinely dismisses this at will, so
