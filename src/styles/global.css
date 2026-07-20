@@ -1,0 +1,30 @@
+/* App shell: the reset and the outermost #app/#frame wrappers rendered
+   directly in src/pages/index.astro, not owned by any one component. */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+#app {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+
+	background-color: var(--color-med);
+	color: var(--color-dark);
+}
+
+#frame {
+	width: calc(var(--frame-width));
+	height: var(--frame-height);
+
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
+}

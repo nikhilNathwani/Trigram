@@ -17,7 +17,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // stats.js also subscribes to gameEvents at module load time
 // (gameEvents.addEventListener(...)), so the mock needs a real EventTarget
 // here too — otherwise that call throws on an undefined gameEvents.
-vi.mock("../../app/js/game.js", () => ({
+vi.mock("../../public/js/game.js", () => ({
 	trigram: "CAT",
 	wordLength_start: 4,
 	gameEvents: new EventTarget(),
@@ -30,7 +30,7 @@ import {
 	calcNumGamesWon,
 	calcWinPercentage,
 	loadStats,
-} from "../../app/js/ui/stats.js";
+} from "../../public/js/ui/stats.js";
 
 // stats.js mixes pure math (win %, streaks, histograms) with DOM rendering.
 // We only unit-test the math here — calcNumGamesWon, calcCurrentStreak, etc.
@@ -129,7 +129,7 @@ describe("stats", () => {
 
 	// calcWinPercentage() reads the module-level STATS object rather than
 	// taking parameters — STATS is a `const` we can't reach into from
-	// outside (see TESTING_GUIDE.md §7 for why). So instead of testing
+	// outside (see tests/TESTING-GUIDE.md §7 for why). So instead of testing
 	// calcWinPercentage() directly, we drive it through loadStats(), the
 	// real function that populates STATS from localStorage. This exercises
 	// loadPastGames + loadStats + calcWinPercentage together, closer to how

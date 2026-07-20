@@ -1,9 +1,8 @@
-<dialog class="modal-content screen" id="helpDialog">
-	<div class="closeRow">
-		<div class="closeButton">
-			<i class="fa-solid fa-xmark"></i>
-		</div>
-	</div>
+---
+import Dialog from "./Dialog.astro";
+---
+
+<Dialog id="helpDialog">
 	<h1>How to play Trigram</h1>
 	<ul>
 		<li>
@@ -67,4 +66,40 @@
 	To report any issues, make business inquiries, or share a
 	funny <span class="help-trigram">CAT</span> video, contact
 	me at <b>playtrigram@gmail.com</b>.
-</dialog>
+</Dialog>
+
+<style>
+	h1 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	h2 {
+		font-size: 1.125rem;
+		margin-block: 1.25rem 0.75rem;
+		border-bottom: 2px solid var(--color-dark);
+	}
+
+	.help-trigram {
+		padding-inline: 0.5ch;
+		background-color: white;
+		border: 1px solid black;
+		border-radius: 4px;
+		text-transform: capitalize;
+		font-weight: bold;
+	}
+
+	.help-trigram-subtle {
+		font-weight: bold;
+		text-decoration: underline;
+	}
+
+	ul {
+		margin-block: 0.75rem 1.5rem;
+	}
+
+	li {
+		margin-left: 2ch;
+		margin-bottom: 0.625rem;
+	}
+</style>

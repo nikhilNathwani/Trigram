@@ -4,6 +4,10 @@ const PORT = 4300;
 
 export default defineConfig({
 	testDir: "./tests/e2e",
+	// Keep generated test artifacts nested under tests/ instead of cluttering
+	// the repo root (Playwright's default outputDir is "test-results" at the
+	// config file's own location).
+	outputDir: "./tests/test-results",
 	fullyParallel: true,
 	reporter: "list",
 	use: {

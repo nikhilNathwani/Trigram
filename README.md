@@ -16,41 +16,60 @@ Trigram is a browser-based game that releases a new challenge each week. Players
 
 ## Tech Stack
 
-- Vanilla JavaScript, HTML, CSS
+- Astro for the page shell and component templating (`src/`)
+- The game itself — game logic, validation, storage, UI orchestration — is vanilla JavaScript loaded as native ES modules, not bundled (`public/js/`; see `tests/TESTING-GUIDE.md` §8 for why)
 - PWA manifest for installable web experience
 - Python + Bash tooling for data generation and release automation
 
 ## Project Structure
 
 ```text
-app/
-    js/                    # Core game logic, validation, storage, UI orchestration
-    css/                   # Styles
-    assets/                # Icons and static assets
+src/
+    pages/          # index.astro — the one route this site has
+    layouts/         # BaseLayout.astro — the <html>/<head> shell
+    components/      # One .astro file (+ scoped <style>) per UI piece
+    styles/          # variables.css (design tokens) + global.css (reset/app shell)
+
+public/
+    js/              # Game logic, validation, storage, UI orchestration — native ES
+                      #   modules, untouched/unbundled, copied into dist/ verbatim
+    assets/          # Icons and images actually served by the app
+    og-image.png, site.webmanifest
 
 data/
     trigram_calendar.json  # Weekly trigram schedule
     trigram-word-lists/    # One JSON word list per trigram
-    corpus/                # Source dictionaries and supporting corpus files
+    corpus/                # Source dictionaries and supporting corpus files (gitignored)
 
 tools/
-    automation/            # One-command weekly trigram workflow
-    utils/                 # Dictionary and calendar update scripts
-    social/                # Social image generation
-    corpus/                # Corpus preprocessing helpers
+    automation/      # One-command weekly trigram workflow
+    utils/           # Dictionary and calendar update scripts
+    social/          # Social image generation
+    corpus/          # Corpus preprocessing helpers
+    label/           # A second, separate static tool this same repo serves
+
+mockups/             # Design reference material (not served — see astro.config.mjs)
 ```
 
 ## Running the Game
 
-`app/js` is written as ES modules and bundled by Vite before the game can run in a browser — `index.html` loads the built `app/dist/bundle.js`, not the source files directly. From a fresh clone:
+From a fresh clone:
 
 ```bash
 npm install
-npm run build          # one-time build, or:
-npm run build:watch    # rebuilds on every source change (no dev server/hot-reload, just manual refresh)
+npm run dev             # astro dev — live app at http://localhost:4321
 ```
 
-Then open `index.html` in a browser, or serve the repo as static files with any local HTTP server. Netlify runs `npm run build` automatically on deploy (see `netlify.toml`) — everything else in the repo (`data/`, `tools/label/`, assets) is untouched by the build and served as-is. See `TESTING_GUIDE.md` §8 for why the app is structured this way and what the bundler is (and isn't) doing.
+`npm run dev` works standalone: `public/` is Astro's built-in static-passthrough mechanism, so the native-ES-module game code and static assets are served exactly as they'll appear in production, no separate build step needed first.
+
+To build for production:
+
+```bash
+npm run build            # astro build, plus a small script step for data/ and tools/label/ (see astro.config.mjs)
+npm run preview           # serve the dist/ build locally, the same thing Netlify publishes
+```
+
+Netlify runs `npm run build` automatically on deploy (see `netlify.toml`). `data/` (except the two files actually served) and the rest of `tools/` are untouched by the build.
 
 ## Weekly Content Workflow
 
@@ -62,7 +81,7 @@ From `tools/automation`:
 
 This workflow validates/generates dictionary data, updates the trigram calendar, and commits/pushes repository changes.
 
-For full operational steps, see `WEEKLY-WORKFLOW.md`.
+For full operational steps, see `tools/automation/WEEKLY-WORKFLOW.md`.
 
 ## Tooling Setup (Python)
 

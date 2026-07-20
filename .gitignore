@@ -1,5 +1,5 @@
 # Ignore design drafts
-app/styles/mockups/
+mockups/
 
 # Ignore social media content (large image files)
 tools/social/instagram_posts/
@@ -22,17 +22,28 @@ __pycache__/
 # Ignore entire corpus folder (large source files)
 data/corpus/
 
-# Ignore setup scripts
+# Ignore setup scripts (not currently present, kept in case they come back)
 startTrigram.sh
-Trigram\ Update\ Routine.txtINTERVIEW_STORIES.md
+Trigram Update Routine.txt
 
 # Node tooling (test suite)
 node_modules/
-playwright-report/
-test-results/
+tests/playwright-report/
+tests/test-results/
 coverage/
 
 # Astro build output and local cache (astro-conversion spike)
 dist/
 .astro/
+
+# Claude
+.claude/
+
+# Personal notes, not meant to be version-controlled — see the untracking/
+# history-scrub done alongside this line
+INTERVIEW_STORIES.md
+
+# Reference doc kept out of version control by request — tracked history
+# up to the untracking commit still has it, going forward it's local-only
+tests/TESTING-GUIDE.md
 

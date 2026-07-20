@@ -1,10 +1,18 @@
 ---
-// <html>/<head> shell. Everything under app/js, app/css, app/assets is
-// deliberately referenced with a leading "/" (root-absolute), not a
-// relative path Astro/Vite would try to resolve as a local module to
-// bundle — same as the favicon links already did in the pre-Astro
-// index.html. These files are copied into dist/ verbatim by the "build"
-// npm script; Astro never touches their contents.
+// public/js and public/assets are referenced with a leading "/"
+// (root-absolute), not a relative path Astro/Vite would try to resolve as a
+// local module to bundle. Astro copies public/ into dist/ verbatim and
+// never touches its contents — the standard Astro mechanism for static
+// passthrough files, same guarantee the old hand-rolled app/ + manual `cp`
+// step gave, without the custom build-script logic.
+//
+// CSS is the one exception to "everything outside src/ is passthrough": it
+// lives under src/ and is owned by the components it styles (scoped
+// <style> blocks in each .astro file), plus these two global imports for
+// design tokens and the app-shell reset. Astro/Vite bundles and emits this
+// CSS as part of `astro build`.
+import "../styles/variables.css";
+import "../styles/global.css";
 ---
 
 <html lang="en">
@@ -16,32 +24,22 @@
 			name="description"
 			content="Weekly word game. Make words containing a three-letter sequence, called the trigram. New trigram available each Monday. Perfect challenge for people who love Wordle, but would like to make some longer words."
 		/>
-		<!-- Split by concern rather than one style.css. Load order here is
-		     just readability, not a real dependency: none of these files
-		     define overlapping selectors, and CSS custom properties/
-		     @keyframes resolve by name at compute time regardless of which
-		     <link> defined them or in what order. -->
-		<link rel="stylesheet" href="/app/css/variables.css" />
-		<link rel="stylesheet" href="/app/css/layout.css" />
-		<link rel="stylesheet" href="/app/css/dialogs.css" />
-		<link rel="stylesheet" href="/app/css/screens.css" />
-		<link rel="stylesheet" href="/app/css/animations.css" />
 		<link
 			rel="apple-touch-icon"
 			sizes="180x180"
-			href="/app/assets/icons/apple-touch-icon.png"
+			href="/assets/icons/apple-touch-icon.png"
 		/>
 		<link
 			rel="icon"
 			type="image/png"
 			sizes="16x16"
-			href="/app/assets/icons/favicon-16x16.png"
+			href="/assets/icons/favicon-16x16.png"
 		/>
 		<link
 			rel="icon"
 			type="image/png"
 			sizes="32x32"
-			href="/app/assets/icons/favicon-32x32.png"
+			href="/assets/icons/favicon-32x32.png"
 		/>
 		<link rel="manifest" href="/site.webmanifest" />
 		<title>Trigram</title>
@@ -85,7 +83,7 @@
 		<!-- Native ES module: the browser resolves and fetches main.js's whole
 		     import graph itself, no build step required. is:inline so Astro
 		     leaves it as a plain, unbundled script tag pointing at the
-		     untouched file under app/js/ (see the config comment above). -->
-		<script is:inline type="module" src="/app/js/main.js"></script>
+		     untouched file under public/js/ (see the config comment above). -->
+		<script is:inline type="module" src="/js/main.js"></script>
 	</body>
 </html>

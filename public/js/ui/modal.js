@@ -125,9 +125,11 @@ function hideTrigramRevealScreen() {
 /*           HELP DIALOG          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
-// A real <dialog> (see index.html + the .modal-content::backdrop rule in
-// dialogs.css), opened/closed via .showModal()/.close() below instead of the
-// display-toggling showScreen()/hideScreen() the *Screen elements use — for
+// A real <dialog> (see the .modal-content::backdrop rule in
+// Dialog.astro's <style> block, the shared chrome helpDialog/statsDialog
+// both render themselves through), opened/closed via .showModal()/.close()
+// below instead of the display-toggling
+// showScreen()/hideScreen() the *Screen elements use — for
 // the Escape-to-close, focus trap, and inert-background behavior a plain
 // div can't give for free. The user genuinely dismisses this at will, so
 // (unlike trigramRevealScreen/youWinScreen/noLandscapeScreen) that's a

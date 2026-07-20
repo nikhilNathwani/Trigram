@@ -1,0 +1,54 @@
+<div id="messageContainer">
+	<div id="message"></div>
+</div>
+
+<style>
+	/* Positioned absolute relative to .header (the nearest positioned
+	   ancestor — see Header.astro), so this must stay nested inside it. */
+	#messageContainer {
+		position: absolute;
+		top: calc(100% + var(--game-margin-block) / 2);
+		left: 0;
+
+		width: 100%;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		font-size: var(--message-fs);
+		font-weight: bold;
+
+		z-index: var(--z-messageContainer);
+	}
+
+	#message {
+		display: none;
+		width: fit-content;
+		padding: 0.25rem 2ch;
+		background-color: white;
+		border-radius: 6px;
+	}
+
+	#message.shown {
+		display: block;
+	}
+
+	#message.roundTitle {
+		display: block;
+		opacity: 0;
+		animation: show-temporarily 3.5s ease-in-out;
+	}
+
+	@keyframes show-temporarily {
+		10% {
+			opacity: 1;
+		}
+		80% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+</style>

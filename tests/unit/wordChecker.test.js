@@ -5,7 +5,7 @@ import {
 	isWordLengthReached,
 	loadWordList,
 	validateWord,
-} from "../../app/js/wordChecker.js";
+} from "../../public/js/wordChecker.js";
 
 // wordChecker.js is pure validation logic: given a word, the week's
 // trigram, the expected word length, and the current word list, decide
@@ -14,7 +14,7 @@ import {
 // state, so tests can just call a function and check what came back, with
 // no setup, no mocking, and no dependency on what any other test did first.
 //
-// app/js/wordChecker.js is a real ES module now (see TESTING_GUIDE.md §8),
+// public/js/wordChecker.js is a real ES module now (see tests/TESTING-GUIDE.md §8),
 // so this file imports it directly — no eval-based loader needed.
 describe("wordChecker", () => {
 	const fixtureWordList = { 4: ["CATS", "PITA"], 5: ["CATER"] };

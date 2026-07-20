@@ -81,7 +81,7 @@ test.describe("gameplay", () => {
 });
 
 test.describe("stats dialog", () => {
-	// Regression test: ui/stats.js is only ever wired up by app/js/main.js
+	// Regression test: ui/stats.js is only ever wired up by public/js/main.js
 	// importing it directly (nothing else in the module graph reaches it —
 	// it subscribes to gameEvents itself rather than being called by
 	// ui/view.js). If that import is ever dropped, the stats screen still
@@ -122,7 +122,7 @@ test.describe("persistence", () => {
 		await waitForReady(page);
 
 		// On reload with an in-progress game, the app skips the title/help
-		// screens entirely (see handleGameStarted in app/js/ui/view.js) and
+		// screens entirely (see handleGameStarted in public/js/ui/view.js) and
 		// re-renders previously completed levels directly.
 		await expect(page.locator(`#level-${word.length}`)).toHaveClass(/complete/);
 		const letters = await page

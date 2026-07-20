@@ -1,9 +1,9 @@
 ---
 // Word lengths 4..15 map onto rounds of 3, mirroring the grouping
-// app/js/ui/view.js's handleLevelStarted already assumes
+// public/js/ui/view.js's handleLevelStarted already assumes
 // (Math.floor(levelsCompleted / 3) + 1 for round number). Same ids,
 // classes, and nesting as the original hand-typed markup below, since
-// app/js/ (unchanged) queries these by exact id/class:
+// public/js/ (unchanged) queries these by exact id/class:
 //
 //   <div id="game">
 //     <div class="round">
@@ -52,3 +52,139 @@ for (let i = 0; i < wordLengths.length; i += levelsPerRound) {
 		))
 	}
 </div>
+
+<style>
+	#game {
+		width: 100%;
+		height: var(--game-height);
+		padding-inline: var(--frame-padding-inline);
+		margin-block: var(--game-margin-block);
+
+		display: flex;
+		flex-flow: column nowrap;
+		position: relative;
+
+		overflow: hidden;
+	}
+
+	.round {
+		display: flex;
+		flex-flow: column nowrap;
+
+		transform: translateY(calc(-1 * var(--round-index) * var(--game-height)));
+
+		background-color: var(--color-med);
+		color: var(--color-dark);
+	}
+
+	.level {
+		width: fit-content;
+		height: var(--level-height);
+
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		gap: var(--padding-length-word);
+
+		/* Prevent text selection on game tiles */
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-webkit-touch-callout: none;
+	}
+
+	.level.shake {
+		animation: shake 300ms ease-in-out;
+	}
+
+	.length {
+		width: fit-content;
+		min-width: var(--length-width);
+		height: var(--length-height);
+		border: 2px solid;
+		border-radius: 8px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		font-size: var(--length-fs);
+	}
+
+	.word {
+		padding-inline: var(--word-padding-inline);
+		height: var(--input-height);
+
+		border: var(--word-border-width) solid;
+		border-radius: 8px;
+
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+	}
+
+	.letter {
+		--word-width-max: calc(
+			var(--frame-width) - 2 * var(--frame-padding-inline) -
+				var(--length-width) - var(--padding-length-word) - 2 *
+				var(--word-border-width) - 2 * var(--word-padding-inline)
+		);
+		--letter-width: var(--word-width-max) / var(--num-letters-max);
+		width: calc(var(--letter-width) - 2 * var(--letter-margin-x));
+		margin-inline: var(--letter-margin-x);
+		border-bottom: var(--letter-border-bottom) solid;
+		font-size: calc(var(--letter-width) - 2 * var(--letter-margin-x));
+		text-align: center;
+	}
+
+	.letter.empty {
+		border-color: var(--color-dark);
+		color: transparent;
+	}
+
+	/* Replacing nested rules since they seem unsupported in some environements */
+	.complete .letter {
+		border: none;
+	}
+
+	.active .length,
+	.active .word {
+		border-width: 3px;
+		box-shadow: 0px 0px 18px white;
+		font-weight: bold;
+		background-color: var(--color-light);
+	}
+	.active .letter {
+		border-width: 3px;
+	}
+
+	.locked .letter {
+		border: none;
+	}
+	.locked .word {
+		border-color: var(--color-dark);
+		color: transparent;
+	}
+
+	@keyframes shake {
+		10% {
+			transform: translateX(-1.5%);
+		}
+		30% {
+			transform: translateX(1.5%);
+		}
+		50% {
+			transform: translateX(-2.5%);
+		}
+		70% {
+			transform: translateX(2.5%);
+		}
+		90% {
+			transform: translateX(-1.5%);
+		}
+		100% {
+			transform: translateX(0%);
+		}
+	}
+</style>

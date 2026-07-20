@@ -1,10 +1,61 @@
 <div class="modal-screen screen" id="noLandscapeScreen">
 	<div id="noLandscapeMessage">
 		<img
-			src="/app/assets/images/rotateScreen-darkMode.png"
+			src="/assets/images/rotateScreen-darkMode.png"
 			alt="Please rotate screen"
 		/>
 		<p>Oh no! We can't fit everything on your screen.</p>
 		<p>Please rotate your device.</p>
 	</div>
 </div>
+
+<style>
+	/* .modal-screen: a holdover name from before helpDialog/statsDialog
+	   became real <dialog>s (all three used to share this class as plain
+	   overlay divs). This is its only remaining user — still a plain div,
+	   deliberately not a <dialog>, since dismissing it wouldn't make the
+	   app fit the viewport anyway (see the comment in ui/modal.js). */
+	.modal-screen {
+		display: none;
+		position: fixed;
+		z-index: var(--z-modalScreen);
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		cursor: pointer;
+		background-color: var(--color-translucent);
+	}
+
+	#noLandscapeScreen {
+		display: none;
+		z-index: var(--z-noLandscape);
+		width: 100%;
+		height: 100%;
+		background-color: black;
+
+		flex-flow: column nowrap;
+		align-items: center;
+		justify-content: center;
+	}
+
+	#noLandscapeMessage {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		font-size: 1.25rem;
+	}
+
+	#noLandscapeMessage img {
+		max-width: 25%;
+		height: auto;
+		margin-bottom: 1.5rem;
+	}
+
+	#noLandscapeMessage p:last-child {
+		font-weight: bold;
+	}
+</style>

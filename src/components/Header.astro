@@ -1,3 +1,7 @@
+---
+import Alert from "./Alert.astro";
+---
+
 <div class="header">
 	<div class="header-element">
 		<div class="header-title">Help</div>
@@ -15,7 +19,84 @@
 			<i class="fa-solid fa-chart-simple"></i>
 		</button>
 	</div>
-	<div id="messageContainer">
-		<div id="message"></div>
-	</div>
+	<Alert />
 </div>
+
+<style>
+	.header {
+		width: 100%;
+		height: var(--header-height);
+		padding-inline: var(--frame-padding-inline);
+
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+
+		padding-block: 1rem;
+		border-bottom: 3px double;
+		color: var(--color-dark);
+		/* ^Needed for transitioning of header bottom border color*/
+
+		font-size: 1rem;
+	}
+
+	.header-element {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+
+		font-weight: bold;
+	}
+
+	.header-title {
+		padding-bottom: 3px;
+		font-weight: bold;
+		color: var(--color-dark);
+		/* ^Needed for transitioning of header element titles*/
+	}
+
+	.header-button {
+		width: 3.25rem;
+		aspect-ratio: 1/1;
+		border: 2px solid;
+		border-bottom: 4px solid;
+		border-radius: 50%;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		font-size: 1.75rem;
+		color: var(--color-dark);
+		/* ^Needed for transitioning of header button border color*/
+
+		background-color: transparent;
+
+		cursor: pointer;
+	}
+
+	.header #trigram {
+		width: 7.25rem;
+		height: 3.25rem;
+		padding: 1.625rem 0.5rem;
+		border: 3px solid;
+		border-radius: 8px;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+
+		background-color: white;
+		color: var(--color-dark);
+		/* ^Needed for transitioning of trigram color*/
+
+		font-size: 2em;
+	}
+
+	.header-button i {
+		color: var(--color-dark);
+		/* ^Needed for transitioning of bottom fontawesome icons*/
+	}
+</style>

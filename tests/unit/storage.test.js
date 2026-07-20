@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { loadGameState, saveGameState, loadPastGames } from "../../app/js/storage.js";
+import { loadGameState, saveGameState, loadPastGames } from "../../public/js/storage.js";
 
 // storage.js is the localStorage read/write layer. Vitest's jsdom
 // environment provides a real (in-memory) localStorage implementation, so

@@ -4,7 +4,7 @@ import {
 	getGameIDString,
 	getNextMondayString,
 	getWeekString,
-} from "../../app/js/calendar.js";
+} from "../../public/js/calendar.js";
 
 // calendar.js turns "today's date" into a puzzle number, which is the one
 // piece of this app's logic that's inherently about time. Time-based code is
@@ -17,7 +17,7 @@ import {
 // expected values would shift depending on the machine running them.
 //
 // calendar.js imports DEBUG from debug.js (a real, two-way circular import —
-// see the comment at the top of app/js/game.js). We don't need to mock it:
+// see the comment at the top of public/js/game.js). We don't need to mock it:
 // debug.js's DEBUG.forceFakePastStats defaults to false, which is exactly
 // the branch these tests want to exercise (real date-based game IDs).
 describe("calendar", () => {

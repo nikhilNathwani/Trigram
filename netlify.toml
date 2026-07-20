@@ -1,9 +1,9 @@
-# Astro build (see the astro-conversion plan). app/js, app/css, app/assets,
-# og-image.png, site.webmanifest, plus just the two runtime-fetched data
-# files and tools/label/ (not those directories wholesale — see the
-# comment in package.json's "build" script and astro.config.mjs) are NOT
-# under src/ or public/. They're untouched by `astro build` and copied
-# into dist/ verbatim by the "build" npm script's `cp` step afterward.
+# Astro build. public/js, public/assets, public/og-image.png, and
+# public/site.webmanifest are untouched by `astro build`, copied into
+# dist/ verbatim on its own (the standard Astro public/ mechanism). Just
+# the two runtime-fetched data files and tools/label/ (not those
+# directories wholesale — see the comment in package.json's "build" script
+# and astro.config.mjs) are copied in an extra `cp` step afterward.
 [build]
   command = "npm run build"
   publish = "dist"

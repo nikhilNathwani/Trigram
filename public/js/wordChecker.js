@@ -13,7 +13,7 @@ export function loadWordList(trigram) {
 // Returns [isValid, errorCode] where:
 //    -isValid is true/false indicating whether the inputted word meets the constraints
 //    -errorCode is a string code identifying which validation failed
-//     (mapped to a display string by lookupErrorString in app/js/ui/view.js,
+//     (mapped to a display string by lookupErrorString in public/js/ui/view.js,
 //      via the "guess:invalid" event)
 export function validateWord(word, trigram, currWordLength, wordList) {
 	if (!isWordLengthReached(word, currWordLength)) {
