@@ -1,66 +1,43 @@
-<div class="overlay screen" id="youWinScreen">
-	<div class="overlayContent" id="youWinScreenContent">
-		<h3>YOU WIN!</h3>
-		<div id="youWinScreenButtons">
-			<button id="bonusRoundButton">
-				<i class="fa-solid fa-unlock"></i> Bonus round
-			</button>
-			<button id="viewStatsButton">View stats</button>
-		</div>
+---
+import Overlay from "./Overlay.astro";
+---
+
+<Overlay id="youWinScreen">
+	<h3>YOU WIN!</h3>
+	<div id="youWinScreenButtons">
+		<button id="bonusRoundButton">
+			<i class="fa-solid fa-unlock"></i> Bonus round
+		</button>
+		<button id="viewStatsButton">View stats</button>
 	</div>
-</div>
+</Overlay>
 
 <style>
-	/* .overlay/.overlayContent shared with TrigramRevealOverlay.astro —
-	   duplicated rather than shared via import so each overlay stays
-	   self-contained and independently scoped. */
-	.overlay {
-		position: fixed;
-		z-index: var(--z-overlay);
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-
-		display: flex;
-		flex-flow: row nowrap;
-		align-items: flex-start;
-		justify-content: center;
-	}
-
-	.overlayContent {
-		width: var(--frame-width);
-		height: calc(
-			var(--header-height) + var(--game-height) + 2 * var(--game-margin-block)
-		);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-	}
-
-	#youWinScreen {
+	/* #youWinScreen/#youWinScreenContent are Overlay's own wrapper elements
+	   (id + id+"Content"), not this component's — :global() is required to
+	   reach them, the same way it would be to style any child component's
+	   root from outside. */
+	:global(#youWinScreen) {
 		display: none;
 		opacity: 0;
 		background-color: hsla(var(--c3-hue), var(--c3-sat), var(--c3-med), 0.7);
 		color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-dark));
 	}
 
-	#youWinScreen.fade-in {
+	:global(#youWinScreen.fade-in) {
 		opacity: 1;
 		animation: fade-in 2s ease;
 	}
 
-	#youWinScreen.fade-out {
+	:global(#youWinScreen.fade-out) {
 		animation: fade-out 1s ease;
 	}
 
-	#youWinScreenContent {
+	:global(#youWinScreenContent) {
 		background-color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
 	}
 
-	#youWinScreenContent h3 {
+	h3 {
 		font-size: 4rem;
 		padding-bottom: 1em;
 	}

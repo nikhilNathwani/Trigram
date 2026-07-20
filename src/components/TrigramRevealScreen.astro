@@ -1,0 +1,66 @@
+---
+import Overlay from "./Overlay.astro";
+---
+
+<Overlay id="trigramRevealScreen">
+	<h3>This week's trigram is...</h3>
+	<div id="trigramReveal"></div>
+	<h4 id="trigramRevealSubtitle"></h4>
+</Overlay>
+
+<style>
+	/* #trigramRevealScreen/#trigramRevealScreenContent are Overlay's own
+	   wrapper elements (id + id+"Content"), not this component's — :global()
+	   is required to reach them, the same way it would be to style any
+	   child component's root from outside. */
+	:global(#trigramRevealScreen) {
+		background-color: hsla(var(--c1-hue), var(--c1-sat), var(--c1-med), 0.7);
+		color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
+	}
+
+	:global(#trigramRevealScreen.showTemporarily) {
+		animation: show-temporarily 5s ease;
+	}
+
+	:global(#trigramRevealScreenContent) {
+		background-color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
+	}
+
+	h3 {
+		font-size: 1.5rem;
+		padding-bottom: 1rem;
+	}
+
+	h4 {
+		font-size: 1.125rem;
+		padding-top: 0.75rem;
+	}
+
+	#trigramReveal {
+		width: 14.75rem;
+		padding: 1.5rem 1rem;
+		border: 6px solid;
+		border-radius: 24px;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+
+		background-color: white;
+
+		font-size: 4rem;
+		font-weight: bold;
+	}
+
+	@keyframes show-temporarily {
+		10% {
+			opacity: 1;
+		}
+		80% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+</style>
