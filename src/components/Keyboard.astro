@@ -1,0 +1,56 @@
+---
+// Row layout data instead of the original 3 hand-typed <div class=
+// "keyboard-row"> blocks. Q keeps its original id="scrollButton" (present
+// in the source markup, unreferenced by any JS/CSS — confirmed via grep —
+// but preserved as-is rather than dropped during what's meant to be a
+// structurally faithful port).
+const rows = [
+	[{ key: "Q", id: "scrollButton" }, "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+	["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+	["enter", "Z", "X", "C", "V", "B", "N", "M", "delete"],
+];
+---
+
+<div id="keyboard">
+	{
+		rows.map((row) => (
+			<div class="keyboard-row">
+				{row.map((key) => {
+					if (key === "enter") {
+						return (
+							<button class="keyboard-key" data-enter="true" id="enterKey">
+								ENTER
+							</button>
+						);
+					}
+					if (key === "delete") {
+						return (
+							<button
+								class="keyboard-key"
+								data-delete="true"
+								id="backspaceKey"
+							>
+								<svg
+									aria-hidden="true"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									class="game-icon"
+									data-testid="icon-backspace"
+								>
+									<path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z" />
+								</svg>
+							</button>
+						);
+					}
+					const letter = typeof key === "string" ? key : key.key;
+					const id = typeof key === "string" ? undefined : key.id;
+					return (
+						<button class="keyboard-key" data-keyname={letter} id={id}>
+							{letter}
+						</button>
+					);
+				})}
+			</div>
+		))
+	}
+</div>

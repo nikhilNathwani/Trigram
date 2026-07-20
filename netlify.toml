@@ -1,8 +1,18 @@
-# No build step: index.html loads app/js/game.js as a native ES module and
-# the browser resolves its whole import graph itself. The repo is published
-# as-is.
+# Astro build (see the astro-conversion plan). app/js, app/css, app/assets,
+# og-image.png, site.webmanifest, plus just the two runtime-fetched data
+# files and tools/label/ (not those directories wholesale — see the
+# comment in package.json's "build" script and astro.config.mjs) are NOT
+# under src/ or public/. They're untouched by `astro build` and copied
+# into dist/ verbatim by the "build" npm script's `cp` step afterward.
 [build]
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Astro 7 requires Node >=22.12.0; Netlify's build image defaults to an
+  # older Node otherwise (was 18.20.8 as of the last recorded deploy log,
+  # which was already under Vite 7's stated minimum too).
+  NODE_VERSION = "22"
 
 # Serve /label as a clean URL pointing to the label tool
 [[redirects]]

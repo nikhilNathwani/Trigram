@@ -3,6 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"build": "astro build && mkdir -p dist/app dist/data dist/tools && cp -r app/js app/css app/assets dist/app/ && cp data/trigram_calendar.json dist/data/ && cp -r data/trigram-word-lists dist/data/ && cp -r tools/label dist/tools/ && cp og-image.png site.webmanifest dist/",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:e2e": "playwright test",
@@ -11,6 +12,7 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.55.0",
+		"astro": "^7.1.1",
 		"http-server": "^14.1.1",
 		"jsdom": "^25.0.1",
 		"vite": "^7.3.6",

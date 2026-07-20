@@ -32,3 +32,7 @@ playwright-report/
 test-results/
 coverage/
 
+# Astro build output and local cache (astro-conversion spike)
+dist/
+.astro/
+

@@ -1,0 +1,54 @@
+---
+// Word lengths 4..15 map onto rounds of 3, mirroring the grouping
+// app/js/ui/view.js's handleLevelStarted already assumes
+// (Math.floor(levelsCompleted / 3) + 1 for round number). Same ids,
+// classes, and nesting as the original hand-typed markup below, since
+// app/js/ (unchanged) queries these by exact id/class:
+//
+//   <div id="game">
+//     <div class="round">
+//       <div id="level-4" class="level locked">
+//         <div id="length-4" class="length">4</div>
+//         <div id="word-4" class="word">
+//           <div class="letter"></div> x4
+//
+// The original hand-typed version had 114 individual .letter divs across
+// 12 near-identical level blocks, each pre-filled with an arbitrary
+// placeholder letter (D, E, F, ...) purely for design-time preview. That
+// content was never actually visible in the browser — CSS already hides
+// it (.locked .word { color: transparent }), and .letter's width is a
+// fixed calc(), not content-dependent — so it's dropped here rather than
+// reproduced; empty .letter divs render identically.
+const wordLengthStart = 4;
+const wordLengthMax = 15;
+const wordLengths = Array.from(
+	{ length: wordLengthMax - wordLengthStart + 1 },
+	(_, i) => wordLengthStart + i
+);
+const levelsPerRound = 3;
+const rounds = [];
+for (let i = 0; i < wordLengths.length; i += levelsPerRound) {
+	rounds.push(wordLengths.slice(i, i + levelsPerRound));
+}
+---
+
+<div id="game">
+	{
+		rounds.map((round) => (
+			<div class="round">
+				{round.map((length) => (
+					<div id={`level-${length}`} class="level locked">
+						<div id={`length-${length}`} class="length">
+							{length}
+						</div>
+						<div id={`word-${length}`} class="word">
+							{Array.from({ length }).map(() => (
+								<div class="letter" />
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+		))
+	}
+</div>

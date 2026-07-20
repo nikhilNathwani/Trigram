@@ -1,0 +1,91 @@
+---
+// <html>/<head> shell. Everything under app/js, app/css, app/assets is
+// deliberately referenced with a leading "/" (root-absolute), not a
+// relative path Astro/Vite would try to resolve as a local module to
+// bundle — same as the favicon links already did in the pre-Astro
+// index.html. These files are copied into dist/ verbatim by the "build"
+// npm script; Astro never touches their contents.
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Weekly word game. Make words containing a three-letter sequence, called the trigram. New trigram available each Monday. Perfect challenge for people who love Wordle, but would like to make some longer words."
+		/>
+		<!-- Split by concern rather than one style.css. Load order here is
+		     just readability, not a real dependency: none of these files
+		     define overlapping selectors, and CSS custom properties/
+		     @keyframes resolve by name at compute time regardless of which
+		     <link> defined them or in what order. -->
+		<link rel="stylesheet" href="/app/css/variables.css" />
+		<link rel="stylesheet" href="/app/css/layout.css" />
+		<link rel="stylesheet" href="/app/css/dialogs.css" />
+		<link rel="stylesheet" href="/app/css/screens.css" />
+		<link rel="stylesheet" href="/app/css/animations.css" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/app/assets/icons/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="/app/assets/icons/favicon-16x16.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="/app/assets/icons/favicon-32x32.png"
+		/>
+		<link rel="manifest" href="/site.webmanifest" />
+		<title>Trigram</title>
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://trigram.netlify.app/" />
+		<meta property="og:title" content="Trigram" />
+		<meta
+			property="og:description"
+			content="A weekly word game. Make as many words as you can containing the trigram. New challenge every Monday."
+		/>
+		<meta
+			property="og:image"
+			content="https://trigram.netlify.app/og-image.png"
+		/>
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:image"
+			content="https://trigram.netlify.app/og-image.png"
+		/>
+	</head>
+	<!-- Google tag (gtag.js). is:inline so Astro leaves this completely
+	     untouched rather than treating it as a hoisted script to process. -->
+	<script
+		is:inline
+		async
+		src="https://www.googletagmanager.com/gtag/js?id=G-D448F50S29"
+	></script>
+	<script is:inline>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag("js", new Date());
+
+		gtag("config", "G-D448F50S29");
+	</script>
+	<body>
+		<slot />
+		<!-- Native ES module: the browser resolves and fetches main.js's whole
+		     import graph itself, no build step required. is:inline so Astro
+		     leaves it as a plain, unbundled script tag pointing at the
+		     untouched file under app/js/ (see the config comment above). -->
+		<script is:inline type="module" src="/app/js/main.js"></script>
+	</body>
+</html>
