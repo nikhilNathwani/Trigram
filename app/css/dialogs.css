@@ -11,18 +11,66 @@
 .modal-content {
 	width: min(500px, 94vw);
 	max-height: 85vh;
-	overflow: auto;
+	/* Scrolling lives on .modal-scroll below, not here — a <dialog> that's
+	   both the overflow:auto container AND has auto margins for centering
+	   lets you scroll past its own content into the margin, revealing the
+	   ::backdrop through what looks like the dialog's own background.
+	   Keeping this box unscrollable (fixed height, clipped) avoids that
+	   entirely. */
+	overflow: hidden;
 	border: 3px solid;
 	margin: 4rem auto;
-	padding: 1.5rem;
+	padding: 0;
 	background-color: var(--color-light);
 	color: var(--color-darker);
 	border-color: var(--color-darker);
 }
 
+/* flex, not percentage-height on .modal-scroll: a box sized only by
+   max-height (no explicit height) doesn't count as a definite height for a
+   child's `height: 100%` to resolve against, so that child just grows past
+   it instead of clipping/scrolling. Flex sizing doesn't have that
+   limitation.
+   Scoped to [open]: a plain `.modal-content { display: flex }` would apply
+   regardless of the dialog's open state — author-origin CSS beats the UA
+   stylesheet's `dialog:not([open]) { display: none }` regardless of
+   specificity, so an unconditional `display` here would make the dialog
+   visible (and, worse, capturing clicks/keyboard input) even while
+   closed. */
+.modal-content[open] {
+	display: flex;
+	flex-direction: column;
+}
+
 .modal-content::backdrop {
 	cursor: pointer;
 	background-color: var(--color-translucent);
+}
+
+.modal-scroll {
+	overflow-y: auto;
+	padding: 1.5rem;
+	/* Flex items default to min-height: auto (never smaller than their
+	   content), which would defeat overflow here — this lets it actually
+	   shrink below content size so overflow-y can kick in. */
+	min-height: 0;
+
+	/* Thin, app-colored scrollbar instead of the OS default. */
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-darker) transparent;
+}
+
+.modal-scroll::-webkit-scrollbar {
+	width: 8px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+	background-color: var(--color-darker);
+	border-radius: 4px;
 }
 
 .modal-content h1 {
