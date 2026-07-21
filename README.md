@@ -67,15 +67,14 @@ For full operational steps, see `tools/automation/WEEKLY-WORKFLOW.md`.
 
 ## Tooling Setup (Python)
 
-If you use social-generation/data scripts, install requirements from `tools/requirements.txt`.
+If you use social-generation/data scripts, install requirements from `tools/requirements.txt`. The venv lives at the repo root — `tools/automation`'s scripts activate it via a relative `../../.venv/bin/activate`, so creating it anywhere else (e.g. inside `tools/`) leaves them unable to find it.
 
-Example:
+Example (from the repo root):
 
 ```bash
-cd tools
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r tools/requirements.txt
 ```
 
 ## Why This Project
