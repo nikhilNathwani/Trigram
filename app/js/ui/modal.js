@@ -2,9 +2,6 @@ import { getWeekString, getGameIDString } from "../calendar.js";
 import { startInteraction, stopInteraction } from "../interactionHandler.js";
 import { showRoundTitle, startBonusGame } from "./view.js";
 
-// UP NEXT:
-// -
-
 // Naming convention for the six full-page layers in index.html, split into
 // two categories that behave differently on purpose:
 //
@@ -106,7 +103,7 @@ export function setTrigramRevealScreen(trigram) {
 		.join("");
 
 	const trigramRevealSubtitle = document.getElementById(
-		"trigramRevealSubtitle"
+		"trigramRevealSubtitle",
 	);
 	trigramRevealSubtitle.textContent =
 		'Your words must contain "' + trigram + '"';

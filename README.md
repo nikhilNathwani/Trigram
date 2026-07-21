@@ -38,19 +38,20 @@ tools/
     utils/                 # Dictionary and calendar update scripts
     social/                # Social image generation
     corpus/                # Corpus preprocessing helpers
+    label/                 # A second, separate static tool this same repo serves
+
+mockups/                   # Design reference material (not served)
 ```
 
 ## Running the Game
 
-`app/js` is written as ES modules and bundled by Vite before the game can run in a browser — `index.html` loads the built `app/dist/bundle.js`, not the source files directly. From a fresh clone:
+No build step: `index.html` loads `app/js/main.js` as a native ES module, and the browser resolves the rest of the import graph itself. From a fresh clone:
 
 ```bash
 npm install
-npm run build          # one-time build, or:
-npm run build:watch    # rebuilds on every source change (no dev server/hot-reload, just manual refresh)
 ```
 
-Then open `index.html` in a browser, or serve the repo as static files with any local HTTP server. Netlify runs `npm run build` automatically on deploy (see `netlify.toml`) — everything else in the repo (`data/`, `tools/label/`, assets) is untouched by the build and served as-is. See `TESTING_GUIDE.md` §8 for why the app is structured this way and what the bundler is (and isn't) doing.
+Then open `index.html` in a browser, or serve the repo as static files with any local HTTP server (`npx http-server .` works, and is what the e2e tests use — see `playwright.config.js`). Netlify publishes the repo as-is, no build command (see `netlify.toml`). See `tests/TESTING-GUIDE.md` §8 for why the app is structured this way.
 
 ## Weekly Content Workflow
 
@@ -62,7 +63,7 @@ From `tools/automation`:
 
 This workflow validates/generates dictionary data, updates the trigram calendar, and commits/pushes repository changes.
 
-For full operational steps, see `WEEKLY-WORKFLOW.md`.
+For full operational steps, see `tools/automation/WEEKLY-WORKFLOW.md`.
 
 ## Tooling Setup (Python)
 
