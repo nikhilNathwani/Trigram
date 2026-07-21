@@ -97,10 +97,13 @@ test.describe("stats dialog with representative history", () => {
 			page.locator("#wordListValue .stat-wordList-trigram").first()
 		).toHaveText(liveTrigram);
 
-		// --- "Your Stats": hand-computed from the fixture above, current
-		// game (longestWord 6, not yet a win) included as the 10th game ---
+		// --- "Your Stats": hand-computed from the fixture above ---
+		// "Played"/streak count the current game (longestWord 6) as the 10th
+		// game, live. Win % doesn't — it only counts settled (past) weeks,
+		// since this week's outcome isn't decided yet — so it's still 5/9
+		// from the past-games fixture alone, unaffected by the current game.
 		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("10");
-		await expect(page.locator("#stat-winPercentage")).toHaveText("50"); // 5 wins / 10 games
+		await expect(page.locator("#stat-winPercentage")).toHaveText("55.6"); // 5 wins / 9 past games
 		await expect(page.locator("#stat-currentStreak")).toHaveText("4");
 		await expect(page.locator("#stat-maxStreak")).toHaveText("6");
 
