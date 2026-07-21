@@ -9,6 +9,11 @@ import {
 	setTrigramRevealScreen,
 } from "./modal.js";
 import { gameEvents } from "../game.js";
+import {
+	LEVELS_PER_ROUND,
+	LEVELS_TOTAL,
+	PRE_BONUS_LEVELS_COMPLETE,
+} from "../constants.js";
 
 // UP NEXT:
 // -(maybe) Show round title upon game reload (even if in middle of round. UNLESS it's end of round 3 and I'm about to show You Win screen)
@@ -69,19 +74,19 @@ function handleGameStarted(trigram, wordsProvided) {
 		//    (without doing the slide-down round transition)
 		//
 		// Exception A) Pre-bonus game completed
-		if (levelsCompleted == 9) {
+		if (levelsCompleted == PRE_BONUS_LEVELS_COMPLETE) {
 			appDiv.classList = "round-3";
 			showYouWinScreen();
 		}
 		//
 		// Exception B) Post-bonus game completed
-		else if (levelsCompleted == 12) {
+		else if (levelsCompleted == LEVELS_TOTAL) {
 			appDiv.classList = "round-4";
 			handleGameEnded();
 		}
 		//
 		else {
-			const roundNum = Math.floor(levelsCompleted / 3) + 1;
+			const roundNum = Math.floor(levelsCompleted / LEVELS_PER_ROUND) + 1;
 			appDiv.classList = "round-" + roundNum;
 		}
 	}
@@ -89,10 +94,10 @@ function handleGameStarted(trigram, wordsProvided) {
 
 function handleLevelStarted() {
 	// 1) Set level to active
-	const roundNum = Math.floor(levelsCompleted / 3) + 1;
+	const roundNum = Math.floor(levelsCompleted / LEVELS_PER_ROUND) + 1;
 	const roundDiv = roundDivs[roundNum - 1];
 	levelDiv = roundDiv.querySelector(
-		`div.level:nth-child(${(levelsCompleted % 3) + 1})`
+		`div.level:nth-child(${(levelsCompleted % LEVELS_PER_ROUND) + 1})`
 	);
 	levelDiv.classList.remove("locked");
 	levelDiv.classList.add("active");
@@ -108,10 +113,10 @@ function handleLevelStarted() {
 	startInteraction();
 
 	// 3) Advance to next round if needed
-	if (levelsCompleted % 3 == 0) {
+	if (levelsCompleted % LEVELS_PER_ROUND == 0) {
 		//Case A) Round 4 but need to see YOU WIN screen first:
 		//- Show You Win screen
-		if (levelsCompleted == 9 && !bonusGameInvoked) {
+		if (levelsCompleted == PRE_BONUS_LEVELS_COMPLETE && !bonusGameInvoked) {
 			showYouWinScreen();
 		}
 		//Case B) Round 1 or Reloading at start of Round 2/3:

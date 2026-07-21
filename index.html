@@ -307,7 +307,7 @@
 					<div id="message"></div>
 				</div>
 				<div id="game"></div>
-				<script src="app/js/ui/generateBoard.js"></script>
+				<script type="module" src="app/js/ui/generateBoard.js"></script>
 				<div id="keyboard">
 					<div class="keyboard-row">
 						<button class="keyboard-key" data-keyname="Q">Q</button>
@@ -368,8 +368,16 @@
 				</div>
 			</div>
 		</div>
-		<!-- Native ES module: the browser resolves and fetches main.js's whole
-		     import graph itself, no build step required. -->
-		<script type="module" src="app/js/main.js"></script>
+		<!-- Native ES modules: the browser resolves and fetches each one's whole
+		     import graph itself, no build step required. Both are entry points
+		     (not just one importing the other) because ui/view.js and
+		     ui/stats.js deliberately don't import each other — each subscribes
+		     to game.js's gameEvents independently, so nothing else pulls
+		     ui/stats.js in. (game.js itself needs no tag of its own: both of
+		     these already import it.) See the "stats dialog" test in
+		     tests/e2e/gameplay.spec.js for what happens if one of these two
+		     tags is ever missing — the screen still renders, just empty. -->
+		<script type="module" src="app/js/ui/view.js"></script>
+		<script type="module" src="app/js/ui/stats.js"></script>
 	</body>
 </html>

@@ -45,7 +45,7 @@ mockups/                   # Design reference material (not served)
 
 ## Running the Game
 
-No build step: `index.html` loads `app/js/main.js` as a native ES module, and the browser resolves the rest of the import graph itself. From a fresh clone:
+No build step: `index.html` loads `app/js/ui/view.js` and `app/js/ui/stats.js` as native ES modules, and the browser resolves the rest of the import graph itself. From a fresh clone:
 
 ```bash
 npm install

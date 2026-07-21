@@ -5,10 +5,13 @@ import {
 } from "./calendar.js";
 import { loadWordList, validateWord } from "./wordChecker.js";
 import { loadGameState, saveGameState } from "./storage.js";
+import { WORD_LENGTH_START, WORD_LENGTH_MAX } from "./constants.js";
 
 /*  ------------------------------------------------------------- */
-export const wordLength_start = 4;
-const wordLength_max = 15;
+// Sourced from constants.js rather than hardcoded here, so this and
+// ui/generateBoard.js can't drift out of sync.
+export const wordLength_start = WORD_LENGTH_START;
+const wordLength_max = WORD_LENGTH_MAX;
 
 // Live-binding exports: anyone who does `import { trigram } from "./game.js"`
 // always sees the current value, no object wrapper needed to stay in sync.

@@ -81,15 +81,15 @@ test.describe("gameplay", () => {
 });
 
 test.describe("stats dialog", () => {
-	// Regression test: ui/stats.js is only ever wired up by app/js/main.js
-	// importing it directly (nothing else in the module graph reaches it —
-	// it subscribes to gameEvents itself rather than being called by
-	// ui/view.js). If that import is ever dropped, the stats screen still
-	// *opens* (it's plain markup in index.html) but silently never gets
-	// populated — a bug the "loads without console/page errors" and
-	// gameplay tests above can't catch, since none of them look inside the
-	// stats screen. This test exists specifically to catch that class of
-	// bug by checking the dialog's actual content, not just that it opens.
+	// Regression test: ui/stats.js is only ever wired up by its own
+	// <script type="module"> tag in index.html (nothing else in the module
+	// graph reaches it — it subscribes to gameEvents itself rather than
+	// being called by ui/view.js). If that tag is ever dropped, the stats
+	// screen still *opens* (it's plain markup in index.html) but silently
+	// never gets populated — a bug the "loads without console/page errors"
+	// and gameplay tests above can't catch, since none of them look inside
+	// the stats screen. This test exists specifically to catch that class
+	// of bug by checking the dialog's actual content, not just that it opens.
 	test("shows the submitted word and updated counting stats", async ({ page }) => {
 		await playThroughToInteractive(page);
 		const word = await firstLevelWord(page);

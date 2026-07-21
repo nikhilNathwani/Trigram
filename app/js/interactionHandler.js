@@ -1,5 +1,6 @@
 import { isAnyScreenShown } from "./ui/modal.js";
 import { submitGuess, addLetter, deleteLetter, gameEvents } from "./game.js";
+import { LEVELS_TOTAL } from "./constants.js";
 
 //
 const keyboard = document.getElementById("keyboard");
@@ -12,7 +13,7 @@ const keyboard = document.getElementById("keyboard");
 // whose wordsProvided already has all 12 words.
 let gameEnded = false;
 gameEvents.addEventListener("game:started", (e) => {
-	if (e.detail.wordsProvided.length >= 12) {
+	if (e.detail.wordsProvided.length >= LEVELS_TOTAL) {
 		gameEnded = true;
 	}
 });

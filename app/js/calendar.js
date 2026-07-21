@@ -4,7 +4,7 @@ export let trigram_calendar = [];
 // Load trigram calendar data
 export async function loadTrigramCalendar() {
 	try {
-		const response = await fetch("../../data/trigram_calendar.json");
+		const response = await fetch("data/trigram_calendar.json");
 		trigram_calendar = await response.json();
 	} catch (error) {
 		console.error("Error loading trigram calendar:", error);
