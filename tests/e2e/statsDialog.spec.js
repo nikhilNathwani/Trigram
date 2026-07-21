@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 import {
 	currentTrigram,
+	makeWords,
+	makeWordsContaining,
 	playThroughToInteractive,
 	seedLocalStorage,
 	todayGameID,
@@ -139,29 +141,3 @@ test.describe("stats dialog with representative history", () => {
 		);
 	});
 });
-
-// Builds a wordsProvided array in the index-by-length shape storage.js/
-// stats.js expect ([null, null, null, null, "<4-letter word>", ...]),
-// stopping at `longestLength`. The actual letters don't need to be real
-// dictionary words — stats rendering never re-validates them, only game.js's
-// live guess submission does (see wordChecker.js's validateWord).
-function makeWords(longestLength, wordLength_start = 4) {
-	const words = new Array(wordLength_start).fill(null);
-	for (let length = wordLength_start; length <= longestLength; length++) {
-		words.push("X".repeat(length));
-	}
-	return words;
-}
-
-// Same shape as makeWords(), but each word is built as `trigram` + filler,
-// so it actually contains the trigram (like every real guess must — see
-// wordChecker.js's containsTrigram) — needed for the current-game fixture,
-// since only its words get rendered into "Your Words" at all.
-function makeWordsContaining(trigram, longestLength) {
-	const wordLength_start = 4;
-	const words = new Array(wordLength_start).fill(null);
-	for (let length = wordLength_start; length <= longestLength; length++) {
-		words.push(trigram + "X".repeat(length - trigram.length));
-	}
-	return words;
-}
