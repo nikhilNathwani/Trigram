@@ -27,6 +27,8 @@ body {
 	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
+	position: relative;
+	/* ^Positioned ancestor for Alert's #messageContainer (position: absolute) */
 }
 
 /* Shared by every full-page screen (TitleScreen, TrigramRevealScreen,
