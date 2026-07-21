@@ -64,6 +64,9 @@ for (let i = 0; i < wordLengths.length; i += levelsPerRound) {
 		display: flex;
 		flex-flow: column nowrap;
 
+		/* --round-index isn't set here — it's inherited from a class view.js
+		   toggles on #app, shared by every .round at once. See the comment
+		   above the ROUND VARIATIONS section in variables.css for why. */
 		transform: translateY(calc(-1 * var(--round-index) * var(--game-height)));
 
 		background-color: var(--color-med);
