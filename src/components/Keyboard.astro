@@ -1,11 +1,8 @@
 ---
 // Row layout data instead of the original 3 hand-typed <div class=
-// "keyboard-row"> blocks. Q keeps its original id="scrollButton" (present
-// in the source markup, unreferenced by any JS/CSS — confirmed via grep —
-// but preserved as-is rather than dropped during what's meant to be a
-// structurally faithful port).
+// "keyboard-row"> blocks.
 const rows = [
-	[{ key: "Q", id: "scrollButton" }, "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+	["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
 	["A", "S", "D", "F", "G", "H", "J", "K", "L"],
 	["enter", "Z", "X", "C", "V", "B", "N", "M", "delete"],
 ];
@@ -42,11 +39,9 @@ const rows = [
 							</button>
 						);
 					}
-					const letter = typeof key === "string" ? key : key.key;
-					const id = typeof key === "string" ? undefined : key.id;
 					return (
-						<button class="keyboard-key" data-keyname={letter} id={id}>
-							{letter}
+						<button class="keyboard-key" data-keyname={key}>
+							{key}
 						</button>
 					);
 				})}
