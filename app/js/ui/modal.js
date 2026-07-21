@@ -5,21 +5,31 @@ import { showRoundTitle, startBonusGame } from "./view.js";
 // UP NEXT:
 // -
 
-// Naming convention for the six full-page overlays in index.html, split
-// into two categories that behave differently on purpose:
+// Naming convention for the six full-page layers in index.html, split into
+// two categories that behave differently on purpose:
 //
 // *Screen (titleScreen, trigramRevealScreen, youWinScreen,
 // noLandscapeScreen) — the app shows/hides these on its own schedule, via
 // the generic showScreen()/hideScreen() below. None are user-dismissable:
 // no close button, no backdrop click, no Escape handling. That's
 // intentional per-screen (e.g. youWinScreen forces a Bonus Round/View
-// Stats choice), not an oversight.
+// Stats choice), not an oversight. (An earlier version of this app split
+// trigramRevealScreen/youWinScreen into a separate *Overlay category,
+// rendered via a shared translucent-backdrop-plus-opaque-card component —
+// merged back into plain opaque *Screen elements since that visual
+// distinction wasn't earning the extra component/category it cost. Their
+// ids/functions were briefly `*Overlay`-suffixed too; both are back to
+// `*Screen` now.)
 //
 // *Dialog (helpDialog, statsDialog) — real <dialog> elements the user
 // opens and closes at will (close button, backdrop click, or Escape all
 // work). This is the only category where "dismissable" is actually wanted,
 // which is why only these two are <dialog>-based — see each one's own
 // section below for why the others aren't.
+//
+// The `.screen` CSS class is used by both categories — the generic marker
+// isAnyScreenShown()/skipAllModalScreens() use to bulk-query all six
+// layers, *Screen and *Dialog alike.
 
 // Load Font Awesome after title screen loads (icons only used in game screens)
 // This gives it time to load before user clicks Play, avoiding pop-in
@@ -61,7 +71,7 @@ document.getElementById("howToButton").addEventListener("click", function () {
 });
 
 function hideTitleScreen() {
-	hideScreen("title");
+	hideScreen("titleScreen");
 }
 
 function setTitleScreenWeek() {
@@ -79,7 +89,7 @@ function setTitleScreenGameNumber() {
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*     TRIGRAM REVEAL OVERLAY     */
+/*          TRIGRAM REVEAL          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 // *Screen, not *Dialog: this is a timed splash with no user-facing dismiss
@@ -104,7 +114,7 @@ export function setTrigramRevealScreen(trigram) {
 
 function showTrigramRevealScreen() {
 	//show screen then fade out after 4 seconds
-	showScreen("trigramReveal");
+	showScreen("trigramRevealScreen");
 	const screen = document.getElementById("trigramRevealScreen");
 	screen.classList.add("showTemporarily");
 	screen.addEventListener("animationend", () => {
@@ -115,7 +125,7 @@ function showTrigramRevealScreen() {
 }
 
 function hideTrigramRevealScreen() {
-	hideScreen("trigramReveal");
+	hideScreen("trigramRevealScreen");
 }
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -210,20 +220,20 @@ export function showStatsDialog() {
 ///////////////////////////////////////////////////////////////////////////////
 //
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*     YOU WIN OVERLAY     */
+/*            YOU WIN             */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 //
 // *Screen, not *Dialog: the player must choose Bonus Round or View Stats —
 // this is deliberately not dismissable by backdrop click or Escape.
 
-//View Stats button in You Win overlay
+//View Stats button in You Win screen
 document
 	.getElementById("viewStatsButton")
 	.addEventListener("click", function () {
 		showStatsDialog();
 	});
 
-//Bonus Round button in You Win overlay
+//Bonus Round button in You Win screen
 document
 	.getElementById("bonusRoundButton")
 	.addEventListener("click", function () {
@@ -231,7 +241,7 @@ document
 	});
 
 export function showYouWinScreen() {
-	showScreen("youWin");
+	showScreen("youWinScreen");
 	const screen = document.getElementById("youWinScreen");
 	screen.classList.add("fade-in");
 }
@@ -240,7 +250,7 @@ export function hideYouWinScreen() {
 	// screen.classList.remove("fade-in");
 	screen.classList.add("fade-out");
 	screen.addEventListener("animationend", () => {
-		hideScreen("youWin");
+		hideScreen("youWinScreen");
 	});
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -271,7 +281,7 @@ function isLandscape() {
 window.addEventListener("load", function () {
 	checkIsMobileDevice();
 	if (isMobile && isLandscape()) {
-		showScreen("noLandscape");
+		showScreen("noLandscapeScreen");
 	}
 });
 
@@ -280,9 +290,9 @@ window.addEventListener("load", function () {
 window.addEventListener("resize", function () {
 	if (isMobile) {
 		if (isLandscape()) {
-			showScreen("noLandscape");
+			showScreen("noLandscapeScreen");
 		} else {
-			hideScreen("noLandscape");
+			hideScreen("noLandscapeScreen");
 		}
 	}
 });
@@ -290,13 +300,17 @@ window.addEventListener("resize", function () {
 //////////////////////////////////////////////////////
 // HELPER FUNCTIONS --------------------------------//
 //////////////////////////////////////////////////////
-function showScreen(name) {
+// Shared display-toggle plumbing for every *Screen element (not *Dialog,
+// which uses .showModal()/.close() instead) — takes the element's exact
+// id directly rather than auto-appending "Screen" to a short name, so
+// every call site is equally explicit regardless of which screen it is.
+function showScreen(id) {
 	stopInteraction();
-	document.getElementById(name + "Screen").style.display = "flex";
+	document.getElementById(id).style.display = "flex";
 }
 
-function hideScreen(name) {
-	document.getElementById(name + "Screen").style.display = "none";
+function hideScreen(id) {
+	document.getElementById(id).style.display = "none";
 	startInteraction();
 }
 export function isAnyScreenShown() {

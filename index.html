@@ -72,7 +72,7 @@
 	</script>
 	<body>
 		<div id="app">
-			<div id="titleScreen" class="screen">
+			<div id="titleScreen" class="screen full-page">
 				<div id="titleScreenTitle">
 					<h1>trigram</h1>
 					<h2>a weekly word game</h2>
@@ -101,22 +101,18 @@
 					</p> -->
 				</div>
 			</div>
-			<div class="overlay screen" id="trigramRevealScreen">
-				<div class="overlayContent" id="trigramRevealScreenContent">
-					<h3>This week's trigram is...</h3>
-					<div id="trigramReveal"></div>
-					<h4 id="trigramRevealSubtitle"></h4>
-				</div>
+			<div class="screen full-page" id="trigramRevealScreen">
+				<h3>This week's trigram is...</h3>
+				<div id="trigramReveal"></div>
+				<h4 id="trigramRevealSubtitle"></h4>
 			</div>
-			<div class="overlay screen" id="youWinScreen">
-				<div class="overlayContent" id="youWinScreenContent">
-					<h3>YOU WIN!</h3>
-					<div id="youWinScreenButtons">
-						<button id="bonusRoundButton">
-							<i class="fa-solid fa-unlock"></i> Bonus round
-						</button>
-						<button id="viewStatsButton">View stats</button>
-					</div>
+			<div class="screen full-page" id="youWinScreen">
+				<h3>YOU WIN!</h3>
+				<div id="youWinScreenButtons">
+					<button id="bonusRoundButton">
+						<i class="fa-solid fa-unlock"></i> Bonus round
+					</button>
+					<button id="viewStatsButton">View stats</button>
 				</div>
 			</div>
 			<dialog class="modal-content screen" id="helpDialog">
@@ -278,7 +274,7 @@
 				</div>
 				</div>
 			</dialog>
-			<div class="modal-screen screen" id="noLandscapeScreen">
+			<div class="modal-screen screen full-page" id="noLandscapeScreen">
 				<div id="noLandscapeMessage">
 					<img
 						src="/app/assets/images/rotateScreen-darkMode.png"
@@ -306,203 +302,80 @@
 							<i class="fa-solid fa-chart-simple"></i>
 						</button>
 					</div>
-					<div id="messageContainer">
-						<div id="message"></div>
-					</div>
 				</div>
-				<div id="game">
-					<div class="round">
-						<div id="level-4" class="level locked">
-							<div id="length-4" class="length">4</div>
-							<div id="word-4" class="word word-A">
-								<div class="letter">D</div>
-								<div class="letter">D</div>
-								<div class="letter">D</div>
-								<div class="letter">D</div>
-							</div>
-						</div>
-						<div id="level-5" class="level locked">
-							<div id="length-5" class="length">5</div>
-							<div id="word-5" class="word word-B">
-								<div class="letter">E</div>
-								<div class="letter">E</div>
-								<div class="letter">E</div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-							</div>
-						</div>
-						<div id="level-6" class="level locked">
-							<div id="length-6" class="length">6</div>
-							<div id="word-6" class="word word-C">
-								<div class="letter">F</div>
-								<div class="letter">F</div>
-								<div class="letter">F</div>
-								<div class="letter">F</div>
-								<div class="letter">F</div>
-								<div class="letter">F</div>
-							</div>
-						</div>
-					</div>
-					<div class="round">
-						<div id="level-7" class="level locked">
-							<div id="length-7" class="length">7</div>
-							<div id="word-7" class="word word-A">
-								<div class="letter">G</div>
-								<div class="letter">G</div>
-								<div class="letter">G</div>
-								<div class="letter">G</div>
-								<div class="letter">G</div>
-								<div class="letter">G</div>
-								<div class="letter">G</div>
-							</div>
-						</div>
-						<div id="level-8" class="level locked">
-							<div id="length-8" class="length">8</div>
-							<div id="word-8" class="word word-B">
-								<div class="letter">H</div>
-								<div class="letter">H</div>
-								<div class="letter">H</div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-							</div>
-						</div>
-						<div id="level-9" class="level locked">
-							<div id="length-9" class="length">9</div>
-							<div id="word-9" class="word word-C">
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-								<div class="letter">I</div>
-							</div>
-						</div>
-					</div>
-					<div class="round">
-						<div id="level-10" class="level locked">
-							<div id="length-10" class="length">10</div>
-							<div id="word-10" class="word word-A">
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-								<div class="letter">J</div>
-							</div>
-						</div>
-						<div id="level-11" class="level locked">
-							<div id="length-11" class="length">11</div>
-							<div id="word-11" class="word word-B">
-								<div class="letter">K</div>
-								<div class="letter">K</div>
-								<div class="letter">K</div>
-								<div class="letter">K</div>
-								<div class="letter">K</div>
-								<div class="letter">K</div>
-								<div class="letter">K</div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-							</div>
-						</div>
-						<div id="level-12" class="level locked">
-							<div id="length-12" class="length">12</div>
-							<div id="word-12" class="word word-C">
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-								<div class="letter">L</div>
-							</div>
-						</div>
-					</div>
-					<div class="round">
-						<div id="level-13" class="level locked">
-							<div id="length-13" class="length">13</div>
-							<div id="word-13" class="word word-A">
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-								<div class="letter">M</div>
-							</div>
-						</div>
-						<div id="level-14" class="level locked">
-							<div id="length-14" class="length">14</div>
-							<div id="word-14" class="word word-B">
-								<div class="letter">N</div>
-								<div class="letter">N</div>
-								<div class="letter">N</div>
-								<div class="letter">N</div>
-								<div class="letter">N</div>
-								<div class="letter">N</div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-								<div class="letter"></div>
-							</div>
-						</div>
-						<div id="level-15" class="level locked">
-							<div id="length-15" class="length">15</div>
-							<div id="word-15" class="word word-C">
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-								<div class="letter">O</div>
-							</div>
-						</div>
-					</div>
+				<div id="messageContainer">
+					<div id="message"></div>
 				</div>
+				<div id="game"></div>
+				<script>
+					// Generates the 12 near-identical .level blocks (word
+					// lengths 4-15, grouped into rounds of 3 — mirroring the
+					// grouping app/js/ui/view.js's handleLevelStarted already
+					// assumes: Math.floor(levelsCompleted / 3) + 1 for round
+					// number) instead of hand-typing them. A synchronous
+					// classic script (not type="module") placed right where
+					// the old static markup was, so #game is already
+					// populated by the time the deferred module scripts at
+					// the end of <body> run — app/js/ui/view.js queries
+					// .round/.level elements at its own top level (not just
+					// inside functions), so they need to exist before it's
+					// evaluated, not just before DOMContentLoaded.
+					//
+					// Letters render empty (no placeholder text) — the CSS
+					// already hides unfilled/locked letters (.locked .word
+					// { color: transparent }), and .letter's width is a
+					// fixed calc(), not content-dependent — so, unlike the
+					// hand-typed version this replaced, there's no need for
+					// arbitrary placeholder letters purely for design-time
+					// preview.
+					(function () {
+						var wordLengthStart = 4;
+						var wordLengthMax = 15;
+						var levelsPerRound = 3;
+						var gameDiv = document.getElementById("game");
+
+						for (
+							var roundStart = wordLengthStart;
+							roundStart <= wordLengthMax;
+							roundStart += levelsPerRound
+						) {
+							var roundDiv = document.createElement("div");
+							roundDiv.className = "round";
+
+							var roundEnd = Math.min(
+								roundStart + levelsPerRound - 1,
+								wordLengthMax
+							);
+							for (var length = roundStart; length <= roundEnd; length++) {
+								var levelDiv = document.createElement("div");
+								levelDiv.id = "level-" + length;
+								levelDiv.className = "level locked";
+
+								var lengthDiv = document.createElement("div");
+								lengthDiv.id = "length-" + length;
+								lengthDiv.className = "length";
+								lengthDiv.textContent = length;
+								levelDiv.appendChild(lengthDiv);
+
+								var wordDiv = document.createElement("div");
+								wordDiv.id = "word-" + length;
+								wordDiv.className = "word";
+								for (var i = 0; i < length; i++) {
+									var letterDiv = document.createElement("div");
+									letterDiv.className = "letter";
+									wordDiv.appendChild(letterDiv);
+								}
+								levelDiv.appendChild(wordDiv);
+
+								roundDiv.appendChild(levelDiv);
+							}
+							gameDiv.appendChild(roundDiv);
+						}
+					})();
+				</script>
 				<div id="keyboard">
 					<div class="keyboard-row">
-						<button
-							id="scrollButton"
-							class="keyboard-key"
-							data-keyname="Q"
-						>
-							Q
-						</button>
+						<button class="keyboard-key" data-keyname="Q">Q</button>
 						<button class="keyboard-key" data-keyname="W">W</button>
 						<button class="keyboard-key" data-keyname="E">E</button>
 						<button class="keyboard-key" data-keyname="R">R</button>

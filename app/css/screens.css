@@ -8,12 +8,7 @@
 /*                     TITLE SCREEN                         */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #titleScreen {
-	position: fixed;
 	z-index: var(--z-titleScreen);
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
 
 	background-color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
 	color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
@@ -99,27 +94,19 @@ button#howToButton {
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*                OVERLAYS                                  */
+/*                TODAY'S TRIGRAM IS...                     */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-.overlay {
-	position: fixed;
-	z-index: var(--z-overlay);
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
+/* An earlier version of this app split trigramRevealScreen/youWinScreen
+   into a separate *Overlay category, rendered via a shared
+   translucent-backdrop-plus-opaque-card treatment (.overlay/.overlayContent
+   wrapping each one) — merged back into plain opaque *Screen elements
+   since that visual distinction wasn't earning the extra markup/CSS it
+   cost. Both are back to a flat .full-page div, same as titleScreen. */
+#trigramRevealScreen {
+	z-index: var(--z-trigramRevealScreen);
+	background-color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
+	color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
 
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: flex-start;
-	justify-content: center;
-}
-
-.overlayContent {
-	width: var(--frame-width);
-	height: calc(
-		var(--header-height) + var(--game-height) + 2 * var(--game-margin-block)
-	);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -127,20 +114,8 @@ button#howToButton {
 	text-align: center;
 }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*                TODAY'S TRIGRAM IS...                     */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-#trigramRevealScreen {
-	background-color: hsla(var(--c1-hue), var(--c1-sat), var(--c1-med), 0.7);
-	color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-dark));
-}
-
 #trigramRevealScreen.showTemporarily {
 	animation: show-temporarily 5s ease;
-}
-
-#trigramRevealScreenContent {
-	background-color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));
 }
 
 #trigramRevealScreen h3 {
@@ -170,13 +145,19 @@ button#howToButton {
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*                YOU WIN OVERLAY                           */
+/*                      YOU WIN                             */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #youWinScreen {
+	z-index: var(--z-youWinScreen);
 	display: none;
 	opacity: 0;
-	background-color: hsla(var(--c3-hue), var(--c3-sat), var(--c3-med), 0.7);
+	background-color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
 	color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-dark));
+
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
 }
 
 #youWinScreen.fade-in {
@@ -188,11 +169,7 @@ button#howToButton {
 	animation: fade-out 1s ease;
 }
 
-#youWinScreenContent {
-	background-color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
-}
-
-#youWinScreenContent h3 {
+#youWinScreen h3 {
 	font-size: 4rem;
 	padding-bottom: 1em;
 }
@@ -242,12 +219,7 @@ button#viewStatsButton {
    fit the viewport anyway (see the comment in ui/modal.js). */
 .modal-screen {
 	display: none;
-	position: fixed;
 	z-index: var(--z-modalScreen);
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
 	overflow: auto;
 	cursor: pointer;
 	background-color: var(--color-translucent);
@@ -256,8 +228,6 @@ button#viewStatsButton {
 #noLandscapeScreen {
 	display: none;
 	z-index: var(--z-noLandscape);
-	width: 100%;
-	height: 100%;
 	background-color: black;
 
 	flex-flow: column nowrap;
