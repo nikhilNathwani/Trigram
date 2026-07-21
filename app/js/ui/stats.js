@@ -1,6 +1,6 @@
 import { getGameID, getNextMondayString } from "../calendar.js";
-import { loadPastGames } from "../storage.js";
-import { trigram, wordLength_start, gameEvents } from "../game.js";
+import { loadPastGames, loadCurrentGame } from "../storage.js";
+import { trigram, gameEvents } from "../game.js";
 
 // UP NEXT:
 // -
@@ -20,10 +20,13 @@ import { trigram, wordLength_start, gameEvents } from "../game.js";
 //
 //Stats used for (2) Counting Stats
 let numGamesPlayed = 0;
-let numGamesWon = 0;
 let currentStreak = 0;
 let maxStreak = 0;
 let longestWordLength = 0;
+// Win % specifically only counts settled (past) weeks, tracked separately
+// from numGamesPlayed above — see the comment on these in loadStats().
+let numPastGamesPlayed = 0;
+let numPastGamesWon = 0;
 //Stats used for (3) Histogram
 let longestWordCounts = {};
 
@@ -52,37 +55,15 @@ export function updateStatsUI(latestWord) {
 	//    Update Word List component to include latest word
 	addToWordListUI(latestWord);
 
-	//(2) Counting Stats
-	//    Increment Counting Stats if this is the start of the current game
-	if (latestWord.length == wordLength_start) {
-		numGamesPlayed++;
-		currentStreak++;
-		maxStreak = Math.max(maxStreak, currentStreak);
-	}
-	if (latestWord.length == 12) {
-		numGamesWon++;
-	}
-	longestWordLength = Math.max(longestWordLength, latestWord.length);
+	//(2) Counting Stats + (3) Histogram
+	//    The current game counts toward stats as soon as its first level is
+	//    complete (see loadStats()/loadCurrentGame()), and its contribution
+	//    keeps moving to a longer word as the game progresses — recomputing
+	//    from scratch after every valid guess keeps both in sync with that,
+	//    and is what keeps this correct across a reload too (loadStats()
+	//    is the same function initializeStatsUI() calls on page load).
+	loadStats();
 	setCountingStatsUI();
-
-	//(3) Histogram
-	//    Update histogram, using the latest word as this game's longest word
-	//Case i) the first word of the game
-	if (latestWord.length == wordLength_start) {
-		longestWordCounts[wordLength_start] =
-			(longestWordCounts[wordLength_start] || 0) + 1;
-	}
-	//Case ii) not the first word of the game
-	else {
-		//Decrement count of game's previous longest word length
-		longestWordCounts[latestWord.length - 1]--;
-		if (longestWordCounts[latestWord.length - 1] == 0) {
-			delete longestWordCounts[latestWord.length - 1];
-		}
-		//Increment count of game's current longest word length
-		longestWordCounts[latestWord.length] =
-			(longestWordCounts[latestWord.length] || 0) + 1;
-	}
 	setHistogramUI();
 }
 
@@ -174,10 +155,10 @@ function setCountingStatsUI() {
 }
 
 export function calcWinPercentage() {
-	if (numGamesPlayed == 0) {
+	if (numPastGamesPlayed == 0) {
 		return "n/a";
 	}
-	const winPct = 100 * (numGamesWon / numGamesPlayed);
+	const winPct = 100 * (numPastGamesWon / numPastGamesPlayed);
 	if (winPct === 100) {
 		return 100;
 	}
@@ -310,19 +291,39 @@ function setHistogramUI() {
 //////////////////////////////////////////////////////
 
 export function loadStats() {
-	let pastGames = loadPastGames();
+	// The current game counts alongside past games as soon as it has a
+	// longestWord (i.e. at least one level completed) — loadCurrentGame()
+	// returns null until then, so an untouched current game is correctly
+	// left out. calcCurrentStreak/calcMaxStreak are pure functions over
+	// {gameID, longestWord} entries and don't need to know which of these
+	// is "current" vs "past": the current game's gameID is always the
+	// highest (today), so appending it last preserves the ascending sort
+	// those calc functions assume.
+	const pastGames = loadPastGames();
+	const currentGame = loadCurrentGame();
+	const games = currentGame ? [...pastGames, currentGame] : pastGames;
 
-	//Calculate stats
-	numGamesPlayed = pastGames.length;
-	numGamesWon = calcNumGamesWon(pastGames);
-	currentStreak = calcCurrentStreak(pastGames);
-	maxStreak = calcMaxStreak(pastGames);
-	longestWordLength = calcLongestWord(pastGames);
-	for (let index = 0; index < pastGames.length; index++) {
-		const currLongestWord = pastGames[index].longestWord;
+	//Calculate "Played"/streaks/histogram — these reflect the current week
+	//live, same as a finished past week.
+	numGamesPlayed = games.length;
+	currentStreak = calcCurrentStreak(games);
+	maxStreak = calcMaxStreak(games);
+	longestWordLength = calcLongestWord(games);
+	longestWordCounts = {};
+	for (let index = 0; index < games.length; index++) {
+		const currLongestWord = games[index].longestWord;
 		longestWordCounts[currLongestWord] =
 			(longestWordCounts[currLongestWord] || 0) + 1;
 	}
+
+	// Win % specifically only counts settled (past) weeks, computed from
+	// pastGames rather than games — this week's win/loss status isn't
+	// knowable until it's over (there's no "loss" event in this game, only
+	// a deadline: see game.js, which never fails a guess into a terminal
+	// state), so folding it in here would show a misleading dip, or a
+	// premature 0%, for a week that's still fully winnable.
+	numPastGamesPlayed = pastGames.length;
+	numPastGamesWon = calcNumGamesWon(pastGames);
 }
 
 export function showNextGameCountdownUI() {
