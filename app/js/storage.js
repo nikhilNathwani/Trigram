@@ -33,9 +33,11 @@ export function saveGameState(gameState) {
 // Past games represented by objects containing gameID, trigram, and wordsProvided array
 export function loadPastGames() {
 	let pastGames = []; //excludes current game
+	const currentGameID = getGameID();
 	const keys = Object.keys(localStorage)
 		.filter((key) => /^\d+$/.test(key)) // filter keys that are not integers
 		.map((key) => parseInt(key, 10)) //convert keys from strings to ints
+		.filter((key) => key !== currentGameID) // exclude current (still in-progress) game
 		.sort((a, b) => a - b); //sort ints in ascending order
 	for (const key of keys) {
 		const value = JSON.parse(localStorage.getItem(key));
@@ -54,4 +56,22 @@ export function loadPastGames() {
 		}
 	}
 	return pastGames;
+}
+
+// Returns the current (in-progress) game in the same {gameID, trigram,
+// longestWord} shape as loadPastGames()'s entries, or null if no level has
+// been completed yet this week. Kept separate from loadPastGames() (which
+// excludes the current gameID) rather than folded in there, since "past"
+// specifically means "not this week" — callers that want the current
+// game counted too (ui/stats.js) merge the two themselves.
+export function loadCurrentGame() {
+	const state = loadGameState();
+	if (!state || !state.wordsProvided || state.wordsProvided.length === 0) {
+		return null;
+	}
+	return {
+		gameID: getGameID(),
+		trigram: state.trigram,
+		longestWord: state.wordsProvided[state.wordsProvided.length - 1].length,
+	};
 }
