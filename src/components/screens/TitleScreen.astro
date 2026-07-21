@@ -68,7 +68,15 @@
 		cursor: pointer;
 	}
 
-	button#howToButton {
+	/* #titleScreenButtons prefix (not just button#howToButton) needed to
+	   outweigh the "#titleScreenButtons button" rule above: Astro scopes
+	   styles by appending a [data-astro-cid-*] attribute selector to every
+	   compound selector in a rule, which adds one specificity point per
+	   compound. The base rule has two compounds (#titleScreenButtons,
+	   button) to this rule's one, so unprefixed they'd tie pre-scoping but
+	   the base rule would outrank this one post-scoping and win regardless
+	   of source order. */
+	#titleScreenButtons button#howToButton {
 		background-color: transparent;
 	}
 

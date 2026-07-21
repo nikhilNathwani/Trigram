@@ -56,7 +56,10 @@
 		position: relative;
 	}
 
-	button#viewStatsButton {
+	/* #youWinScreenButtons prefix (not just button#viewStatsButton) needed to
+	   outweigh the "#youWinScreenButtons button" rule above — see the
+	   matching comment in TitleScreen.astro for why. */
+	#youWinScreenButtons button#viewStatsButton {
 		background-color: transparent;
 	}
 

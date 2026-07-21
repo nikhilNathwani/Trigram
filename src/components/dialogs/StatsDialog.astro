@@ -98,23 +98,27 @@ import Dialog from "./Dialog.astro";
 		gap: 0.5rem;
 	}
 
-	.stat-wordList-level {
+	/* :global — public/js/ui/stats.js builds word list rows at runtime via
+	   document.createElement/classList.add, so these elements never get
+	   Astro's [data-astro-cid-*] scoping attribute stamped on them. A
+	   normal scoped rule would silently never match them. */
+	:global(.stat-wordList-level) {
 		display: flex;
 		flex-flow: row nowrap;
 		gap: 0.5rem;
 		align-items: center;
 	}
 
-	.stat-wordList-length {
+	:global(.stat-wordList-length) {
 		width: 3ch;
 		text-align: right;
 	}
 
-	.stat-wordList-word {
+	:global(.stat-wordList-word) {
 		letter-spacing: 0.25rem;
 	}
 
-	.stat-wordList-trigram {
+	:global(.stat-wordList-trigram) {
 		border: 1px solid;
 		border-radius: 4px;
 		padding-left: 0.25rem;
@@ -146,19 +150,21 @@ import Dialog from "./Dialog.astro";
 		gap: 0.25rem;
 	}
 
-	.stat-statDistribution-item {
+	/* :global — same reason as the word-list rules above: these rows are
+	   built at runtime by public/js/ui/stats.js, not rendered by Astro. */
+	:global(.stat-statDistribution-item) {
 		display: flex;
 		flex-flow: row nowrap;
 		gap: 0.5rem;
 		align-items: center;
 	}
 
-	.stat-statDistribution-itemLength {
+	:global(.stat-statDistribution-itemLength) {
 		width: 3ch;
 		text-align: right;
 	}
 
-	.stat-statDistribution-itemCount {
+	:global(.stat-statDistribution-itemCount) {
 		padding-inline: 0.5ch;
 		background-color: var(--color-dark);
 		color: white;
