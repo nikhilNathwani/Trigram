@@ -130,22 +130,18 @@
 /*                                                          */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ui/view.js sets exactly one of these four classes on #app (not on any
-   individual .round) via `appDiv.classList = "round-N"` — see
-   handleLevelStarted()/handleGameStarted() in app/js/ui/view.js. Since
+   individual .round) via `appDiv.classList = "round-N"`. Since
    --round-index, --color-*, and --num-letters-max aren't set on .round
    itself, every .round div inherits the same current value from that one
-   #app class, all at once. That's what makes the round-scroll effect
-   work: .round's `transform: translateY(calc(-1 * var(--round-index) *
-   var(--game-height)))` (see game.css's .round rule) then shifts the
-   entire stack of rounds by the same amount, rather than each round
-   needing its own independent position — round 0 sits at y=0 in normal
-   flex-column flow, round 1 at 1*game-height, round 2 at 2x, round 3 at
-   3x, and subtracting the current round-index from all of them uniformly
-   is what slides the next one into #game's clipped (overflow: hidden)
-   viewport while the previous one slides up and out. One class toggle on
-   a distant ancestor is also why the header/keyboard re-theme (color) and
-   the letters shrink (--num-letters-max) in lockstep with that slide —
-   they're reading the same inherited variables. */
+   #app class at once — that's what makes the round-scroll effect work:
+   .round's `transform: translateY(calc(-1 * var(--round-index) *
+   var(--game-height)))` (game.css) then shifts the whole stack by the
+   same amount, rather than each round needing its own position — round 0
+   sits at y=0 in normal flex-column flow, round 1 at 1*game-height, round
+   2 at 2x, round 3 at 3x — so subtracting the current index from all of
+   them uniformly slides the next one into view while the previous slides
+   out. Same mechanism is why the header/keyboard re-theme and the letters
+   shrink in lockstep — they read the same inherited variables. */
 .round-transition,
 .round-transition * {
 	transition: width 1s ease-out, color 1s ease-out,

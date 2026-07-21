@@ -1,30 +1,15 @@
-// Shared setup for the gameplay E2E specs: get a fresh page all the way
-// from "just navigated" to "the keyboard is live and accepting input,"
-// clicking through the same title -> help -> trigram-reveal screen sequence
-// a real first-time player sees.
+// Shared setup for the gameplay E2E specs. Everything here observes the
+// DOM/network only, never app internals — trigram/wordList/levelsCompleted
+// are real ES module bindings Playwright has no way to reach, and testing
+// through what a user/network actually observes is more robust anyway (see
+// TESTING_GUIDE.md §7).
 //
-// Everything here observes the DOM and network only, never app internals.
-// That's not just style: app/js's game/view state (trigram, wordList,
-// levelsCompleted, ...) are real ES module bindings, not globals — there is
-// no way to reach them from Playwright (which only has access to `window`)
-// even in principle. Testing through what a real user/network observes is
-// more robust anyway (see TESTING_GUIDE.md §7's "prefer public, observable
-// behavior over internals" point, applied here one layer up, at the E2E
-// level).
-//
-// The trigram-reveal screen dismisses itself via a CSS animation
-// (`animationend` in app/js/ui/modal.js), not a fixed delay, so we wait on
-// the actual resulting DOM state (`display` flipping to "none") instead of
-// guessing a sleep duration. A guessed duration is exactly what made an
-// earlier, throwaway manual test of this app flaky — the animation is 5s in
-// app/css/screens.css, and a shorter guessed wait silently ate every keystroke
-// because the app was still ignoring input.
-// The header's trigram letters are only rendered once initApp() has fully
-// resolved (calendar fetch, then word-list fetch, then startGame()) — see
-// setTrigramHeader() in app/js/ui/view.js. Waiting on this is a black-box
-// proxy for "the game is ready," including the exact ordering the
-// initApp/startGame split is responsible for (word list loaded before
-// input is accepted). Used both on first load and after a reload.
+// waitForReady() polls the rendered header rather than a fixed delay: an
+// earlier version slept a guessed duration instead, which silently ate
+// keystrokes whenever the real trigram-reveal animation (5s, in
+// screens.css) ran longer than guessed. Waiting on the header also doubles
+// as a readiness check for the whole initApp() -> startGame() load
+// sequence, not just that one animation.
 export async function waitForReady(page) {
 	await page.waitForFunction(
 		() => document.querySelectorAll(".header-element #trigram span").length > 0,

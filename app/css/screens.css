@@ -96,12 +96,8 @@ button#howToButton {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*                TODAY'S TRIGRAM IS...                     */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* An earlier version of this app split trigramRevealScreen/youWinScreen
-   into a separate *Overlay category, rendered via a shared
-   translucent-backdrop-plus-opaque-card treatment (.overlay/.overlayContent
-   wrapping each one) — merged back into plain opaque *Screen elements
-   since that visual distinction wasn't earning the extra markup/CSS it
-   cost. Both are back to a flat .full-page div, same as titleScreen. */
+/* Same flat .full-page treatment as titleScreen — no separate translucent
+   overlay wrapper. */
 #trigramRevealScreen {
 	z-index: var(--z-trigramRevealScreen);
 	background-color: hsl(var(--c1-hue), var(--c1-sat), var(--c1-med));

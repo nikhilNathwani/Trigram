@@ -10,13 +10,7 @@ import { showRoundTitle, startBonusGame } from "./view.js";
 // the generic showScreen()/hideScreen() below. None are user-dismissable:
 // no close button, no backdrop click, no Escape handling. That's
 // intentional per-screen (e.g. youWinScreen forces a Bonus Round/View
-// Stats choice), not an oversight. (An earlier version of this app split
-// trigramRevealScreen/youWinScreen into a separate *Overlay category,
-// rendered via a shared translucent-backdrop-plus-opaque-card component —
-// merged back into plain opaque *Screen elements since that visual
-// distinction wasn't earning the extra component/category it cost. Their
-// ids/functions were briefly `*Overlay`-suffixed too; both are back to
-// `*Screen` now.)
+// Stats choice), not an oversight.
 //
 // *Dialog (helpDialog, statsDialog) — real <dialog> elements the user
 // opens and closes at will (close button, backdrop click, or Escape all

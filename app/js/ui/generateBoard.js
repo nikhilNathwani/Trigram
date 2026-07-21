@@ -1,22 +1,15 @@
 // Generates the 12 near-identical .level blocks (word lengths 4-15,
-// grouped into rounds of 3 — mirroring the grouping app/js/ui/view.js's
-// handleLevelStarted already assumes: Math.floor(levelsCompleted / 3) + 1
-// for round number) instead of hand-typing them.
+// grouped into rounds of 3 — mirroring the round-number grouping
+// view.js's handleLevelStarted assumes) instead of hand-typing them.
 //
-// Loaded via a plain classic <script src="app/js/ui/generateBoard.js"> in
-// index.html — deliberately not type="module" (which would defer it until
-// after the document is parsed, same as the module scripts at the end of
-// <body>). A classic script tag executes synchronously in document order,
-// so placing it right after <div id="game"></div> guarantees #game is
-// already populated by the time ui/view.js runs — it queries .round/.level
-// elements at its own top level (not just inside functions), so they need
-// to exist before it's evaluated, not just before DOMContentLoaded.
+// Must stay a classic <script src="..."> (not type="module"): modules
+// defer until after the document is parsed, same as the module scripts at
+// the end of <body>, but view.js queries .round/.level elements at its
+// own top level — they need to already exist by then, not just by
+// DOMContentLoaded.
 //
-// Letters render empty (no placeholder text) — the CSS already hides
-// unfilled/locked letters (.locked .word { color: transparent }), and
-// .letter's width is a fixed calc(), not content-dependent — so, unlike
-// the hand-typed markup this replaced, there's no need for arbitrary
-// placeholder letters purely for design-time preview.
+// Letters render empty — CSS already hides unfilled/locked letters, and
+// width is a fixed calc(), not content-dependent.
 (function () {
 	var wordLengthStart = 4;
 	var wordLengthMax = 15;
