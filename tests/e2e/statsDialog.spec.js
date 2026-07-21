@@ -44,8 +44,11 @@ test.describe("stats dialog with representative history", () => {
 		// game.js's initApp() sees it on load.
 		//
 		// Past games (ascending gameID): a 6-game streak (g-12..g-7), a gap at
-		// g-6, then a shorter 3-game streak (g-3..g-1) — so current streak
-		// (3) and max streak (6) are distinct and independently checkable.
+		// g-6, then a shorter 3-game streak (g-3..g-1). The *current* game
+		// (g, seeded below) extends that second streak to 4 and itself counts
+		// as "played" (see loadStats()/loadCurrentGame()) since it has at
+		// least one completed level — so current streak (4) and max streak
+		// (6, still the first run) are distinct and independently checkable.
 		// Word lengths span the full 4-15 range at least once, with length 12
 		// (the win threshold) hit 3x to also exercise the histogram's
 		// relative bar-width scaling (its widest bar).
@@ -94,10 +97,11 @@ test.describe("stats dialog with representative history", () => {
 			page.locator("#wordListValue .stat-wordList-trigram").first()
 		).toHaveText(liveTrigram);
 
-		// --- "Your Stats": hand-computed from the fixture above ---
-		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("9");
-		await expect(page.locator("#stat-winPercentage")).toHaveText("55.6"); // 5 wins / 9 games
-		await expect(page.locator("#stat-currentStreak")).toHaveText("3");
+		// --- "Your Stats": hand-computed from the fixture above, current
+		// game (longestWord 6, not yet a win) included as the 10th game ---
+		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("10");
+		await expect(page.locator("#stat-winPercentage")).toHaveText("50"); // 5 wins / 10 games
+		await expect(page.locator("#stat-currentStreak")).toHaveText("4");
 		await expect(page.locator("#stat-maxStreak")).toHaveText("6");
 
 		// --- "Longest Word Distribution": full 4-15 range, widest bar at 12 ---
@@ -108,6 +112,14 @@ test.describe("stats dialog with representative history", () => {
 			has: page.locator(".stat-statDistribution-itemLength", { hasText: "12:" }),
 		});
 		await expect(row12.locator(".stat-statDistribution-itemCount")).toHaveText("3");
+
+		// Current game's own bar (length 6) — joins g-3's loss at the same
+		// length, confirming the current game's contribution merges into the
+		// histogram rather than needing its own separate row.
+		const row6 = rows.filter({
+			has: page.locator(".stat-statDistribution-itemLength", { hasText: "6:" }),
+		});
+		await expect(row6.locator(".stat-statDistribution-itemCount")).toHaveText("2");
 	});
 
 	test("shows the empty state with no games played", async ({ page }) => {

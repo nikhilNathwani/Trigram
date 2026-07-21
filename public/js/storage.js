@@ -57,3 +57,21 @@ export function loadPastGames() {
 	}
 	return pastGames;
 }
+
+// Returns the current (in-progress) game in the same {gameID, trigram,
+// longestWord} shape as loadPastGames()'s entries, or null if no level has
+// been completed yet this week. Kept separate from loadPastGames() (which
+// excludes the current gameID) rather than folded in there, since "past"
+// specifically means "not this week" — callers that want the current
+// game counted too (ui/stats.js) merge the two themselves.
+export function loadCurrentGame() {
+	const state = loadGameState();
+	if (!state || !state.wordsProvided || state.wordsProvided.length === 0) {
+		return null;
+	}
+	return {
+		gameID: getGameID(),
+		trigram: state.trigram,
+		longestWord: state.wordsProvided[state.wordsProvided.length - 1].length,
+	};
+}

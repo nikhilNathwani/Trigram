@@ -129,5 +129,13 @@ test.describe("persistence", () => {
 			.locator(`#level-${word.length} .word .letter`)
 			.allTextContents();
 		expect(letters.join("")).toBe(word.toUpperCase());
+
+		// The current game's contribution to "Your Stats" is recomputed from
+		// storage on every load (see loadStats()/loadCurrentGame() in
+		// public/js/ui/stats.js), not just carried over from the live guess
+		// event — so it must still show up here with no further guesses
+		// submitted this session, same as right after completing the word.
+		await page.click("#statsButton");
+		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("1");
 	});
 });
