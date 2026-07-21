@@ -1,10 +1,10 @@
-import { DEBUG, clearCurrentGameData, setFakePastGameData } from "./debug.js";
-import { loadTrigramCalendar, getGameID, trigram_calendar } from "./calendar.js";
+import {
+	loadTrigramCalendar,
+	getGameID,
+	trigram_calendar,
+} from "./calendar.js";
 import { loadWordList, validateWord } from "./wordChecker.js";
 import { loadGameState, saveGameState } from "./storage.js";
-
-// UP NEXT:
-//
 
 /*  ------------------------------------------------------------- */
 export const wordLength_start = 4;
@@ -26,13 +26,6 @@ let lettersProvided;
 // shouldn't assume ordering relative to each other: events fire in
 // registration order, not some guaranteed priority.
 export const gameEvents = new EventTarget();
-
-if (DEBUG.forceNewGame) {
-	clearCurrentGameData();
-}
-if (DEBUG.forceFakePastStats) {
-	setFakePastGameData();
-}
 
 // Initialize the app
 async function initApp() {

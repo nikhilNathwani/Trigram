@@ -1,5 +1,3 @@
-import { DEBUG, fakeCurrentGameID } from "./debug.js";
-
 // Trigram calendar data - loaded from JSON
 export let trigram_calendar = [];
 
@@ -17,10 +15,6 @@ export async function loadTrigramCalendar() {
 
 // Returns 0-indexed game ID (to index into trigram list)
 export function getGameID() {
-	if (DEBUG.forceFakePastStats) {
-		return fakeCurrentGameID;
-	}
-
 	// Start date of the first game
 	const gameStartDate = new Date("2024-04-15");
 
