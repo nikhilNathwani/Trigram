@@ -70,3 +70,27 @@ export async function firstLevelWord(page) {
 	const words = wordList[4] || [];
 	return words[0] || null;
 }
+
+// Reads today's real, live 0-indexed gameID off the rendered header
+// ("Trigram #119" -> 118), the same value calendar.js's getGameID() computed
+// client-side to pick today's trigram. Used to seed past-game localStorage
+// entries relative to *today*, without reimplementing getGameID()'s date
+// math (and its timezone sensitivity) a second time here.
+// Requires a page that's already past waitForReady().
+export async function todayGameID(page) {
+	const text = await page.textContent("#trigram-number"); // "Trigram #119"
+	const oneIndexed = parseInt(text.replace(/\D/g, ""), 10);
+	return oneIndexed - 1;
+}
+
+// Writes localStorage entries before the page's own scripts run, so
+// game.js's initApp()/startGame() sees this data on its very first load —
+// same technique real persistence relies on, just pre-seeded instead of
+// built up through real play. `entries` is { [gameID]: {trigram, wordsProvided} }.
+export async function seedLocalStorage(page, entries) {
+	await page.addInitScript((data) => {
+		for (const [key, value] of Object.entries(data)) {
+			window.localStorage.setItem(key, JSON.stringify(value));
+		}
+	}, entries);
+}
