@@ -3,7 +3,7 @@
 // handleLevelStarted already assumes: Math.floor(levelsCompleted / 3) + 1
 // for round number) instead of hand-typing them.
 //
-// Loaded via a plain classic <script src="app/js/generateBoard.js"> in
+// Loaded via a plain classic <script src="app/js/ui/generateBoard.js"> in
 // index.html — deliberately not type="module" (which would defer it until
 // after the document is parsed, same as the module scripts at the end of
 // <body>). A classic script tag executes synchronously in document order,

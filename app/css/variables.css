@@ -136,7 +136,7 @@
    itself, every .round div inherits the same current value from that one
    #app class, all at once. That's what makes the round-scroll effect
    work: .round's `transform: translateY(calc(-1 * var(--round-index) *
-   var(--game-height)))` (see layout.css's .round rule) then shifts the
+   var(--game-height)))` (see game.css's .round rule) then shifts the
    entire stack of rounds by the same amount, rather than each round
    needing its own independent position — round 0 sits at y=0 in normal
    flex-column flow, round 1 at 1*game-height, round 2 at 2x, round 3 at
