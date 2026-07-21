@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-// ui/stats.js imports trigram and wordLength_start from game.js — but
-// game.js is the app's entry point and has a top-level `initApp()` call that
-// does a real fetch() and touches DOM elements this test's bare jsdom
-// document doesn't have. Importing the real game.js here would try to boot
-// the whole app inside a unit test.
+// ui/stats.js imports trigram and gameEvents from game.js — but game.js is
+// the app's entry point and has a top-level `initApp()` call that does a
+// real fetch() and touches DOM elements this test's bare jsdom document
+// doesn't have. Importing the real game.js here would try to boot the whole
+// app inside a unit test.
 //
 // vi.mock() replaces the *entire* game.js module with this lightweight fake
 // before anything imports it — including its top-level side effects, which
@@ -19,7 +19,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // here too — otherwise that call throws on an undefined gameEvents.
 vi.mock("../../app/js/game.js", () => ({
 	trigram: "CAT",
-	wordLength_start: 4,
 	gameEvents: new EventTarget(),
 }));
 
