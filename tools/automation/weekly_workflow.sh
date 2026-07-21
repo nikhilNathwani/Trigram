@@ -29,7 +29,7 @@ tell application "Terminal"
         # Terminal already running: Create 2 fresh windows to preserve existing work
         
         # Window 1: Upload script (add_new_trigram.sh)
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../.venv/bin/activate"
+        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate"
         delay 1
         tell application "System Events"
             tell process "Terminal"
@@ -45,7 +45,7 @@ tell application "Terminal"
         delay 1
         
         # Window 2: Word finder script (get_words.py)
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../.venv/bin/activate"
+        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate"
         delay 1
         tell application "System Events"
             # Use key code 47 for period to bypass Karabiner interference
@@ -57,7 +57,7 @@ tell application "Terminal"
         # Terminal not running: Use auto-launched window + create 1 more
         
         # Use the auto-launched window for upload script
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../.venv/bin/activate" in window 1
+        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate" in window 1
         delay 1
         tell application "System Events"
             tell process "Terminal"
@@ -72,7 +72,7 @@ tell application "Terminal"
         delay 1
         
         # Create new window for word finder script
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../.venv/bin/activate"
+        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate"
         delay 1
         tell application "System Events"
             # Use key code 47 for period to bypass Karabiner interference
