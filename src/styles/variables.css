@@ -79,7 +79,8 @@
 	--z-titleScreen: 5; /*Title Screen*/
 	--z-noLandscape: 4; /*Rotate Device CTA*/
 	--z-modalScreen: 3; /*Help or Stats*/
-	--z-overlay: 2; /*Trigram Reveal or You Win*/
+	--z-trigramRevealScreen: 2; /*Trigram Reveal*/
+	--z-youWinScreen: 2; /*You Win*/
 	--z-messageContainer: 1; /*Round Title or Error Alert*/
 }
 

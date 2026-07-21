@@ -1,8 +1,4 @@
----
-import Overlay from "./Overlay.astro";
----
-
-<Overlay id="youWinScreen">
+<div class="screen full-page" id="youWinScreen">
 	<h3>YOU WIN!</h3>
 	<div id="youWinScreenButtons">
 		<button id="bonusRoundButton">
@@ -10,31 +6,29 @@ import Overlay from "./Overlay.astro";
 		</button>
 		<button id="viewStatsButton">View stats</button>
 	</div>
-</Overlay>
+</div>
 
 <style>
-	/* #youWinScreen/#youWinScreenContent are Overlay's own wrapper elements
-	   (id + id+"Content"), not this component's — :global() is required to
-	   reach them, the same way it would be to style any child component's
-	   root from outside. */
-	:global(#youWinScreen) {
+	#youWinScreen {
+		z-index: var(--z-youWinScreen);
 		display: none;
 		opacity: 0;
-		background-color: hsla(var(--c3-hue), var(--c3-sat), var(--c3-med), 0.7);
+		background-color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
 		color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-dark));
+
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
 	}
 
-	:global(#youWinScreen.fade-in) {
+	#youWinScreen.fade-in {
 		opacity: 1;
 		animation: fade-in 2s ease;
 	}
 
-	:global(#youWinScreen.fade-out) {
+	#youWinScreen.fade-out {
 		animation: fade-out 1s ease;
-	}
-
-	:global(#youWinScreenContent) {
-		background-color: hsl(var(--c3-hue), var(--c3-sat), var(--c3-med));
 	}
 
 	h3 {

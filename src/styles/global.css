@@ -28,3 +28,15 @@ body {
 	align-items: center;
 	justify-content: center;
 }
+
+/* Shared by every full-page screen (TitleScreen, TrigramRevealScreen,
+   YouWinScreen, NoLandscapeScreen) — each still sets its own z-index,
+   background, and layout in its own <style> block; this is just the
+   positioning/sizing they'd otherwise all repeat identically. */
+.full-page {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
