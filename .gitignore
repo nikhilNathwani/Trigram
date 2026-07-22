@@ -32,8 +32,13 @@ tests/playwright-report/
 tests/test-results/
 coverage/
 
-# Claude
-.claude/
+# Claude — everything in here is local/personal (scheduled-task locks, etc.)
+# except CLAUDE.md, which is real project documentation and should ship with
+# the repo. Excluding contents via ".claude/*" rather than the ".claude/"
+# directory itself is required for the negation below to work at all — git
+# won't apply a negation to a file whose parent directory is itself ignored.
+.claude/*
+!.claude/CLAUDE.md
 
 # Personal notes, not meant to be version-controlled — see the untracking/
 # history-scrub done alongside this line

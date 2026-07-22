@@ -35,3 +35,12 @@ This is a live app with real users, and the project's history includes at least 
 
 - Comments explain *why*, not *what* — this codebase leans on that convention throughout. Match it; don't add comments that just restate the code.
 - Keep the dependency footprint minimal. This is a deliberate, repeated choice in this project's history, not an oversight — treat a new dependency or build step as something to flag and confirm, not default to.
+
+## Root hygiene
+
+The user actively prefers an uncluttered project root — this shows up repeatedly across this project's history (`CONFIG.md` + VS Code file-nesting collapsing root config files, docs relocated into the folders they document, `CLAUDE.md` itself moved from root into `.claude/`, unused files pruned). When a genuine opportunity fits, keep applying this. But treat it as a preference to apply with judgment, not a rule to maximize — over-pruning the root causes exactly the kind of surprise/breakage this project's history has otherwise been trying to avoid. Guardrails:
+
+- **Prefer visual hiding over physically moving a file.** VS Code `files.exclude`/file-nesting declutters the sidebar without touching how any tool finds the file — reversible, zero risk. Actually relocating a file is a bigger change; reach for it only when hiding isn't enough (the file's *location*, not just its visibility, is the actual clutter).
+- **Verify tool discovery before moving anything — don't assume a file can move.** Plenty of root files are read from a fixed, conventional path by some tool (`package.json`, `.gitignore`, `netlify.toml`, `vitest.config.js`, `playwright.config.js`) — moving them breaks that tool unless it's explicitly reconfigured, and some don't support relocation at all. This is exactly what got checked (official docs, not assumption) before moving `CLAUDE.md` into `.claude/`.
+- **Grep for references before moving.** A relocated file can silently break relative paths in other docs, scripts, imports, or `.gitignore`/`files.exclude` patterns pointing at the old location.
+- **Don't fight ecosystem convention for tidiness alone.** A file being expected at a specific path by common practice — even if it's visually hidden from the sidebar — is a legitimate reason to leave its actual path alone.
