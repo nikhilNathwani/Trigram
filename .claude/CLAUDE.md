@@ -17,13 +17,6 @@ Operating notes for AI assistants working in this repo. For project overview, st
 - If the change affects *how* a module gets loaded (not just what it does), manually trace the import graph from `index.html`'s `<script>` tags and confirm every module that should run is still reachable — a silently-orphaned module can still leave the test suite green if nothing in it inspects the affected screen's actual rendered content, not just that it opens.
 - If a design choice is being justified by an existing code comment that asserts a hard constraint ("must stay X," "can't do Y"), verify that constraint empirically before building around it — comments go stale as the rest of the code changes around them.
 
-## Collaboration expectations
-
-This is a live app with real users, and the project's history includes at least one change that passed review and a green test suite (twice) before failing silently in production (see the `ui/stats.js` orphaning note above). Because of that:
-
-- **State risk level up front, unprompted**, for any non-trivial change — don't wait to be asked.
-- **Before stating an exhaustive or negative claim** ("no other differences," "that's everything," "only cause") — actually run the check (diff, grep, full test suite) and show it, or say plainly that it's an assumption, not a verified fact.
-
 ## Docs map
 
 - `README.md` — project overview, structure, running the app, weekly content workflow.
@@ -36,11 +29,6 @@ This is a live app with real users, and the project's history includes at least 
 - Comments explain *why*, not *what* — this codebase leans on that convention throughout. Match it; don't add comments that just restate the code.
 - Keep the dependency footprint minimal. This is a deliberate, repeated choice in this project's history, not an oversight — treat a new dependency or build step as something to flag and confirm, not default to.
 
-## Root hygiene
+## See also
 
-The user actively prefers an uncluttered project root — this shows up repeatedly across this project's history (`CONFIG.md` + VS Code file-nesting collapsing root config files, docs relocated into the folders they document, `CLAUDE.md` itself moved from root into `.claude/`, unused files pruned). When a genuine opportunity fits, keep applying this. But treat it as a preference to apply with judgment, not a rule to maximize — over-pruning the root causes exactly the kind of surprise/breakage this project's history has otherwise been trying to avoid. Guardrails:
-
-- **Prefer visual hiding over physically moving a file.** VS Code `files.exclude`/file-nesting declutters the sidebar without touching how any tool finds the file — reversible, zero risk. Actually relocating a file is a bigger change; reach for it only when hiding isn't enough (the file's *location*, not just its visibility, is the actual clutter).
-- **Verify tool discovery before moving anything — don't assume a file can move.** Plenty of root files are read from a fixed, conventional path by some tool (`package.json`, `.gitignore`, `netlify.toml`, `vitest.config.js`, `playwright.config.js`) — moving them breaks that tool unless it's explicitly reconfigured, and some don't support relocation at all. This is exactly what got checked (official docs, not assumption) before moving `CLAUDE.md` into `.claude/`.
-- **Grep for references before moving.** A relocated file can silently break relative paths in other docs, scripts, imports, or `.gitignore`/`files.exclude` patterns pointing at the old location.
-- **Don't fight ecosystem convention for tidiness alone.** A file being expected at a specific path by common practice — even if it's visually hidden from the sidebar — is a legitimate reason to leave its actual path alone.
+`~/.claude/CLAUDE.md` loads automatically alongside this file and covers general working-style preferences that apply here too, not just to Trigram — collaboration expectations (state risk up front, verify exhaustive claims before asserting them) and root-hygiene guardrails (prefer hiding over moving, verify tool discovery first). Concretely in this project, that root-hygiene pattern already produced `CONFIG.md` + VS Code file-nesting collapsing root config files, docs relocated into the folders they document, and `CLAUDE.md` itself moved from root into `.claude/`. The collaboration expectations exist because of a real incident here: a change passed review and a green test suite (twice) before failing silently in production — see the `ui/stats.js` orphaning note above.
