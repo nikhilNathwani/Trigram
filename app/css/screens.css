@@ -67,6 +67,25 @@ button#howToButton {
 	font-weight: bold;
 }
 
+#playlinBadge {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	line-height: 0;
+	opacity: 0.7;
+	transition: opacity 0.15s ease;
+}
+
+#playlinBadge:hover {
+	opacity: 1;
+}
+
+#playlinBadge img {
+	display: block;
+	width: 130px;
+	height: auto;
+}
+
 #titleScreen h1 {
 	font-size: 8rem;
 	margin-bottom: 0.125em;
