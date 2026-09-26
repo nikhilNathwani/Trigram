@@ -4,7 +4,12 @@
 [build]
   publish = "."
 
-# Serve /label as a clean URL pointing to the label tool
+# Clean URLs for the admin tools: /label (label queue) and /label/browse
+[[redirects]]
+  from = "/label/browse"
+  to   = "/tools/label/browse.html"
+  status = 200
+
 [[redirects]]
   from = "/label"
   to   = "/tools/label/index.html"

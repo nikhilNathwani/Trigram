@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>Trigram Browse</title>
+		<link rel="stylesheet" href="/tools/label/style.css" />
+	</head>
+	<body class="browse">
+		<header id="browse-hdr">
+			<div class="browse-title">
+				<h1>Browse</h1>
+				<a href="/label">Label queue →</a>
+			</div>
+			<p id="browse-summary">Loading…</p>
+			<div class="browse-controls">
+				<input
+					id="browse-search"
+					type="search"
+					placeholder="Search (e.g. DE)"
+					autocomplete="off"
+					spellcheck="false"
+					maxlength="3"
+				/>
+				<div id="browse-filters" class="filter-chips"></div>
+				<button id="browse-export" type="button">Export CSV</button>
+			</div>
+			<p id="browse-status" aria-live="polite"></p>
+		</header>
+
+		<main id="browse-main">
+			<table id="browse-table">
+				<thead>
+					<tr>
+						<th data-sort="trigram">Trigram</th>
+						<th data-sort="status">Label</th>
+						<th data-sort="words">Words</th>
+						<th data-sort="comment">Comment</th>
+						<th data-sort="labeledAt">Labeled</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</main>
+
+		<script type="module" src="/tools/label/browse.js"></script>
+	</body>
+</html>

@@ -20,9 +20,9 @@ This script automatically:
 -   Generates announcement image in `tools/social/instagram_posts/` folder
 -   Commits and pushes changes to main branch
 
-### 3. Update Spreadsheet
+### 3. Nothing to mark
 
-Mark TOU as **DONE** in the [Trigram Spreadsheet](https://docs.google.com/spreadsheets/d/1_GHU8MLunmLTphSwR-xF5q89bxt-r4IQ/edit?gid=2105180696#gid=2105180696)
+TOU now shows as **SCHEDULED** (then **DONE** once its week passes) in [Browse](https://trigram.netlify.app/label/browse) automatically — that status comes from `data/trigram_calendar.json`, not from a label. (The old Google Sheet is retired as of 2026-09-26; labels live only in Firestore.)
 
 ### 4. Social Media Post
 
@@ -40,26 +40,20 @@ If you need to evaluate a new trigram:
 
 ### 1. Pick Candidate
 
-Select an un-triaged trigram (e.g. "ORD") from the spreadsheet
+In [Browse](https://trigram.netlify.app/label/browse), search (e.g. `DE`) and/or filter to **Unlabeled** or **YES**; sort by **Words** to size up options.
 
 ### 2. Check Word-list Viability
 
-```bash
-cd tools/automation
-python3 get_words.py ORD
-```
+Click ▸ (or press Enter on a row) to see its words of length 4-15 — the same list `get_words.py ORD` prints, computed from `data/corpus/`. Make sure it would make for a feasible/enjoyable game.
 
-Inspect the available words of length 4-15 to ensure it would make for a feasible/enjoyable game
+### 3. Label It
 
-### 4. Update Spreadsheet
-
--   Mark **YES** if suitable for the game
--   Mark **NO** if not suitable
--   Mark **DONE** if trigram has been used in the game
+Pick **YES** / **MAYBE** / **NO** in the row's dropdown (or focus the row and press Y / M / N; Delete clears) and type a comment. Saves to Firestore immediately. The swipe-style label queue at [/label](https://trigram.netlify.app/label) writes to the same place.
 
 ---
 
 ## Links
 
--   **Trigram Spreadsheet**: https://docs.google.com/spreadsheets/d/1_GHU8MLunmLTphSwR-xF5q89bxt-r4IQ/edit?gid=2105180696#gid=2105180696
+-   **Browse / label trigrams**: https://trigram.netlify.app/label/browse (queue: `/label`)
+-   **Old Trigram Spreadsheet (retired 2026-09-26, archive only)**: https://docs.google.com/spreadsheets/d/1_GHU8MLunmLTphSwR-xF5q89bxt-r4IQ/edit?gid=2105180696#gid=2105180696
 -   **Live Game**: https://trigram.netlify.app
