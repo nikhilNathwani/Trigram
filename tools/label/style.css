@@ -1030,7 +1030,7 @@ body.browse {
 }
 
 #browse-search {
-	width: 150px;
+	width: 180px;
 	padding: 8px 12px;
 	border: 1px solid var(--c-border);
 	border-radius: var(--radius-sm);
@@ -1127,21 +1127,41 @@ td.tri {
 }
 
 .expand {
-	width: 22px;
+	width: 28px;
+	height: 28px;
 	margin-right: 4px;
 	border: none;
+	border-radius: 4px;
 	background: none;
-	color: var(--c-muted);
-	font-size: 12px;
+	color: var(--c-text);
+	font-size: 18px;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.expand:hover {
+	background: var(--c-bg);
 }
 
 td.num {
-	text-align: right;
+	white-space: nowrap;
 	font-variant-numeric: tabular-nums;
 }
 
+.wc {
+	display: inline-block;
+	min-width: 3ch;
+	text-align: right;
+	font-weight: 600;
+}
+
+/* 0-2 words at some length: probably unplayable or obscure - a likely NO */
+.wc.thin {
+	color: var(--c-no);
+}
+
 td.num .muted,
-td.date,
+.wlen,
 .wk {
 	color: var(--c-muted);
 	font-size: 12px;
@@ -1216,9 +1236,12 @@ tr.detail td {
 }
 
 @media (max-width: 640px) {
-	td.date,
-	#browse-table th[data-sort="labeledAt"] {
-		display: none;
+	.wlen {
+		display: block;
+		font-size: 11px;
+	}
+	#browse-table th[data-sort="minWords"] {
+		white-space: normal;
 	}
 	#browse-search {
 		width: 100%;
@@ -1242,12 +1265,12 @@ tr.detail td {
 		letter-spacing: 1px;
 	}
 	.expand {
-		width: 16px;
-		margin-right: 2px;
+		width: 24px;
+		margin-right: 0;
 	}
 	td.cmt {
 		width: auto;
-		min-width: 0;
+		min-width: 96px;
 	}
 	tr.detail td {
 		padding-left: 12px;

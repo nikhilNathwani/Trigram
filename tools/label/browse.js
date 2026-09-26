@@ -150,17 +150,16 @@ function rowHtml(r) {
 				(l) => `<option value="${l}"${l === r.label ? " selected" : ""}>${l || "—"}</option>`,
 			).join("") +
 			`</select>`;
+	const lens = r.minLens.length > 2 ? `${r.minLens.length} lengths` : `${r.minLens.join(", ")}-letter`;
 	const words = S.corpus
-		? `<span class="wc">${r.words}</span>`
+		? `<span class="wc${r.minWords <= 2 ? " thin" : ""}">${r.minWords}</span> <span class="wlen">${lens}</span>`
 		: `<span class="wc muted">…</span>`;
-	const date = r.labeledAt ? r.labeledAt.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "2-digit" }) : "";
 	return (
 		`<tr data-t="${r.trigram}" tabindex="0" class="${S.expanded.has(r.trigram) ? "open" : ""}">` +
 		`<td class="tri"><button type="button" class="expand" aria-label="Show words for ${r.trigram}">${S.expanded.has(r.trigram) ? "▾" : "▸"}</button>${r.trigram}</td>` +
 		`<td class="lbl">${labelCell}</td>` +
 		`<td class="num">${words}</td>` +
 		`<td class="cmt"><input class="comment-cell" value="${esc(r.comment)}" aria-label="Comment for ${r.trigram}"${locked ? " disabled" : ""}></td>` +
-		`<td class="date">${date}</td>` +
 		`</tr>` +
 		(S.expanded.has(r.trigram) ? detailHtml(r) : "")
 	);
@@ -169,13 +168,13 @@ function rowHtml(r) {
 function detailHtml(r) {
 	if (!S.corpus) {
 		const msg = S.corpusError ? `Word list unavailable — ${S.corpusError}` : "Loading dictionary…";
-		return `<tr class="detail"><td colspan="5">${esc(msg)}</td></tr>`;
+		return `<tr class="detail"><td colspan="4">${esc(msg)}</td></tr>`;
 	}
 	const words = wordsFor(r.trigram, S.corpus);
 	const lens = Object.keys(words);
-	if (!lens.length) return `<tr class="detail"><td colspan="5">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
+	if (!lens.length) return `<tr class="detail"><td colspan="4">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
 	return (
-		`<tr class="detail"><td colspan="5">` +
+		`<tr class="detail"><td colspan="4">` +
 		lens
 			.map(
 				(len) =>
@@ -196,7 +195,7 @@ function render() {
 	const rows = visibleRows();
 	tbody.innerHTML = rows.length
 		? rows.map(rowHtml).join("")
-		: `<tr class="detail"><td colspan="5">No trigrams match.</td></tr>`;
+		: `<tr class="detail"><td colspan="4">No trigrams match.</td></tr>`;
 	renderHead();
 	renderFilters();
 	renderSummary();
@@ -257,8 +256,8 @@ filtersEl.addEventListener("click", (e) => {
 thead.addEventListener("click", (e) => {
 	const key = e.target.closest("th")?.dataset.sort;
 	if (!key) return;
-	// Words and Labeled read most naturally biggest/newest first
-	S.sortDir = key === S.sortKey ? -S.sortDir : key === "words" || key === "labeledAt" ? -1 : 1;
+	// Fewest-words sorts smallest first: the thinnest trigrams are the quick NOs
+	S.sortDir = key === S.sortKey ? -S.sortDir : 1;
 	S.sortKey = key;
 	render();
 });

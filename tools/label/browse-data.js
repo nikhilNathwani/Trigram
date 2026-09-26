@@ -42,6 +42,7 @@ export function buildRows(trigrams, labels, calendar, currentWeek, counts) {
 		const saved = labels[t];
 		let status = saved?.label || "";
 		if (week !== undefined) status = week <= currentWeek ? "DONE" : "SCHEDULED";
+		const byLen = counts[t]?.byLen || {};
 		return {
 			trigram: t,
 			status,
@@ -50,9 +51,28 @@ export function buildRows(trigrams, labels, calendar, currentWeek, counts) {
 			labeledAt: toDate(saved?.labeledAt),
 			week,
 			words: counts[t]?.total || 0,
-			byLen: counts[t]?.byLen || {},
+			byLen,
+			...fewestWords(byLen),
 		};
 	});
+}
+
+// The game has one level per word length (4-15), so a trigram is only as good
+// as its thinnest length: 1 word there is likely an obscure one players can't
+// find, and 0 means that level can't be played at all.
+export function fewestWords(byLen) {
+	let minWords = Infinity;
+	let minLens = [];
+	for (let len = MIN_LEN; len <= MAX_LEN; len++) {
+		const n = byLen[len] || 0;
+		if (n < minWords) {
+			minWords = n;
+			minLens = [len];
+		} else if (n === minWords) {
+			minLens.push(len);
+		}
+	}
+	return { minWords, minLens };
 }
 
 function toDate(v) {
@@ -80,6 +100,7 @@ export function sortRows(rows, key, dir = 1) {
 		trigram: (r) => r.trigram,
 		status: (r) => STATUS_ORDER[r.status],
 		words: (r) => r.words,
+		minWords: (r) => r.minWords,
 		comment: (r) => r.comment.toLowerCase(),
 		labeledAt: (r) => (r.labeledAt ? r.labeledAt.getTime() : 0),
 	}[key];
@@ -106,13 +127,14 @@ export function summarize(rows, calendar, currentWeek) {
 const csvCell = (s) => (/[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s);
 
 export function toCsv(rows) {
-	const lines = [["Trigram", "Status", "Comment", "Words", "Labeled"]];
+	const lines = [["Trigram", "Status", "Comment", "Fewest words", "At length", "Labeled"]];
 	for (const r of rows) {
 		lines.push([
 			r.trigram,
 			r.status,
 			r.comment,
-			String(r.words),
+			String(r.minWords),
+			r.minLens.join(" "),
 			r.labeledAt ? r.labeledAt.toISOString().slice(0, 10) : "",
 		]);
 	}

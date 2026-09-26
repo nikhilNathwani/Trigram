@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
 	buildRows,
 	countWords,
+	fewestWords,
 	filterRows,
 	sortRows,
 	summarize,
@@ -31,6 +32,17 @@ describe("countWords", () => {
 
 	it("counts a word once even if the trigram repeats in it", () => {
 		expect(countWords(corpus).DED).toEqual({ total: 2, byLen: { 5: 1, 6: 1 } });
+	});
+});
+
+describe("fewestWords", () => {
+	// One level per length 4-15, so the thinnest length decides playability.
+	it("finds the smallest per-length count, treating missing lengths as 0", () => {
+		const full = Object.fromEntries([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((l) => [l, 10]));
+		expect(fewestWords({ ...full, 4: 1 })).toEqual({ minWords: 1, minLens: [4] });
+		expect(fewestWords({ ...full, 13: 0, 15: 0 })).toEqual({ minWords: 0, minLens: [13, 15] });
+		delete full[15];
+		expect(fewestWords(full)).toEqual({ minWords: 0, minLens: [15] });
 	});
 });
 
@@ -85,8 +97,8 @@ describe("sortRows", () => {
 describe("toCsv", () => {
 	it("quotes commas and quotes", () => {
 		const csv = toCsv([
-			{ trigram: "ABC", status: "MAYBE", comment: 'hard, "15"', words: 3, labeledAt: new Date("2026-09-26T00:00:00Z") },
+			{ trigram: "ABC", status: "MAYBE", comment: 'hard, "15"', minWords: 1, minLens: [4, 15], labeledAt: new Date("2026-09-26T00:00:00Z") },
 		]);
-		expect(csv).toBe('Trigram,Status,Comment,Words,Labeled\nABC,MAYBE,"hard, ""15""",3,2026-09-26\n');
+		expect(csv).toBe('Trigram,Status,Comment,Fewest words,At length,Labeled\nABC,MAYBE,"hard, ""15""",1,4 15,2026-09-26\n');
 	});
 });
