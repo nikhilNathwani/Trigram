@@ -5,7 +5,7 @@
 # 
 # This script automates the complete setup for weekly trigram publication:
 # - Opens 2 Terminal windows with commands ready to run
-# - Opens Chrome with spreadsheet 
+# - Opens the admin Browse view (trigram labels) as a Chrome app window
 # - Opens VS Code with workflow files
 # =============================================================================
 
@@ -88,9 +88,11 @@ sleep 0.5
 # -----------------------------------------------------------------------------
 # STEP 2: Open Web Resources
 # -----------------------------------------------------------------------------
-# Open trigram tracking spreadsheet (background window)
-open -na "Google Chrome" --args --new-window \
- "https://docs.google.com/spreadsheets/d/1_GHU8MLunmLTphSwR-xF5q89bxt-r4IQ/edit?gid=2105180696#gid=2105180696"
+# Open the admin Browse view (background window). It replaced the trigram
+# Google Sheet on 2026-09-26: labels live in Firestore, DONE comes from
+# data/trigram_calendar.json. See tools/automation/WEEKLY-WORKFLOW.md.
+open -na "Google Chrome" --args \
+ --app="https://trigram.netlify.app/label/browse"
 sleep 2
 
 # Open Instagram page (foreground window)
