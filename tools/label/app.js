@@ -1,16 +1,11 @@
-import { firebaseConfig } from "/tools/label/firebase-config.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { db, requireSignIn } from "/tools/label/firebase.js";
 import {
-	getFirestore,
 	collection,
 	doc,
 	setDoc,
 	getDocs,
 	serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-// ── Firebase ──────────────────────────────────────────────────
-const db = getFirestore(initializeApp(firebaseConfig));
 
 // ── State ─────────────────────────────────────────────────────
 const S = {
@@ -333,7 +328,10 @@ promptCancel.onclick = () => {
 		await loadFast();
 		buildQueue();
 		await showCard();
-		// Slow path: load Firestore labels in background, then rebuild queue
+		// Slow path: load Firestore labels in background, then rebuild queue.
+		// Firestore rules require the admin account; the sign-in screen covers
+		// the card until then (instant when the session is already saved).
+		await requireSignIn();
 		await loadLabels();
 		buildQueue();
 		// Update progress display without re-rendering the current card

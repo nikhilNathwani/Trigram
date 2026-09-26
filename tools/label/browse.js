@@ -1,4 +1,4 @@
-import { firebaseConfig } from "/tools/label/firebase-config.js";
+import { db, requireSignIn } from "/tools/label/firebase.js";
 import { getGameID } from "/app/js/calendar.js";
 import {
 	MIN_LEN,
@@ -11,9 +11,7 @@ import {
 	summarize,
 	toCsv,
 } from "/tools/label/browse-data.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-	getFirestore,
 	collection,
 	doc,
 	setDoc,
@@ -25,8 +23,6 @@ import {
 // Browse replaces the old Google Sheet: Firestore "trigrams" is the only place
 // labels live (same doc shape the label queue in app.js writes), and
 // DONE/SCHEDULED are derived from data/trigram_calendar.json.
-
-const db = getFirestore(initializeApp(firebaseConfig));
 
 // ── State ─────────────────────────────────────────────────────
 const S = {
@@ -337,11 +333,13 @@ new ResizeObserver(([entry]) => {
 // ── Bootstrap ─────────────────────────────────────────────────
 (async () => {
 	try {
+		const corpusLoaded = loadCorpus(); // public files: fetch while signing in
+		await requireSignIn();
 		await loadBasics();
 		rebuildRows();
 		render();
 		setStatus("Loading dictionary for word counts…");
-		await loadCorpus();
+		await corpusLoaded;
 		rebuildRows();
 		render();
 		setStatus("");

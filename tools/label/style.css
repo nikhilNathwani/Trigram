@@ -1259,3 +1259,11 @@ tr.detail td {
 	color: var(--c-accent);
 	text-decoration: none;
 }
+
+/* firebase.js mounts #auth-screen over whichever page is loading */
+#auth-screen {
+	position: fixed;
+	inset: 0;
+	z-index: 20;
+	background: var(--c-bg);
+}

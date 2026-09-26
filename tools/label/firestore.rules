@@ -1,0 +1,17 @@
+rules_version = '2';
+
+// Firestore security rules for the trigram-labels project (the admin label
+// tool at /label and /label/browse). Only the admin Google account may read or
+// write labels; everything else is denied. The UID must match AUTHORIZED_UID in
+// firebase-config.js. Server-side scripts using a service account bypass rules.
+//
+// This file is the version-controlled copy - rules take effect only once
+// published (Firebase console -> Firestore -> Rules, or the Rules API).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /trigrams/{trigram} {
+      allow read, write: if request.auth != null
+        && request.auth.uid == "lWOveohKt4Ywiri2smYzxcADRbh1";
+    }
+  }
+}
