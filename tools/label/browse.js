@@ -10,6 +10,7 @@ import {
 	sortRows,
 	summarize,
 	toCsv,
+	flagComment,
 } from "/tools/label/browse-data.js";
 import {
 	collection,
@@ -172,13 +173,19 @@ function detailHtml(r) {
 	}
 	const words = wordsFor(r.trigram, S.corpus);
 	const lens = Object.keys(words);
+	const locked = r.status === "DONE" || r.status === "SCHEDULED";
 	if (!lens.length) return `<tr class="detail"><td colspan="4">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
 	return (
 		`<tr class="detail"><td colspan="4">` +
 		lens
 			.map(
 				(len) =>
-					`<div class="len-group"><div class="len-title">${len} letters (${words[len].length})</div>` +
+					`<div class="len-group"><div class="len-title">${len} letters (${words[len].length})` +
+					(locked
+						? ""
+						: ` <button type="button" class="flag-len" data-trigram="${r.trigram}" data-len="${len}" ` +
+							`title="Label ${r.trigram} NO, noting these ${len}-letter words" aria-label="Label ${r.trigram} NO because of its ${len}-letter words">🚩</button>`) +
+					`</div>` +
 					words[len].map((w) => `<span class="word-chip">${w}</span>`).join(" ") +
 					`</div>`,
 			)
@@ -262,13 +269,30 @@ thead.addEventListener("click", (e) => {
 	render();
 });
 
-tbody.addEventListener("click", (e) => {
+tbody.addEventListener("click", async (e) => {
+	const flag = e.target.closest(".flag-len");
+	if (flag) {
+		await flagNo(flag.dataset.trigram, Number(flag.dataset.len));
+		return;
+	}
 	const btn = e.target.closest(".expand");
 	if (!btn) return;
 	const t = btn.closest("tr").dataset.t;
 	S.expanded.has(t) ? S.expanded.delete(t) : S.expanded.add(t);
 	rerenderRow(t)?.focus();
 });
+
+// 🚩 on a length group: label NO with a comment naming those words, collapse
+// the row, and move on to the next one.
+async function flagNo(trigram, len) {
+	const words = wordsFor(trigram, S.corpus)[len] || [];
+	const comment = flagComment(len, words, S.labels[trigram]?.comment || "");
+	S.expanded.delete(trigram);
+	const tr = await save(trigram, "NO", comment);
+	let next = tr?.nextElementSibling;
+	while (next && !next.dataset.t) next = next.nextElementSibling;
+	(next || tr)?.focus();
+}
 
 tbody.addEventListener("change", async (e) => {
 	const tr = e.target.closest("tr[data-t]");

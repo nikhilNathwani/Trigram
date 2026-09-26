@@ -4,6 +4,7 @@ import {
 	countWords,
 	fewestWords,
 	filterRows,
+	flagComment,
 	sortRows,
 	summarize,
 	toCsv,
@@ -100,5 +101,21 @@ describe("toCsv", () => {
 			{ trigram: "ABC", status: "MAYBE", comment: 'hard, "15"', minWords: 1, minLens: [4, 15], labeledAt: new Date("2026-09-26T00:00:00Z") },
 		]);
 		expect(csv).toBe('Trigram,Status,Comment,Fewest words,At length,Labeled\nABC,MAYBE,"hard, ""15""",1,4 15,2026-09-26\n');
+	});
+});
+
+describe("flagComment", () => {
+	it("names the length, count and words", () => {
+		expect(flagComment(4, ["ABOS"])).toBe("4-letter (1): ABOS");
+	});
+
+	it("caps long groups and says how many more", () => {
+		const words = ["A1", "A2", "A3", "A4", "A5", "A6", "A7"];
+		expect(flagComment(5, words)).toBe("5-letter (7): A1, A2, A3, A4, A5 +2");
+	});
+
+	it("appends to an existing comment instead of replacing it, once", () => {
+		expect(flagComment(4, ["ABOS"], "15 hard")).toBe("15 hard; 4-letter (1): ABOS");
+		expect(flagComment(4, ["ABOS"], "15 hard; 4-letter (1): ABOS")).toBe("15 hard; 4-letter (1): ABOS");
 	});
 });

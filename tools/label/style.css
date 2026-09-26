@@ -1290,3 +1290,23 @@ tr.detail td {
 	z-index: 20;
 	background: var(--c-bg);
 }
+
+/* 🚩 next to a length heading in an expanded row: one-click NO */
+.flag-len {
+	margin-left: 6px;
+	padding: 1px 6px;
+	border: 1px solid var(--c-border);
+	border-radius: 4px;
+	background: var(--c-surface);
+	font-size: 13px;
+	line-height: 1.4;
+	vertical-align: middle;
+	opacity: 0.75;
+}
+
+.flag-len:hover,
+.flag-len:focus-visible {
+	opacity: 1;
+	border-color: var(--c-no);
+	background: var(--c-no-bg);
+}

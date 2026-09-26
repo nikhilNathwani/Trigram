@@ -75,6 +75,20 @@ export function fewestWords(byLen) {
 	return { minWords, minLens };
 }
 
+// Comment written by Browse's 🚩 flag on a word-length group, e.g.
+// "4-letter (1): ABOS". Capped so a big group doesn't bury the comment; added
+// after any existing comment instead of replacing it.
+export const FLAG_WORDS_SHOWN = 5;
+
+export function flagComment(len, words, existing = "") {
+	const shown = words.slice(0, FLAG_WORDS_SHOWN).join(", ");
+	const more = words.length > FLAG_WORDS_SHOWN ? ` +${words.length - FLAG_WORDS_SHOWN}` : "";
+	const note = `${len}-letter (${words.length}): ${shown}${more}`;
+	const prev = existing.trim();
+	if (!prev) return note;
+	return prev.includes(note) ? prev : `${prev}; ${note}`;
+}
+
 function toDate(v) {
 	if (!v) return null;
 	if (v instanceof Date) return v;
