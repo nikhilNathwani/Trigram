@@ -151,10 +151,7 @@ function rowHtml(r) {
 				(l) => `<option value="${l}"${l === r.label ? " selected" : ""}>${l || "—"}</option>`,
 			).join("") +
 			`</select>`;
-	const lens = r.minLens.length > 2 ? `${r.minLens.length} lengths` : `${r.minLens.join(", ")}-letter`;
-	const words = S.corpus
-		? `<span class="wc${r.minWords <= 2 ? " thin" : ""}">${r.minWords}</span> <span class="wlen">${lens}</span>`
-		: `<span class="wc muted">…</span>`;
+	const words = S.corpus ? `<span class="wc">${r.minWords}</span>` : `<span class="wc muted">…</span>`;
 	return (
 		`<tr data-t="${r.trigram}" tabindex="0" class="${S.expanded.has(r.trigram) ? "open" : ""}">` +
 		`<td class="tri"><button type="button" class="expand" aria-label="Show words for ${r.trigram}">${S.expanded.has(r.trigram) ? "▾" : "▸"}</button>${r.trigram}</td>` +

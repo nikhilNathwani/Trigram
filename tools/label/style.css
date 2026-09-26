@@ -1155,13 +1155,8 @@ td.num {
 	font-weight: 600;
 }
 
-/* 0-2 words at some length: probably unplayable or obscure - a likely NO */
-.wc.thin {
-	color: var(--c-no);
-}
 
 td.num .muted,
-.wlen,
 .wk {
 	color: var(--c-muted);
 	font-size: 12px;
@@ -1236,10 +1231,6 @@ tr.detail td {
 }
 
 @media (max-width: 640px) {
-	.wlen {
-		display: block;
-		font-size: 11px;
-	}
 	#browse-table th[data-sort="minWords"] {
 		white-space: normal;
 	}
