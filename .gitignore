@@ -19,8 +19,13 @@ __pycache__/
 # Ignore Python virtual environments
 .venv/
 
-# Ignore entire corpus folder (large source files)
-data/corpus/
+# Ignore the corpus folder (large source files) - except the per-length
+# dictionaries the admin Browse view (/label/browse) fetches to count and list
+# each trigram's words. "data/corpus/*" (not "data/corpus/") so the ! rules
+# below can re-include files inside it.
+data/corpus/*
+!data/corpus/sowpods_[0-9].txt
+!data/corpus/sowpods_1[0-5].txt
 
 # Ignore setup scripts (not currently present, kept in case they come back)
 startTrigram.sh

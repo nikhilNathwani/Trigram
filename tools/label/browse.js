@@ -31,6 +31,7 @@ const S = {
 	currentWeek: getGameID(),
 	labels: {},
 	corpus: null, // { 4: [...words], ..., 15: [...] } once loaded
+	corpusError: "",
 	counts: {},
 	rows: [],
 	query: "",
@@ -81,7 +82,12 @@ async function loadCorpus() {
 	for (let len = MIN_LEN; len <= MAX_LEN; len++) lens.push(len);
 	const texts = await Promise.all(
 		lens.map((len) =>
-			fetch(`/data/corpus/sowpods_${len}.txt`).then((r) => r.text()),
+			fetch(`/data/corpus/sowpods_${len}.txt`).then((r) => {
+				// A missing file must fail loudly: parsing a 404 page as a word
+				// list silently shows every trigram as having 0 words.
+				if (!r.ok) throw new Error(`dictionary sowpods_${len}.txt: HTTP ${r.status}`);
+				return r.text();
+			}),
 		),
 	);
 	const corpus = {};
@@ -161,7 +167,10 @@ function rowHtml(r) {
 }
 
 function detailHtml(r) {
-	if (!S.corpus) return `<tr class="detail"><td colspan="5">Loading dictionary…</td></tr>`;
+	if (!S.corpus) {
+		const msg = S.corpusError ? `Word list unavailable — ${S.corpusError}` : "Loading dictionary…";
+		return `<tr class="detail"><td colspan="5">${esc(msg)}</td></tr>`;
+	}
 	const words = wordsFor(r.trigram, S.corpus);
 	const lens = Object.keys(words);
 	if (!lens.length) return `<tr class="detail"><td colspan="5">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
@@ -334,12 +343,20 @@ new ResizeObserver(([entry]) => {
 (async () => {
 	try {
 		const corpusLoaded = loadCorpus(); // public files: fetch while signing in
+		corpusLoaded.catch(() => {}); // reported below, once awaited
 		await requireSignIn();
 		await loadBasics();
 		rebuildRows();
 		render();
 		setStatus("Loading dictionary for word counts…");
-		await corpusLoaded;
+		try {
+			await corpusLoaded;
+		} catch (err) {
+			console.error(err);
+			S.corpusError = err.message;
+			setStatus(`Word counts unavailable — ${err.message}`, true);
+			return; // labels still work; only counts/word lists are missing
+		}
 		rebuildRows();
 		render();
 		setStatus("");
