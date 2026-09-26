@@ -166,14 +166,14 @@ function rowHtml(r) {
 function detailHtml(r) {
 	if (!S.corpus) {
 		const msg = S.corpusError ? `Word list unavailable — ${S.corpusError}` : "Loading dictionary…";
-		return `<tr class="detail"><td colspan="4">${esc(msg)}</td></tr>`;
+		return `<tr class="detail" data-for="${r.trigram}"><td colspan="4">${esc(msg)}</td></tr>`;
 	}
 	const words = wordsFor(r.trigram, S.corpus);
 	const lens = Object.keys(words);
 	const locked = r.status === "DONE" || r.status === "SCHEDULED";
-	if (!lens.length) return `<tr class="detail"><td colspan="4">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
+	if (!lens.length) return `<tr class="detail" data-for="${r.trigram}"><td colspan="4">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
 	return (
-		`<tr class="detail"><td colspan="4">` +
+		`<tr class="detail" data-for="${r.trigram}"><td colspan="4">` +
 		lens
 			.map(
 				(len) =>
@@ -272,10 +272,12 @@ tbody.addEventListener("click", async (e) => {
 		await flagNo(flag.dataset.trigram, Number(flag.dataset.len));
 		return;
 	}
-	// Anywhere on a row toggles its word list, except the fields you edit in it.
+	// Anywhere on a row toggles its word list, except the fields you edit in it;
+	// anywhere in an open word list (other than a 🚩) collapses it.
+	const detail = e.target.closest("tr.detail[data-for]");
 	const tr = e.target.closest("tr[data-t]");
-	if (!tr || e.target.closest("select, input")) return;
-	const t = tr.dataset.t;
+	if (!detail && (!tr || e.target.closest("select, input"))) return;
+	const t = detail ? detail.dataset.for : tr.dataset.t;
 	S.expanded.has(t) ? S.expanded.delete(t) : S.expanded.add(t);
 	rerenderRow(t)?.focus();
 });

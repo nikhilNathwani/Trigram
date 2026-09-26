@@ -1110,7 +1110,8 @@ body.browse {
 	vertical-align: middle;
 }
 
-#browse-table tr[data-t] {
+#browse-table tr[data-t],
+#browse-table tr.detail[data-for] {
 	cursor: pointer;
 }
 
