@@ -1110,6 +1110,15 @@ body.browse {
 	vertical-align: middle;
 }
 
+#browse-table tr[data-t] {
+	cursor: pointer;
+}
+
+#browse-table tr[data-t] select,
+#browse-table tr[data-t] input {
+	cursor: auto;
+}
+
 #browse-table tr[data-t]:focus {
 	outline: 2px solid var(--c-accent);
 	outline-offset: -2px;

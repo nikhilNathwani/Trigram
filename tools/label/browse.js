@@ -272,9 +272,10 @@ tbody.addEventListener("click", async (e) => {
 		await flagNo(flag.dataset.trigram, Number(flag.dataset.len));
 		return;
 	}
-	const btn = e.target.closest(".expand");
-	if (!btn) return;
-	const t = btn.closest("tr").dataset.t;
+	// Anywhere on a row toggles its word list, except the fields you edit in it.
+	const tr = e.target.closest("tr[data-t]");
+	if (!tr || e.target.closest("select, input")) return;
+	const t = tr.dataset.t;
 	S.expanded.has(t) ? S.expanded.delete(t) : S.expanded.add(t);
 	rerenderRow(t)?.focus();
 });
