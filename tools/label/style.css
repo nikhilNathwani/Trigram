@@ -1082,6 +1082,7 @@ body.browse {
 #browse-table th {
 	position: sticky;
 	top: var(--browse-hdr-h, 0);
+	z-index: 1; /* above row content that forms its own layer, e.g. the semi-transparent 🚩 */
 	padding: 10px 8px 6px;
 	text-align: left;
 	font-size: 11px;
