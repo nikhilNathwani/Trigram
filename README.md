@@ -47,6 +47,8 @@ mockups/                   # Design reference material (not served)
 
 No build step: `index.html` loads `app/js/ui/view.js` and `app/js/ui/stats.js` as native ES modules, and the browser resolves the rest of the import graph itself. From a fresh clone:
 
+Requires Node 24 (pinned in `.nvmrc`; fnm switches to it automatically).
+
 ```bash
 npm install
 ```

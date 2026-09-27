@@ -45,7 +45,10 @@ fi
 echo -e "${BLUE}🎯 Starting automated trigram addition for: ${TRIGRAM_UPPER}${NC}"
 echo "=================================================="
 
-# Activate virtual environment
+# All relative paths below assume we're in tools/automation/
+cd "$(dirname "$0")"
+
+# Activate virtual environment (lives at the repo root)
 source ../../.venv/bin/activate
 
 #########################################
@@ -53,20 +56,16 @@ source ../../.venv/bin/activate
 # STEP 1: Generate Trigram Dictionary   #
 #                                       #
 #########################################
-JSON_FILE="../data/trigram-word-lists/${TRIGRAM_LOWER}_words.json"
+JSON_FILE="../../data/trigram-word-lists/${TRIGRAM_LOWER}_words.json"
 if [ -f "$JSON_FILE" ]; then
     echo -e "${YELLOW}📝 Dictionary already exists: ${TRIGRAM_UPPER}${NC}"
 else
     echo -e "${YELLOW}📝 Generating word dictionary for trigram: ${TRIGRAM_UPPER}${NC}"
-    python3 ../utils/make_trigram_dict_json.py "$TRIGRAM"
-    if [ $? -ne 0 ]; then
+    if ! python3 ../utils/make_trigram_dict_json.py "$TRIGRAM"; then
         echo -e "${RED}❌ Failed to generate trigram dictionary${NC}"
         exit 1
     fi
 fi
-
-# Ensure we're back in data-processing directory
-cd "$(dirname "$0")"
 
 #########################################
 #                                       #
@@ -74,9 +73,7 @@ cd "$(dirname "$0")"
 #                                       #
 #########################################
 echo -e "${YELLOW}📅 Updating trigram calendar with trigram: ${TRIGRAM_UPPER}${NC}"
-python3 ../utils/update_calendar.py "$TRIGRAM"
-
-if [ $? -ne 0 ]; then
+if ! python3 ../utils/update_calendar.py "$TRIGRAM"; then
     echo -e "${RED}❌ Failed to update trigram calendar${NC}"
     exit 1
 fi
@@ -92,8 +89,7 @@ if [ -f "$IMAGE_FILE" ]; then
     echo -e "${YELLOW}🖼️  Image already exists: ${TRIGRAM_UPPER}${NC}"
 else
     echo -e "${YELLOW}🖼️  Generating announcement image for trigram: ${TRIGRAM_UPPER}${NC}"
-    python3 generate_image.py "$TRIGRAM"
-    if [ $? -ne 0 ]; then
+    if ! python3 generate_image.py "$TRIGRAM"; then
         echo -e "${RED}❌ Failed to generate announcement image${NC}"
         exit 1
     fi
@@ -138,9 +134,7 @@ fi
 
 # Git add the files (skip image since it's in .gitignore)
 echo -e "${BLUE}📁 Adding files: $JSON_FILE, $CALENDAR_FILE${NC}"
-git add "$JSON_FILE" "$CALENDAR_FILE"
-
-if [ $? -ne 0 ]; then
+if ! git add "$JSON_FILE" "$CALENDAR_FILE"; then
     echo -e "${RED}❌ Failed to add files to git${NC}"
     exit 1
 fi
@@ -148,18 +142,14 @@ fi
 # Git commit
 COMMIT_MSG="Add trigram ${TRIGRAM_UPPER}: generated word list and updated calendar"
 echo -e "${BLUE}💾 Committing: $COMMIT_MSG${NC}"
-git commit -m "$COMMIT_MSG"
-
-if [ $? -ne 0 ]; then
+if ! git commit -m "$COMMIT_MSG"; then
     echo -e "${RED}❌ Failed to commit changes${NC}"
     exit 1
 fi
 
 # Git push
 echo -e "${BLUE}🌐 Pushing to remote repository...${NC}"
-git push
-
-if [ $? -ne 0 ]; then
+if ! git push; then
     echo -e "${RED}❌ Failed to push to remote repository${NC}"
     exit 1
 fi

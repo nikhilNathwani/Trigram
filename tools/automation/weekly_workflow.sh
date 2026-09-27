@@ -135,7 +135,7 @@ sleep 2
 sleep 1
 
 # Open workflow documentation
-# /usr/local/bin/code --reuse-window "$PROJECT_DIR/WEEKLY-WORKFLOW.md"
+# /usr/local/bin/code --reuse-window "$AUTOMATION_DIR/WEEKLY-WORKFLOW.md"
 # sleep 0.5
 
 # Open trigram calendar to confirm new trigram is appended
