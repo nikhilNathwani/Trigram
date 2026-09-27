@@ -1293,9 +1293,10 @@ tr.detail td {
 	background: var(--c-bg);
 }
 
-/* 🚩 next to a length heading in an expanded row: one-click NO (✅ on the
-   15-letter heading: one-click YES) */
+/* 🚩 next to a length heading in an expanded row: one-click NO (🟡/✅ on the
+   15-letter heading: one-click MAYBE/YES) */
 .flag-len,
+.maybe-len,
 .yes-len {
 	margin-left: 6px;
 	padding: 1px 6px;
@@ -1320,4 +1321,11 @@ tr.detail td {
 	opacity: 1;
 	border-color: var(--c-yes);
 	background: var(--c-yes-bg);
+}
+
+.maybe-len:hover,
+.maybe-len:focus-visible {
+	opacity: 1;
+	border-color: var(--c-maybe);
+	background: var(--c-maybe-bg);
 }

@@ -45,6 +45,10 @@ const S = {
 const FILTERS = ["ALL", "UNLABELED", "YES", "MAYBE", "NO", "SCHEDULED", "DONE"];
 const EDITABLE = ["", "YES", "MAYBE", "NO"];
 const KEY_LABELS = { y: "YES", m: "MAYBE", n: "NO" };
+const LEN_BUTTONS = [
+	["MAYBE", "maybe-len", "🟡"],
+	["YES", "yes-len", "✅"],
+];
 
 // ── DOM refs ──────────────────────────────────────────────────
 const tbody = document.querySelector("#browse-table tbody");
@@ -182,10 +186,13 @@ function detailHtml(r) {
 						? ""
 						: ` <button type="button" class="flag-len" data-trigram="${r.trigram}" data-len="${len}" ` +
 							`title="Label ${r.trigram} NO, noting these ${len}-letter words" aria-label="Label ${r.trigram} NO because of its ${len}-letter words">🚩</button>` +
-							// ✅ only on the longest group: you've scanned every length by the time you reach it
+							// 🟡/✅ only on the longest group: you've scanned every length by the time you reach it
 							(Number(len) === MAX_LEN
-								? ` <button type="button" class="yes-len" data-trigram="${r.trigram}" ` +
-									`title="Label ${r.trigram} YES" aria-label="Label ${r.trigram} YES">✅</button>`
+								? LEN_BUTTONS.map(
+										([label, cls, icon]) =>
+											` <button type="button" class="${cls}" data-trigram="${r.trigram}" data-label="${label}" ` +
+											`title="Label ${r.trigram} ${label}" aria-label="Label ${r.trigram} ${label}">${icon}</button>`,
+									).join("")
 								: "")) +
 					`</div>` +
 					words[len].map((w) => `<span class="word-chip">${w}</span>`).join(" ") +
@@ -277,14 +284,14 @@ tbody.addEventListener("click", async (e) => {
 		await flagNo(flag.dataset.trigram, Number(flag.dataset.len));
 		return;
 	}
-	const yes = e.target.closest(".yes-len");
-	if (yes) {
-		const t = yes.dataset.trigram;
-		await labelAndAdvance(t, "YES", S.labels[t]?.comment || "");
+	const quick = e.target.closest(".yes-len, .maybe-len");
+	if (quick) {
+		const t = quick.dataset.trigram;
+		await labelAndAdvance(t, quick.dataset.label, S.labels[t]?.comment || "");
 		return;
 	}
 	// Anywhere on a row toggles its word list, except the fields you edit in it;
-	// anywhere in an open word list (other than a 🚩/✅) collapses it.
+	// anywhere in an open word list (other than a 🚩/🟡/✅) collapses it.
 	const detail = e.target.closest("tr.detail[data-for]");
 	const tr = e.target.closest("tr[data-t]");
 	if (!detail && (!tr || e.target.closest("select, input"))) return;
