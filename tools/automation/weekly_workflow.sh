@@ -9,6 +9,10 @@
 # - Opens VS Code with workflow files
 # =============================================================================
 
+# Paths derived from this script's location, so it works wherever the repo lives
+AUTOMATION_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$AUTOMATION_DIR/../.." && pwd)"
+
 
 # -----------------------------------------------------------------------------
 # STEP 1: Setup Terminal Windows
@@ -29,7 +33,7 @@ tell application "Terminal"
         # Terminal already running: Create 2 fresh windows to preserve existing work
         
         # Window 1: Upload script (add_new_trigram.sh)
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate"
+        do script "cd '$AUTOMATION_DIR' && source ../../.venv/bin/activate"
         delay 1
         tell application "System Events"
             tell process "Terminal"
@@ -45,7 +49,7 @@ tell application "Terminal"
         delay 1
         
         # Window 2: Word finder script (get_words.py)
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate"
+        do script "cd '$AUTOMATION_DIR' && source ../../.venv/bin/activate"
         delay 1
         tell application "System Events"
             # Use key code 47 for period to bypass Karabiner interference
@@ -57,7 +61,7 @@ tell application "Terminal"
         # Terminal not running: Use auto-launched window + create 1 more
         
         # Use the auto-launched window for upload script
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate" in window 1
+        do script "cd '$AUTOMATION_DIR' && source ../../.venv/bin/activate" in window 1
         delay 1
         tell application "System Events"
             tell process "Terminal"
@@ -72,7 +76,7 @@ tell application "Terminal"
         delay 1
         
         # Create new window for word finder script
-        do script "cd '/Users/nikhilnathwani/Documents/Projects/Trigram/tools/automation' && source ../../.venv/bin/activate"
+        do script "cd '$AUTOMATION_DIR' && source ../../.venv/bin/activate"
         delay 1
         tell application "System Events"
             # Use key code 47 for period to bypass Karabiner interference
@@ -127,13 +131,13 @@ sleep 2
 # STEP 3: Open VS Code Files
 # -----------------------------------------------------------------------------
 # Open project workspace
-/usr/local/bin/code "/Users/nikhilnathwani/Documents/Projects/Trigram"
+/usr/local/bin/code "$PROJECT_DIR"
 sleep 1
 
 # Open workflow documentation
-# /usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/WEEKLY-WORKFLOW.md"
+# /usr/local/bin/code --reuse-window "$PROJECT_DIR/WEEKLY-WORKFLOW.md"
 # sleep 0.5
 
 # Open trigram calendar to confirm new trigram is appended
-/usr/local/bin/code --reuse-window "/Users/nikhilnathwani/Documents/Projects/Trigram/data/trigram_calendar.json"
+/usr/local/bin/code --reuse-window "$PROJECT_DIR/data/trigram_calendar.json"
 sleep 1
