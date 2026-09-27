@@ -69,13 +69,15 @@ For full operational steps, see `tools/automation/WEEKLY-WORKFLOW.md`.
 
 If you use social-generation/data scripts, install requirements from `tools/requirements.txt`. The venv lives at the repo root — `tools/automation`'s scripts activate it via a relative `../../.venv/bin/activate`, so creating it anywhere else (e.g. inside `tools/`) leaves them unable to find it.
 
-Example (from the repo root):
+Example (from the repo root; uses [uv](https://docs.astral.sh/uv/) and the Python version pinned in `.python-version`):
 
 ```bash
-python3 -m venv .venv
+uv venv --managed-python .venv
+uv pip install --python .venv/bin/python -r tools/requirements.txt
 source .venv/bin/activate
-pip install -r tools/requirements.txt
 ```
+
+The venv has no `pip` of its own — use `uv pip install …` / `uv pip freeze` (with the venv activated) instead.
 
 ## Why This Project
 
