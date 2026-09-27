@@ -181,7 +181,12 @@ function detailHtml(r) {
 					(locked
 						? ""
 						: ` <button type="button" class="flag-len" data-trigram="${r.trigram}" data-len="${len}" ` +
-							`title="Label ${r.trigram} NO, noting these ${len}-letter words" aria-label="Label ${r.trigram} NO because of its ${len}-letter words">🚩</button>`) +
+							`title="Label ${r.trigram} NO, noting these ${len}-letter words" aria-label="Label ${r.trigram} NO because of its ${len}-letter words">🚩</button>` +
+							// ✅ only on the longest group: you've scanned every length by the time you reach it
+							(Number(len) === MAX_LEN
+								? ` <button type="button" class="yes-len" data-trigram="${r.trigram}" ` +
+									`title="Label ${r.trigram} YES" aria-label="Label ${r.trigram} YES">✅</button>`
+								: "")) +
 					`</div>` +
 					words[len].map((w) => `<span class="word-chip">${w}</span>`).join(" ") +
 					`</div>`,
@@ -272,8 +277,14 @@ tbody.addEventListener("click", async (e) => {
 		await flagNo(flag.dataset.trigram, Number(flag.dataset.len));
 		return;
 	}
+	const yes = e.target.closest(".yes-len");
+	if (yes) {
+		const t = yes.dataset.trigram;
+		await labelAndAdvance(t, "YES", S.labels[t]?.comment || "");
+		return;
+	}
 	// Anywhere on a row toggles its word list, except the fields you edit in it;
-	// anywhere in an open word list (other than a 🚩) collapses it.
+	// anywhere in an open word list (other than a 🚩/✅) collapses it.
 	const detail = e.target.closest("tr.detail[data-for]");
 	const tr = e.target.closest("tr[data-t]");
 	if (!detail && (!tr || e.target.closest("select, input"))) return;
@@ -286,9 +297,12 @@ tbody.addEventListener("click", async (e) => {
 // the row, and move on to the next one.
 async function flagNo(trigram, len) {
 	const words = wordsFor(trigram, S.corpus)[len] || [];
-	const comment = flagComment(len, words, S.labels[trigram]?.comment || "");
+	await labelAndAdvance(trigram, "NO", flagComment(len, words, S.labels[trigram]?.comment || ""));
+}
+
+async function labelAndAdvance(trigram, label, comment) {
 	S.expanded.delete(trigram);
-	const tr = await save(trigram, "NO", comment);
+	const tr = await save(trigram, label, comment);
 	let next = tr?.nextElementSibling;
 	while (next && !next.dataset.t) next = next.nextElementSibling;
 	(next || tr)?.focus();

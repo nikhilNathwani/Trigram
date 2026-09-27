@@ -1293,8 +1293,10 @@ tr.detail td {
 	background: var(--c-bg);
 }
 
-/* 🚩 next to a length heading in an expanded row: one-click NO */
-.flag-len {
+/* 🚩 next to a length heading in an expanded row: one-click NO (✅ on the
+   15-letter heading: one-click YES) */
+.flag-len,
+.yes-len {
 	margin-left: 6px;
 	padding: 1px 6px;
 	border: 1px solid var(--c-border);
@@ -1311,4 +1313,11 @@ tr.detail td {
 	opacity: 1;
 	border-color: var(--c-no);
 	background: var(--c-no-bg);
+}
+
+.yes-len:hover,
+.yes-len:focus-visible {
+	opacity: 1;
+	border-color: var(--c-yes);
+	background: var(--c-yes-bg);
 }
