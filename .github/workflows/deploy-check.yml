@@ -1,0 +1,64 @@
+name: Deploy check
+
+# After each push to main, wait for Netlify to publish and confirm the live
+# site serves exactly what was pushed. Netlify has no free failure emails, so
+# this is the alert: if the deploy fails (or the site is down), this workflow
+# fails and GitHub emails you. Also runnable by hand from the Actions tab.
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    live-matches-main:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Wait for Netlify to serve this commit
+              env:
+                  SITE: https://trigram.netlify.app
+                  BEFORE: ${{ github.event.before }}
+              run: |
+                  # Core files always checked, plus every file this push added or changed.
+                  core="index.html app/js/game.js app/js/ui/view.js app/js/ui/stats.js data/trigram_calendar.json tools/label/index.html tools/label/browse.js"
+                  changed=""
+                  if [ -n "$BEFORE" ] && git cat-file -e "$BEFORE" 2>/dev/null; then
+                      changed=$(git diff --name-only --diff-filter=AM "$BEFORE" HEAD)
+                  fi
+                  files=$(printf '%s\n' $core $changed | grep -vE '^\.github/|^\.git' | sort -u)
+                  echo "Checking $(echo "$files" | wc -l) file(s) against $SITE"
+
+                  # Netlify injects an HTML comment advertising itself into .html
+                  # responses; drop it before comparing HTML.
+                  normalize() { case "$1" in *.html) perl -0pe 's/<!-- This site is hosted on Netlify.*?-->\n?//s' ;; *) cat ;; esac; }
+
+                  for attempt in $(seq 1 30); do
+                      mismatched=""
+                      for f in $files; do
+                          [ -f "$f" ] || continue
+                          live=$(curl -sf "$SITE/$f" | normalize "$f" | sha256sum | cut -d' ' -f1) || live="unreachable"
+                          repo=$(normalize "$f" < "$f" | sha256sum | cut -d' ' -f1)
+                          [ "$live" = "$repo" ] || mismatched="$mismatched $f"
+                      done
+                      if [ -z "$mismatched" ]; then
+                          echo "Live site matches $GITHUB_SHA (attempt $attempt)."
+                          exit 0
+                      fi
+                      echo "Attempt $attempt: not live yet:$mismatched"
+                      sleep 20
+                  done
+                  echo "::error::After 10 minutes the live site still doesn't match this commit:$mismatched. Check the Netlify deploy log."
+                  exit 1
+
+            - name: Pages respond
+              run: |
+                  for path in / /label /label/browse; do
+                      code=$(curl -s -o /dev/null -w '%{http_code}' "https://trigram.netlify.app$path")
+                      echo "$path -> HTTP $code"
+                      [ "$code" = "200" ] || { echo "::error::$path returned HTTP $code"; exit 1; }
+                  done
