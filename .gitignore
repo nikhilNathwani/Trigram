@@ -53,3 +53,8 @@ INTERVIEW_STORIES.md
 # up to the untracking commit still has it, going forward it's local-only
 tests/TESTING-GUIDE.md
 
+
+# Environment files hold secrets; only the example template is committed
+.env
+.env.*
+!.env.example
