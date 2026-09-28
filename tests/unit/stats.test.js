@@ -22,6 +22,7 @@ vi.mock("../../app/js/game.js", () => ({
 	gameEvents: new EventTarget(),
 }));
 
+import { getGameID } from "../../app/js/calendar.js";
 import {
 	calcCurrentStreak,
 	calcLongestWord,
@@ -168,6 +169,45 @@ describe("stats", () => {
 			);
 			loadStats();
 			expect(calcWinPercentage()).toBe(33.3);
+		});
+
+		// The current week is stored under today's gameID, alongside past weeks.
+		const seedCurrentWeek = (longestLength) =>
+			localStorage.setItem(
+				String(getGameID()),
+				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "X".repeat(longestLength)] })
+			);
+		const seedPastWeeks = () => {
+			// 1 win out of 3 past weeks (33.3%)
+			localStorage.setItem("0", JSON.stringify({ trigram: "CAT", wordsProvided: [null, "X".repeat(12)] }));
+			localStorage.setItem("1", JSON.stringify({ trigram: "DOG", wordsProvided: [null, "DOGS"] }));
+			localStorage.setItem("2", JSON.stringify({ trigram: "PIT", wordsProvided: [null, "PITS"] }));
+		};
+
+		it("counts a first-ever week as soon as it's won (100, not 'n/a')", () => {
+			seedCurrentWeek(12);
+			loadStats();
+			expect(calcWinPercentage()).toBe(100);
+		});
+
+		it("counts a won current week alongside past weeks", () => {
+			seedPastWeeks();
+			seedCurrentWeek(12);
+			loadStats();
+			expect(calcWinPercentage()).toBe(50); // 2 wins / 4 decided weeks
+		});
+
+		it("leaves an unfinished current week out (it can still be won)", () => {
+			seedPastWeeks();
+			seedCurrentWeek(7);
+			loadStats();
+			expect(calcWinPercentage()).toBe(33.3); // still 1/3: this week isn't decided yet
+		});
+
+		it("is 'n/a' for a first-ever week that's still in progress", () => {
+			seedCurrentWeek(7);
+			loadStats();
+			expect(calcWinPercentage()).toBe("n/a");
 		});
 	});
 });

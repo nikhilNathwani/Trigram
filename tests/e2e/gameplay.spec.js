@@ -104,7 +104,7 @@ test.describe("stats dialog", () => {
 
 		await expect(page.locator("#wordListValue")).toContainText(word.toUpperCase());
 		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("1");
-		// Win % only counts settled (past) weeks — with zero of those, this
+		// Win % only counts decided weeks (past weeks, or this week once won) — with zero of those, this
 		// week's in-progress game (not yet a win) shouldn't render as a
 		// misleading "0%", just "n/a" until there's a settled week to judge.
 		await expect(page.locator("#stat-winPercentage")).toHaveText("n/a");

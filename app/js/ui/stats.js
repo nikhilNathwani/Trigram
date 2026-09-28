@@ -23,10 +23,10 @@ let numGamesPlayed = 0;
 let currentStreak = 0;
 let maxStreak = 0;
 let longestWordLength = 0;
-// Win % specifically only counts settled (past) weeks, tracked separately
-// from numGamesPlayed above — see the comment on these in loadStats().
-let numPastGamesPlayed = 0;
-let numPastGamesWon = 0;
+// Win % only counts decided weeks (every past week, plus this week once it's
+// won), tracked separately from numGamesPlayed above — see loadStats().
+let numDecidedGames = 0;
+let numDecidedGamesWon = 0;
 //Stats used for (3) Histogram
 let longestWordCounts = {};
 
@@ -155,10 +155,10 @@ function setCountingStatsUI() {
 }
 
 export function calcWinPercentage() {
-	if (numPastGamesPlayed == 0) {
+	if (numDecidedGames == 0) {
 		return "n/a";
 	}
-	const winPct = 100 * (numPastGamesWon / numPastGamesPlayed);
+	const winPct = 100 * (numDecidedGamesWon / numDecidedGames);
 	if (winPct === 100) {
 		return 100;
 	}
@@ -316,14 +316,17 @@ export function loadStats() {
 			(longestWordCounts[currLongestWord] || 0) + 1;
 	}
 
-	// Win % specifically only counts settled (past) weeks, computed from
-	// pastGames rather than games — this week's win/loss status isn't
-	// knowable until it's over (there's no "loss" event in this game, only
-	// a deadline: see game.js, which never fails a guess into a terminal
-	// state), so folding it in here would show a misleading dip, or a
-	// premature 0%, for a week that's still fully winnable.
-	numPastGamesPlayed = pastGames.length;
-	numPastGamesWon = calcNumGamesWon(pastGames);
+	// Win % only counts decided weeks. A week is decided once it's won
+	// (reaching 12 letters can't be undone) or once it's over. There's no
+	// "loss" event in this game, only the deadline (see game.js, which never
+	// fails a guess into a terminal state), so an unfinished current week
+	// stays out: counting it would show a misleading dip, or a premature 0%,
+	// for a week that's still fully winnable. A won current week counts
+	// right away, so e.g. a first-ever win shows 100% instead of "n/a".
+	const currentWeekWon = currentGame !== null && currentGame.longestWord >= 12;
+	const decidedGames = currentWeekWon ? games : pastGames;
+	numDecidedGames = decidedGames.length;
+	numDecidedGamesWon = calcNumGamesWon(decidedGames);
 }
 
 export function showNextGameCountdownUI() {

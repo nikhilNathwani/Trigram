@@ -101,8 +101,8 @@ test.describe("stats dialog with representative history", () => {
 
 		// --- "Your Stats": hand-computed from the fixture above ---
 		// "Played"/streak count the current game (longestWord 6) as the 10th
-		// game, live. Win % doesn't — it only counts settled (past) weeks,
-		// since this week's outcome isn't decided yet — so it's still 5/9
+		// game, live. Win % doesn't — it only counts decided weeks, and
+		// this week (6 letters, still winnable) isn't decided yet — so it's still 5/9
 		// from the past-games fixture alone, unaffected by the current game.
 		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("10");
 		await expect(page.locator("#stat-winPercentage")).toHaveText("55.6"); // 5 wins / 9 past games
@@ -139,5 +139,42 @@ test.describe("stats dialog with representative history", () => {
 		await expect(page.locator("#statDistributionValue")).toContainText(
 			"A graph of your longest words from each game will appear here."
 		);
+	});
+});
+
+test.describe("Win % counts the current week once it's won", () => {
+	// A week is decided once it's won (12 letters can't be undone), so it
+	// counts toward Win % right away instead of waiting for the week to end.
+	// Seeding the current week at 12 letters shows the You Win screen on load;
+	// its "View stats" button is how a player reaches the stats after winning.
+	async function seedAndOpenStats(page, pastGames) {
+		await page.goto("/index.html");
+		await waitForReady(page);
+		const g = await todayGameID(page);
+		const liveTrigram = await currentTrigram(page);
+		await seedLocalStorage(page, {
+			...pastGames(g),
+			[g]: { trigram: liveTrigram, wordsProvided: makeWordsContaining(liveTrigram, 12) },
+		});
+		await page.reload();
+		await waitForReady(page);
+		await page.click("#viewStatsButton");
+		await expect(page.locator("#statsDialog")).toBeVisible();
+	}
+
+	test("a first-ever win shows 100%, not n/a", async ({ page }) => {
+		await seedAndOpenStats(page, () => ({}));
+		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("1");
+		await expect(page.locator("#stat-winPercentage")).toHaveText("100");
+	});
+
+	test("a win this week counts alongside past weeks", async ({ page }) => {
+		await seedAndOpenStats(page, (g) => ({
+			[g - 2]: { trigram: "ABC", wordsProvided: makeWords(12) }, // win
+			[g - 1]: { trigram: "DEF", wordsProvided: makeWords(7) }, // loss
+		}));
+		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("3");
+		await expect(page.locator("#stat-winPercentage")).toHaveText("66.7"); // 2 wins / 3 decided weeks
+		await expect(page.locator("#stat-currentStreak")).toHaveText("3");
 	});
 });
