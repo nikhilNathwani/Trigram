@@ -40,7 +40,7 @@ tools/
     corpus/                # Corpus preprocessing helpers
     label/                 # A second, separate static tool this same repo serves
 
-mockups/                   # Design reference material (not served)
+mockups/                   # Design reference material (local only, gitignored)
 ```
 
 ## Running the Game
