@@ -1,6 +1,7 @@
 #!/bin/sh
-# Pre-push: run the unit tests. Netlify publishes this repo as-is (no build
-# step), so a push to main goes live immediately with nothing else checking it.
+# Pre-push: run the unit tests and format-check (Prettier). Netlify publishes
+# this repo as-is (no build step), so a push to main goes live immediately
+# with nothing else checking it.
 # Tracked in the repo (.githooks/); enabled by `npm install` via the
 # "prepare" script, which sets core.hooksPath to .githooks.
 set -e
@@ -25,5 +26,11 @@ fi
 echo "pre-push: running unit tests..."
 if ! npm test; then
 	echo "pre-push: tests failed. Push aborted." >&2
+	exit 1
+fi
+
+echo "pre-push: checking formatting..."
+if ! ./node_modules/.bin/prettier --check . >/dev/null; then
+	echo "pre-push: formatting issues (fix with: npm run format). Push aborted." >&2
 	exit 1
 fi
