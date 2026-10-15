@@ -45,7 +45,7 @@ export function initializeStatsUI(trigram, wordsProvided = null) {
 // ui/view.js subscribes to the same events independently — see its own
 // "GAME EVENT SUBSCRIPTIONS" section. Don't assume ordering between the two.
 gameEvents.addEventListener("game:started", (e) =>
-	initializeStatsUI(e.detail.trigram, e.detail.wordsProvided)
+	initializeStatsUI(e.detail.trigram, e.detail.wordsProvided),
 );
 gameEvents.addEventListener("guess:valid", (e) => updateStatsUI(e.detail.word));
 gameEvents.addEventListener("game:ended", () => showNextGameCountdownUI());
@@ -79,7 +79,7 @@ function setWordListUI(trigram, wordsProvided) {
 	// Case 1: No valid words submitted yet
 	if (!wordsProvided || wordsProvided.length == 0) {
 		const emptyStateTrigram = document.getElementById(
-			"stat-wordList-emptyState-trigram"
+			"stat-wordList-emptyState-trigram",
 		);
 		emptyStateTrigram.textContent = trigram;
 	}
@@ -115,7 +115,7 @@ function addToWordListUI(word) {
 	wordDiv.id = "stat-wordList-word" + length;
 	wordDiv.innerHTML = word.replace(
 		trigram,
-		`<span class="stat-wordList-trigram">${trigram}</span>`
+		`<span class="stat-wordList-trigram">${trigram}</span>`,
 	);
 	levelDiv.appendChild(wordDiv);
 
@@ -323,7 +323,8 @@ export function loadStats() {
 	// stays out: counting it would show a misleading dip, or a premature 0%,
 	// for a week that's still fully winnable. A won current week counts
 	// right away, so e.g. a first-ever win shows 100% instead of "n/a".
-	const currentWeekWon = currentGame !== null && currentGame.longestWord >= 12;
+	const currentWeekWon =
+		currentGame !== null && currentGame.longestWord >= 12;
 	const decidedGames = currentWeekWon ? games : pastGames;
 	numDecidedGames = decidedGames.length;
 	numDecidedGamesWon = calcNumGamesWon(decidedGames);

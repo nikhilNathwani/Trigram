@@ -1,7 +1,7 @@
 //
 export function loadWordList(trigram) {
 	return fetch(
-		"data/trigram-word-lists/" + trigram.toLowerCase() + "_words.json"
+		"data/trigram-word-lists/" + trigram.toLowerCase() + "_words.json",
 	)
 		.then((response) => response.json())
 		.catch((error) => {

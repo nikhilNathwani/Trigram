@@ -10,7 +10,11 @@
 //
 // Letters render empty — CSS already hides unfilled/locked letters, and
 // width is a fixed calc(), not content-dependent.
-import { WORD_LENGTH_START, WORD_LENGTH_MAX, LEVELS_PER_ROUND } from "../constants.js";
+import {
+	WORD_LENGTH_START,
+	WORD_LENGTH_MAX,
+	LEVELS_PER_ROUND,
+} from "../constants.js";
 
 const gameDiv = document.getElementById("game");
 
@@ -22,7 +26,10 @@ for (
 	const roundDiv = document.createElement("div");
 	roundDiv.className = "round";
 
-	const roundEnd = Math.min(roundStart + LEVELS_PER_ROUND - 1, WORD_LENGTH_MAX);
+	const roundEnd = Math.min(
+		roundStart + LEVELS_PER_ROUND - 1,
+		WORD_LENGTH_MAX,
+	);
 	for (let length = roundStart; length <= roundEnd; length++) {
 		const levelDiv = document.createElement("div");
 		levelDiv.id = "level-" + length;

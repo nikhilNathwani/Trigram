@@ -12,8 +12,10 @@
 // sequence, not just that one animation.
 export async function waitForReady(page) {
 	await page.waitForFunction(
-		() => document.querySelectorAll(".header-element #trigram span").length > 0,
-		{ timeout: 10_000 }
+		() =>
+			document.querySelectorAll(".header-element #trigram span").length >
+			0,
+		{ timeout: 10_000 },
 	);
 }
 
@@ -26,9 +28,10 @@ export async function playThroughToInteractive(page) {
 
 	await page.waitForFunction(
 		() =>
-			window.getComputedStyle(document.getElementById("trigramRevealScreen"))
-				.display === "none",
-		{ timeout: 10_000 }
+			window.getComputedStyle(
+				document.getElementById("trigramRevealScreen"),
+			).display === "none",
+		{ timeout: 10_000 },
 	);
 }
 
@@ -39,7 +42,7 @@ export async function currentTrigram(page) {
 	return page.evaluate(() =>
 		Array.from(document.querySelectorAll(".header-element #trigram span"))
 			.map((span) => span.textContent)
-			.join("")
+			.join(""),
 	);
 }
 
@@ -49,7 +52,7 @@ export async function currentTrigram(page) {
 export async function firstLevelWord(page) {
 	const trigram = await currentTrigram(page);
 	const response = await page.request.get(
-		`/data/trigram-word-lists/${trigram.toLowerCase()}_words.json`
+		`/data/trigram-word-lists/${trigram.toLowerCase()}_words.json`,
 	);
 	const wordList = await response.json();
 	const words = wordList[4] || [];

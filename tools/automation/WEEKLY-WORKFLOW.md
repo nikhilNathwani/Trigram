@@ -15,10 +15,10 @@ cd tools/automation
 
 This script automatically:
 
--   Adds TOU's dictionary to `data/trigram-word-lists/` folder
--   Updates `data/trigram_calendar.json` to add TOU to the trigrams list
--   Generates announcement image in `tools/social/instagram_posts/` folder
--   Commits and pushes changes to main branch
+- Adds TOU's dictionary to `data/trigram-word-lists/` folder
+- Updates `data/trigram_calendar.json` to add TOU to the trigrams list
+- Generates announcement image in `tools/social/instagram_posts/` folder
+- Commits and pushes changes to main branch
 
 ### 3. Nothing to mark
 
@@ -54,6 +54,6 @@ Pick **YES** / **MAYBE** / **NO** in the row's dropdown (or focus the row and pr
 
 ## Links
 
--   **Browse / label trigrams**: https://trigram.netlify.app/label/browse (queue: `/label`)
--   **Old Trigram Spreadsheet (retired 2026-09-26, archive only)**: https://docs.google.com/spreadsheets/d/1_GHU8MLunmLTphSwR-xF5q89bxt-r4IQ/edit?gid=2105180696#gid=2105180696
--   **Live Game**: https://trigram.netlify.app
+- **Browse / label trigrams**: https://trigram.netlify.app/label/browse (queue: `/label`)
+- **Old Trigram Spreadsheet (retired 2026-09-26, archive only)**: https://docs.google.com/spreadsheets/d/1_GHU8MLunmLTphSwR-xF5q89bxt-r4IQ/edit?gid=2105180696#gid=2105180696
+- **Live Game**: https://trigram.netlify.app

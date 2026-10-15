@@ -90,7 +90,10 @@ async function loadCorpus() {
 			fetch(`/data/corpus/sowpods_${len}.txt`).then((r) => {
 				// A missing file must fail loudly: parsing a 404 page as a word
 				// list silently shows every trigram as having 0 words.
-				if (!r.ok) throw new Error(`dictionary sowpods_${len}.txt: HTTP ${r.status}`);
+				if (!r.ok)
+					throw new Error(
+						`dictionary sowpods_${len}.txt: HTTP ${r.status}`,
+					);
 				return r.text();
 			}),
 		),
@@ -107,14 +110,24 @@ async function loadCorpus() {
 }
 
 function rebuildRows() {
-	S.rows = buildRows(S.trigrams, S.labels, S.calendar, S.currentWeek, S.counts);
+	S.rows = buildRows(
+		S.trigrams,
+		S.labels,
+		S.calendar,
+		S.currentWeek,
+		S.counts,
+	);
 }
 
 // ── Rendering ─────────────────────────────────────────────────
 function weekDate(week) {
 	const d = new Date("2024-04-15T00:00:00"); // gameStartDate in app/js/calendar.js
 	d.setDate(d.getDate() + week * 7);
-	return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "2-digit" });
+	return d.toLocaleDateString(undefined, {
+		month: "short",
+		day: "numeric",
+		year: "2-digit",
+	});
 }
 
 function renderSummary() {
@@ -143,7 +156,10 @@ function renderHead() {
 }
 
 function esc(s) {
-	return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+	return String(s).replace(
+		/[&<>"]/g,
+		(c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+	);
 }
 
 function rowHtml(r) {
@@ -152,10 +168,13 @@ function rowHtml(r) {
 		? `<span class="label-badge badge-done">${r.status}</span> <span class="wk">#${r.week + 1} · ${weekDate(r.week)}</span>`
 		: `<select class="label-select sel-${(r.label || "none").toLowerCase()}" aria-label="Label for ${r.trigram}">` +
 			EDITABLE.map(
-				(l) => `<option value="${l}"${l === r.label ? " selected" : ""}>${l || "—"}</option>`,
+				(l) =>
+					`<option value="${l}"${l === r.label ? " selected" : ""}>${l || "—"}</option>`,
 			).join("") +
 			`</select>`;
-	const words = S.corpus ? `<span class="wc">${r.minWords}</span>` : `<span class="wc muted">…</span>`;
+	const words = S.corpus
+		? `<span class="wc">${r.minWords}</span>`
+		: `<span class="wc muted">…</span>`;
 	return (
 		`<tr data-t="${r.trigram}" tabindex="0" class="${S.expanded.has(r.trigram) ? "open" : ""}">` +
 		`<td class="tri"><button type="button" class="expand" aria-label="Show words for ${r.trigram}">${S.expanded.has(r.trigram) ? "▾" : "▸"}</button>${r.trigram}</td>` +
@@ -169,13 +188,16 @@ function rowHtml(r) {
 
 function detailHtml(r) {
 	if (!S.corpus) {
-		const msg = S.corpusError ? `Word list unavailable — ${S.corpusError}` : "Loading dictionary…";
+		const msg = S.corpusError
+			? `Word list unavailable — ${S.corpusError}`
+			: "Loading dictionary…";
 		return `<tr class="detail" data-for="${r.trigram}"><td colspan="4">${esc(msg)}</td></tr>`;
 	}
 	const words = wordsFor(r.trigram, S.corpus);
 	const lens = Object.keys(words);
 	const locked = r.status === "DONE" || r.status === "SCHEDULED";
-	if (!lens.length) return `<tr class="detail" data-for="${r.trigram}"><td colspan="4">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
+	if (!lens.length)
+		return `<tr class="detail" data-for="${r.trigram}"><td colspan="4">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
 	return (
 		`<tr class="detail" data-for="${r.trigram}"><td colspan="4">` +
 		lens
@@ -195,7 +217,9 @@ function detailHtml(r) {
 									).join("")
 								: "")) +
 					`</div>` +
-					words[len].map((w) => `<span class="word-chip">${w}</span>`).join(" ") +
+					words[len]
+						.map((w) => `<span class="word-chip">${w}</span>`)
+						.join(" ") +
 					`</div>`,
 			)
 			.join("") +
@@ -204,7 +228,11 @@ function detailHtml(r) {
 }
 
 function visibleRows() {
-	return sortRows(filterRows(S.rows, { query: S.query, status: S.status }), S.sortKey, S.sortDir);
+	return sortRows(
+		filterRows(S.rows, { query: S.query, status: S.status }),
+		S.sortKey,
+		S.sortDir,
+	);
 }
 
 function render() {
@@ -240,7 +268,9 @@ async function save(trigram, label, comment) {
 			const data = { label, comment, labeledAt: serverTimestamp() };
 			await setDoc(doc(db, "trigrams", trigram), data);
 			S.labels[trigram] = { ...data, labeledAt: new Date() };
-			setStatus(`Saved ${trigram} → ${label}${comment ? ` (“${comment}”)` : ""}`);
+			setStatus(
+				`Saved ${trigram} → ${label}${comment ? ` (“${comment}”)` : ""}`,
+			);
 		} else {
 			await deleteDoc(doc(db, "trigrams", trigram));
 			delete S.labels[trigram];
@@ -287,7 +317,11 @@ tbody.addEventListener("click", async (e) => {
 	const quick = e.target.closest(".yes-len, .maybe-len");
 	if (quick) {
 		const t = quick.dataset.trigram;
-		await labelAndAdvance(t, quick.dataset.label, S.labels[t]?.comment || "");
+		await labelAndAdvance(
+			t,
+			quick.dataset.label,
+			S.labels[t]?.comment || "",
+		);
 		return;
 	}
 	// Anywhere on a row toggles its word list, except the fields you edit in it;
@@ -304,7 +338,11 @@ tbody.addEventListener("click", async (e) => {
 // the row, and move on to the next one.
 async function flagNo(trigram, len) {
 	const words = wordsFor(trigram, S.corpus)[len] || [];
-	await labelAndAdvance(trigram, "NO", flagComment(len, words, S.labels[trigram]?.comment || ""));
+	await labelAndAdvance(
+		trigram,
+		"NO",
+		flagComment(len, words, S.labels[trigram]?.comment || ""),
+	);
 }
 
 async function labelAndAdvance(trigram, label, comment) {
@@ -321,7 +359,13 @@ tbody.addEventListener("change", async (e) => {
 	const t = tr.dataset.t;
 	const current = S.labels[t];
 	if (e.target.classList.contains("label-select")) {
-		(await save(t, e.target.value, e.target.value ? current?.comment || "" : ""))
+		(
+			await save(
+				t,
+				e.target.value,
+				e.target.value ? current?.comment || "" : "",
+			)
+		)
 			?.querySelector(".label-select")
 			?.focus();
 	} else if (e.target.classList.contains("comment-cell")) {
@@ -331,7 +375,8 @@ tbody.addEventListener("change", async (e) => {
 			e.target.value = "";
 			return;
 		}
-		if (comment !== (current.comment || "")) await save(t, current.label, comment);
+		if (comment !== (current.comment || ""))
+			await save(t, current.label, comment);
 	}
 });
 
@@ -340,7 +385,8 @@ tbody.addEventListener("change", async (e) => {
 tbody.addEventListener("keydown", async (e) => {
 	const tr = e.target;
 	if (!tr.matches?.("tr[data-t]")) {
-		if (e.key === "Enter" && e.target.classList.contains("comment-cell")) e.target.blur();
+		if (e.key === "Enter" && e.target.classList.contains("comment-cell"))
+			e.target.blur();
 		return;
 	}
 	const t = tr.dataset.t;
@@ -348,7 +394,8 @@ tbody.addEventListener("keydown", async (e) => {
 	const locked = row.status === "DONE" || row.status === "SCHEDULED";
 	const move = (dir) => {
 		let n = dir > 0 ? tr.nextElementSibling : tr.previousElementSibling;
-		while (n && !n.dataset.t) n = dir > 0 ? n.nextElementSibling : n.previousElementSibling;
+		while (n && !n.dataset.t)
+			n = dir > 0 ? n.nextElementSibling : n.previousElementSibling;
 		n?.focus();
 	};
 	const key = e.key.toLowerCase();
@@ -360,7 +407,11 @@ tbody.addEventListener("keydown", async (e) => {
 		rerenderRow(t)?.focus();
 	} else if (!locked && KEY_LABELS[key] && !e.metaKey && !e.ctrlKey) {
 		(await save(t, KEY_LABELS[key], S.labels[t]?.comment || ""))?.focus();
-	} else if (!locked && (e.key === "Delete" || e.key === "Backspace") && S.labels[t]) {
+	} else if (
+		!locked &&
+		(e.key === "Delete" || e.key === "Backspace") &&
+		S.labels[t]
+	) {
 		e.preventDefault();
 		(await save(t, "", ""))?.focus();
 	}

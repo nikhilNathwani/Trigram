@@ -35,7 +35,7 @@ test.describe("stats dialog with representative history", () => {
 		const g = await todayGameID(page);
 		test.skip(
 			g < 12,
-			"not enough game history yet for a representative fixture (see todayGameID)"
+			"not enough game history yet for a representative fixture (see todayGameID)",
 		);
 		// addToWordListUI highlights game.js's *live* trigram (set from the
 		// real calendar by initApp()), not whatever we put in a localStorage
@@ -96,7 +96,7 @@ test.describe("stats dialog with representative history", () => {
 			expect(wordListText).toContain(word);
 		}
 		await expect(
-			page.locator("#wordListValue .stat-wordList-trigram").first()
+			page.locator("#wordListValue .stat-wordList-trigram").first(),
 		).toHaveText(liveTrigram);
 
 		// --- "Your Stats": hand-computed from the fixture above ---
@@ -110,21 +110,31 @@ test.describe("stats dialog with representative history", () => {
 		await expect(page.locator("#stat-maxStreak")).toHaveText("6");
 
 		// --- "Longest Word Distribution": full 4-15 range, widest bar at 12 ---
-		const rows = page.locator("#statDistributionValue .stat-statDistribution-item");
+		const rows = page.locator(
+			"#statDistributionValue .stat-statDistribution-item",
+		);
 		await expect(rows).toHaveCount(12); // one row per length 4..15 inclusive
 
 		const row12 = rows.filter({
-			has: page.locator(".stat-statDistribution-itemLength", { hasText: "12:" }),
+			has: page.locator(".stat-statDistribution-itemLength", {
+				hasText: "12:",
+			}),
 		});
-		await expect(row12.locator(".stat-statDistribution-itemCount")).toHaveText("3");
+		await expect(
+			row12.locator(".stat-statDistribution-itemCount"),
+		).toHaveText("3");
 
 		// Current game's own bar (length 6) — joins g-3's loss at the same
 		// length, confirming the current game's contribution merges into the
 		// histogram rather than needing its own separate row.
 		const row6 = rows.filter({
-			has: page.locator(".stat-statDistribution-itemLength", { hasText: "6:" }),
+			has: page.locator(".stat-statDistribution-itemLength", {
+				hasText: "6:",
+			}),
 		});
-		await expect(row6.locator(".stat-statDistribution-itemCount")).toHaveText("2");
+		await expect(
+			row6.locator(".stat-statDistribution-itemCount"),
+		).toHaveText("2");
 	});
 
 	test("shows the empty state with no games played", async ({ page }) => {
@@ -137,7 +147,7 @@ test.describe("stats dialog with representative history", () => {
 		await expect(page.locator("#stat-currentStreak")).toHaveText("0");
 		await expect(page.locator("#stat-maxStreak")).toHaveText("0");
 		await expect(page.locator("#statDistributionValue")).toContainText(
-			"A graph of your longest words from each game will appear here."
+			"A graph of your longest words from each game will appear here.",
 		);
 	});
 });
@@ -154,7 +164,10 @@ test.describe("Win % counts the current week once it's won", () => {
 		const liveTrigram = await currentTrigram(page);
 		await seedLocalStorage(page, {
 			...pastGames(g),
-			[g]: { trigram: liveTrigram, wordsProvided: makeWordsContaining(liveTrigram, 12) },
+			[g]: {
+				trigram: liveTrigram,
+				wordsProvided: makeWordsContaining(liveTrigram, 12),
+			},
 		});
 		await page.reload();
 		await waitForReady(page);

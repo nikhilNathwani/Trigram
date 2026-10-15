@@ -147,7 +147,10 @@ describe("stats", () => {
 		it("is a whole number 100 for a perfect record", () => {
 			localStorage.setItem(
 				"0",
-				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "X".repeat(12)] })
+				JSON.stringify({
+					trigram: "CAT",
+					wordsProvided: [null, "X".repeat(12)],
+				}),
 			);
 			loadStats();
 			expect(calcWinPercentage()).toBe(100);
@@ -157,15 +160,24 @@ describe("stats", () => {
 			// 1 win out of 3 games = 33.333...% -> 33.3
 			localStorage.setItem(
 				"0",
-				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "X".repeat(12)] })
+				JSON.stringify({
+					trigram: "CAT",
+					wordsProvided: [null, "X".repeat(12)],
+				}),
 			);
 			localStorage.setItem(
 				"1",
-				JSON.stringify({ trigram: "DOG", wordsProvided: [null, "DOGS"] })
+				JSON.stringify({
+					trigram: "DOG",
+					wordsProvided: [null, "DOGS"],
+				}),
 			);
 			localStorage.setItem(
 				"2",
-				JSON.stringify({ trigram: "PIT", wordsProvided: [null, "PITS"] })
+				JSON.stringify({
+					trigram: "PIT",
+					wordsProvided: [null, "PITS"],
+				}),
 			);
 			loadStats();
 			expect(calcWinPercentage()).toBe(33.3);
@@ -175,13 +187,34 @@ describe("stats", () => {
 		const seedCurrentWeek = (longestLength) =>
 			localStorage.setItem(
 				String(getGameID()),
-				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "X".repeat(longestLength)] })
+				JSON.stringify({
+					trigram: "CAT",
+					wordsProvided: [null, "X".repeat(longestLength)],
+				}),
 			);
 		const seedPastWeeks = () => {
 			// 1 win out of 3 past weeks (33.3%)
-			localStorage.setItem("0", JSON.stringify({ trigram: "CAT", wordsProvided: [null, "X".repeat(12)] }));
-			localStorage.setItem("1", JSON.stringify({ trigram: "DOG", wordsProvided: [null, "DOGS"] }));
-			localStorage.setItem("2", JSON.stringify({ trigram: "PIT", wordsProvided: [null, "PITS"] }));
+			localStorage.setItem(
+				"0",
+				JSON.stringify({
+					trigram: "CAT",
+					wordsProvided: [null, "X".repeat(12)],
+				}),
+			);
+			localStorage.setItem(
+				"1",
+				JSON.stringify({
+					trigram: "DOG",
+					wordsProvided: [null, "DOGS"],
+				}),
+			);
+			localStorage.setItem(
+				"2",
+				JSON.stringify({
+					trigram: "PIT",
+					wordsProvided: [null, "PITS"],
+				}),
+			);
 		};
 
 		it("counts a first-ever week as soon as it's won (100, not 'n/a')", () => {

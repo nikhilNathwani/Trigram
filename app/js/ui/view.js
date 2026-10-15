@@ -58,7 +58,7 @@ function handleGameStarted(trigram, wordsProvided) {
 		for (let wordIndex = 0; wordIndex < numWords; wordIndex++) {
 			//Get the current level and mark as complete
 			levelDiv = document.getElementById(
-				"level-" + wordsProvided[wordIndex].length
+				"level-" + wordsProvided[wordIndex].length,
 			);
 			setLevelComplete();
 
@@ -97,7 +97,7 @@ function handleLevelStarted() {
 	const roundNum = Math.floor(levelsCompleted / LEVELS_PER_ROUND) + 1;
 	const roundDiv = roundDivs[roundNum - 1];
 	levelDiv = roundDiv.querySelector(
-		`div.level:nth-child(${(levelsCompleted % LEVELS_PER_ROUND) + 1})`
+		`div.level:nth-child(${(levelsCompleted % LEVELS_PER_ROUND) + 1})`,
 	);
 	levelDiv.classList.remove("locked");
 	levelDiv.classList.add("active");
@@ -155,7 +155,7 @@ function handleLetterAdded(letter) {
 	clearAlerts();
 
 	const nextLetter = wordDiv.querySelector(
-		`.letter:nth-child(${nextLetterIndex + 1})`
+		`.letter:nth-child(${nextLetterIndex + 1})`,
 	);
 	nextLetter.textContent = letter;
 	nextLetter.classList.remove("empty");
@@ -166,7 +166,7 @@ function handleLetterDeleted() {
 	clearAlerts();
 
 	const latestLetter = wordDiv.querySelector(
-		`.letter:nth-child(${nextLetterIndex})`
+		`.letter:nth-child(${nextLetterIndex})`,
 	);
 	latestLetter.classList.add("empty");
 	latestLetter.textContent = "?"; //so letter cell has a height
@@ -197,16 +197,22 @@ function handleGameEnded() {
 // ui/stats.js subscribes to the same events independently — see its own
 // "GAME EVENT SUBSCRIPTIONS" section. Don't assume ordering between the two.
 gameEvents.addEventListener("game:started", (e) =>
-	handleGameStarted(e.detail.trigram, e.detail.wordsProvided)
+	handleGameStarted(e.detail.trigram, e.detail.wordsProvided),
 );
 gameEvents.addEventListener("level:started", handleLevelStarted);
 gameEvents.addEventListener("letter:added", (e) =>
-	handleLetterAdded(e.detail.letter)
+	handleLetterAdded(e.detail.letter),
 );
 gameEvents.addEventListener("letter:deleted", handleLetterDeleted);
-gameEvents.addEventListener("guess:valid", (e) => handleGuessValid(e.detail.word));
+gameEvents.addEventListener("guess:valid", (e) =>
+	handleGuessValid(e.detail.word),
+);
 gameEvents.addEventListener("guess:invalid", (e) =>
-	handleGuessInvalid(e.detail.errorCode, e.detail.wordLength, e.detail.trigram)
+	handleGuessInvalid(
+		e.detail.errorCode,
+		e.detail.wordLength,
+		e.detail.trigram,
+	),
 );
 gameEvents.addEventListener("game:ended", handleGameEnded);
 
@@ -225,7 +231,7 @@ function shakeLevel() {
 		() => {
 			levelDiv.classList.remove("shake");
 		},
-		{ once: true }
+		{ once: true },
 	);
 }
 
@@ -261,7 +267,7 @@ export function showRoundTitle(roundNum) {
 		() => {
 			alertDiv.classList.remove("roundTitle");
 		},
-		{ once: true }
+		{ once: true },
 	);
 }
 
@@ -283,7 +289,7 @@ export function startBonusGame() {
 
 function setTrigramHeader(trigram) {
 	const trigramHeaderTitle = document.querySelector(
-		".header-title#trigram-number"
+		".header-title#trigram-number",
 	);
 	trigramHeaderTitle.textContent = "Trigram #" + getGameIDString();
 	const trigramElement = document.querySelector(".header-element #trigram");

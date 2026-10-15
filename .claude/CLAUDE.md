@@ -14,7 +14,7 @@ Operating notes for AI assistants working in this repo. For project overview, st
 ## Before considering a change done
 
 - Run `npm run test` (Vitest, unit) and `npm run test:e2e` (Playwright, real Chromium) — or `npm run test:all` for both. All must be green.
-- If the change affects *how* a module gets loaded (not just what it does), manually trace the import graph from `index.html`'s `<script>` tags and confirm every module that should run is still reachable — a silently-orphaned module can still leave the test suite green if nothing in it inspects the affected screen's actual rendered content, not just that it opens.
+- If the change affects _how_ a module gets loaded (not just what it does), manually trace the import graph from `index.html`'s `<script>` tags and confirm every module that should run is still reachable — a silently-orphaned module can still leave the test suite green if nothing in it inspects the affected screen's actual rendered content, not just that it opens.
 - If a design choice is being justified by an existing code comment that asserts a hard constraint ("must stay X," "can't do Y"), verify that constraint empirically before building around it — comments go stale as the rest of the code changes around them.
 
 ## Docs map
@@ -26,7 +26,7 @@ Operating notes for AI assistants working in this repo. For project overview, st
 
 ## Style
 
-- Comments explain *why*, not *what* — this codebase leans on that convention throughout. Match it; don't add comments that just restate the code.
+- Comments explain _why_, not _what_ — this codebase leans on that convention throughout. Match it; don't add comments that just restate the code.
 - Keep the dependency footprint minimal. This is a deliberate, repeated choice in this project's history, not an oversight — treat a new dependency or build step as something to flag and confirm, not default to.
 
 ## See also

@@ -32,16 +32,27 @@ describe("countWords", () => {
 	});
 
 	it("counts a word once even if the trigram repeats in it", () => {
-		expect(countWords(corpus).DED).toEqual({ total: 2, byLen: { 5: 1, 6: 1 } });
+		expect(countWords(corpus).DED).toEqual({
+			total: 2,
+			byLen: { 5: 1, 6: 1 },
+		});
 	});
 });
 
 describe("fewestWords", () => {
 	// One level per length 4-15, so the thinnest length decides playability.
 	it("finds the smallest per-length count, treating missing lengths as 0", () => {
-		const full = Object.fromEntries([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((l) => [l, 10]));
-		expect(fewestWords({ ...full, 4: 1 })).toEqual({ minWords: 1, minLens: [4] });
-		expect(fewestWords({ ...full, 13: 0, 15: 0 })).toEqual({ minWords: 0, minLens: [13, 15] });
+		const full = Object.fromEntries(
+			[4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((l) => [l, 10]),
+		);
+		expect(fewestWords({ ...full, 4: 1 })).toEqual({
+			minWords: 1,
+			minLens: [4],
+		});
+		expect(fewestWords({ ...full, 13: 0, 15: 0 })).toEqual({
+			minWords: 0,
+			minLens: [13, 15],
+		});
 		delete full[15];
 		expect(fewestWords(full)).toEqual({ minWords: 0, minLens: [15] });
 	});
@@ -54,7 +65,13 @@ describe("buildRows", () => {
 		AUT: { label: "YES", comment: "" }, // labeled, then put in the calendar
 	};
 	const calendar = ["ONE", "TWO", "aut"];
-	const rows = buildRows(["ABC", "XYZ", "AUT", "ONE", "QQQ"], labels, calendar, 1, {});
+	const rows = buildRows(
+		["ABC", "XYZ", "AUT", "ONE", "QQQ"],
+		labels,
+		calendar,
+		1,
+		{},
+	);
 	const byT = Object.fromEntries(rows.map((r) => [r.trigram, r]));
 
 	it("derives DONE/SCHEDULED from the calendar, overriding stored labels", () => {
@@ -69,38 +86,78 @@ describe("buildRows", () => {
 	});
 
 	it("filters by substring and status", () => {
-		expect(filterRows(rows, { query: "b" }).map((r) => r.trigram)).toEqual(["ABC"]);
-		expect(filterRows(rows, { status: "UNLABELED" }).map((r) => r.trigram)).toEqual(["QQQ"]);
-		expect(filterRows(rows, { status: "SCHEDULED" }).map((r) => r.trigram)).toEqual(["AUT"]);
+		expect(filterRows(rows, { query: "b" }).map((r) => r.trigram)).toEqual([
+			"ABC",
+		]);
+		expect(
+			filterRows(rows, { status: "UNLABELED" }).map((r) => r.trigram),
+		).toEqual(["QQQ"]);
+		expect(
+			filterRows(rows, { status: "SCHEDULED" }).map((r) => r.trigram),
+		).toEqual(["AUT"]);
 	});
 
 	it("summarizes weeks scheduled beyond the current one", () => {
-		expect(summarize(rows, calendar, 1)).toMatchObject({ yes: 1, no: 1, unlabeled: 1, scheduledWeeks: 1 });
+		expect(summarize(rows, calendar, 1)).toMatchObject({
+			yes: 1,
+			no: 1,
+			unlabeled: 1,
+			scheduledWeeks: 1,
+		});
 	});
 });
 
 describe("sortRows", () => {
 	const rows = [
-		{ trigram: "BBB", status: "NO", words: 5, comment: "", labeledAt: null },
-		{ trigram: "AAA", status: "YES", words: 9, comment: "", labeledAt: null },
+		{
+			trigram: "BBB",
+			status: "NO",
+			words: 5,
+			comment: "",
+			labeledAt: null,
+		},
+		{
+			trigram: "AAA",
+			status: "YES",
+			words: 9,
+			comment: "",
+			labeledAt: null,
+		},
 		{ trigram: "CCC", status: "", words: 9, comment: "", labeledAt: null },
 	];
 
 	it("sorts by words descending with a trigram tiebreak", () => {
-		expect(sortRows(rows, "words", -1).map((r) => r.trigram)).toEqual(["AAA", "CCC", "BBB"]);
+		expect(sortRows(rows, "words", -1).map((r) => r.trigram)).toEqual([
+			"AAA",
+			"CCC",
+			"BBB",
+		]);
 	});
 
 	it("orders labels YES, MAYBE, unlabeled, NO", () => {
-		expect(sortRows(rows, "status").map((r) => r.trigram)).toEqual(["AAA", "CCC", "BBB"]);
+		expect(sortRows(rows, "status").map((r) => r.trigram)).toEqual([
+			"AAA",
+			"CCC",
+			"BBB",
+		]);
 	});
 });
 
 describe("toCsv", () => {
 	it("quotes commas and quotes", () => {
 		const csv = toCsv([
-			{ trigram: "ABC", status: "MAYBE", comment: 'hard, "15"', minWords: 1, minLens: [4, 15], labeledAt: new Date("2026-09-26T00:00:00Z") },
+			{
+				trigram: "ABC",
+				status: "MAYBE",
+				comment: 'hard, "15"',
+				minWords: 1,
+				minLens: [4, 15],
+				labeledAt: new Date("2026-09-26T00:00:00Z"),
+			},
 		]);
-		expect(csv).toBe('Trigram,Status,Comment,Fewest words,At length,Labeled\nABC,MAYBE,"hard, ""15""",1,4 15,2026-09-26\n');
+		expect(csv).toBe(
+			'Trigram,Status,Comment,Fewest words,At length,Labeled\nABC,MAYBE,"hard, ""15""",1,4 15,2026-09-26\n',
+		);
 	});
 });
 
@@ -111,11 +168,17 @@ describe("flagComment", () => {
 
 	it("caps long groups and says how many more", () => {
 		const words = ["A1", "A2", "A3", "A4", "A5", "A6", "A7"];
-		expect(flagComment(5, words)).toBe("5-letter (7): A1, A2, A3, A4, A5 +2");
+		expect(flagComment(5, words)).toBe(
+			"5-letter (7): A1, A2, A3, A4, A5 +2",
+		);
 	});
 
 	it("appends to an existing comment instead of replacing it, once", () => {
-		expect(flagComment(4, ["ABOS"], "15 hard")).toBe("15 hard; 4-letter (1): ABOS");
-		expect(flagComment(4, ["ABOS"], "15 hard; 4-letter (1): ABOS")).toBe("15 hard; 4-letter (1): ABOS");
+		expect(flagComment(4, ["ABOS"], "15 hard")).toBe(
+			"15 hard; 4-letter (1): ABOS",
+		);
+		expect(flagComment(4, ["ABOS"], "15 hard; 4-letter (1): ABOS")).toBe(
+			"15 hard; 4-letter (1): ABOS",
+		);
 	});
 });

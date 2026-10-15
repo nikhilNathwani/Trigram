@@ -29,11 +29,11 @@ test.describe("visual styles", () => {
 
 		await expect(page.locator("#howToButton")).toHaveCSS(
 			"background-color",
-			TRANSPARENT
+			TRANSPARENT,
 		);
 		await expect(page.locator("#playButton")).not.toHaveCSS(
 			"background-color",
-			TRANSPARENT
+			TRANSPARENT,
 		);
 	});
 
@@ -49,7 +49,10 @@ test.describe("visual styles", () => {
 		const g = await todayGameID(page);
 
 		await seedLocalStorage(page, {
-			[g]: { trigram: "CAT", wordsProvided: makeWordsContaining("CAT", 12) },
+			[g]: {
+				trigram: "CAT",
+				wordsProvided: makeWordsContaining("CAT", 12),
+			},
 		});
 		await page.reload();
 		await waitForReady(page);
@@ -57,11 +60,11 @@ test.describe("visual styles", () => {
 		await expect(page.locator("#youWinScreen")).toBeVisible();
 		await expect(page.locator("#viewStatsButton")).toHaveCSS(
 			"background-color",
-			TRANSPARENT
+			TRANSPARENT,
 		);
 		await expect(page.locator("#bonusRoundButton")).not.toHaveCSS(
 			"background-color",
-			TRANSPARENT
+			TRANSPARENT,
 		);
 	});
 
@@ -86,14 +89,15 @@ test.describe("visual styles", () => {
 		await page.click("#helpDialog .closeButton");
 		await page.waitForFunction(
 			() =>
-				window.getComputedStyle(document.getElementById("trigramRevealScreen"))
-					.display === "none",
-			{ timeout: 10_000 }
+				window.getComputedStyle(
+					document.getElementById("trigramRevealScreen"),
+				).display === "none",
+			{ timeout: 10_000 },
 		);
 
 		await page.click("#statsButton");
 		const bar = page.locator(
-			"#statDistributionValue .stat-statDistribution-itemCount"
+			"#statDistributionValue .stat-statDistribution-itemCount",
 		);
 		await expect(bar).toHaveText("1");
 		// Not just present in the DOM with text — actually rendered with a

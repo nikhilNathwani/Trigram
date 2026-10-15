@@ -45,8 +45,8 @@
 	--frame-height: 100dvh;
 	--game-margin-block: 1.5rem;
 	--game-height: calc(
-		var(--frame-height) - var(--header-height) - var(--keyboard-height) - 2 *
-			var(--game-margin-block)
+		var(--frame-height) - var(--header-height) - var(--keyboard-height) -
+			2 * var(--game-margin-block)
 	);
 	--level-height: calc(var(--game-height) / 3);
 	--length-height: 3.5rem;
@@ -98,7 +98,8 @@
 				(
 						100vh - var(--header-height) - var(--keyboard-height) -
 							2 * var(--game-margin-block)
-					) / 3
+					) /
+					3
 			),
 			16rem
 		);
@@ -144,9 +145,14 @@
    shrink in lockstep — they read the same inherited variables. */
 .round-transition,
 .round-transition * {
-	transition: width 1s ease-out, color 1s ease-out,
-		background-color 1s ease-out, border-color 1s ease-out,
-		margin 1s ease-out, transform 1s ease-out, font-size 1s ease-out,
+	transition:
+		width 1s ease-out,
+		color 1s ease-out,
+		background-color 1s ease-out,
+		border-color 1s ease-out,
+		margin 1s ease-out,
+		transform 1s ease-out,
+		font-size 1s ease-out,
 		fill 1s ease-out;
 }
 .round-1 {

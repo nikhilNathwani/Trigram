@@ -13,7 +13,8 @@ export function countWords(wordsByLength) {
 	for (let len = MIN_LEN; len <= MAX_LEN; len++) {
 		for (const word of wordsByLength[len] || []) {
 			const seen = new Set();
-			for (let i = 0; i + 3 <= word.length; i++) seen.add(word.slice(i, i + 3));
+			for (let i = 0; i + 3 <= word.length; i++)
+				seen.add(word.slice(i, i + 3));
 			for (const tri of seen) {
 				const c = (counts[tri] ||= { total: 0, byLen: {} });
 				c.total++;
@@ -27,7 +28,9 @@ export function countWords(wordsByLength) {
 export function wordsFor(trigram, wordsByLength) {
 	const out = {};
 	for (let len = MIN_LEN; len <= MAX_LEN; len++) {
-		const list = (wordsByLength[len] || []).filter((w) => w.includes(trigram));
+		const list = (wordsByLength[len] || []).filter((w) =>
+			w.includes(trigram),
+		);
 		if (list.length) out[len] = list;
 	}
 	return out;
@@ -41,7 +44,8 @@ export function buildRows(trigrams, labels, calendar, currentWeek, counts) {
 		const week = weekOf.get(t);
 		const saved = labels[t];
 		let status = saved?.label || "";
-		if (week !== undefined) status = week <= currentWeek ? "DONE" : "SCHEDULED";
+		if (week !== undefined)
+			status = week <= currentWeek ? "DONE" : "SCHEDULED";
 		const byLen = counts[t]?.byLen || {};
 		return {
 			trigram: t,
@@ -82,7 +86,10 @@ export const FLAG_WORDS_SHOWN = 5;
 
 export function flagComment(len, words, existing = "") {
 	const shown = words.slice(0, FLAG_WORDS_SHOWN).join(", ");
-	const more = words.length > FLAG_WORDS_SHOWN ? ` +${words.length - FLAG_WORDS_SHOWN}` : "";
+	const more =
+		words.length > FLAG_WORDS_SHOWN
+			? ` +${words.length - FLAG_WORDS_SHOWN}`
+			: "";
 	const note = `${len}-letter (${words.length}): ${shown}${more}`;
 	const prev = existing.trim();
 	if (!prev) return note;
@@ -103,7 +110,9 @@ export function filterRows(rows, { query = "", status = "ALL" } = {}) {
 		(r) =>
 			(!q || r.trigram.includes(q)) &&
 			(status === "ALL" ||
-				(status === "UNLABELED" ? r.status === "" : r.status === status)),
+				(status === "UNLABELED"
+					? r.status === ""
+					: r.status === status)),
 	);
 }
 
@@ -141,7 +150,16 @@ export function summarize(rows, calendar, currentWeek) {
 const csvCell = (s) => (/[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s);
 
 export function toCsv(rows) {
-	const lines = [["Trigram", "Status", "Comment", "Fewest words", "At length", "Labeled"]];
+	const lines = [
+		[
+			"Trigram",
+			"Status",
+			"Comment",
+			"Fewest words",
+			"At length",
+			"Labeled",
+		],
+	];
 	for (const r of rows) {
 		lines.push([
 			r.trigram,

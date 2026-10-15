@@ -107,12 +107,12 @@ describe("wordChecker", () => {
 				"fetch",
 				vi.fn().mockResolvedValue({
 					json: () => Promise.resolve(fixtureWordList),
-				})
+				}),
 			);
 
 			await expect(loadWordList("cat")).resolves.toEqual(fixtureWordList);
 			expect(fetch).toHaveBeenCalledWith(
-				"data/trigram-word-lists/cat_words.json"
+				"data/trigram-word-lists/cat_words.json",
 			);
 		});
 
@@ -122,7 +122,10 @@ describe("wordChecker", () => {
 			const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
 			await expect(loadWordList("cat")).rejects.toBe(networkError);
-			expect(spy).toHaveBeenCalledWith("Error loading word list:", networkError);
+			expect(spy).toHaveBeenCalledWith(
+				"Error loading word list:",
+				networkError,
+			);
 
 			spy.mockRestore();
 		});

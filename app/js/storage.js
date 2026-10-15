@@ -25,7 +25,7 @@ export function saveGameState(gameState) {
 		JSON.stringify({
 			trigram: gameState.trigram,
 			wordsProvided: gameState.lettersProvided,
-		})
+		}),
 	);
 }
 

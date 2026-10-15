@@ -1,5 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { loadGameState, saveGameState, loadPastGames } from "../../app/js/storage.js";
+import {
+	loadGameState,
+	saveGameState,
+	loadPastGames,
+} from "../../app/js/storage.js";
 
 // storage.js is the localStorage read/write layer. Vitest's jsdom
 // environment provides a real (in-memory) localStorage implementation, so
@@ -55,7 +59,10 @@ describe("storage", () => {
 
 			localStorage.setItem(
 				"0",
-				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "CATS"] })
+				JSON.stringify({
+					trigram: "CAT",
+					wordsProvided: [null, "CATS"],
+				}),
 			);
 			// Keys that aren't purely numeric should be ignored, e.g. app
 			// settings or feature flags stored under the same localStorage.
@@ -80,11 +87,17 @@ describe("storage", () => {
 
 			localStorage.setItem(
 				"0",
-				JSON.stringify({ trigram: "DOG", wordsProvided: [null, "DOGS", "DOGES"] })
+				JSON.stringify({
+					trigram: "DOG",
+					wordsProvided: [null, "DOGS", "DOGES"],
+				}),
 			);
 			localStorage.setItem(
 				"2", // today's game, already has progress from an earlier session
-				JSON.stringify({ trigram: "CAT", wordsProvided: [null, "CATS"] })
+				JSON.stringify({
+					trigram: "CAT",
+					wordsProvided: [null, "CATS"],
+				}),
 			);
 
 			expect(loadPastGames()).toEqual([
@@ -95,11 +108,17 @@ describe("storage", () => {
 		it("returns games sorted by gameID ascending", () => {
 			localStorage.setItem(
 				"5",
-				JSON.stringify({ trigram: "AAA", wordsProvided: [null, "AAAA"] })
+				JSON.stringify({
+					trigram: "AAA",
+					wordsProvided: [null, "AAAA"],
+				}),
 			);
 			localStorage.setItem(
 				"2",
-				JSON.stringify({ trigram: "BBB", wordsProvided: [null, "BBBB"] })
+				JSON.stringify({
+					trigram: "BBB",
+					wordsProvided: [null, "BBBB"],
+				}),
 			);
 
 			const gameIDs = loadPastGames().map((game) => game.gameID);

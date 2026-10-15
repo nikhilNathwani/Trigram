@@ -1,4 +1,7 @@
-import { firebaseConfig, AUTHORIZED_UID } from "/tools/label/firebase-config.js";
+import {
+	firebaseConfig,
+	AUTHORIZED_UID,
+} from "/tools/label/firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
@@ -31,7 +34,9 @@ export function requireSignIn() {
 				// Signed in with some other Google account: don't keep that session.
 				const email = user.email;
 				await signOut(auth);
-				showSignIn(`${email} isn’t authorized. Sign in with the admin account.`);
+				showSignIn(
+					`${email} isn’t authorized. Sign in with the admin account.`,
+				);
 				return;
 			}
 			showSignIn("");
@@ -51,15 +56,18 @@ function showSignIn(message) {
 			'<button id="sign-in-btn" type="button">Sign in with Google</button>' +
 			'<p id="auth-error"></p></div>';
 		document.body.appendChild(screen);
-		screen.querySelector("#sign-in-btn").addEventListener("click", async () => {
-			try {
-				await signInWithPopup(auth, new GoogleAuthProvider());
-			} catch (err) {
-				if (err.code !== "auth/popup-closed-by-user") {
-					screen.querySelector("#auth-error").textContent = err.message;
+		screen
+			.querySelector("#sign-in-btn")
+			.addEventListener("click", async () => {
+				try {
+					await signInWithPopup(auth, new GoogleAuthProvider());
+				} catch (err) {
+					if (err.code !== "auth/popup-closed-by-user") {
+						screen.querySelector("#auth-error").textContent =
+							err.message;
+					}
 				}
-			}
-		});
+			});
 	}
 	screen.querySelector("#auth-error").textContent = message;
 }

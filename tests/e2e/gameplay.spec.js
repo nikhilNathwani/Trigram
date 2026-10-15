@@ -33,7 +33,10 @@ test.describe("gameplay", () => {
 	}) => {
 		await playThroughToInteractive(page);
 		const word = await firstLevelWord(page);
-		expect(word, "expected a word to exist for today's trigram/length").toBeTruthy();
+		expect(
+			word,
+			"expected a word to exist for today's trigram/length",
+		).toBeTruthy();
 
 		for (const letter of word) {
 			await page.keyboard.press(letter.toLowerCase());
@@ -42,7 +45,9 @@ test.describe("gameplay", () => {
 		const levelDiv = page.locator(`#level-${word.length}`);
 		await expect(levelDiv).toHaveClass(/complete/);
 
-		const letters = await levelDiv.locator(".word .letter").allTextContents();
+		const letters = await levelDiv
+			.locator(".word .letter")
+			.allTextContents();
 		expect(letters.join("")).toBe(word.toUpperCase());
 	});
 
@@ -55,7 +60,9 @@ test.describe("gameplay", () => {
 		await page.keyboard.press(wrongLengthGuess);
 		await page.keyboard.press("Enter");
 
-		await expect(page.locator("#message")).toHaveText("Word not 4 letters long");
+		await expect(page.locator("#message")).toHaveText(
+			"Word not 4 letters long",
+		);
 		await expect(page.locator("#level-4")).not.toHaveClass(/complete/);
 	});
 
@@ -69,14 +76,16 @@ test.describe("gameplay", () => {
 		// against the astronomically unlikely case it does.
 		test.skip(
 			"ZZZZ".includes(trigram),
-			"chosen guess accidentally contains today's trigram"
+			"chosen guess accidentally contains today's trigram",
 		);
 
 		for (const letter of "zzzz") {
 			await page.keyboard.press(letter);
 		}
 
-		await expect(page.locator("#message")).toHaveText(`Doesn't contain ${trigram}`);
+		await expect(page.locator("#message")).toHaveText(
+			`Doesn't contain ${trigram}`,
+		);
 	});
 });
 
@@ -90,7 +99,9 @@ test.describe("stats dialog", () => {
 	// and gameplay tests above can't catch, since none of them look inside
 	// the stats screen. This test exists specifically to catch that class
 	// of bug by checking the dialog's actual content, not just that it opens.
-	test("shows the submitted word and updated counting stats", async ({ page }) => {
+	test("shows the submitted word and updated counting stats", async ({
+		page,
+	}) => {
 		await playThroughToInteractive(page);
 		const word = await firstLevelWord(page);
 		test.skip(!word, "no word available for today's trigram/length");
@@ -98,11 +109,15 @@ test.describe("stats dialog", () => {
 		for (const letter of word) {
 			await page.keyboard.press(letter.toLowerCase());
 		}
-		await expect(page.locator(`#level-${word.length}`)).toHaveClass(/complete/);
+		await expect(page.locator(`#level-${word.length}`)).toHaveClass(
+			/complete/,
+		);
 
 		await page.click("#statsButton");
 
-		await expect(page.locator("#wordListValue")).toContainText(word.toUpperCase());
+		await expect(page.locator("#wordListValue")).toContainText(
+			word.toUpperCase(),
+		);
 		await expect(page.locator("#stat-numGamesPlayed")).toHaveText("1");
 		// Win % only counts decided weeks (past weeks, or this week once won) — with zero of those, this
 		// week's in-progress game (not yet a win) shouldn't render as a
@@ -120,7 +135,9 @@ test.describe("persistence", () => {
 		for (const letter of word) {
 			await page.keyboard.press(letter.toLowerCase());
 		}
-		await expect(page.locator(`#level-${word.length}`)).toHaveClass(/complete/);
+		await expect(page.locator(`#level-${word.length}`)).toHaveClass(
+			/complete/,
+		);
 
 		await page.reload();
 		await waitForReady(page);
@@ -128,7 +145,9 @@ test.describe("persistence", () => {
 		// On reload with an in-progress game, the app skips the title/help
 		// screens entirely (see handleGameStarted in app/js/ui/view.js) and
 		// re-renders previously completed levels directly.
-		await expect(page.locator(`#level-${word.length}`)).toHaveClass(/complete/);
+		await expect(page.locator(`#level-${word.length}`)).toHaveClass(
+			/complete/,
+		);
 		const letters = await page
 			.locator(`#level-${word.length} .word .letter`)
 			.allTextContents();

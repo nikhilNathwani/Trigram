@@ -64,7 +64,7 @@ describe("calendar", () => {
 			vi.setSystemTime(new Date("2024-04-15T00:00:00Z"));
 			const nineHundredNinetyNineWeeksLater = new Date(
 				new Date("2024-04-15T00:00:00Z").getTime() +
-					999 * 7 * 24 * 60 * 60 * 1000
+					999 * 7 * 24 * 60 * 60 * 1000,
 			);
 			vi.setSystemTime(nineHundredNinetyNineWeeksLater);
 			expect(getGameIDString()).toBe("1000");
