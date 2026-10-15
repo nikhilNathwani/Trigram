@@ -30,7 +30,9 @@ jobs:
                   if [ -n "$BEFORE" ] && git cat-file -e "$BEFORE" 2>/dev/null; then
                       changed=$(git diff --name-only --diff-filter=AM "$BEFORE" HEAD)
                   fi
-                  files=$(printf '%s\n' $core $changed | grep -vE '^\.github/|^\.git' | sort -u)
+                  # Netlify never serves dotfiles or anything under a dot-folder
+                  # (.github/, .claude/, .prettierignore...), so skip them.
+                  files=$(printf '%s\n' $core $changed | grep -vE '(^|/)\.' | sort -u)
                   echo "Checking $(echo "$files" | wc -l) file(s) against $SITE"
 
                   # Netlify injects an HTML comment advertising itself into .html
