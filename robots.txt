@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /label
+Disallow: /tools/
+
+Sitemap: https://trigram.netlify.app/sitemap.xml
