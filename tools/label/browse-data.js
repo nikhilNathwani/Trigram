@@ -126,8 +126,15 @@ export function sortRows(rows, key, dir = 1) {
 		minWords: (r) => r.minWords,
 		comment: (r) => r.comment.toLowerCase(),
 		labeledAt: (r) => (r.labeledAt ? r.labeledAt.getTime() : 0),
+		week: (r) => r.week,
 	}[key];
 	return [...rows].sort((a, b) => {
+		// Never-scheduled trigrams have no game number; keep them at the bottom
+		// in both directions so sorting by Game doesn't bury the ones that have one.
+		if (key === "week" && (a.week === undefined || b.week === undefined)) {
+			if (a.week === b.week) return a.trigram < b.trigram ? -1 : 1;
+			return a.week === undefined ? 1 : -1;
+		}
 		const x = val(a);
 		const y = val(b);
 		if (x < y) return -dir;

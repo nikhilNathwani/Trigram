@@ -165,7 +165,7 @@ function esc(s) {
 function rowHtml(r) {
 	const locked = r.status === "DONE" || r.status === "SCHEDULED";
 	const labelCell = locked
-		? `<span class="label-badge badge-done">${r.status}</span> <span class="wk">#${r.week + 1} · ${weekDate(r.week)}</span>`
+		? `<span class="label-badge badge-done">${r.status}</span>`
 		: `<select class="label-select sel-${(r.label || "none").toLowerCase()}" aria-label="Label for ${r.trigram}">` +
 			EDITABLE.map(
 				(l) =>
@@ -179,6 +179,7 @@ function rowHtml(r) {
 		`<tr data-t="${r.trigram}" tabindex="0" class="${S.expanded.has(r.trigram) ? "open" : ""}">` +
 		`<td class="tri"><button type="button" class="expand" aria-label="Show words for ${r.trigram}">${S.expanded.has(r.trigram) ? "▾" : "▸"}</button>${r.trigram}</td>` +
 		`<td class="lbl">${labelCell}</td>` +
+		`<td class="game">${r.week === undefined ? "" : `<span class="wk">#${r.week + 1} · ${weekDate(r.week)}</span>`}</td>` +
 		`<td class="num">${words}</td>` +
 		`<td class="cmt"><input class="comment-cell" value="${esc(r.comment)}" aria-label="Comment for ${r.trigram}"${locked ? " disabled" : ""}></td>` +
 		`</tr>` +
@@ -191,15 +192,15 @@ function detailHtml(r) {
 		const msg = S.corpusError
 			? `Word list unavailable — ${S.corpusError}`
 			: "Loading dictionary…";
-		return `<tr class="detail" data-for="${r.trigram}"><td colspan="4">${esc(msg)}</td></tr>`;
+		return `<tr class="detail" data-for="${r.trigram}"><td colspan="5">${esc(msg)}</td></tr>`;
 	}
 	const words = wordsFor(r.trigram, S.corpus);
 	const lens = Object.keys(words);
 	const locked = r.status === "DONE" || r.status === "SCHEDULED";
 	if (!lens.length)
-		return `<tr class="detail" data-for="${r.trigram}"><td colspan="4">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
+		return `<tr class="detail" data-for="${r.trigram}"><td colspan="5">No 4–15 letter words contain ${r.trigram}.</td></tr>`;
 	return (
-		`<tr class="detail" data-for="${r.trigram}"><td colspan="4">` +
+		`<tr class="detail" data-for="${r.trigram}"><td colspan="5">` +
 		lens
 			.map(
 				(len) =>
@@ -239,7 +240,7 @@ function render() {
 	const rows = visibleRows();
 	tbody.innerHTML = rows.length
 		? rows.map(rowHtml).join("")
-		: `<tr class="detail"><td colspan="4">No trigrams match.</td></tr>`;
+		: `<tr class="detail"><td colspan="5">No trigrams match.</td></tr>`;
 	renderHead();
 	renderFilters();
 	renderSummary();
@@ -303,7 +304,8 @@ thead.addEventListener("click", (e) => {
 	const key = e.target.closest("th")?.dataset.sort;
 	if (!key) return;
 	// Fewest-words sorts smallest first: the thinnest trigrams are the quick NOs
-	S.sortDir = key === S.sortKey ? -S.sortDir : 1;
+	// Game sorts newest first: the point is seeing what was used most recently
+	S.sortDir = key === S.sortKey ? -S.sortDir : key === "week" ? -1 : 1;
 	S.sortKey = key;
 	render();
 });

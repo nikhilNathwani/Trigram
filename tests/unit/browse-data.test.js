@@ -141,6 +141,18 @@ describe("sortRows", () => {
 			"BBB",
 		]);
 	});
+
+	it("sorts by game number in either direction, keeping unscheduled rows last", () => {
+		const g = [
+			{ trigram: "ZZZ" },
+			{ trigram: "OLD", week: 1 },
+			{ trigram: "NEW", week: 7 },
+			{ trigram: "AAA" },
+		];
+		const order = (dir) => sortRows(g, "week", dir).map((r) => r.trigram);
+		expect(order(-1)).toEqual(["NEW", "OLD", "AAA", "ZZZ"]);
+		expect(order(1)).toEqual(["OLD", "NEW", "AAA", "ZZZ"]);
+	});
 });
 
 describe("toCsv", () => {
