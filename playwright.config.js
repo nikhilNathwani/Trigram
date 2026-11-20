@@ -22,5 +22,18 @@ export default defineConfig({
 		reuseExistingServer: !process.env.CI,
 		timeout: 30_000,
 	},
-	projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+	projects: [
+		{
+			name: "chromium",
+			use: { ...devices["Desktop Chrome"] },
+			testIgnore: /\.iphone\.spec\.js$/,
+		},
+		// iOS-Safari-only bugs (e.g. the dialog focus ring a tap triggers)
+		// don't reproduce in Chromium at all, so they need WebKit itself.
+		{
+			name: "iphone-webkit",
+			use: { ...devices["iPhone 15"] },
+			testMatch: /\.iphone\.spec\.js$/,
+		},
+	],
 });

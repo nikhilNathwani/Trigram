@@ -132,12 +132,16 @@
 					<button id="viewStatsButton">View stats</button>
 				</div>
 			</div>
-			<dialog class="modal-content screen" id="helpDialog">
+			<dialog class="modal-content screen" id="helpDialog" autofocus>
 				<div class="modal-scroll">
 					<div class="closeRow">
-						<div class="closeButton">
-							<i class="fa-solid fa-xmark"></i>
-						</div>
+						<button
+							type="button"
+							class="closeButton"
+							aria-label="Close"
+						>
+							<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+						</button>
 					</div>
 					<h1>How to play Trigram</h1>
 					<ul>
@@ -210,12 +214,16 @@
 					me at <b>playtrigram@gmail.com</b>.
 				</div>
 			</dialog>
-			<dialog class="modal-content screen" id="statsDialog">
+			<dialog class="modal-content screen" id="statsDialog" autofocus>
 				<div class="modal-scroll">
 					<div class="closeRow">
-						<div class="closeButton">
+						<button
+							type="button"
+							class="closeButton"
+							aria-label="Close"
+						>
 							<i class="fa-solid fa-xmark" aria-hidden="true"></i>
-						</div>
+						</button>
 					</div>
 					<div id="nextGameCountdownDiv">
 						<p id="nextGameCountdown">Next game starts on Monday</p>

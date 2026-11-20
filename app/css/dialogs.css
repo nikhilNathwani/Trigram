@@ -42,12 +42,16 @@
 	flex-direction: column;
 }
 
-/* showModal() moves focus into the dialog, and with no focusable control
-   inside (.closeButton is a div) it lands on the dialog itself (WebKit) or
-   on the .modal-scroll scroller (Chromium). WebKit counts that as
-   :focus-visible even after a touch tap, so iOS drew its blue focus ring
-   around the whole dialog. A ring around the entire open modal tells a
-   keyboard user nothing the dialog's own border doesn't already. */
+/* showModal() moves focus into the dialog. The `autofocus` on each
+   <dialog> (index.html) makes WebKit focus the dialog itself rather than
+   its first control, the .closeButton — WebKit counts that initial focus
+   as :focus-visible even after a touch tap, so without it iOS draws a blue
+   ring on the X (or, before the X was a <button>, around the whole
+   dialog). Chromium ignores autofocus on a dialog and focuses the first
+   focusable descendant, often the .modal-scroll scroller, but only shows
+   the ring there after keyboard input. A ring around the entire open
+   modal tells a keyboard user nothing the dialog's own border doesn't
+   already; Tab still reaches the X with its ring intact. */
 .modal-content:focus-visible,
 .modal-scroll:focus-visible {
 	outline: none;
@@ -105,6 +109,10 @@
 .closeButton {
 	background-color: transparent;
 	border: none;
+	padding: 0;
+	/* <button> doesn't inherit color by default; without this the icon
+	   would use the UA's buttontext color instead of the dialog's. */
+	color: inherit;
 	cursor: pointer;
 }
 
