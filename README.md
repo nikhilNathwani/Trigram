@@ -51,11 +51,12 @@ Requires Node 24 (pinned in `.nvmrc`; fnm switches to it automatically).
 
 ```bash
 npm install
+npx playwright install chromium webkit   # only needed to run the e2e tests
 ```
 
 Then open `index.html` in a browser, or serve the repo as static files with any local HTTP server (`npx http-server .` works, and is what the e2e tests use — see `playwright.config.js`). Netlify publishes the repo as-is, no build command (see `netlify.toml`). See `tests/TESTING-GUIDE.md` §8 for why the app is structured this way.
 
-Because Netlify publishes pushes to `main` with no build step, a tracked pre-push hook (`.githooks/pre-push`) runs the unit tests (`npm test`) before every push. `npm install` enables it automatically (the `prepare` script sets `core.hooksPath`).
+Because Netlify publishes pushes to `main` with no build step, a tracked pre-push hook (`.githooks/pre-push`) runs the unit tests (`npm test`) and a Prettier format check before every push. `npm install` enables it automatically (the `prepare` script sets `core.hooksPath`).
 
 ## Weekly Content Workflow
 
