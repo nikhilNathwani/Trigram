@@ -16,8 +16,8 @@ html2image==2.0.7
 websocket-client==1.9.2
 
 # For requests (used by html2image)
-certifi==2026.10.19
-charset-normalizer==3.5.1
+certifi==2026.10.23
+charset-normalizer==3.5.2
 idna==3.20
 requests==2.34.2
 urllib3==2.8.0
