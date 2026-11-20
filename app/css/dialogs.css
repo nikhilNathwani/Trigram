@@ -42,6 +42,17 @@
 	flex-direction: column;
 }
 
+/* showModal() moves focus into the dialog, and with no focusable control
+   inside (.closeButton is a div) it lands on the dialog itself (WebKit) or
+   on the .modal-scroll scroller (Chromium). WebKit counts that as
+   :focus-visible even after a touch tap, so iOS drew its blue focus ring
+   around the whole dialog. A ring around the entire open modal tells a
+   keyboard user nothing the dialog's own border doesn't already. */
+.modal-content:focus-visible,
+.modal-scroll:focus-visible {
+	outline: none;
+}
+
 .modal-content::backdrop {
 	cursor: pointer;
 	background-color: var(--color-translucent);
